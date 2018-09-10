@@ -14,7 +14,7 @@ import {
   StatusBar,
   TouchableOpacity
 } from "react-native";
-import MapView, { Polygon } from "react-native-maps";
+import MapView, { Polygon, Marker } from "react-native-maps";
 
 const { width, height } = Dimensions.get("window");
 const halfHeight = height / 2;
@@ -37,6 +37,7 @@ export default class App extends Component {
         longitudeDelta: LONGITUDE_DELTA
       },
       polygons: [],
+      markers: [],
       editing: null
     };
   }
@@ -47,8 +48,23 @@ export default class App extends Component {
       editing: null
     });
   }
+  cancel() {
+    this.setState({
+      editing: null
+    });
+  }
+  reset() {
+    this.setState({
+      editing: null,
+      polygons: [],
+      markers: []
+    });
+  }
   onPress(e) {
-    const { editing } = this.state;
+    const { editing, markers } = this.state;
+    this.setState({
+      markers: [...markers, { coordinate: e.nativeEvent.coordinate, key: id++ }]
+    });
     if (!editing) {
       this.setState({
         editing: {
@@ -93,28 +109,46 @@ export default class App extends Component {
         >
           {this.state.polygons.map(polygon => (
             <Polygon
+              geodesic={true}
               key={polygon.id}
               coordinates={polygon.coordinates}
               strokeColor="#F00"
               fillColor="rgba(255,0,0,0.5)"
               strokeWidth={1}
+              tappable={false}
             />
           ))}
-          {this.state.editing && (
+          {this.state.editing &&
             <Polygon
+              geodesic={true}
               key={this.state.editing.id}
               coordinates={this.state.editing.coordinates}
               strokeColor="#000"
               fillColor="rgba(255,0,0,0.5)"
               strokeWidth={1}
-            />
-          )}
+              tappable={false}
+            />}
+          {this.state.markers.map(marker => (
+            <Marker coordinate={marker.coordinate} />
+          ))}
         </MapView>
         <TouchableOpacity
           onPress={() => this.finish()}
           style={[styles.bubble, styles.button]}
         >
-          <Text>Finish + {id}</Text>
+          <Text>Finish</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => this.cancel()}
+          style={[styles.bubble, styles.button]}
+        >
+          <Text>Cancel</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => this.reset()}
+          style={[styles.bubble, styles.button]}
+        >
+          <Text>Reset</Text>
         </TouchableOpacity>
       </View>
     );
