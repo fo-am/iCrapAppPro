@@ -16,13 +16,14 @@ import {
 } from "react-native";
 import MapView, { Polygon, Marker } from "react-native-maps";
 import Styles from "./styles/style";
+import SphericalUtil from "./geoUtils";
 
 const { width, height } = Dimensions.get("window");
 
 const ASPECT_RATIO = width / height;
-const LATITUDE = 37.78825;
-const LONGITUDE = 0.0;
-const LATITUDE_DELTA = 50;
+const LATITUDE = 50.184363;
+const LONGITUDE = -5.173699;
+const LATITUDE_DELTA = 0.005;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 let id = 0;
 
@@ -38,26 +39,29 @@ export default class App extends Component {
       },
       polygons: [],
       marker: null,
-      editing: null
+      editing: null,
+      area: null
     };
   }
   finish() {
-    const { polygons, editing, marker } = this.state;
+    const { polygons, editing, marker, area } = this.state;
+
+    var size = new SphericalUtil().ComputeSignedArea(editing.coordinates);
+
     this.setState({
       polygons: [...polygons, editing],
       editing: null,
-      marker: null
+      marker: null,
+      area: size
     });
   }
   cancel() {
-    const { editing, marker } = this.state;
     this.setState({
       editing: null,
       marker: null
     });
   }
   reset() {
-    const { polygons, editing, marker } = this.state;
     this.setState({
       polygons: [],
       editing: null,
@@ -154,6 +158,7 @@ export default class App extends Component {
         >
           <Text>Reset</Text>
         </TouchableOpacity>
+        <Text>{this.state.area}</Text>
       </View>
     );
   }
