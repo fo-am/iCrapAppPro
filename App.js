@@ -37,7 +37,7 @@ export default class App extends Component {
         longitudeDelta: LONGITUDE_DELTA
       },
       polygons: [],
-      markers: [],
+      marker: null,
       editing: null
     };
   }
@@ -63,7 +63,7 @@ export default class App extends Component {
   onPress(e) {
     const { editing, markers } = this.state;
     this.setState({
-      markers: [...markers, { coordinate: e.nativeEvent.coordinate, key: id++ }]
+      markers: { coordinate: e.nativeEvent.coordinate, key: id++ }
     });
     if (!editing) {
       this.setState({
@@ -118,7 +118,7 @@ export default class App extends Component {
               tappable={false}
             />
           ))}
-          {this.state.editing &&
+          {this.state.editing && (
             <Polygon
               geodesic={true}
               key={this.state.editing.id}
@@ -127,10 +127,11 @@ export default class App extends Component {
               fillColor="rgba(255,0,0,0.5)"
               strokeWidth={1}
               tappable={false}
-            />}
-          {this.state.markers.map(marker => (
-            <Marker coordinate={marker.coordinate} />
-          ))}
+            />
+          )}
+          {this.state.markers && (
+            <Marker coordinate={this.state.markers.coordinate} />
+          )}
         </MapView>
         <TouchableOpacity
           onPress={() => this.finish()}
