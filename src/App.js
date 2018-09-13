@@ -91,20 +91,13 @@ export default class App extends Component {
   }
 
   render() {
-    const mapOptions = {
-      scrollEnabled: true
-    };
-
-    if (this.state.editing) {
-      mapOptions.scrollEnabled = false;
-      mapOptions.onPanDrag = e => this.onPress(e);
-    }
     return (
       <View style={Styles.container}>
         <StatusBar />
         <Text>Top</Text>
         <MapView
           style={Styles.map}
+          scrollEnabled={this.state.editing == null}
           provider={"google"}
           rotateEnabled={false}
           showsUserLocation={true}
