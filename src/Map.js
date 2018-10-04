@@ -1,9 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, { Component } from "react";
 import {
   Text,
@@ -104,6 +98,7 @@ export default class MapScreen extends Component {
           mapType={"satellite"}
           initialRegion={this.state.region}
           onPress={e => this.onPress(e)}
+          
         >
           {this.state.polygons.map(polygon => (
             <Polygon
