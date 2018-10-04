@@ -1,6 +1,7 @@
 import { StackNavigator } from "react-navigation";
 import MapScreen from "../Map";
 import HomeScreen from "../HomeScreen";
+import Calculator from "../Calculator";
 
 export default (RootStack = StackNavigator(
   {
@@ -9,9 +10,12 @@ export default (RootStack = StackNavigator(
     },
     Map: {
       screen: MapScreen
+    },
+    Calculator: {
+      screen: Calculator
     }
   },
   {
-    initialRouteName: "Home"
+    initialRouteName: "Calculator"
   }
 ));

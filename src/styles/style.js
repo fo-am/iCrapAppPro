@@ -5,8 +5,9 @@ const halfHeight = height / 2;
 const Styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#333"
+    backgroundColor: "#FFF"
   },
+  text: { color: "#FFF" },
   map: {
     width,
     height: halfHeight
