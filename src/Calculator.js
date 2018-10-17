@@ -8,13 +8,13 @@ import {
   Picker
 } from "react-native";
 import Styles from "./styles/style";
-import data from "../data/soil-nitrogen-supply.json";
+import data from "../data/manure.json";
 
 export default class Calculator extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      language: "js",
+      manure: "cattle",
       soilType: null
     };
   }
@@ -34,6 +34,10 @@ export default class Calculator extends Component {
     this.setState({ soilType: soil });
   }
   render() {
+    var manureTypes = {
+      cattle: "Cattle Slurry",
+      fym: "Farmyard Manure"
+    };
     return (
       <View style={Styles.container}>
         <StatusBar />
@@ -45,9 +49,13 @@ export default class Calculator extends Component {
           onValueChange={(itemValue, itemIndex) =>
             this.setState({ language: itemValue })}
         >
-          <Picker.Item label="Java" value="java" />
-          <Picker.Item label="JavaScript" value="js" />
+          {Object.keys(manureTypes).map(key => {
+            return (
+              <Picker.Item label={manureTypes[key]} value={key} key={key} />
+            );
+          })}
         </Picker>
+
         <Text>{this.state.soilType}</Text>
       </View>
     );
