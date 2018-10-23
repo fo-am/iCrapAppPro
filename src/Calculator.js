@@ -15,39 +15,52 @@ export default class Calculator extends Component {
     super(props);
     this.state = {
       manure: "cattle",
-      soilType: null
+      soilType: null,
+      manureSelected: null
     };
   }
 
   componentDidMount() {
-    this.getSoil();
+    //  this.getSoil();
   }
 
-  getSoil() {
-    var soil;
-    var arrayLength = data.choices.length;
-    for (var i = 0; i < arrayLength; i++) {
-      soil += JSON.stringify(data.choices[i].choice);
+  getSoil(value) {
+    var soil = "";
+    //  var arrayLength = data.choices.length;
+    // for (var i = 0; i < arrayLength; i++) {
+    //  soil += JSON.stringify(data.choices[i].choice) + " ";
+    // }
 
-      //Do something
+    for (key in data.choices) {
+      if (data.choices[key].choice === value) {
+        soil = JSON.stringify(data.choices[key].value);
+      }
     }
+
     this.setState({ soilType: soil });
   }
+  DoIt = item => this.DoItem(item);
+
+  DoItem(itemValue) {
+    this.getSoil(itemValue);
+    this.setState({ manureSelected: itemValue });
+  }
+
   render() {
     var manureTypes = {
       cattle: "Cattle Slurry",
       fym: "Farmyard Manure"
     };
+
     return (
       <View style={Styles.container}>
         <StatusBar />
-        <Text syle={Styles.text}>Top stuff that is very good </Text>
+        <Text syle={Styles.text}>Calculator for crap calculations.</Text>
 
         <Picker
-          selectedValue={this.state.language}
+          selectedValue={this.state.manureSelected}
           style={{ height: 50, width: 200 }}
-          onValueChange={(itemValue, itemIndex) =>
-            this.setState({ language: itemValue })}
+          onValueChange={this.DoIt}
         >
           {Object.keys(manureTypes).map(key => {
             return (
@@ -55,6 +68,8 @@ export default class Calculator extends Component {
             );
           })}
         </Picker>
+
+        <Text>{this.state.manureSelected}</Text>
 
         <Text>{this.state.soilType}</Text>
       </View>

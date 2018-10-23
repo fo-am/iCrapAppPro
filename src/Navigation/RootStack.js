@@ -16,6 +16,6 @@ export default (RootStack = StackNavigator(
     }
   },
   {
-    initialRouteName: "Calculator"
+    initialRouteName: "Home"
   }
 ));

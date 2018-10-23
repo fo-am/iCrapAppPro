@@ -10,6 +10,10 @@ export default class HomeScreen extends React.Component {
           title="Go to Map"
           onPress={() => this.props.navigation.navigate("Map")}
         />
+        <Button
+          title="Go to Calc"
+          onPress={() => this.props.navigation.navigate("Calculator")}
+        />
       </View>
     );
   }
