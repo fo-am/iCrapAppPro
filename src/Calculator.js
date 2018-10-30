@@ -16,7 +16,8 @@ export default class Calculator extends Component {
     this.state = {
       soilType: null,
       manureSelected: null,
-      applicationSelected: null
+      applicationSelected: null,
+      manureApplicationTypes: {}
     };
   }
 
@@ -37,6 +38,14 @@ export default class Calculator extends Component {
 
   SelectManure(itemValue) {
     this.setState({ manureSelected: itemValue });
+    this.setState({
+      manureApplicationTypes: {
+        "splash-surface": "Splash Surface",
+        "splash-incorporated": "Splash Incorporated",
+        "shoe-bar-spreader": "Shoe Bar Spreader",
+        "shallow-injected": "Shallow Injected"
+      }
+    });
   }
   SelectApplicationType(itemValue) {
     this.setState({ applicationSelected: itemValue });
@@ -49,12 +58,7 @@ export default class Calculator extends Component {
       poultry: "Poultry Litter",
       compost: "Compost"
     };
-    var manureApplicationTypes = {
-      "splash-surface": "Splash Surface",
-      "splash-incorporated": "Splash Incorporated",
-      "shoe-bar-spreader": "Shoe Bar Spreader",
-      "shallow-injected": "Shallow Injected"
-    };
+    var manureApplicationTypes = {};
     return (
       <View style={Styles.container}>
         <StatusBar />
@@ -79,10 +83,10 @@ export default class Calculator extends Component {
           style={{ height: 50, width: 200 }}
           onValueChange={item => this.SelectApplicationType(item)}
         >
-          {Object.keys(manureApplicationTypes).map(key => {
+          {Object.keys(this.state.manureApplicationTypes).map(key => {
             return (
               <Picker.Item
-                label={manureApplicationTypes[key]}
+                label={this.state.manureApplicationTypes[key]}
                 value={key}
                 key={key}
               />
