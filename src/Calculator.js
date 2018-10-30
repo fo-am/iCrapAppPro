@@ -14,9 +14,9 @@ export default class Calculator extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      manure: "cattle",
       soilType: null,
-      manureSelected: null
+      manureSelected: null,
+      applicationSelected: null
     };
   }
 
@@ -26,11 +26,6 @@ export default class Calculator extends Component {
 
   getSoil(value) {
     var soil = "";
-    //  var arrayLength = data.choices.length;
-    // for (var i = 0; i < arrayLength; i++) {
-    //  soil += JSON.stringify(data.choices[i].choice) + " ";
-    // }
-
     for (key in data.choices) {
       if (data.choices[key].choice === value) {
         soil = JSON.stringify(data.choices[key].value);
@@ -39,28 +34,37 @@ export default class Calculator extends Component {
 
     this.setState({ soilType: soil });
   }
-  DoIt = item => this.DoItem(item);
 
-  DoItem(itemValue) {
-    this.getSoil(itemValue);
+  SelectManure(itemValue) {
     this.setState({ manureSelected: itemValue });
   }
-
+  SelectApplicationType(itemValue) {
+    this.setState({ applicationSelected: itemValue });
+  }
   render() {
     var manureTypes = {
       cattle: "Cattle Slurry",
-      fym: "Farmyard Manure"
+      fym: "Farmyard Manure",
+      pig: "Pig Slurry",
+      poultry: "Poultry Litter",
+      compost: "Compost"
     };
-
+    var manureApplicationTypes = {
+      "splash-surface": "Splash Surface",
+      "splash-incorporated": "Splash Incorporated",
+      "shoe-bar-spreader": "Shoe Bar Spreader",
+      "shallow-injected": "Shallow Injected"
+    };
     return (
       <View style={Styles.container}>
         <StatusBar />
         <Text syle={Styles.text}>Calculator for crap calculations.</Text>
 
+        <Text>Manure Type</Text>
         <Picker
           selectedValue={this.state.manureSelected}
           style={{ height: 50, width: 200 }}
-          onValueChange={this.DoIt}
+          onValueChange={item => this.SelectManure(item)}
         >
           {Object.keys(manureTypes).map(key => {
             return (
@@ -68,6 +72,27 @@ export default class Calculator extends Component {
             );
           })}
         </Picker>
+
+        <Text>Application Type</Text>
+        <Picker
+          selectedValue={this.state.applicationSelected}
+          style={{ height: 50, width: 200 }}
+          onValueChange={item => this.SelectApplicationType(item)}
+        >
+          {Object.keys(manureApplicationTypes).map(key => {
+            return (
+              <Picker.Item
+                label={manureApplicationTypes[key]}
+                value={key}
+                key={key}
+              />
+            );
+          })}
+        </Picker>
+        <Text>Soil Type</Text>
+        <Text>Crop Type</Text>
+        <Text>Season</Text>
+        <Text>Quality</Text>
 
         <Text>{this.state.manureSelected}</Text>
 
