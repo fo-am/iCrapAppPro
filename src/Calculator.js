@@ -17,7 +17,7 @@ export default class Calculator extends Component {
       soilType: null,
       manureSelected: null,
       applicationSelected: null,
-      manureApplicationTypes: {}
+      applicationTypes: {}
     };
   }
 
@@ -38,14 +38,19 @@ export default class Calculator extends Component {
 
   SelectManure(itemValue) {
     this.setState({ manureSelected: itemValue });
-    this.setState({
-      manureApplicationTypes: {
-        "splash-surface": "Splash Surface",
-        "splash-incorporated": "Splash Incorporated",
-        "shoe-bar-spreader": "Shoe Bar Spreader",
-        "shallow-injected": "Shallow Injected"
-      }
-    });
+    if (itemValue === "fym") {
+      this.setState({
+        applicationTypes: {
+          "splash-surface": "Splash Surface",
+          "splash-incorporated": "Splash Incorporated",
+          "shoe-bar-spreader": "Shoe Bar Spreader",
+          "shallow-injected": "Shallow Injected"
+        }
+      });
+    } else {
+      this.setState({ applicationTypes: {} });
+      this.setState({ SelectApplicationType: null });
+    }
   }
   SelectApplicationType(itemValue) {
     this.setState({ applicationSelected: itemValue });
@@ -58,7 +63,7 @@ export default class Calculator extends Component {
       poultry: "Poultry Litter",
       compost: "Compost"
     };
-    var manureApplicationTypes = {};
+    //  var manureApplicationTypes = {};
     return (
       <View style={Styles.container}>
         <StatusBar />
@@ -83,10 +88,10 @@ export default class Calculator extends Component {
           style={{ height: 50, width: 200 }}
           onValueChange={item => this.SelectApplicationType(item)}
         >
-          {Object.keys(this.state.manureApplicationTypes).map(key => {
+          {Object.keys(this.state.applicationTypes).map(key => {
             return (
               <Picker.Item
-                label={this.state.manureApplicationTypes[key]}
+                label={this.state.applicationTypes[key]}
                 value={key}
                 key={key}
               />
@@ -100,7 +105,7 @@ export default class Calculator extends Component {
 
         <Text>{this.state.manureSelected}</Text>
 
-        <Text>{this.state.soilType}</Text>
+        <Text>{this.state.applicationSelected}</Text>
       </View>
     );
   }
