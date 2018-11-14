@@ -7,8 +7,9 @@ import {
   TouchableOpacity,
   Picker
 } from "react-native";
-import Styles from "./styles/style";
+import Styles from "../styles/style";
 import data from "../data/manure.json";
+import dropdowns from "dropdowns.json";
 
 export default class Calculator extends Component {
   constructor(props) {

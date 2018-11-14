@@ -1,7 +1,7 @@
 import { StackNavigator } from "react-navigation";
 import MapScreen from "../Map";
 import HomeScreen from "../HomeScreen";
-import Calculator from "../Calculator";
+import Calculator from "../Calc/Calculator";
 
 export default (RootStack = StackNavigator(
   {
