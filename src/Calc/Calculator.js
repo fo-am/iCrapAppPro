@@ -8,8 +8,8 @@ import {
   Picker
 } from "react-native";
 import Styles from "../styles/style";
-import data from "../data/manure.json";
-import dropdowns from "dropdowns.json";
+import data from "../../data/manure.json";
+import dropdowns from "./dropdowns.json";
 
 export default class Calculator extends Component {
   constructor(props) {
@@ -24,6 +24,7 @@ export default class Calculator extends Component {
 
   componentDidMount() {
     //  this.getSoil();
+    this.setState({ applicationSelected: JSON.stringify(dropdowns) });
   }
 
   getSoil(value) {
@@ -41,12 +42,7 @@ export default class Calculator extends Component {
     this.setState({ manureSelected: itemValue });
     if (itemValue === "fym") {
       this.setState({
-        applicationTypes: {
-          "splash-surface": "Splash Surface",
-          "splash-incorporated": "Splash Incorporated",
-          "shoe-bar-spreader": "Shoe Bar Spreader",
-          "shallow-injected": "Shallow Injected"
-        }
+        applicationTypes: dropdowns.fym.dropDowns.application
       });
     } else {
       this.setState({ applicationTypes: {} });
@@ -104,9 +100,11 @@ export default class Calculator extends Component {
         <Text>Season</Text>
         <Text>Quality</Text>
 
-        <Text>{this.state.manureSelected}</Text>
+        <Text>a{this.state.manureSelected}</Text>
 
-        <Text>{this.state.applicationSelected}</Text>
+        <Text>b{this.state.applicationSelected}</Text>
+
+        <Text>c{JSON.stringify(this.state.applicationTypes)}</Text>
       </View>
     );
   }

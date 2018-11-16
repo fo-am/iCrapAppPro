@@ -1,20 +1,17 @@
 {
-    "selection": "fym",
-    "dropDowns": [
+  "fym": {
+    "dropDowns": {
+      "application": {
+        "splash-surface": "Splash Surface",
+        "splash-incorporated": "Splash Incorporated",
+        "shoe-bar-spreader": "Shoe Bar Spreader",
+        "shallow-injected": "Shallow Injected"
+      },
+      "soilType": [
         {
-            "application": [
-                {
-                    "splash-surface": "Splash Surface",
-                    "splash-incorporated": "Splash Incorporated",
-                    "shoe-bar-spreader": "Shoe Bar Spreader",
-                    "shallow-injected": "Shallow Injected"
-                }
-            ],
-            "soilType": [
-                {
-                    "a": "b"
-                }
-            ]
+          "a": "b"
         }
-    ]
+      ]
+    }
+  }
 }
