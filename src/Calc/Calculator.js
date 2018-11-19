@@ -10,6 +10,7 @@ import {
 import Styles from "../styles/style";
 import data from "../../data/manure.json";
 import dropdowns from "./dropdowns.json";
+import DropDown from "./DropDown.js";
 
 export default class Calculator extends Component {
   constructor(props) {
@@ -24,7 +25,7 @@ export default class Calculator extends Component {
 
   componentDidMount() {
     //  this.getSoil();
-    this.setState({ applicationSelected: JSON.stringify(dropdowns) });
+    this.SelectManure(this.manureSelected || "cattle");
   }
 
   getSoil(value) {
@@ -40,9 +41,9 @@ export default class Calculator extends Component {
 
   SelectManure(itemValue) {
     this.setState({ manureSelected: itemValue });
-    if (itemValue === "fym") {
+    if (itemValue === "cattle") {
       this.setState({
-        applicationTypes: dropdowns.fym.dropDowns.application
+        applicationTypes: dropdowns.cattle.dropDowns.application
       });
     } else {
       this.setState({ applicationTypes: {} });
@@ -67,34 +68,20 @@ export default class Calculator extends Component {
         <Text syle={Styles.text}>Calculator for crap calculations.</Text>
 
         <Text>Manure Type</Text>
-        <Picker
+        <DropDown
           selectedValue={this.state.manureSelected}
-          style={{ height: 50, width: 200 }}
-          onValueChange={item => this.SelectManure(item)}
-        >
-          {Object.keys(manureTypes).map(key => {
-            return (
-              <Picker.Item label={manureTypes[key]} value={key} key={key} />
-            );
-          })}
-        </Picker>
+          onChange={item => this.SelectManure(item)}
+          values={manureTypes}
+        />
 
         <Text>Application Type</Text>
-        <Picker
+        <DropDown
           selectedValue={this.state.applicationSelected}
-          style={{ height: 50, width: 200 }}
-          onValueChange={item => this.SelectApplicationType(item)}
-        >
-          {Object.keys(this.state.applicationTypes).map(key => {
-            return (
-              <Picker.Item
-                label={this.state.applicationTypes[key]}
-                value={key}
-                key={key}
-              />
-            );
-          })}
-        </Picker>
+          onChange={item => this.SelectApplicationType(item)}
+          values={this.state.applicationTypes}
+        />
+
+
         <Text>Soil Type</Text>
         <Text>Crop Type</Text>
         <Text>Season</Text>
