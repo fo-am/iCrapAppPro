@@ -61,6 +61,35 @@ export default class Calculator extends Component {
       poultry: "Poultry Litter",
       compost: "Compost"
     };
+
+    var cropType = {
+      "winter-wheat-incorporated-feed": "Winter wheat, straw incorporated, feed",
+      "winter-wheat-incorporated-mill": "Winter wheat, straw incorporated, mill",
+      "winter-wheat-removed-feed": "Winter wheat, straw removed, feed",
+      "winter-wheat-removed-mill": "Winter wheat, straw removed, mill",
+      "spring-barley-incorporated-feed": "Spring barley, straw incorporated, feed",
+      "spring-barley-incorporated-malt": "Spring barley, straw incorporated, malt",
+      "spring-barley-removed-feed": "Spring barley, straw removed, feed",
+      "spring-barley-removed-malt": "Spring barley, straw removed, malt",
+      "grass-cut": "Grass cut",
+      "grass-grazed": "Grass grazed"
+    };
+    var soilType = {
+      sandyshallow: "Sandy/Shallow",
+      peat: "Peat",
+      organic: "Organic (10-20% organic matter)",
+      mediumshallow: "Medium/Shallow",
+      medium: "Medium",
+      deepclay: "Deep clay",
+      deepsilt: "Deep silt"
+    };
+    var season = {
+      autumn: "Autumn",
+      winter: "Winter",
+      spring: "Spring",
+      summer: "Summer"
+    };
+
     //  var manureApplicationTypes = {};
     return (
       <View style={Styles.container}>
@@ -80,7 +109,6 @@ export default class Calculator extends Component {
           onChange={item => this.SelectApplicationType(item)}
           values={this.state.applicationTypes}
         />
-
 
         <Text>Soil Type</Text>
         <Text>Crop Type</Text>

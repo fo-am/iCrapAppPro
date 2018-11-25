@@ -7,33 +7,6 @@
         "shoe-bar-spreader": "Trailing shoe/dribble bar/band spreader",
         "shallow-injected": "Shallow injected"
       },
-      "soilType": {
-        "sandyshallow": "Sandy/Shallow",
-        "peat": "Peat",
-        "organic": "Organic (10-20% organic matter)",
-        "mediumshallow": "Medium/Shallow",
-        "medium": "Medium",
-        "deepclay": "Deep clay",
-        "deepsilt": "Deep silt"
-      },
-      "cropType": {
-        "winter-wheat-incorporated-feed": "Winter wheat, straw incorporated, feed",
-        "winter-wheat-incorporated-mill": "Winter wheat, straw incorporated, mill",
-        "winter-wheat-removed-feed": "Winter wheat, straw removed, feed",
-        "winter-wheat-removed-mill": "Winter wheat, straw removed, mill",
-        "spring-barley-incorporated-feed": "Spring barley, straw incorporated, feed",
-        "spring-barley-incorporated-malt": "Spring barley, straw incorporated, malt",
-        "spring-barley-removed-feed": "Spring barley, straw removed, feed",
-        "spring-barley-removed-malt": "Spring barley, straw removed, malt",
-        "grass-cut": "Grass cut",
-        "grass-grazed": "Grass grazed"
-      },
-      "season": {
-        "autumn": "Autumn",
-        "winter": "Winter",
-        "spring": "Spring",
-        "summer": "Summer"
-      },
       "quality": {
         "DM2": "2% DM (Thin soup)",
         "DM6": "6% DM (Thick soup)",
@@ -43,11 +16,58 @@
   },
   "fym": {
     "dropDowns": {
+      "application": {
+        "straight-surface": "Straight to surface",
+        "straight-ploughed": "Straight and ploughed",
+        "stored-spread": "Stored to surface",
+        "stored-ploughed": "Stored and ploughed"
+      },
+      "quality": {
+        "fym-cattle": "Cattle",
+        "fym-pig": "Pig",
+        "fym-sheep": "Sheep",
+        "fym-duck ": "Duck",
+        "fym-horse": "Horse",
+        "fym-goat ": "Goat"
+      }
+    }
+  },
+  "pig": {
+    "dropDowns": {
+      "application": {
+        "splash-surface": "Splash plate/surface",
+        "splash-incorporated": "Splash plate/incorporated",
+        "shoe-bar-spreader": "Trailing shoe/dribble bar/band spreader",
+        "shallow-injected": "Shallow injected"
+      },
+      "quality": {
+        "DM2": "2% DM (Thin soup)",
+        "DM4": "4% DM (Thick soup)",
+        "DM6": "6% DM (Thick soup)"
+      }
+    }
+  },
+  "poultry": {
+    "dropDowns": {
+      "application": {
+        "surface": "Surface",
+        "ploughed": "Ploughed"
+      },
+      "quality": {
+        "DM20": "20% DM",
+        "DM40": "40% DM",
+        "DM60": "60% DM",
+        "DM80": "80% DM"
+      }
+    }
+  },
+  "compost": {
+    "dropDowns": {
       "application": {},
-      "soilType": {},
-      "cropType": {},
-      "season": {},
-      "quality": {}
+      "quality": {
+        "green": "Green compost",
+        "green-food": "Green and foodwaste"
+      }
     }
   }
 }
