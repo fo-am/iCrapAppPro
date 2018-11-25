@@ -5,11 +5,12 @@ import {
   Dimensions,
   StatusBar,
   TouchableOpacity,
-  Picker
+  Picker,
+  Slider
 } from "react-native";
-import Styles from "../styles/style";
+import styles from "../styles/style";
 import data from "../../data/manure.json";
-import dropdowns from "./dropdowns.json";
+import dropDownData from "./dropDownData.json";
 import DropDown from "./DropDown.js";
 
 export default class Calculator extends Component {
@@ -19,13 +20,17 @@ export default class Calculator extends Component {
       soilType: null,
       manureSelected: null,
       applicationSelected: null,
-      applicationTypes: {}
+      soilSelected: null,
+      cropSelected: null,
+      seasonSelected: null,
+      qualitySelected: null,
+      applicationTypes: {},
+      qualityTypes: {}
     };
   }
 
   componentDidMount() {
-    //  this.getSoil();
-    this.SelectManure(this.manureSelected || "cattle");
+    this.SelectManure(this.manureSelected || "fym");
   }
 
   getSoil(value) {
@@ -43,7 +48,28 @@ export default class Calculator extends Component {
     this.setState({ manureSelected: itemValue });
     if (itemValue === "cattle") {
       this.setState({
-        applicationTypes: dropdowns.cattle.dropDowns.application
+        applicationTypes: dropDownData.cattle.dropDowns.application,
+        qualityTypes: dropDownData.cattle.dropDowns.quality
+      });
+    } else if (itemValue === "fym") {
+      this.setState({
+        applicationTypes: dropDownData.fym.dropDowns.application,
+        qualityTypes: dropDownData.fym.dropDowns.quality
+      });
+    } else if (itemValue === "pig") {
+      this.setState({
+        applicationTypes: dropDownData.pig.dropDowns.application,
+        qualityTypes: dropDownData.pig.dropDowns.quality
+      });
+    } else if (itemValue === "poultry") {
+      this.setState({
+        applicationTypes: dropDownData.poultry.dropDowns.application,
+        qualityTypes: dropDownData.poultry.dropDowns.quality
+      });
+    } else if (itemValue === "compost") {
+      this.setState({
+        applicationTypes: dropDownData.compost.dropDowns.application,
+        qualityTypes: dropDownData.compost.dropDowns.quality
       });
     } else {
       this.setState({ applicationTypes: {} });
@@ -63,12 +89,16 @@ export default class Calculator extends Component {
     };
 
     var cropType = {
-      "winter-wheat-incorporated-feed": "Winter wheat, straw incorporated, feed",
-      "winter-wheat-incorporated-mill": "Winter wheat, straw incorporated, mill",
+      "winter-wheat-incorporated-feed":
+        "Winter wheat, straw incorporated, feed",
+      "winter-wheat-incorporated-mill":
+        "Winter wheat, straw incorporated, mill",
       "winter-wheat-removed-feed": "Winter wheat, straw removed, feed",
       "winter-wheat-removed-mill": "Winter wheat, straw removed, mill",
-      "spring-barley-incorporated-feed": "Spring barley, straw incorporated, feed",
-      "spring-barley-incorporated-malt": "Spring barley, straw incorporated, malt",
+      "spring-barley-incorporated-feed":
+        "Spring barley, straw incorporated, feed",
+      "spring-barley-incorporated-malt":
+        "Spring barley, straw incorporated, malt",
       "spring-barley-removed-feed": "Spring barley, straw removed, feed",
       "spring-barley-removed-malt": "Spring barley, straw removed, malt",
       "grass-cut": "Grass cut",
@@ -92,9 +122,9 @@ export default class Calculator extends Component {
 
     //  var manureApplicationTypes = {};
     return (
-      <View style={Styles.container}>
+      <View style={styles.container}>
         <StatusBar />
-        <Text syle={Styles.text}>Calculator for crap calculations.</Text>
+        <Text syle={styles.text}>Calculator for crap calculations.</Text>
 
         <Text>Manure Type</Text>
         <DropDown
@@ -106,15 +136,45 @@ export default class Calculator extends Component {
         <Text>Application Type</Text>
         <DropDown
           selectedValue={this.state.applicationSelected}
-          onChange={item => this.SelectApplicationType(item)}
+          onChange={item => this.setState({ applicationSelected: item })}
           values={this.state.applicationTypes}
         />
 
         <Text>Soil Type</Text>
+        <DropDown
+          selectedValue={this.state.soilSelected}
+          onChange={item => this.setState({ soilSelected: item })}
+          values={soilType}
+        />
         <Text>Crop Type</Text>
+        <DropDown
+          selectedValue={this.state.cropSelected}
+          onChange={item => this.setState({ cropSelected: item })}
+          values={cropType}
+        />
         <Text>Season</Text>
+        <DropDown
+          selectedValue={this.state.seasonSelected}
+          onChange={item => this.setState({ seasonSelected: item })}
+          values={season}
+        />
         <Text>Quality</Text>
-
+        <DropDown
+          selectedValue={this.state.qualitySelected}
+          onChange={item => this.setState({ qualitySelected: item })}
+          values={this.state.qualityTypes}
+        />
+        <View style={styles.container}>
+          <Slider
+            value={this.state.value}
+            onValueChange={value => this.setState({ value })}
+            maximumValue={299}
+            thumbTintColor="rgb(252, 228, 149)"
+            minimumTrackTintColor="#FF0000"
+            maximumTrackTintColor="#206F98"
+          />
+          <Text>Value: {this.state.value}</Text>
+        </View>
         <Text>a{this.state.manureSelected}</Text>
 
         <Text>b{this.state.applicationSelected}</Text>

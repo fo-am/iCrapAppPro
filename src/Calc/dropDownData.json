@@ -1,5 +1,10 @@
 {
   "cattle": {
+    "slider": {
+      "maxValue": 100,
+      "metricUnit": "m3/ha",
+      "imperialUnit": "gallons/acre"
+    },
     "dropDowns": {
       "application": {
         "splash-surface": "Splash plate/surface",
@@ -15,6 +20,11 @@
     }
   },
   "fym": {
+    "slider": {
+      "maxValue": 100,
+      "metricUnit": "m3/ha",
+      "imperialUnit": "gallons/acre"
+    },
     "dropDowns": {
       "application": {
         "straight-surface": "Straight to surface",
@@ -33,6 +43,11 @@
     }
   },
   "pig": {
+    "slider": {
+      "maxValue": 100,
+      "metricUnit": "m3/ha",
+      "imperialUnit": "gallons/acre"
+    },
     "dropDowns": {
       "application": {
         "splash-surface": "Splash plate/surface",
@@ -48,6 +63,11 @@
     }
   },
   "poultry": {
+    "slider": {
+      "maxValue": 7.5,
+      "metricUnit": "tons/ha",
+      "imperialUnit": "tons/acre"
+    },
     "dropDowns": {
       "application": {
         "surface": "Surface",
@@ -62,6 +82,11 @@
     }
   },
   "compost": {
+    "slider": {
+      "maxValue": 100,
+      "metricUnit": "tons/ha",
+      "imperialUnit": "tons/acre"
+    },
     "dropDowns": {
       "application": {},
       "quality": {
