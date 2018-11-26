@@ -2,35 +2,57 @@ import React, { Component } from "react";
 import {
   Text,
   View,
+  ScrollView,
   Dimensions,
   StatusBar,
   TouchableOpacity,
   Picker,
-  Slider
+  Slider,
+  Image
 } from "react-native";
 import styles from "../styles/style";
 import data from "../../data/manure.json";
 import dropDownData from "./dropDownData.json";
 import DropDown from "./DropDown.js";
+import Images from "../assets/imageData";
 
 export default class Calculator extends Component {
   constructor(props) {
     super(props);
     this.state = {
       soilType: null,
-      manureSelected: null,
+      manureSelected: "fym",
       applicationSelected: null,
       soilSelected: null,
       cropSelected: null,
       seasonSelected: null,
       qualitySelected: null,
       applicationTypes: {},
-      qualityTypes: {}
+      qualityTypes: {},
+      sliderValue: null,
+      sliderStartValue: null,
+      sliderMaxValue: 1,
+      sliderUnit: null,
+      image: null,
+      testArray: {}
     };
+
+    this.state.applicationTypes =
+      dropDownData[this.state.manureSelected].dropDowns.application;
+    this.state.qualityTypes =
+      dropDownData[this.state.manureSelected].dropDowns.quality;
+    this.state.sliderStartValue =
+      dropDownData[this.state.manureSelected].slider.maxValue / 2;
+    this.state.sliderValue =
+      dropDownData[this.state.manureSelected].slider.maxValue / 2;
+    this.state.sliderMaxValue =
+      dropDownData[this.state.manureSelected].slider.maxValue;
+    this.state.sliderUnit =
+      dropDownData[this.state.manureSelected].slider.metricUnit;
   }
 
   componentDidMount() {
-    this.SelectManure(this.manureSelected || "fym");
+    this.SelectManure(this.state.manureSelected);
   }
 
   getSoil(value) {
@@ -46,38 +68,43 @@ export default class Calculator extends Component {
 
   SelectManure(itemValue) {
     this.setState({ manureSelected: itemValue });
-    if (itemValue === "cattle") {
-      this.setState({
-        applicationTypes: dropDownData.cattle.dropDowns.application,
-        qualityTypes: dropDownData.cattle.dropDowns.quality
-      });
-    } else if (itemValue === "fym") {
-      this.setState({
-        applicationTypes: dropDownData.fym.dropDowns.application,
-        qualityTypes: dropDownData.fym.dropDowns.quality
-      });
-    } else if (itemValue === "pig") {
-      this.setState({
-        applicationTypes: dropDownData.pig.dropDowns.application,
-        qualityTypes: dropDownData.pig.dropDowns.quality
-      });
-    } else if (itemValue === "poultry") {
-      this.setState({
-        applicationTypes: dropDownData.poultry.dropDowns.application,
-        qualityTypes: dropDownData.poultry.dropDowns.quality
-      });
-    } else if (itemValue === "compost") {
-      this.setState({
-        applicationTypes: dropDownData.compost.dropDowns.application,
-        qualityTypes: dropDownData.compost.dropDowns.quality
-      });
-    } else {
-      this.setState({ applicationTypes: {} });
-      this.setState({ SelectApplicationType: null });
-    }
+
+    this.setState(
+      {
+        applicationTypes: dropDownData[itemValue].dropDowns.application,
+        qualityTypes: dropDownData[itemValue].dropDowns.quality,
+        sliderStartValue: dropDownData[itemValue].slider.maxValue / 2,
+        sliderValue: dropDownData[itemValue].slider.maxValue / 2,
+        sliderMaxValue: dropDownData[itemValue].slider.maxValue,
+        sliderUnit: dropDownData[itemValue].slider.metricUnit
+      },
+      () => this.SliderValueChanged(this.state.sliderValue)
+    );
+  }
+  SliderValueChanged(value) {
+    this.setState({ sliderValue: value });
+
+    var keys = [];
+    for (var k in Images[this.state.manureSelected]) keys.push(k);
+
+    var closestValue = this.closest(value, keys);
+    this.setState({ image: Images[this.state.manureSelected][closestValue] });
   }
   SelectApplicationType(itemValue) {
     this.setState({ applicationSelected: itemValue });
+  }
+
+  closest(num, arr) {
+    var curr = arr[0];
+    var diff = Math.abs(num - curr);
+    for (var val = 0; val < arr.length; val++) {
+      var newdiff = Math.abs(num - arr[val]);
+      if (newdiff < diff) {
+        diff = newdiff;
+        curr = arr[val];
+      }
+    }
+    return curr;
   }
   render() {
     var manureTypes = {
@@ -122,65 +149,69 @@ export default class Calculator extends Component {
 
     //  var manureApplicationTypes = {};
     return (
-      <View style={styles.container}>
-        <StatusBar />
-        <Text syle={styles.text}>Calculator for crap calculations.</Text>
-
-        <Text>Manure Type</Text>
-        <DropDown
-          selectedValue={this.state.manureSelected}
-          onChange={item => this.SelectManure(item)}
-          values={manureTypes}
-        />
-
-        <Text>Application Type</Text>
-        <DropDown
-          selectedValue={this.state.applicationSelected}
-          onChange={item => this.setState({ applicationSelected: item })}
-          values={this.state.applicationTypes}
-        />
-
-        <Text>Soil Type</Text>
-        <DropDown
-          selectedValue={this.state.soilSelected}
-          onChange={item => this.setState({ soilSelected: item })}
-          values={soilType}
-        />
-        <Text>Crop Type</Text>
-        <DropDown
-          selectedValue={this.state.cropSelected}
-          onChange={item => this.setState({ cropSelected: item })}
-          values={cropType}
-        />
-        <Text>Season</Text>
-        <DropDown
-          selectedValue={this.state.seasonSelected}
-          onChange={item => this.setState({ seasonSelected: item })}
-          values={season}
-        />
-        <Text>Quality</Text>
-        <DropDown
-          selectedValue={this.state.qualitySelected}
-          onChange={item => this.setState({ qualitySelected: item })}
-          values={this.state.qualityTypes}
-        />
+      <ScrollView>
         <View style={styles.container}>
-          <Slider
-            value={this.state.value}
-            onValueChange={value => this.setState({ value })}
-            maximumValue={299}
-            thumbTintColor="rgb(252, 228, 149)"
-            minimumTrackTintColor="#FF0000"
-            maximumTrackTintColor="#206F98"
+          <StatusBar />
+          <Text syle={styles.text}>Calculator for crap calculations.</Text>
+
+          <Text>Manure Type</Text>
+          <DropDown
+            selectedValue={this.state.manureSelected}
+            onChange={item => this.SelectManure(item)}
+            values={manureTypes}
           />
-          <Text>Value: {this.state.value}</Text>
+
+          <Text>Application Type</Text>
+          <DropDown
+            selectedValue={this.state.applicationSelected}
+            onChange={item => this.setState({ applicationSelected: item })}
+            values={this.state.applicationTypes}
+          />
+
+          <Text>Soil Type</Text>
+          <DropDown
+            selectedValue={this.state.soilSelected}
+            onChange={item => this.setState({ soilSelected: item })}
+            values={soilType}
+          />
+          <Text>Crop Type</Text>
+          <DropDown
+            selectedValue={this.state.cropSelected}
+            onChange={item => this.setState({ cropSelected: item })}
+            values={cropType}
+          />
+          <Text>Season</Text>
+          <DropDown
+            selectedValue={this.state.seasonSelected}
+            onChange={item => this.setState({ seasonSelected: item })}
+            values={season}
+          />
+          <Text>Quality</Text>
+          <DropDown
+            selectedValue={this.state.qualitySelected}
+            onChange={item => this.setState({ qualitySelected: item })}
+            values={this.state.qualityTypes}
+          />
+          <View style={styles.container}>
+            <Slider
+              step={0.1}
+              value={this.state.sliderStartValue}
+              onValueChange={val => this.SliderValueChanged(val)}
+              maximumValue={this.state.sliderMaxValue}
+              thumbTintColor="rgb(252, 228, 149)"
+              minimumTrackTintColor="#FF0000"
+              maximumTrackTintColor="#206F98"
+            />
+            <Text>
+              Value: {this.state.sliderValue} {this.state.sliderUnit}
+            </Text>
+          </View>
+
+          <Image source={this.state.image} />
+
+          <Text>c{JSON.stringify(this.state.testArray)}</Text>
         </View>
-        <Text>a{this.state.manureSelected}</Text>
-
-        <Text>b{this.state.applicationSelected}</Text>
-
-        <Text>c{JSON.stringify(this.state.applicationTypes)}</Text>
-      </View>
+      </ScrollView>
     );
   }
 }
