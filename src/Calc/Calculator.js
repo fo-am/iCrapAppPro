@@ -34,7 +34,11 @@ export default class Calculator extends Component {
       sliderMaxValue: 1,
       sliderUnit: null,
       image: null,
-      testArray: {}
+      Nitrogen: null,
+      Phosphorus: null,
+      Potassium: null,
+      testArray: {},
+      testVal: null
     };
 
     this.state.applicationTypes =
@@ -65,7 +69,12 @@ export default class Calculator extends Component {
 
     this.setState({ soilType: soil });
   }
+  getN() {
+    var keys = [];
+    for (var k in data.choices) keys.push(k);
 
+    this.setState({ testArray: keys });
+  }
   SelectManure(itemValue) {
     this.setState({ manureSelected: itemValue });
 
@@ -82,6 +91,7 @@ export default class Calculator extends Component {
     );
   }
   SliderValueChanged(value) {
+    this.getN();
     this.setState({ sliderValue: value });
 
     var keys = [];
@@ -208,6 +218,11 @@ export default class Calculator extends Component {
           </View>
 
           <Image source={this.state.image} />
+          <Text>Crop available nutrients(Total in manure)</Text>
+          <Text>N {this.state.Nitrogen}</Text>
+          <Text>P2O5 {this.state.Phosphorus}</Text>
+          <Text>K2O {this.state.Potassium}</Text>
+          <Text>Fertiliser Savings</Text>
 
           <Text>c{JSON.stringify(this.state.testArray)}</Text>
         </View>
