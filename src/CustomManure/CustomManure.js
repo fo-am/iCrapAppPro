@@ -20,27 +20,27 @@ export default class CustomManure extends React.Component {
     super(props);
     this.state = {
       manure: {
-        key: this.generateUUID,
+        key: this.generateUUID(),
         name: "",
-        N: "0",
-        P: "0",
-        K: "0"
-      },
-      saved: false
+        N: "",
+        P: "",
+        K: ""
+      }
     };
   }
 
   saveManure = () => {
-    store.save("customManure", this.state.manure);
-    this.setState({ saved: true });
+    store
+      .push("customManure", this.state.manure)
+      .then(() => this.props.navigation.goBack());
   };
 
   cancel = () => {
-    this.setState({ saved: false });
+    this.props.navigation.goBack();
   };
 
   generateUUID() {
-    d = performance.now(); //high-precision timer
+    d = Date.now(); //high-precision timer
 
     var uuid = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(
       c
@@ -51,7 +51,13 @@ export default class CustomManure extends React.Component {
     });
     return uuid;
   }
-
+  componentDidMount() {
+    const { navigation } = this.props;
+    const item = navigation.getParam("manure", null);
+    if (item) {
+      this.setState({ manure: item });
+    }
+  }
   render() {
     return (
       <View>
@@ -96,8 +102,9 @@ export default class CustomManure extends React.Component {
           }
           value={this.state.manure.K}
         />
-        <Button title="Cancel" onPress={() => this.cancel} />
-        <Button title="OK" onPress={() => this.saveManure} />
+        <Button title="Cancel" onPress={this.cancel} />
+        <Button title="OK" onPress={this.saveManure} />
+        <Text>foo {JSON.stringify(this.state.manure)}</Text>
       </View>
     );
   }
