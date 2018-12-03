@@ -5,14 +5,18 @@ import store from "react-native-simple-store";
 export default class HomeScreen extends Component {
   constructor(props) {
     super(props);
-    this.state = { manures: [] };
+    this.state = {
+      manures: [],
+      showList: false
+    };
   }
 
-  componentDidMount() {
-    //  store.delete("customManure");
-  }
-  render() {
+  updateList = () => {
     store.get("customManure").then(res => this.setState({ manures: res }));
+    this.setState({ showList: !this.state.showList });
+  };
+
+  render() {
     return (
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
         <Text>Home Screen</Text>
@@ -25,24 +29,29 @@ export default class HomeScreen extends Component {
           onPress={() => this.props.navigation.navigate("Calculator")}
         />
         <Button
-          title="Go to manure"
+          title="Add a new manure"
           onPress={() => this.props.navigation.navigate("CustomManure")}
         />
-        <ScrollView>
-          <FlatList
-            data={this.state.manures}
-            renderItem={({ item }) => (
-              <Button
-                title={item.name}
-                onPress={() =>
-                  this.props.navigation.navigate("CustomManure", {
-                    manure: item
-                  })
-                }
-              />
-            )}
-          />
-        </ScrollView>
+        <Button title="Show Custom Manure" onPress={this.updateList} />
+        {this.state.showList && (
+          <ScrollView>
+            <FlatList
+              data={this.state.manures}
+              keyExtractor={item => item.key}
+              renderItem={({ item }) => (
+                <Button
+                  title={item.name}
+                  onPress={() => {
+                    this.setState({ showList: false });
+                    this.props.navigation.navigate("CustomManure", {
+                      manure: item
+                    });
+                  }}
+                />
+              )}
+            />
+          </ScrollView>
+        )}
       </View>
     );
   }

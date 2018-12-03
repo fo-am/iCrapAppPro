@@ -10,6 +10,7 @@ import {
   Slider,
   Image
 } from "react-native";
+import store from "react-native-simple-store";
 import styles from "../styles/style";
 import data from "../../data/manure.json";
 import dropDownData from "./dropDownData.json";
@@ -29,6 +30,7 @@ export default class Calculator extends Component {
       qualitySelected: null,
       applicationTypes: {},
       qualityTypes: {},
+      customQualityTypes: {},
       sliderValue: null,
       sliderStartValue: null,
       sliderMaxValue: 1,
@@ -53,6 +55,15 @@ export default class Calculator extends Component {
       dropDownData[this.state.manureSelected].slider.maxValue;
     this.state.sliderUnit =
       dropDownData[this.state.manureSelected].slider.metricUnit;
+
+    store.get("customManure").then(res => {
+      var values = {};
+      res.forEach(function(o) {
+        values[o.key] = o.name;
+      });
+
+      this.state.customQualityTypes = values;
+    });
   }
 
   componentDidMount() {
@@ -75,21 +86,36 @@ export default class Calculator extends Component {
 
     this.setState({ testArray: keys });
   }
+
   SelectManure(itemValue) {
     this.setState({ manureSelected: itemValue });
-
-    this.setState(
-      {
-        applicationTypes: dropDownData[itemValue].dropDowns.application,
-        qualityTypes: dropDownData[itemValue].dropDowns.quality,
-        sliderStartValue: dropDownData[itemValue].slider.maxValue / 2,
-        sliderValue: dropDownData[itemValue].slider.maxValue / 2,
-        sliderMaxValue: dropDownData[itemValue].slider.maxValue,
-        sliderUnit: dropDownData[itemValue].slider.metricUnit
-      },
-      () => this.SliderValueChanged(this.state.sliderValue)
-    );
+    if (itemValue === "custom") {
+      this.setState(
+        {
+          applicationTypes: {},
+          qualityTypes: this.state.customQualityTypes,
+          sliderStartValue: 50,
+          sliderValue: 50,
+          sliderMaxValue: 100,
+          sliderUnit: "m3/ha"
+        },
+        () => this.SliderValueChanged(this.state.sliderValue)
+      );
+    } else {
+      this.setState(
+        {
+          applicationTypes: dropDownData[itemValue].dropDowns.application,
+          qualityTypes: dropDownData[itemValue].dropDowns.quality,
+          sliderStartValue: dropDownData[itemValue].slider.maxValue / 2,
+          sliderValue: dropDownData[itemValue].slider.maxValue / 2,
+          sliderMaxValue: dropDownData[itemValue].slider.maxValue,
+          sliderUnit: dropDownData[itemValue].slider.metricUnit
+        },
+        () => this.SliderValueChanged(this.state.sliderValue)
+      );
+    }
   }
+
   SliderValueChanged(value) {
     this.getN();
     this.setState({ sliderValue: value });
@@ -98,8 +124,13 @@ export default class Calculator extends Component {
     for (var k in Images[this.state.manureSelected]) keys.push(k);
 
     var closestValue = this.closest(value, keys);
-    this.setState({ image: Images[this.state.manureSelected][closestValue] });
+    if (this.state.manureSelected == "custom") {
+      this.setState({ image: Images["fym"]["50"] });
+    } else {
+      this.setState({ image: Images[this.state.manureSelected][closestValue] });
+    }
   }
+
   SelectApplicationType(itemValue) {
     this.setState({ applicationSelected: itemValue });
   }
@@ -116,13 +147,15 @@ export default class Calculator extends Component {
     }
     return curr;
   }
+
   render() {
     var manureTypes = {
       cattle: "Cattle Slurry",
       fym: "Farmyard Manure",
       pig: "Pig Slurry",
       poultry: "Poultry Litter",
-      compost: "Compost"
+      compost: "Compost",
+      custom: "Custom"
     };
 
     var cropType = {

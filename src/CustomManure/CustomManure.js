@@ -30,11 +30,75 @@ export default class CustomManure extends React.Component {
   }
 
   saveManure = () => {
+    // get all from store
+
+    var newManure = this.state.manure;
+
+    if (!newManure.name) {
+      newManure.name = "New Manure";
+    }
+    if (!newManure.N) {
+      newManure.N = "0";
+    }
+    if (!newManure.P) {
+      newManure.P = "0";
+    }
+    if (!newManure.K) {
+      newManure.K = "0";
+    }
+
     store
-      .push("customManure", this.state.manure)
-      .then(() => this.props.navigation.goBack());
+      .get("customManure")
+      .then(res => {
+        if (res instanceof Array) {
+          return res;
+        } else {
+          return [];
+        }
+      })
+      .then(manures => {
+        // see if we have this ones ID
+        var index = manures.findIndex(m => m.key === newManure.key);
+
+        // if so update that one (delete and replace?)
+        if (index !== -1) {
+          manures.splice(index, 1);
+        }
+
+        manures.push(newManure);
+
+        // clear store
+        store
+          .save("customManure", manures)
+          .then(() => this.props.navigation.navigate("Home"));
+      });
   };
 
+  deleteManure = () => {
+    store
+      .get("customManure")
+      .then(res => {
+        if (res instanceof Array) {
+          return res;
+        } else {
+          return [];
+        }
+      })
+      .then(manures => {
+        // see if we have this ones ID
+        var index = manures.findIndex(m => m.key === this.state.manure.key);
+
+        // if so update that one (delete and replace?)
+        if (index !== -1) {
+          manures.splice(index, 1);
+        }
+
+        // clear store
+        store
+          .save("customManure", manures)
+          .then(() => this.props.navigation.navigate("Home"));
+      });
+  };
   cancel = () => {
     this.props.navigation.goBack();
   };
@@ -51,7 +115,7 @@ export default class CustomManure extends React.Component {
     });
     return uuid;
   }
-  componentDidMount() {
+  componentWillMount() {
     const { navigation } = this.props;
     const item = navigation.getParam("manure", null);
     if (item) {
@@ -69,7 +133,7 @@ export default class CustomManure extends React.Component {
           onChangeText={text =>
             this.setState({ manure: { ...this.state.manure, name: text } })
           }
-          placeholder="name"
+          placeholder="New Name"
           value={this.state.manure.name}
         />
         <Text>N kg/t content (elemental)</Text>
@@ -80,6 +144,7 @@ export default class CustomManure extends React.Component {
           onChangeText={text =>
             this.setState({ manure: { ...this.state.manure, N: text } })
           }
+          placeholder="0"
           value={this.state.manure.N}
         />
         <Text>P kg/t content (elemental)</Text>
@@ -90,6 +155,7 @@ export default class CustomManure extends React.Component {
           onChangeText={text =>
             this.setState({ manure: { ...this.state.manure, P: text } })
           }
+          placeholder="0"
           value={this.state.manure.P}
         />
         <Text>K kg/t content (elemental)</Text>
@@ -100,10 +166,12 @@ export default class CustomManure extends React.Component {
           onChangeText={text =>
             this.setState({ manure: { ...this.state.manure, K: text } })
           }
+          placeholder="0"
           value={this.state.manure.K}
         />
         <Button title="Cancel" onPress={this.cancel} />
         <Button title="OK" onPress={this.saveManure} />
+        <Button title="Remove this manure" onPress={this.deleteManure} />
         <Text>foo {JSON.stringify(this.state.manure)}</Text>
       </View>
     );
