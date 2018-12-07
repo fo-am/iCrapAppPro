@@ -1,4 +1,4 @@
-package com.crap_app_pro;
+package com.farm_crap_app;
 
 import com.facebook.react.ReactActivity;
 
@@ -10,6 +10,6 @@ public class MainActivity extends ReactActivity {
      */
     @Override
     protected String getMainComponentName() {
-        return "Crap_App_Pro";
+        return "farm_crap_app";
     }
 }

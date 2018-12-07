@@ -1,25 +1,25 @@
 import { StackNavigator } from "react-navigation";
 import MapScreen from "../Map";
 import HomeScreen from "../HomeScreen";
-import Calculator from "../Calc/Calculator";
-import CustomManure from "../CustomManure/CustomManure";
+import Calculator from "../calc/Calculator";
+import CustomManure from "../customManure/CustomManure";
 
 export default (RootStack = StackNavigator(
-  {
-    Home: {
-      screen: HomeScreen
+    {
+        Home: {
+            screen: HomeScreen
+        },
+        Map: {
+            screen: MapScreen
+        },
+        Calculator: {
+            screen: Calculator
+        },
+        CustomManure: {
+            screen: CustomManure
+        }
     },
-    Map: {
-      screen: MapScreen
-    },
-    Calculator: {
-      screen: Calculator
-    },
-    CustomManure: {
-      screen: CustomManure
+    {
+        initialRouteName: "Home"
     }
-  },
-  {
-    initialRouteName: "Home"
-  }
 ));

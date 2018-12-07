@@ -1,8 +1,21 @@
 import React, { Component } from "react";
-import { Button, View, Text, FlatList, ScrollView } from "react-native";
+import { Button, FlatList, ScrollView, Text, View } from "react-native";
 import store from "react-native-simple-store";
+import { NavigationScreenProp } from "react-navigation";
+import Manure from "./model/manure";
 
-export default class HomeScreen extends Component {
+interface MyComponentProps {
+  navigation: NavigationScreenProp<any, any>;
+}
+interface MyComponentState {
+  manures: Array<Manure>;
+  showList: boolean;
+}
+
+export default class HomeScreen extends Component<
+  MyComponentProps,
+  MyComponentState
+> {
   constructor(props) {
     super(props);
     this.state = {
@@ -11,12 +24,12 @@ export default class HomeScreen extends Component {
     };
   }
 
-  updateList = () => {
+  public updateList = () => {
     store.get("customManure").then(res => this.setState({ manures: res }));
     this.setState({ showList: !this.state.showList });
-  };
+  }
 
-  render() {
+  public render() {
     return (
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
         <Text>Home Screen</Text>

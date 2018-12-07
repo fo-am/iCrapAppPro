@@ -1,9 +1,8 @@
 import React from "react";
-
-import RootStack from "./Navigation/RootStack";
+import RootStack from "./navigation/RootStack";
 
 export default class App extends React.Component {
-  render() {
+  public render() {
     return <RootStack />;
   }
 }

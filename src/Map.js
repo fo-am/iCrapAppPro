@@ -98,7 +98,6 @@ export default class MapScreen extends Component {
           mapType={"satellite"}
           initialRegion={this.state.region}
           onPress={e => this.onPress(e)}
-          
         >
           {this.state.polygons.map(polygon => (
             <Polygon
@@ -142,7 +141,9 @@ export default class MapScreen extends Component {
         >
           <Text>Reset</Text>
         </TouchableOpacity>
-        <Text>{this.state.area}</Text>
+        <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+          {this.state.area}
+        </Text>
       </View>
     );
   }

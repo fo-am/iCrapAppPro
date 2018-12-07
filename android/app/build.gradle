@@ -98,11 +98,12 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
-        applicationId "com.crap_app_pro"
+        applicationId "com.farm_crap_app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
@@ -137,17 +138,12 @@ android {
 }
 
 dependencies {
+    implementation( project(':react-native-maps')){
+        exclude group: "com.android.support"
+    }
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
     implementation "com.facebook.react:react-native:+"  // From node_modules
-
-    compile project(':react-native-maps')
-    def googlePlayServicesVersion = rootProject.hasProperty('googlePlayServicesVersion')  ? rootProject.googlePlayServicesVersion : DEFAULT_GOOGLE_PLAY_SERVICES_VERSION
-    def androidMapsUtilsVersion   = rootProject.hasProperty('androidMapsUtilsVersion')    ? rootProject.androidMapsUtilsVersion   : DEFAULT_ANDROID_MAPS_UTILS_VERSION
-    
-    compile "com.google.android.gms:play-services-base:$googlePlayServicesVersion"
-    compile "com.google.android.gms:play-services-maps:$googlePlayServicesVersion"
-    compile "com.google.maps.android:android-maps-utils:$androidMapsUtilsVersion"
 }
 
 // Run this once to be able to run the application with BUCK
