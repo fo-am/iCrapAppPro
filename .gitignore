@@ -30,6 +30,10 @@ build/
 local.properties
 *.iml
 
+# Visual Studio Code
+#
+.vscode/
+
 # node.js
 #
 node_modules/
@@ -54,14 +58,3 @@ buck-out/
 
 # Bundle artifact
 *.jsbundle
-
-# Android/IJ
-#
-*.iml
-.idea
-.gradle
-local.properties
-
-#Extras
-.vscode
-.expo
