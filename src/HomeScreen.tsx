@@ -6,7 +6,7 @@ import ManureStore from "./store/manureStore";
 
 interface MyComponentProps {
   navigation: NavigationScreenProp<any, any>;
-  ManureStore?: ManureStore;
+  ManureStore: ManureStore;
 }
 
 interface MyComponentState {}
