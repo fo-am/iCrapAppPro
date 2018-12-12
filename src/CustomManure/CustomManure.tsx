@@ -8,7 +8,7 @@ import styles from "./../styles/style";
 
 interface MyComponentProps {
   navigation: NavigationScreenProp<any, any>;
-  ManureStore?: ManureStore;
+  ManureStore: ManureStore;
 }
 
 interface MyComponentState {
