@@ -63,7 +63,7 @@
     "number-literal-format": true,
     "object-literal-key-quotes": [true, "as-needed"],
     "object-literal-shorthand": [true, "always"],
-    "object-literal-sort-keys": true,
+    "object-literal-sort-keys": false,
     "ordered-imports": true,
     "prefer-conditional-expression": true,
     "prefer-const": true,

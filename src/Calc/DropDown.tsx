@@ -1,8 +1,16 @@
 import React, { Component } from "react";
-import { View, Picker } from "react-native";
+import { Picker, View } from "react-native";
 
-export default class DropDown extends Component {
-  render() {
+interface Props {
+  selectedValue: number;
+  onChange: any;
+  values: any;
+}
+
+interface State {}
+
+export default class DropDown extends Component<Props, State> {
+  public render() {
     return (
       <View>
         <Picker

@@ -1,8 +1,8 @@
-import { StyleSheet, Dimensions, Platform, StatusBar } from "react-native";
+import { Dimensions, Platform, StatusBar, StyleSheet } from "react-native";
 
 const { width, height } = Dimensions.get("window");
 const halfHeight = height / 2;
-const Styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#FFF"
@@ -29,4 +29,4 @@ const Styles = StyleSheet.create({
   }
 });
 
-export default Styles;
+export default styles;

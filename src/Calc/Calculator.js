@@ -14,7 +14,7 @@ import store from "react-native-simple-store";
 import styles from "../styles/style";
 import data from "../assets/data/manure.json";
 import dropDownData from "./dropDownData.json";
-import DropDown from "./DropDown.js";
+import DropDown from "./DropDown";
 import Images from "../assets/imageData";
 
 export default class Calculator extends Component {
