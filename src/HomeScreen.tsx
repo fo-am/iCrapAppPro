@@ -4,14 +4,21 @@ import store from "react-native-simple-store";
 import { NavigationScreenProp } from "react-navigation";
 import Manure from "./model/manure";
 
+import { inject, observer } from "mobx-react/native";
+import ManureStore from "./store/manureStore";
+
 interface MyComponentProps {
   navigation: NavigationScreenProp<any, any>;
+  ManureStore?: ManureStore;
 }
+
 interface MyComponentState {
-  manures: Array<Manure>;
+  // manures: Array<Manure>;
   showList: boolean;
 }
 
+@inject("ManureStore")
+@observer
 export default class HomeScreen extends Component<
   MyComponentProps,
   MyComponentState
@@ -19,17 +26,18 @@ export default class HomeScreen extends Component<
   constructor(props) {
     super(props);
     this.state = {
-      manures: [],
+      //  manures: [],
       showList: false
     };
   }
 
   public updateList = () => {
-    store.get("customManure").then(res => this.setState({ manures: res }));
+    // store.get("customManure").then(res => this.setState({ manures: res }));
     this.setState({ showList: !this.state.showList });
-  }
+  };
 
   public render() {
+    const manurestore = new ManureStore();
     return (
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
         <Text>Home Screen</Text>
@@ -49,7 +57,7 @@ export default class HomeScreen extends Component<
         {this.state.showList && (
           <ScrollView>
             <FlatList
-              data={this.state.manures}
+              data={this.props.ManureStore.manures}
               keyExtractor={item => item.key}
               renderItem={({ item }) => (
                 <Button

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import {
   Button,
   Dimensions,
+  FlatList,
   Image,
   Picker,
   ScrollView,
@@ -17,13 +18,20 @@ import { NavigationScreenProp, StackNavigator } from "react-navigation";
 import Manure from "./../model/manure";
 import styles from "./../styles/style";
 
+import { inject, observer } from "mobx-react/native";
+import ManureStore from "../store/manureStore";
+
 interface MyComponentProps {
   navigation: NavigationScreenProp<any, any>;
+  ManureStore?: ManureStore;
 }
+
 interface MyComponentState {
   manure: Manure;
 }
 
+@inject("ManureStore")
+@observer
 export default class CustomManure extends React.Component<
   MyComponentProps,
   MyComponentState
@@ -43,11 +51,12 @@ export default class CustomManure extends React.Component<
 
   public componentWillMount() {
     const { navigation } = this.props;
-    const item = navigation.getParam("manure", null);
+    const item = navigation.getParam("manure", undefined);
     if (item) {
       this.setState({ manure: item });
     }
   }
+
   public render() {
     return (
       <View>
@@ -105,6 +114,21 @@ export default class CustomManure extends React.Component<
         <Button title="OK" onPress={this.saveManure} />
         <Button title="Remove this manure" onPress={this.deleteManure} />
         <Text>foo {JSON.stringify(this.state.manure)}</Text>
+
+        <FlatList
+          data={this.props.ManureStore.manures.slice()}
+          keyExtractor={item => item.key}
+          renderItem={({ item }) => (
+            <Button
+              title={item.name}
+              onPress={() => {
+                this.props.navigation.navigate("CustomManure", {
+                  manure: item
+                });
+              }}
+            />
+          )}
+        />
       </View>
     );
   }
@@ -116,78 +140,83 @@ export default class CustomManure extends React.Component<
   }
 
   private saveManure = () => {
+    this.props.ManureStore.saveManure(this.state.manure);
+    //   this.props.navigation.navigate("Home");
+
     // get all from store
 
-    const newManure = this.state.manure;
+    // const newManure = this.state.manure;
 
-    if (!newManure.name) {
-      newManure.name = "New Manure";
-    }
-    if (!newManure.N) {
-      newManure.N = 0;
-    }
-    if (!newManure.P) {
-      newManure.P = 0;
-    }
-    if (!newManure.K) {
-      newManure.K = 0;
-    }
+    // if (!newManure.name) {
+    //   newManure.name = "New Manure";
+    // }
+    // if (!newManure.N) {
+    //   newManure.N = 0;
+    // }
+    // if (!newManure.P) {
+    //   newManure.P = 0;
+    // }
+    // if (!newManure.K) {
+    //   newManure.K = 0;
+    // }
 
-    store
-      .get("customManure")
-      .then(res => {
-        if (res instanceof Array) {
-          return res;
-        } else {
-          return [];
-        }
-      })
-      .then(manures => {
-        // see if we have this ones ID
-        const index = manures.findIndex(m => m.key === newManure.key);
+    // store
+    //   .get("customManure")
+    //   .then(res => {
+    //     if (res instanceof Array) {
+    //       return res;
+    //     } else {
+    //       return [];
+    //     }
+    //   })
+    //   .then(manures => {
+    //     // see if we have this ones ID
+    //     const index = manures.findIndex(m => m.key === newManure.key);
 
-        // if so update that one (delete and replace?)
-        if (index !== -1) {
-          manures.splice(index, 1);
-        }
+    //     // if so update that one (delete and replace?)
+    //     if (index !== -1) {
+    //       manures.splice(index, 1);
+    //     }
 
-        manures.push(newManure);
+    //     manures.push(newManure);
 
-        // clear store
-        store
-          .save("customManure", manures)
-          .then(() => this.props.navigation.navigate("Home"));
-      });
-  }
+    //     // clear store
+    //     store
+    //       .save("customManure", manures)
+    //       .then(() => this.props.navigation.navigate("Home"));
+    //   });
+  };
 
   private deleteManure = () => {
-    store
-      .get("customManure")
-      .then(res => {
-        if (res instanceof Array) {
-          return res;
-        } else {
-          return [];
-        }
-      })
-      .then(manures => {
-        // see if we have this ones ID
-        const index = manures.findIndex(m => m.key === this.state.manure.key);
+    this.props.ManureStore.deleteManure(this.state.manure);
+    this.props.navigation.navigate("Home");
+    // store
+    //   .get("customManure")
+    //   .then(res => {
+    //     if (res instanceof Array) {
+    //       return res;
+    //     } else {
+    //       return [];
+    //     }
+    //   })
+    //   .then(manures => {
+    //     // see if we have this ones ID
+    //     const index = manures.findIndex(m => m.key === this.state.manure.key);
 
-        // if so update that one (delete and replace?)
-        if (index !== -1) {
-          manures.splice(index, 1);
-        }
+    //     // if so update that one (delete and replace?)
+    //     if (index !== -1) {
+    //       manures.splice(index, 1);
+    //     }
 
-        // clear store
-        store
-          .save("customManure", manures)
-          .then(() => this.props.navigation.navigate("Home"));
-      });
-  }
+    //     // clear store
+    //     store
+    //       .save("customManure", manures)
+    //       .then(() => this.props.navigation.navigate("Home"));
+    //   });
+  };
   private cancel = () => {
     this.props.navigation.goBack();
-  }
+  };
 
   private generateUUID() {
     let d = Date.now(); // high-precision timer

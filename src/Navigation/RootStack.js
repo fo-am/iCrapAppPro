@@ -1,10 +1,10 @@
-import { StackNavigator } from "react-navigation";
+import { createStackNavigator } from "react-navigation";
 import MapScreen from "../Map";
 import HomeScreen from "../HomeScreen";
 import Calculator from "../calc/Calculator";
 import CustomManure from "../customManure/CustomManure";
 
-export default (RootStack = StackNavigator(
+export default (RootStack = createStackNavigator(
     {
         Home: {
             screen: HomeScreen
