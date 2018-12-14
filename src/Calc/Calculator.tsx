@@ -21,25 +21,19 @@ import styles from "../styles/style";
 import DropDown from "./DropDown";
 import dropDownData from "./dropDownData.json";
 
+import CalculatorValues from "../model/CalculatorValues";
+import SliderValues from "../model/sliderValues";
+
 interface Props {
   ManureStore: ManureStore;
 }
 
 interface State {
   soilType: string | undefined;
-  manureSelected: string;
-  applicationSelected: string | undefined;
-  soilSelected: string | undefined;
-  cropSelected: string | undefined;
-  seasonSelected: string | undefined;
-  qualitySelected: string | undefined;
   applicationTypes: Array<string>;
   qualityTypes: Array<string>;
   customQualityTypes: Array<string>;
-  sliderValue: number | undefined;
-  sliderStartValue: number | undefined;
-  sliderMaxValue: number | undefined;
-  sliderUnit: string | undefined;
+
   image: string | undefined;
   Nitrogen: number | undefined;
   Phosphorus: number | undefined;
@@ -47,26 +41,21 @@ interface State {
   testArray: Array<string>;
   testVal: number | undefined;
 }
+
+const slider = new SliderValues();
+const calculatorValues = new CalculatorValues();
+
 @inject("ManureStore")
 @observer
 export default class Calculator extends Component<Props, State> {
   constructor(props) {
     super(props);
+    calculatorValues.manureSelected = "fym";
     this.state = {
       soilType: undefined,
-      manureSelected: "fym",
-      applicationSelected: undefined,
-      soilSelected: undefined,
-      cropSelected: undefined,
-      seasonSelected: undefined,
-      qualitySelected: undefined,
       applicationTypes: [],
       qualityTypes: [],
       customQualityTypes: [],
-      sliderValue: undefined,
-      sliderStartValue: undefined,
-      sliderMaxValue: 1,
-      sliderUnit: undefined,
       image: undefined,
       Nitrogen: undefined,
       Phosphorus: undefined,
@@ -76,17 +65,18 @@ export default class Calculator extends Component<Props, State> {
     };
 
     this.state.applicationTypes =
-      dropDownData[this.state.manureSelected].dropDowns.application;
+      dropDownData[calculatorValues.manureSelected].dropDowns.application;
     this.state.qualityTypes =
-      dropDownData[this.state.manureSelected].dropDowns.quality;
-    this.state.sliderStartValue =
-      dropDownData[this.state.manureSelected].slider.maxValue / 2;
-    this.state.sliderValue =
-      dropDownData[this.state.manureSelected].slider.maxValue / 2;
-    this.state.sliderMaxValue =
-      dropDownData[this.state.manureSelected].slider.maxValue;
-    this.state.sliderUnit =
-      dropDownData[this.state.manureSelected].slider.metricUnit;
+      dropDownData[calculatorValues.manureSelected].dropDowns.quality;
+
+    slider.sliderStartValue =
+      dropDownData[calculatorValues.manureSelected].slider.maxValue / 2;
+    calculatorValues.sliderValue =
+      dropDownData[calculatorValues.manureSelected].slider.maxValue / 2;
+    slider.sliderMaxValue =
+      dropDownData[calculatorValues.manureSelected].slider.maxValue;
+    slider.sliderUnit =
+      dropDownData[calculatorValues.manureSelected].slider.metricUnit;
 
     const values = {};
 
@@ -98,52 +88,55 @@ export default class Calculator extends Component<Props, State> {
   }
 
   public componentDidMount() {
-    this.SelectManure(this.state.manureSelected);
+    this.SelectManure(calculatorValues.manureSelected);
   }
 
   public SelectManure(itemValue) {
-    this.setState({ manureSelected: itemValue });
+    calculatorValues.manureSelected = itemValue;
+
     if (itemValue === "custom") {
+      slider.sliderStartValue = 50;
+      calculatorValues.sliderValue = 50;
+      slider.sliderMaxValue = 100;
+      slider.sliderUnit = "m3/ha";
+
       this.setState(
         {
           applicationTypes: [],
-          qualityTypes: this.state.customQualityTypes,
-          sliderStartValue: 50,
-          sliderValue: 50,
-          sliderMaxValue: 100,
-          sliderUnit: "m3/ha"
+          qualityTypes: this.state.customQualityTypes
         },
-        () => this.SliderValueChanged(this.state.sliderValue)
+        () => this.SliderValueChanged(calculatorValues.sliderValue)
       );
     } else {
+      slider.sliderStartValue = dropDownData[itemValue].slider.maxValue / 2;
+      calculatorValues.sliderValue =
+        dropDownData[itemValue].slider.maxValue / 2;
+      slider.sliderMaxValue = dropDownData[itemValue].slider.maxValue;
+      slider.sliderUnit = dropDownData[itemValue].slider.metricUnit;
       this.setState(
         {
           applicationTypes: dropDownData[itemValue].dropDowns.application,
-          qualityTypes: dropDownData[itemValue].dropDowns.quality,
-          sliderStartValue: dropDownData[itemValue].slider.maxValue / 2,
-          sliderValue: dropDownData[itemValue].slider.maxValue / 2,
-          sliderMaxValue: dropDownData[itemValue].slider.maxValue,
-          sliderUnit: dropDownData[itemValue].slider.metricUnit
+          qualityTypes: dropDownData[itemValue].dropDowns.quality
         },
-        () => this.SliderValueChanged(this.state.sliderValue)
+        () => this.SliderValueChanged(calculatorValues.sliderValue)
       );
     }
   }
 
   public SliderValueChanged(value) {
-    this.setState({ sliderValue: value });
+    calculatorValues.sliderValue = value;
 
     const keys = [] as number[];
-    for (const k in Images[this.state.manureSelected]) {
+    for (const k in Images[calculatorValues.manureSelected]) {
       keys.push(Number(k));
     }
 
     const closestValue = this.closest(value, keys);
-    if (this.state.manureSelected == "custom") {
+    if (calculatorValues.manureSelected == "custom") {
       this.setState({ image: Images.fym["50"] });
     } else {
       this.setState({
-        image: Images[this.state.manureSelected][closestValue]
+        image: Images[calculatorValues.manureSelected][closestValue]
       });
     }
   }
@@ -163,8 +156,9 @@ export default class Calculator extends Component<Props, State> {
   }
 
   public SelectApplicationType(itemValue: string) {
-    this.setState({ applicationSelected: itemValue });
+    calculatorValues.applicationSelected = itemValue;
   }
+
   public render() {
     const manureTypes = {
       cattle: "Cattle Slurry",
@@ -216,54 +210,54 @@ export default class Calculator extends Component<Props, State> {
 
           <Text>Manure Type</Text>
           <DropDown
-            selectedValue={this.state.manureSelected}
+            selectedValue={calculatorValues.manureSelected}
             onChange={item => this.SelectManure(item)}
             values={manureTypes}
           />
 
           <Text>Application Type</Text>
           <DropDown
-            selectedValue={this.state.applicationSelected}
-            onChange={item => this.setState({ applicationSelected: item })}
+            selectedValue={calculatorValues.applicationSelected}
+            onChange={item => (calculatorValues.applicationSelected = item)}
             values={this.state.applicationTypes}
           />
 
           <Text>Soil Type</Text>
           <DropDown
-            selectedValue={this.state.soilSelected}
-            onChange={item => this.setState({ soilSelected: item })}
+            selectedValue={calculatorValues.soilSelected}
+            onChange={item => (calculatorValues.soilSelected = item)}
             values={soilType}
           />
           <Text>Crop Type</Text>
           <DropDown
-            selectedValue={this.state.cropSelected}
-            onChange={item => this.setState({ cropSelected: item })}
+            selectedValue={calculatorValues.cropSelected}
+            onChange={item => (calculatorValues.cropSelected = item)}
             values={cropType}
           />
           <Text>Season</Text>
           <DropDown
-            selectedValue={this.state.seasonSelected}
-            onChange={item => this.setState({ seasonSelected: item })}
+            selectedValue={calculatorValues.seasonSelected}
+            onChange={item => (calculatorValues.seasonSelected = item)}
             values={season}
           />
           <Text>Quality</Text>
           <DropDown
-            selectedValue={this.state.qualitySelected}
-            onChange={item => this.setState({ qualitySelected: item })}
+            selectedValue={calculatorValues.qualitySelected}
+            onChange={item => (calculatorValues.qualitySelected = item)}
             values={this.state.qualityTypes}
           />
           <View style={styles.container}>
             <Slider
               step={0.1}
-              value={this.state.sliderStartValue}
+              value={slider.sliderStartValue}
               onValueChange={val => this.SliderValueChanged(val)}
-              maximumValue={this.state.sliderMaxValue}
+              maximumValue={slider.sliderMaxValue}
               thumbTintColor="rgb(252, 228, 149)"
               minimumTrackTintColor="#FF0000"
               maximumTrackTintColor="#206F98"
             />
             <Text>
-              Value: {this.state.sliderValue} {this.state.sliderUnit}
+              Value: {calculatorValues.sliderValue} {slider.sliderUnit}
             </Text>
           </View>
 
@@ -274,7 +268,7 @@ export default class Calculator extends Component<Props, State> {
           <Text>K2O {this.state.Potassium}</Text>
           <Text>Fertiliser Savings</Text>
 
-          <Text>c{JSON.stringify(this.state.testArray)}</Text>
+          <Text>c{calculatorValues.ToString()}</Text>
         </View>
       </ScrollView>
     );
