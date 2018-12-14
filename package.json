@@ -8,22 +8,22 @@
     "tsc": "tsc"
   },
   "dependencies": {
-    "global": "^4.3.2",
-    "mobx": "^4.5.0",
-    "mobx-react": "^5.2.8",
+    "global": "4.3.2",
+    "mobx": "4.5.0",
+    "mobx-react": "5.2.8",
     "react": "16.6.1",
     "react-native": "0.57.7",
     "react-native-maps": "https://github.com/react-community/react-native-maps.git",
-    "react-native-simple-store": "^1.3.0",
-    "react-navigation": "^2.14.0"
+    "react-native-simple-store": "1.3.0",
+    "react-navigation": "2.14.0"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-decorators": "^7.2.0",
-    "@types/jest": "^23.3.10",
-    "@types/react": "^16.7.13",
-    "@types/react-native": "^0.57.17",
-    "@types/react-navigation": "^2.13.7",
-    "@types/react-test-renderer": "^16.0.3",
+    "@babel/plugin-proposal-decorators": "7.2.0",
+    "@types/jest": "23.3.10",
+    "@types/react": "16.7.13",
+    "@types/react-native": "0.57.17",
+    "@types/react-navigation": "2.13.7",
+    "@types/react-test-renderer": "16.0.3",
     "babel-jest": "23.6.0",
     "jest": "23.6.0",
     "metro-react-native-babel-preset": "0.50.0",

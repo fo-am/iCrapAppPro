@@ -15,14 +15,14 @@ import {
 import ManureStore from "../store/manureStore";
 import Manure from "./../model/manure";
 
-import data from "../assets/data/manure.json";
 import Images from "../assets/imageData";
 import styles from "../styles/style";
 import DropDown from "./DropDown";
 import dropDownData from "./dropDownData.json";
 
-import CalculatorValues from "../model/CalculatorValues";
 import SliderValues from "../model/sliderValues";
+import CalculatorStore from "../store/calculatorStore";
+import calculatorStore from "../store/calculatorStore";
 
 interface Props {
   ManureStore: ManureStore;
@@ -43,11 +43,50 @@ interface State {
 }
 
 const slider = new SliderValues();
-const calculatorValues = new CalculatorValues();
+const calculatorValues = CalculatorStore.calculatorValues;
 
 @inject("ManureStore")
 @observer
 export default class Calculator extends Component<Props, State> {
+  public manureTypes = {
+    cattle: "Cattle Slurry",
+    fym: "Farmyard Manure",
+    pig: "Pig Slurry",
+    poultry: "Poultry Litter",
+    compost: "Compost",
+    custom: "Custom"
+  };
+
+  public cropType = {
+    "winter-wheat-incorporated-feed": "Winter wheat, straw incorporated, feed",
+    "winter-wheat-incorporated-mill": "Winter wheat, straw incorporated, mill",
+    "winter-wheat-removed-feed": "Winter wheat, straw removed, feed",
+    "winter-wheat-removed-mill": "Winter wheat, straw removed, mill",
+    "spring-barley-incorporated-feed":
+      "Spring barley, straw incorporated, feed",
+    "spring-barley-incorporated-malt":
+      "Spring barley, straw incorporated, malt",
+    "spring-barley-removed-feed": "Spring barley, straw removed, feed",
+    "spring-barley-removed-malt": "Spring barley, straw removed, malt",
+    "grass-cut": "Grass cut",
+    "grass-grazed": "Grass grazed"
+  };
+  public soilType = {
+    sandyshallow: "Sandy/Shallow",
+    peat: "Peat",
+    organic: "Organic (10-20% organic matter)",
+    mediumshallow: "Medium/Shallow",
+    medium: "Medium",
+    deepclay: "Deep clay",
+    deepsilt: "Deep silt"
+  };
+  public season = {
+    autumn: "Autumn",
+    winter: "Winter",
+    spring: "Spring",
+    summer: "Summer"
+  };
+
   constructor(props) {
     super(props);
     calculatorValues.manureSelected = "fym";
@@ -85,6 +124,14 @@ export default class Calculator extends Component<Props, State> {
     });
 
     this.state.customQualityTypes = values;
+
+    calculatorValues.applicationSelected = Object.keys(
+      this.state.applicationTypes
+    )[0];
+    calculatorValues.soilSelected = Object.keys(this.soilType)[0];
+    calculatorValues.cropSelected = Object.keys(this.cropType)[0];
+    calculatorValues.seasonSelected = Object.keys(this.season)[0];
+    calculatorValues.qualitySelected = Object.keys(this.state.qualityTypes)[0];
   }
 
   public componentDidMount() {
@@ -160,47 +207,6 @@ export default class Calculator extends Component<Props, State> {
   }
 
   public render() {
-    const manureTypes = {
-      cattle: "Cattle Slurry",
-      fym: "Farmyard Manure",
-      pig: "Pig Slurry",
-      poultry: "Poultry Litter",
-      compost: "Compost",
-      custom: "Custom"
-    };
-
-    const cropType = {
-      "winter-wheat-incorporated-feed":
-        "Winter wheat, straw incorporated, feed",
-      "winter-wheat-incorporated-mill":
-        "Winter wheat, straw incorporated, mill",
-      "winter-wheat-removed-feed": "Winter wheat, straw removed, feed",
-      "winter-wheat-removed-mill": "Winter wheat, straw removed, mill",
-      "spring-barley-incorporated-feed":
-        "Spring barley, straw incorporated, feed",
-      "spring-barley-incorporated-malt":
-        "Spring barley, straw incorporated, malt",
-      "spring-barley-removed-feed": "Spring barley, straw removed, feed",
-      "spring-barley-removed-malt": "Spring barley, straw removed, malt",
-      "grass-cut": "Grass cut",
-      "grass-grazed": "Grass grazed"
-    };
-    const soilType = {
-      sandyshallow: "Sandy/Shallow",
-      peat: "Peat",
-      organic: "Organic (10-20% organic matter)",
-      mediumshallow: "Medium/Shallow",
-      medium: "Medium",
-      deepclay: "Deep clay",
-      deepsilt: "Deep silt"
-    };
-    const season = {
-      autumn: "Autumn",
-      winter: "Winter",
-      spring: "Spring",
-      summer: "Summer"
-    };
-
     //  var manureApplicationTypes = {};
     return (
       <ScrollView>
@@ -212,7 +218,7 @@ export default class Calculator extends Component<Props, State> {
           <DropDown
             selectedValue={calculatorValues.manureSelected}
             onChange={item => this.SelectManure(item)}
-            values={manureTypes}
+            values={this.manureTypes}
           />
 
           <Text>Application Type</Text>
@@ -226,19 +232,19 @@ export default class Calculator extends Component<Props, State> {
           <DropDown
             selectedValue={calculatorValues.soilSelected}
             onChange={item => (calculatorValues.soilSelected = item)}
-            values={soilType}
+            values={this.soilType}
           />
           <Text>Crop Type</Text>
           <DropDown
             selectedValue={calculatorValues.cropSelected}
             onChange={item => (calculatorValues.cropSelected = item)}
-            values={cropType}
+            values={this.cropType}
           />
           <Text>Season</Text>
           <DropDown
             selectedValue={calculatorValues.seasonSelected}
             onChange={item => (calculatorValues.seasonSelected = item)}
-            values={season}
+            values={this.season}
           />
           <Text>Quality</Text>
           <DropDown
@@ -269,6 +275,7 @@ export default class Calculator extends Component<Props, State> {
           <Text>Fertiliser Savings</Text>
 
           <Text>c{calculatorValues.ToString()}</Text>
+          <Text>{calculatorStore.getPotassium()}</Text>
         </View>
       </ScrollView>
     );

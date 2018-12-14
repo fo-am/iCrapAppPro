@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Picker, View } from "react-native";
 
 interface Props {
-  selectedValue: number;
+  selectedValue: number | string;
   onChange: any;
   values: any;
 }
