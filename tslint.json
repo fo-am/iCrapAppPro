@@ -9,7 +9,7 @@
     "ban-comma-operator": true,
     "class-name": true,
     "curly": true,
-    "cyclomatic-complexity": [true, 6],
+    "cyclomatic-complexity": [true, 18],
     "encoding": true,
     "eofline": true,
     "import-spacing": true,

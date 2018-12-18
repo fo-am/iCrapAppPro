@@ -275,7 +275,7 @@ export default class Calculator extends Component<Props, State> {
           <Text>Fertiliser Savings</Text>
 
           <Text>c{calculatorValues.ToString()}</Text>
-          <Text>{calculatorStore.getPotassium()}</Text>
+          <Text>{calculatorStore.getNutrientValues()}</Text>
         </View>
       </ScrollView>
     );
