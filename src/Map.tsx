@@ -1,14 +1,15 @@
 import React, { Component } from "react";
 import {
-  Text,
-  View,
   Dimensions,
   StatusBar,
-  TouchableOpacity
+  Text,
+  TouchableOpacity,
+  View
 } from "react-native";
-import MapView, { Polygon, Marker } from "react-native-maps";
-import Styles from "./styles/style";
+import MapView, { Marker, Polygon } from "react-native-maps";
+
 import SphericalUtil from "./geoUtils";
+import Styles from "./styles/style";
 
 const { width, height } = Dimensions.get("window");
 
@@ -19,8 +20,18 @@ const LATITUDE_DELTA = 0.005;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 let id = 0;
 
-export default class MapScreen extends Component {
-  constructor(props) {
+interface Props {}
+
+interface State {
+  polygons: any;
+  marker: any;
+  editing: any;
+  area: any;
+  region: any;
+}
+
+export default class MapScreen extends Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       region: {
@@ -30,66 +41,19 @@ export default class MapScreen extends Component {
         longitudeDelta: LONGITUDE_DELTA
       },
       polygons: [],
-      marker: null,
-      editing: null,
-      area: null
+      marker: undefined,
+      editing: undefined,
+      area: undefined
     };
   }
-  finish() {
-    const { polygons, editing, marker, area } = this.state;
-
-    var size = new SphericalUtil().ComputeSignedArea(editing.coordinates);
-
-    this.setState({
-      polygons: [...polygons, editing],
-      editing: null,
-      marker: null,
-      area: size
-    });
-  }
-  cancel() {
-    this.setState({
-      editing: null,
-      marker: null
-    });
-  }
-  reset() {
-    this.setState({
-      polygons: [],
-      editing: null,
-      marker: null
-    });
-  }
-  onPress(e) {
-    const { editing, marker } = this.state;
-    this.setState({
-      marker: { coordinate: e.nativeEvent.coordinate, key: id++ }
-    });
-    if (!editing) {
-      this.setState({
-        editing: {
-          id: id++,
-          coordinates: [e.nativeEvent.coordinate]
-        }
-      });
-    } else {
-      this.setState({
-        editing: {
-          ...editing,
-          coordinates: [...editing.coordinates, e.nativeEvent.coordinate]
-        }
-      });
-    }
-  }
-
-  render() {
+  public render() {
     return (
       <View style={Styles.container}>
         <StatusBar />
         <Text>Top</Text>
         <MapView
           style={Styles.map}
-          scrollEnabled={this.state.editing == null}
+          scrollEnabled={this.state.editing == undefined}
           provider={"google"}
           rotateEnabled={false}
           showsUserLocation={true}
@@ -110,7 +74,7 @@ export default class MapScreen extends Component {
               tappable={false}
             />
           ))}
-          {this.state.editing &&
+          {this.state.editing && (
             <Polygon
               geodesic={true}
               key={this.state.editing.id}
@@ -119,9 +83,11 @@ export default class MapScreen extends Component {
               fillColor="rgba(255,0,0,0.5)"
               strokeWidth={1}
               tappable={false}
-            />}
-          {this.state.marker &&
-            <Marker coordinate={this.state.marker.coordinate} />}
+            />
+          )}
+          {this.state.marker && (
+            <Marker coordinate={this.state.marker.coordinate} />
+          )}
         </MapView>
         <TouchableOpacity
           onPress={() => this.finish()}
@@ -146,5 +112,53 @@ export default class MapScreen extends Component {
         </Text>
       </View>
     );
+  }
+
+  private finish() {
+    const { polygons, editing, marker, area } = this.state;
+
+    const size = new SphericalUtil({}).ComputeSignedArea(editing.coordinates);
+
+    this.setState({
+      polygons: [...polygons, editing],
+      editing: undefined,
+      marker: undefined,
+      area: size
+    });
+  }
+  private cancel() {
+    this.setState({
+      editing: undefined,
+      marker: undefined
+    });
+  }
+  private reset() {
+    this.setState({
+      polygons: [],
+      editing: undefined,
+      marker: undefined
+    });
+  }
+
+  private onPress(e: any) {
+    const { editing, marker } = this.state;
+    this.setState({
+      marker: { coordinate: e.nativeEvent.coordinate, key: id++ }
+    });
+    if (!editing) {
+      this.setState({
+        editing: {
+          id: id++,
+          coordinates: [e.nativeEvent.coordinate]
+        }
+      });
+    } else {
+      this.setState({
+        editing: {
+          ...editing,
+          coordinates: [...editing.coordinates, e.nativeEvent.coordinate]
+        }
+      });
+    }
   }
 }
