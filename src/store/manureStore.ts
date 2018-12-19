@@ -64,4 +64,4 @@ class ManureStore {
         }
     }
 }
-export default ManureStore;
+export default new ManureStore();
