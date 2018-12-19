@@ -22,14 +22,42 @@ let id = 0;
 
 interface Props {}
 
+interface CrapApp {
+  id: string;
+  userName: string;
+  farms: Array<Farm>;
+}
+interface Farm {
+  id: string;
+  name: string;
+  fields: Array<Field>;
+}
+
+interface Field {
+  id: string;
+  name: string;
+  boundry: Polygon;
+  area: number;
+  spreadingEvents: Array<Spread>;
+}
+interface Spread {
+  date: string;
+}
+
 interface State {
   polygons: any;
   marker: any;
   editing: any;
   area: any;
-  region: any;
+  region: Region;
 }
 
+interface Region {
+  latitude: number;
+  longitude: number;
+  latitudeDelta: number;
+  longitudeDelta: number;
+}
 export default class MapScreen extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
