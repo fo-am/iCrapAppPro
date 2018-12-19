@@ -70,7 +70,6 @@ export default class Calculator extends Component<Props, State> {
     "grass-cut": "Grass cut",
     "grass-grazed": "Grass grazed"
   };
-
   public soilType = {
     sandyshallow: "Sandy/Shallow",
     peat: "Peat",
@@ -80,7 +79,6 @@ export default class Calculator extends Component<Props, State> {
     deepclay: "Deep clay",
     deepsilt: "Deep silt"
   };
-
   public season = {
     autumn: "Autumn",
     winter: "Winter",
@@ -275,7 +273,7 @@ export default class Calculator extends Component<Props, State> {
           <Text>K2O {this.state.Potassium}</Text>
           <Text>Fertiliser Savings</Text>
 
-          <Text>{calculatorStore.getNutrientValues()}</Text>
+          <Text>{CalculatorStore.getNutrientValues()}</Text>
         </View>
       </ScrollView>
     );
