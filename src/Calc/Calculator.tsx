@@ -22,7 +22,6 @@ import dropDownData from "./dropDownData.json";
 
 import SliderValues from "../model/sliderValues";
 import CalculatorStore from "../store/calculatorStore";
-import calculatorStore from "../store/calculatorStore";
 
 interface Props {
   ManureStore: ManureStore;
@@ -71,6 +70,7 @@ export default class Calculator extends Component<Props, State> {
     "grass-cut": "Grass cut",
     "grass-grazed": "Grass grazed"
   };
+
   public soilType = {
     sandyshallow: "Sandy/Shallow",
     peat: "Peat",
@@ -80,6 +80,7 @@ export default class Calculator extends Component<Props, State> {
     deepclay: "Deep clay",
     deepsilt: "Deep silt"
   };
+
   public season = {
     autumn: "Autumn",
     winter: "Winter",
