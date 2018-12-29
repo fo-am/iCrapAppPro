@@ -78,7 +78,6 @@ export default class MapScreen extends Component<Props, State> {
     return (
       <View style={Styles.container}>
         <StatusBar />
-        <Text>Top</Text>
         <MapView
           style={Styles.map}
           scrollEnabled={this.state.editing == undefined}

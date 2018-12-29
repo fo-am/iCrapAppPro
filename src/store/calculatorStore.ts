@@ -1,4 +1,4 @@
-import { observable } from "mobx";
+import { computed, observable } from "mobx";
 import store from "react-native-simple-store";
 import CalculatorValues from "../model/CalculatorValues";
 import Manure from "../model/manure";
@@ -97,10 +97,10 @@ class CalculatorStore {
       recentlyGrownGrass
     );
     const choices = {
-      sns: sns, // sns not used for grass requirement, ok to be grassland low/med/high
-      rainfall: rainfall,
-      soil: soil,
-      crop: crop,
+      sns, // sns not used for grass requirement, ok to be grassland low/med/high
+      rainfall,
+      soil,
+      crop,
       "p-index": soilTestP,
       "k-index": soilTestK
     };
@@ -117,11 +117,11 @@ class CalculatorStore {
     }
     const phosphorousRequirement = this.decision(
       cropRequirementsPhosphorousPotassiumTree,
-      Object.assign({ nutrient: "phosphorous" }, choices)
+      { nutrient: "phosphorous", ...choices }
     );
     const potassiumRequirement = this.decision(
       cropRequirementsPhosphorousPotassiumTree,
-      Object.assign({ nutrient: "potassium" }, choices)
+      { nutrient: "potassium", ...choices }
     );
     return {
       nitrogenRequirement,
@@ -131,7 +131,7 @@ class CalculatorStore {
     };
   }
 
-  public getNutrientValues(): Object {
+  public getNutrientValues(): Array<number> {
     return this.calculateNutrients(
       this.calculatorValues.manureSelected,
       this.calculatorValues.sliderValue,
@@ -155,7 +155,7 @@ class CalculatorStore {
     application,
     soilTestP,
     soilTestK
-  ): Object {
+  ): Array<number> {
     if (type === "custom") {
       const nutrients = this.processNutrients(
         amount,
@@ -256,7 +256,7 @@ class CalculatorStore {
   }
 
   private processNutrients(amount, nutrients) {
-    const nutrientsArray: any[] = [];
+    const nutrientsArray: number[] = [];
     for (const nutrientIndex in nutrients) {
       if (!isNaN(nutrients[nutrientIndex])) {
         nutrientsArray.push(amount * nutrients[nutrientIndex]);
