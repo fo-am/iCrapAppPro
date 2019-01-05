@@ -78,6 +78,14 @@ export default class MapScreen extends Component<Props, State> {
     return (
       <View style={Styles.container}>
         <StatusBar />
+        {/*
+        // get current fields from data
+        // show all fields on the map
+        // on map show field name and area
+        // on selct a field go to details page.
+        // zoom map to that place
+
+        */}
         <MapView
           style={Styles.map}
           scrollEnabled={this.state.editing == undefined}

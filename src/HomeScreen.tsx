@@ -29,6 +29,12 @@ export default class HomeScreen extends Component<
           title="Go to Map"
           onPress={() => this.props.navigation.navigate("Map")}
         />
+        <Text>This is text</Text>
+        <Button
+          title="Add new field"
+          onPress={() => this.props.navigation.navigate("Field")}
+        />
+        <Text>This is also Text</Text>
         <Button
           title="Go to Calc"
           onPress={() => this.props.navigation.navigate("Calculator")}
@@ -37,7 +43,6 @@ export default class HomeScreen extends Component<
           title="Add a new manure"
           onPress={() => this.props.navigation.navigate("CustomManure")}
         />
-
         <ScrollView>
           <FlatList
             data={this.props.ManureStore.manures.slice()}
