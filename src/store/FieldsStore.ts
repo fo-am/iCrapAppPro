@@ -1,11 +1,11 @@
-import { action, observable } from "mobx";
+import { action, observable, toJS } from "mobx";
 import store from "react-native-simple-store";
 import Field from "../model/field";
 
 class FieldStore {
     @observable public fields: Array<Field> = new Array<Field>();
 
-    @observable public field: Field = new Field();
+    @observable public field: Field;
 
     // Get all field names (and ids so we can make buttons)
     // get details of a field (by id or name?)
@@ -13,6 +13,7 @@ class FieldStore {
     // delete a field (by id?)
 
     constructor() {
+        this.field = new Field();
         store
             .get("fields")
             .then((res: Array<Field> | undefined) => {
@@ -31,10 +32,6 @@ class FieldStore {
 
     @action public SetCoordinates(coords: any) {
         this.field.fieldCoordinates = coords;
-    }
-
-    @action public getCoords() {
-        return this.field.fieldCoordinates.coordinates.slice();
     }
 
     public Save() {

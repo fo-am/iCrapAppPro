@@ -31,7 +31,6 @@ let id = 0;
 
 interface Props {
   FieldStore: FieldStore;
-  field: Field;
   navigation: NavigationScreenProp<any, any>;
 }
 
@@ -75,10 +74,6 @@ export default class FieldScreen extends Component<Props, State> {
       showDraw: true,
       showHaveProps: false
     };
-
-    if (this.props.field == undefined) {
-      this.state.showHaveProps = true;
-    }
   }
   public componentWillMount() {
     const { navigation } = this.props;
@@ -88,7 +83,6 @@ export default class FieldScreen extends Component<Props, State> {
     }
   }
   public render() {
-    const { FieldStore } = this.props;
     return (
       <ScrollView style={Styles.container}>
         <StatusBar />
@@ -100,16 +94,6 @@ export default class FieldScreen extends Component<Props, State> {
         // zoom map to that place
 
         */}
-
-        {this.state.showHaveProps ? (
-          <View>
-            <Text>no field given to us</Text>
-          </View>
-        ) : (
-          <View>
-            <Text>We have field!</Text>
-          </View>
-        )}
 
         <Text>
           Scroll around and find your field, when ready to mark a field press
@@ -127,11 +111,11 @@ export default class FieldScreen extends Component<Props, State> {
           initialRegion={this.state.region}
           onPress={e => this.onPress(e)}
         >
-          {this.props.FieldStore.field.fieldCoordinates && (
+          {FieldStore.field.fieldCoordinates && (
             <Polygon
               geodesic={true}
-              key={this.props.FieldStore.field.fieldCoordinates.id}
-              coordinates={this.props.FieldStore.getCoords()}
+              key={FieldStore.field.fieldCoordinates.id}
+              coordinates={FieldStore.field.fieldCoordinates.coordinates.slice()}
               strokeColor="#F00"
               fillColor="rgba(255,0,0,0.5)"
               strokeWidth={1}
@@ -186,12 +170,18 @@ export default class FieldScreen extends Component<Props, State> {
           </View>
         )}
         <Text>Field Name</Text>
-        <TextInput style={{ fontSize: 20, fontWeight: "bold" }}>
-          {this.props.FieldStore.field.name}
+        <TextInput
+          style={{ fontSize: 20, fontWeight: "bold" }}
+          onChangeText={text => (FieldStore.field.name = text)}
+        >
+          {FieldStore.field.name}
         </TextInput>
         <Text>Field Size</Text>
-        <TextInput style={{ fontSize: 20, fontWeight: "bold" }}>
-          {this.props.FieldStore.field.area}
+        <TextInput
+          style={{ fontSize: 20, fontWeight: "bold" }}
+          onChangeText={text => (FieldStore.field.area = text)}
+        >
+          {FieldStore.field.area}
         </TextInput>
         <View>
           <Text>Add Spread</Text>
@@ -211,7 +201,7 @@ export default class FieldScreen extends Component<Props, State> {
     );
   }
   private saveField = () => {
-    this.props.FieldStore.Save();
+    FieldStore.Save();
     this.props.navigation.navigate("Home");
   };
 
@@ -226,8 +216,8 @@ export default class FieldScreen extends Component<Props, State> {
 
     const size = new SphericalUtil({}).ComputeSignedArea(editing.coordinates);
 
-    this.props.FieldStore.SetFieldArea(size);
-    this.props.FieldStore.SetCoordinates(editing);
+    FieldStore.SetFieldArea(size);
+    FieldStore.SetCoordinates(editing);
 
     this.setState({
       //  polygons: [editing],
