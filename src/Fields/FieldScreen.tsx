@@ -1,6 +1,7 @@
 import { inject, observer } from "mobx-react/native";
 import React, { Component } from "react";
 import {
+  Button,
   Dimensions,
   ScrollView,
   StatusBar,
@@ -10,10 +11,13 @@ import {
   View
 } from "react-native";
 import MapView, { Marker, Polygon } from "react-native-maps";
+import { NavigationScreenProp } from "react-navigation";
 
-import Field from "../model/field";
-
+import dropDownData from "../assets/dropDownData.json";
+import DropDown from "../components/DropDown";
 import SphericalUtil from "../geoUtils";
+import Field from "../model/field";
+import FieldStore from "../store/FieldsStore";
 import Styles from "../styles/style";
 
 const { width, height } = Dimensions.get("window");
@@ -26,7 +30,9 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 let id = 0;
 
 interface Props {
+  FieldStore: FieldStore;
   field: Field;
+  navigation: NavigationScreenProp<any, any>;
 }
 
 interface State {
@@ -74,7 +80,15 @@ export default class FieldScreen extends Component<Props, State> {
       this.state.showHaveProps = true;
     }
   }
+  public componentWillMount() {
+    const { navigation } = this.props;
+    const item = navigation.getParam("field", undefined);
+    if (item) {
+      this.props.FieldStore.field = item;
+    }
+  }
   public render() {
+    const { FieldStore } = this.props;
     return (
       <ScrollView style={Styles.container}>
         <StatusBar />
@@ -86,11 +100,17 @@ export default class FieldScreen extends Component<Props, State> {
         // zoom map to that place
 
         */}
-        {this.state.showHaveProps && (
+
+        {this.state.showHaveProps ? (
           <View>
             <Text>no field given to us</Text>
           </View>
+        ) : (
+          <View>
+            <Text>We have field!</Text>
+          </View>
         )}
+
         <Text>
           Scroll around and find your field, when ready to mark a field press
           the `Draw` button.
@@ -107,17 +127,17 @@ export default class FieldScreen extends Component<Props, State> {
           initialRegion={this.state.region}
           onPress={e => this.onPress(e)}
         >
-          {this.state.polygons.map(polygon => (
+          {this.props.FieldStore.field.fieldCoordinates && (
             <Polygon
               geodesic={true}
-              key={polygon.id}
-              coordinates={polygon.coordinates}
+              key={this.props.FieldStore.field.fieldCoordinates.id}
+              coordinates={this.props.FieldStore.getCoords()}
               strokeColor="#F00"
               fillColor="rgba(255,0,0,0.5)"
               strokeWidth={1}
               tappable={false}
             />
-          ))}
+          )}
           {this.state.editing && (
             <Polygon
               geodesic={true}
@@ -167,17 +187,18 @@ export default class FieldScreen extends Component<Props, State> {
         )}
         <Text>Field Name</Text>
         <TextInput style={{ fontSize: 20, fontWeight: "bold" }}>
-          {this.state.area}
+          {this.props.FieldStore.field.name}
         </TextInput>
         <Text>Field Size</Text>
         <TextInput style={{ fontSize: 20, fontWeight: "bold" }}>
-          {this.state.area}
+          {this.props.FieldStore.field.area}
         </TextInput>
         <View>
           <Text>Add Spread</Text>
         </View>
         <View>
           <Text>Soil Details</Text>
+          <Text>Soil Type</Text>
         </View>
         <View>
           <Text>Crop Details</Text>
@@ -185,9 +206,15 @@ export default class FieldScreen extends Component<Props, State> {
         <View>
           <Text>Graph</Text>
         </View>
+        <Button onPress={this.saveField} title="Save" />
       </ScrollView>
     );
   }
+  private saveField = () => {
+    this.props.FieldStore.Save();
+    this.props.navigation.navigate("Home");
+  };
+
   private draw() {
     this.setState({
       showSave: true,
@@ -199,11 +226,13 @@ export default class FieldScreen extends Component<Props, State> {
 
     const size = new SphericalUtil({}).ComputeSignedArea(editing.coordinates);
 
+    this.props.FieldStore.SetFieldArea(size);
+    this.props.FieldStore.SetCoordinates(editing);
+
     this.setState({
-      polygons: [editing],
+      //  polygons: [editing],
       editing: undefined,
       marker: undefined,
-      area: size,
       showSave: false,
       mapMoveEnabled: true
     });
@@ -232,27 +261,31 @@ export default class FieldScreen extends Component<Props, State> {
       this.setState({
         marker: {
           coordinate: e.nativeEvent.coordinate,
-          key: id++,
-          mapMoveEnabled: false
-        }
+          key: id++
+        },
+        mapMoveEnabled: false
       });
       if (!editing) {
         this.setState({
           editing: {
             id: id++,
-            coordinates: [e.nativeEvent.coordinate],
-            mapMoveEnabled: false
-          }
+            coordinates: [e.nativeEvent.coordinate]
+          },
+          mapMoveEnabled: false
         });
       } else {
         this.setState({
           editing: {
             ...editing,
-            coordinates: [...editing.coordinates, e.nativeEvent.coordinate],
-            mapMoveEnabled: false
-          }
+            coordinates: [...editing.coordinates, e.nativeEvent.coordinate]
+          },
+          mapMoveEnabled: false
         });
       }
     }
   }
 }
+// https://github.com/mobxjs/mobx-react/issues/256#issuecomment-341419935
+// https://medium.com/teachable/getting-started-with-react-typescript-mobx-and-webpack-4-8c680517c030
+// https://mobx.js.org/best/pitfalls.html
+//

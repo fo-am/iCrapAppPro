@@ -17,8 +17,9 @@ import Manure from "./../model/manure";
 
 import Images from "../assets/imageData";
 import styles from "../styles/style";
-import DropDown from "./DropDown";
-import dropDownData from "./dropDownData.json";
+
+import dropDownData from "../assets/dropDownData.json";
+import DropDown from "../components/DropDown";
 
 import SliderValues from "../model/sliderValues";
 import CalculatorStore from "../store/calculatorStore";

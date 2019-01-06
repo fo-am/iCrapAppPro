@@ -3,15 +3,17 @@ import React, { Component } from "react";
 import { Button, FlatList, ScrollView, Text, View } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
 import ManureStore from "./store/manureStore";
+import FieldStore from "./store/manureStore";
 
 interface MyComponentProps {
   navigation: NavigationScreenProp<any, any>;
   ManureStore: ManureStore;
+  FieldStore: FieldStore;
 }
 
 interface MyComponentState {}
 
-@inject("ManureStore")
+@inject("ManureStore", "FieldStore")
 @observer
 export default class HomeScreen extends Component<
   MyComponentProps,
@@ -34,6 +36,23 @@ export default class HomeScreen extends Component<
           title="Add new field"
           onPress={() => this.props.navigation.navigate("Field")}
         />
+        <Text>This is also Text</Text>
+        <ScrollView>
+          <FlatList
+            data={this.props.FieldStore.fields.slice()}
+            keyExtractor={item => item.key}
+            renderItem={({ item }) => (
+              <Button
+                title={item.name}
+                onPress={() => {
+                  this.props.navigation.navigate("Field", {
+                    field: item
+                  });
+                }}
+              />
+            )}
+          />
+        </ScrollView>
         <Text>This is also Text</Text>
         <Button
           title="Go to Calc"
@@ -59,7 +78,11 @@ export default class HomeScreen extends Component<
             )}
           />
         </ScrollView>
+        <Button title="clear store" onPress={this.clearStore} />
       </View>
     );
   }
+  private clearStore = () => {
+    this.props.FieldStore.ClearStore();
+  };
 }
