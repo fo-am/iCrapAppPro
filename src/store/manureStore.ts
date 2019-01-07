@@ -32,11 +32,11 @@ class ManureStore {
             newManure.K = 0;
         }
 
-        const idx = this.manures.findIndex(n => manure.key === n.key);
+        const idx = this.manures.findIndex(n => newManure.key === n.key);
         if (idx < 0) {
-            this.manures.push(manure);
+            this.manures.push(newManure);
         } else {
-            this.manures[idx] = manure;
+            this.manures[idx] = newManure;
         }
         store.save("customManure", this.manures);
     }
