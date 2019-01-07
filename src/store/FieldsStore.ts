@@ -16,6 +16,10 @@ class FieldStore {
         this.field = new Field();
         this.getFields();
     }
+    public reset() {
+        this.field = new Field();
+        this.getFields();
+    }
 
     @action public SetFieldArea(area: number) {
         this.field.area = area;

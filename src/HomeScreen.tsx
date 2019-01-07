@@ -34,7 +34,11 @@ export default class HomeScreen extends Component<
         <Text>This is text</Text>
         <Button
           title="Add new field"
-          onPress={() => this.props.navigation.navigate("Field")}
+          onPress={() =>
+            this.props.navigation.navigate("Field", {
+              fieldKey: undefined
+            })
+          }
         />
         <Text>This is also Text</Text>
         <ScrollView>

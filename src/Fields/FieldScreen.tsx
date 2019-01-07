@@ -54,6 +54,49 @@ interface Region {
 @inject("FieldStore")
 @observer
 export default class FieldScreen extends Component<Props, State> {
+  public soilType = {
+    sandyshallow: "Sandy/Shallow",
+    peat: "Peat",
+    organic: "Organic (10-20% organic matter)",
+    mediumshallow: "Medium/Shallow",
+    medium: "Medium",
+    deepclay: "Deep clay",
+    deepsilt: "Deep silt"
+  };
+  public yesno = {
+    no: "No",
+    yes: "Yes"
+  };
+
+  public crops = {
+    cereals: "Cereals",
+    oilseed: "Oilseed rape",
+    potatoes: "Potatoes",
+    sugarbeet: "Sugar beet",
+    peas: "Peas",
+    beans: "Beans",
+    "low-n-veg": "Low N veg",
+    "medium-n-veg": "Medium N veg",
+    forage: "Forage crops (cut)",
+    uncropped: "Uncropped land",
+    "grass-low-n": "Grass (low N/1 or more cuts)",
+    "grass-high-n": "Grass (3-5yr, high N, grazed)",
+    "grass-other": "Any other grass"
+  };
+  public cropType = {
+    "winter-wheat-incorporated-feed": "Winter wheat, straw incorporated, feed",
+    "winter-wheat-incorporated-mill": "Winter wheat, straw incorporated, mill",
+    "winter-wheat-removed-feed": "Winter wheat, straw removed, feed",
+    "winter-wheat-removed-mill": "Winter wheat, straw removed, mill",
+    "spring-barley-incorporated-feed":
+      "Spring barley, straw incorporated, feed",
+    "spring-barley-incorporated-malt":
+      "Spring barley, straw incorporated, malt",
+    "spring-barley-removed-feed": "Spring barley, straw removed, feed",
+    "spring-barley-removed-malt": "Spring barley, straw removed, malt",
+    "grass-cut": "Grass cut",
+    "grass-grazed": "Grass grazed"
+  };
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -72,11 +115,14 @@ export default class FieldScreen extends Component<Props, State> {
       showHaveProps: false
     };
   }
+
   public componentWillMount() {
     const { navigation } = this.props;
     const item = navigation.getParam("fieldKey", undefined);
     if (item) {
       FieldStore.SetField(item);
+    } else {
+      FieldStore.reset();
     }
   }
   public render() {
@@ -175,6 +221,7 @@ export default class FieldScreen extends Component<Props, State> {
         </TextInput>
         <Text>Field Size</Text>
         <TextInput
+          keyboardType="numeric"
           style={{ fontSize: 20, fontWeight: "bold" }}
           onChangeText={text => (FieldStore.field.area = text)}
         >
@@ -182,13 +229,64 @@ export default class FieldScreen extends Component<Props, State> {
         </TextInput>
         <View>
           <Text>Add Spread</Text>
+          <Button
+            title="Add Spreading Event"
+            onPress={() => this.props.navigation.navigate("Spread")}
+          />
         </View>
         <View>
           <Text>Soil Details</Text>
           <Text>Soil Type</Text>
+          <DropDown
+            selectedValue={FieldStore.field.soilType}
+            onChange={item => (FieldStore.field.soilType = item)}
+            values={this.soilType}
+          />
+          <Text>Do you regularly add organic manures?</Text>
+          <DropDown
+            selectedValue={FieldStore.field.organicManure}
+            onChange={item => (FieldStore.field.organicManure = item)}
+            values={this.yesno}
+          />
+          <Text>Result of soil tests (if available)</Text>
+          <Text>P</Text>
+          <TextInput
+            keyboardType="numeric"
+            onChangeText={text => (FieldStore.field.soilTestP = text)}
+          >
+            {FieldStore.field.soilTestP}
+          </TextInput>
+          <Text>K</Text>
+          <TextInput
+            keyboardType="numeric"
+            onChangeText={text => (FieldStore.field.soilTestK = text)}
+          >
+            {FieldStore.field.soilTestK}
+          </TextInput>
+          <TextInput>Here goes the soil N supply calculation</TextInput>
         </View>
         <View>
           <Text>Crop Details</Text>
+          <Text>Previous crop type</Text>
+          <DropDown
+            selectedValue={FieldStore.field.prevCropType}
+            onChange={item => (FieldStore.field.prevCropType = item)}
+            values={this.crops}
+          />
+          <Text>Have you grown grass in the last 3 years</Text>
+          <DropDown
+            selectedValue={FieldStore.field.recentGrass}
+            onChange={item => (FieldStore.field.recentGrass = item)}
+            values={this.yesno}
+          />
+          <Text>Crop type</Text>
+          <DropDown
+            selectedValue={FieldStore.field.cropType}
+            onChange={item => (FieldStore.field.cropType = item)}
+            values={this.cropType}
+          />
+          <Text>Crop Nutrient requirements</Text>
+          <Text>Calculations go here</Text>
         </View>
         <View>
           <Text>Graph</Text>
