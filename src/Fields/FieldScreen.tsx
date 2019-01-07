@@ -77,9 +77,9 @@ export default class FieldScreen extends Component<Props, State> {
   }
   public componentWillMount() {
     const { navigation } = this.props;
-    const item = navigation.getParam("field", undefined);
+    const item = navigation.getParam("fieldKey", undefined);
     if (item) {
-      this.props.FieldStore.field = item;
+      FieldStore.SetField(item);
     }
   }
   public render() {
@@ -115,7 +115,7 @@ export default class FieldScreen extends Component<Props, State> {
             <Polygon
               geodesic={true}
               key={FieldStore.field.fieldCoordinates.id}
-              coordinates={FieldStore.field.fieldCoordinates.coordinates.slice()}
+              coordinates={FieldStore.DataSource}
               strokeColor="#F00"
               fillColor="rgba(255,0,0,0.5)"
               strokeWidth={1}

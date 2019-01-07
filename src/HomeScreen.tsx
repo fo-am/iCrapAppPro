@@ -46,7 +46,7 @@ export default class HomeScreen extends Component<
                 title={item.name}
                 onPress={() => {
                   this.props.navigation.navigate("Field", {
-                    field: item
+                    fieldKey: item.key
                   });
                 }}
               />
