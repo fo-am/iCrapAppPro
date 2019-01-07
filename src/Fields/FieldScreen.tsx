@@ -30,12 +30,10 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 let id = 0;
 
 interface Props {
-  FieldStore: FieldStore;
   navigation: NavigationScreenProp<any, any>;
 }
 
 interface State {
-  polygons: Array<Polygon>;
   marker: any;
   editing: any;
   area: any;
@@ -65,7 +63,6 @@ export default class FieldScreen extends Component<Props, State> {
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA
       },
-      polygons: [],
       marker: undefined,
       editing: undefined,
       area: undefined,
@@ -212,7 +209,7 @@ export default class FieldScreen extends Component<Props, State> {
     });
   }
   private save() {
-    const { polygons, editing, marker, area } = this.state;
+    const { editing, marker, area } = this.state;
 
     const size = new SphericalUtil({}).ComputeSignedArea(editing.coordinates);
 
@@ -220,7 +217,6 @@ export default class FieldScreen extends Component<Props, State> {
     FieldStore.SetCoordinates(editing);
 
     this.setState({
-      //  polygons: [editing],
       editing: undefined,
       marker: undefined,
       showSave: false,
@@ -238,7 +234,6 @@ export default class FieldScreen extends Component<Props, State> {
   }
   private reset() {
     this.setState({
-      polygons: [],
       editing: undefined,
       marker: undefined,
       mapMoveEnabled: true
