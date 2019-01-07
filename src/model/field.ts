@@ -4,7 +4,7 @@ import Spread from "../model/spread";
 
 export default class Field {
     @observable public key: string;
-    @observable public fieldCoordinates: Coords;
+    public fieldCoordinates: Coords;
     @observable public area: number = 0;
     @observable public name = "New Field";
     @observable public spreadingEvents: Array<Spread> = new Array<Spread>();

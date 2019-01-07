@@ -14,27 +14,18 @@ class FieldStore {
 
     constructor() {
         this.field = new Field();
-        store
-            .get("fields")
-            .then((res: Array<Field> | undefined) => {
-                if (res instanceof Array) {
-                    return res;
-                } else {
-                    return [];
-                }
-            })
-            .then(res => (this.fields = res));
+        this.getFields();
     }
 
     @action public SetFieldArea(area: number) {
         this.field.area = area;
     }
 
-    @action public SetCoordinates(coords: any) {
+    public SetCoordinates(coords: any) {
         this.field.fieldCoordinates = coords;
     }
 
-    @computed public get DataSource(): Array<LatLng> {
+    public get DataSource(): Array<LatLng> {
         return this.field.fieldCoordinates.coordinates.slice();
     }
 
@@ -46,7 +37,8 @@ class FieldStore {
             this.fields[idx] = this.field;
         }
 
-        store.save("fields", toJS(this.fields));
+        store.save("fields", this.fields);
+        this.getFields();
     }
 
     public SetField(key: string) {
@@ -60,6 +52,18 @@ class FieldStore {
     @action public ClearStore() {
         this.fields = [];
         store.save("fields", this.fields);
+    }
+    private getFields() {
+        store
+            .get("fields")
+            .then((res: Array<Field> | undefined) => {
+                if (res instanceof Array) {
+                    return res;
+                } else {
+                    return [];
+                }
+            })
+            .then(res => (this.fields = res));
     }
 }
 export default new FieldStore();
