@@ -2,28 +2,32 @@ import { createStackNavigator, NavigationContainer } from "react-navigation";
 import Calculator from "../calc/Calculator";
 import CustomManure from "../customManure/CustomManure";
 import FieldScreen from "../Fields/FieldScreen";
+import SpreadScreen from "../Fields/SpreadScreen";
 import HomeScreen from "../HomeScreen";
 import MapScreen from "../Map";
 
 export default createStackNavigator(
-  {
-    Calculator: {
-      screen: Calculator
+    {
+        Calculator: {
+            screen: Calculator
+        },
+        CustomManure: {
+            screen: CustomManure
+        },
+        Home: {
+            screen: HomeScreen
+        },
+        Map: {
+            screen: MapScreen
+        },
+        Field: {
+            screen: FieldScreen
+        },
+        Spread: {
+            screen: SpreadScreen
+        }
     },
-    CustomManure: {
-      screen: CustomManure
-    },
-    Home: {
-      screen: HomeScreen
-    },
-    Map: {
-      screen: MapScreen
-    },
-    Field: {
-      screen: FieldScreen
+    {
+        initialRouteName: "Home"
     }
-  },
-  {
-    initialRouteName: "Home"
-  }
 );
