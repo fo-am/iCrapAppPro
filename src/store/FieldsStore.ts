@@ -14,7 +14,7 @@ interface Region {
 class FieldStore {
     @observable public field: Field;
     @observable public fields: Array<Field> = new Array<Field>();
-    @observable public region: Region = undefined;
+    //    @observable public region: Region = undefined;
     @observable public initalRegion: Region;
     @observable public newField: Coords = new Coords();
 
@@ -70,36 +70,41 @@ class FieldStore {
         }
     }
 
-    public getLocation(): Region {
-        const a = this.region;
-        return a;
-    }
-
-    public UpdateLocation(): void {
-        let minX: number, maxX: number, minY: number, maxY: number;
-
+    public UpdateLocation(): Region {
         // calculate rect
         if (this.field.fieldCoordinates) {
-            this.field.fieldCoordinates.coordinates.map(point => {
-                minX = Math.min(minX, point.latitude);
-                maxX = Math.max(maxX, point.latitude);
-                minY = Math.min(minY, point.longitude);
-                maxY = Math.max(maxY, point.longitude);
-            });
+            if (this.field.fieldCoordinates.coordinates.length > 0) {
+                const a = this.field.fieldCoordinates.coordinates[0];
+                let minX: number = a.latitude,
+                    maxX: number = a.latitude,
+                    minY: number = a.longitude,
+                    maxY: number = a.longitude;
+                this.field.fieldCoordinates.coordinates.slice().map(point => {
+                    minX = Math.min(minX, point.latitude);
+                    maxX = Math.max(maxX, point.latitude);
+                    minY = Math.min(minY, point.longitude);
+                    maxY = Math.max(maxY, point.longitude);
+                });
 
-            const midX = (minX + maxX) / 2;
-            const midY = (minY + maxY) / 2;
-            const deltaX = maxX - minX;
-            const deltaY = maxY - minY;
-            if (minX) {
-                this.region = {
-                    latitude: midX,
-                    longitude: midY,
-                    latitudeDelta: deltaX,
-                    longitudeDelta: deltaY
-                };
+                const midX = (minX + maxX) / 2;
+                const midY = (minY + maxY) / 2;
+                const deltaX = (maxX - minX) * 1.2;
+                const deltaY = (maxY - minY) * 1.2;
+                if (minX) {
+                    return {
+                        latitude: midX,
+                        longitude: midY,
+                        latitudeDelta: deltaX,
+                        longitudeDelta: deltaY
+                    };
+                }
             } else {
-                this.region = undefined;
+                return {
+                    latitude: 50.184363,
+                    longitude: -5.173699,
+                    latitudeDelta: 0.005,
+                    longitudeDelta: 0.005
+                };
             }
         }
     }

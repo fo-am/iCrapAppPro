@@ -110,7 +110,6 @@ export default class FieldScreen extends Component<Props, State> {
     } else {
       FieldStore.reset();
     }
-    FieldStore.UpdateLocation();
   }
   public render() {
     return (
@@ -138,8 +137,7 @@ export default class FieldScreen extends Component<Props, State> {
           showsMyLocationButton={true}
           toolbarEnabled={true}
           mapType={"satellite"}
-          initialRegion={FieldStore.initalRegion}
-          region={FieldStore.region}
+          initialRegion={FieldStore.UpdateLocation()}
           onPress={e => this.onPress(e)}
         >
           {FieldStore.DataSource.length > 0 && (
