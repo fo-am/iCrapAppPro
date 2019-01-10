@@ -154,6 +154,17 @@ export default class FieldScreen extends Component<Props, State> {
             />
           )}
 
+          {FieldStore.newField.coordinates.length > 0 && (
+            <Polygon
+              geodesic={true}
+              key={FieldStore.newField.id}
+              coordinates={FieldStore.newField.coordinates.slice()}
+              strokeColor="#000"
+              fillColor="rgba(255,0,0,0.5)"
+              strokeWidth={1}
+              tappable={false}
+            />
+          )}
           {this.state.marker && (
             <Marker coordinate={this.state.marker.coordinate} />
           )}
@@ -276,7 +287,7 @@ export default class FieldScreen extends Component<Props, State> {
   private saveField = () => {
     FieldStore.Save();
     this.props.navigation.navigate("Home");
-  }
+  };
 
   private draw() {
     this.setState({
@@ -287,10 +298,13 @@ export default class FieldScreen extends Component<Props, State> {
   private save() {
     const { marker, area } = this.state;
 
-    const size = new SphericalUtil({}).ComputeSignedArea(FieldStore.DataSource);
+    const size = new SphericalUtil({}).ComputeSignedArea(
+      FieldStore.newField.coordinates.slice()
+    );
 
     FieldStore.SetFieldArea(size);
-    //  FieldStore.SetCoordinates(editing);
+    FieldStore.SetCoordinates(FieldStore.newField);
+    FieldStore.newField.coordinates.length = 0;
 
     this.setState({
       marker: undefined,
@@ -300,6 +314,7 @@ export default class FieldScreen extends Component<Props, State> {
     // save to file
   }
   private cancel() {
+    FieldStore.newField.coordinates.length = 0;
     this.setState({
       marker: undefined,
       mapMoveEnabled: true,
@@ -307,6 +322,7 @@ export default class FieldScreen extends Component<Props, State> {
     });
   }
   private reset() {
+    FieldStore.newField.coordinates.length = 0;
     this.setState({
       marker: undefined,
       mapMoveEnabled: true
@@ -322,10 +338,8 @@ export default class FieldScreen extends Component<Props, State> {
         },
         mapMoveEnabled: false
       });
-      FieldStore.field.fieldCoordinates.id = "s";
-      FieldStore.field.fieldCoordinates.coordinates.push(
-        e.nativeEvent.coordinate
-      );
+      FieldStore.newField.id = "newField";
+      FieldStore.newField.coordinates.push(e.nativeEvent.coordinate);
     }
   }
 }
