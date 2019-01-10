@@ -20,13 +20,6 @@ import Field from "../model/field";
 import FieldStore from "../store/FieldsStore";
 import Styles from "../styles/style";
 
-const { width, height } = Dimensions.get("window");
-
-const ASPECT_RATIO = width / height;
-const LATITUDE = 50.184363;
-const LONGITUDE = -5.173699;
-const LATITUDE_DELTA = 0.005;
-const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 let id = 0;
 
 interface Props {
@@ -35,9 +28,8 @@ interface Props {
 
 interface State {
   marker: any;
-  editing: any;
+
   area: any;
-  region: Region;
   mapMoveEnabled: boolean;
   showSave: boolean;
   showDraw: boolean;
@@ -100,14 +92,8 @@ export default class FieldScreen extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      region: {
-        latitude: LATITUDE,
-        longitude: LONGITUDE,
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA
-      },
       marker: undefined,
-      editing: undefined,
+
       area: undefined,
       mapMoveEnabled: true,
       showSave: false,
@@ -124,6 +110,7 @@ export default class FieldScreen extends Component<Props, State> {
     } else {
       FieldStore.reset();
     }
+    FieldStore.UpdateLocation();
   }
   public render() {
     return (
@@ -151,10 +138,11 @@ export default class FieldScreen extends Component<Props, State> {
           showsMyLocationButton={true}
           toolbarEnabled={true}
           mapType={"satellite"}
-          initialRegion={this.state.region}
+          initialRegion={FieldStore.initalRegion}
+          region={FieldStore.region}
           onPress={e => this.onPress(e)}
         >
-          {FieldStore.field.fieldCoordinates && (
+          {FieldStore.DataSource.length > 0 && (
             <Polygon
               geodesic={true}
               key={FieldStore.field.fieldCoordinates.id}
@@ -165,17 +153,7 @@ export default class FieldScreen extends Component<Props, State> {
               tappable={false}
             />
           )}
-          {this.state.editing && (
-            <Polygon
-              geodesic={true}
-              key={this.state.editing.id}
-              coordinates={this.state.editing.coordinates}
-              strokeColor="#000"
-              fillColor="rgba(255,0,0,0.5)"
-              strokeWidth={1}
-              tappable={false}
-            />
-          )}
+
           {this.state.marker && (
             <Marker coordinate={this.state.marker.coordinate} />
           )}
@@ -298,7 +276,7 @@ export default class FieldScreen extends Component<Props, State> {
   private saveField = () => {
     FieldStore.Save();
     this.props.navigation.navigate("Home");
-  };
+  }
 
   private draw() {
     this.setState({
@@ -307,15 +285,14 @@ export default class FieldScreen extends Component<Props, State> {
     });
   }
   private save() {
-    const { editing, marker, area } = this.state;
+    const { marker, area } = this.state;
 
-    const size = new SphericalUtil({}).ComputeSignedArea(editing.coordinates);
+    const size = new SphericalUtil({}).ComputeSignedArea(FieldStore.DataSource);
 
     FieldStore.SetFieldArea(size);
-    FieldStore.SetCoordinates(editing);
+    //  FieldStore.SetCoordinates(editing);
 
     this.setState({
-      editing: undefined,
       marker: undefined,
       showSave: false,
       mapMoveEnabled: true
@@ -324,7 +301,6 @@ export default class FieldScreen extends Component<Props, State> {
   }
   private cancel() {
     this.setState({
-      editing: undefined,
       marker: undefined,
       mapMoveEnabled: true,
       showSave: false
@@ -332,7 +308,6 @@ export default class FieldScreen extends Component<Props, State> {
   }
   private reset() {
     this.setState({
-      editing: undefined,
       marker: undefined,
       mapMoveEnabled: true
     });
@@ -340,7 +315,6 @@ export default class FieldScreen extends Component<Props, State> {
 
   private onPress(e: any) {
     if (this.state.showSave) {
-      const { editing, marker } = this.state;
       this.setState({
         marker: {
           coordinate: e.nativeEvent.coordinate,
@@ -348,23 +322,10 @@ export default class FieldScreen extends Component<Props, State> {
         },
         mapMoveEnabled: false
       });
-      if (!editing) {
-        this.setState({
-          editing: {
-            id: id++,
-            coordinates: [e.nativeEvent.coordinate]
-          },
-          mapMoveEnabled: false
-        });
-      } else {
-        this.setState({
-          editing: {
-            ...editing,
-            coordinates: [...editing.coordinates, e.nativeEvent.coordinate]
-          },
-          mapMoveEnabled: false
-        });
-      }
+      FieldStore.field.fieldCoordinates.id = "s";
+      FieldStore.field.fieldCoordinates.coordinates.push(
+        e.nativeEvent.coordinate
+      );
     }
   }
 }
