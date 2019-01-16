@@ -2,8 +2,8 @@ import { inject, observer } from "mobx-react/native";
 import React, { Component } from "react";
 import { Button, FlatList, ScrollView, Text, View } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
+import FieldStore from "./store/FieldsStore";
 import ManureStore from "./store/manureStore";
-import FieldStore from "./store/manureStore";
 
 interface MyComponentProps {
   navigation: NavigationScreenProp<any, any>;
@@ -31,7 +31,7 @@ export default class HomeScreen extends Component<
           title="Go to Map"
           onPress={() => this.props.navigation.navigate("Map")}
         />
-        <Text>This is text</Text>
+        <Text>Add a field</Text>
         <Button
           title="Add new field"
           onPress={() =>
@@ -40,7 +40,7 @@ export default class HomeScreen extends Component<
             })
           }
         />
-        <Text>This is also Text</Text>
+
         <ScrollView>
           <FlatList
             data={this.props.FieldStore.fields.slice()}
@@ -57,7 +57,11 @@ export default class HomeScreen extends Component<
             )}
           />
         </ScrollView>
-        <Text>This is also Text</Text>
+        <Text>Settings</Text>
+        <Button
+          title="Settings"
+          onPress={() => this.props.navigation.navigate("Settings")}
+        />
         <Button
           title="Go to Calc"
           onPress={() => this.props.navigation.navigate("Calculator")}
@@ -88,5 +92,5 @@ export default class HomeScreen extends Component<
   }
   private clearStore = () => {
     this.props.FieldStore.ClearStore();
-  };
+  }
 }

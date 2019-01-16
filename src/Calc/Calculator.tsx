@@ -26,6 +26,7 @@ import CalculatorStore from "../store/calculatorStore";
 
 interface Props {
   ManureStore: ManureStore;
+  SettingsStore: SettingsStore;
 }
 
 interface State {
@@ -45,7 +46,7 @@ interface State {
 const slider = new SliderValues();
 const calculatorValues = CalculatorStore.calculatorValues;
 
-@inject("ManureStore")
+@inject("ManureStore", "SettingsStore")
 @observer
 export default class Calculator extends Component<Props, State> {
   public manureTypes = {
