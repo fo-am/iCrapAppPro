@@ -1,6 +1,7 @@
 import { inject, observer } from "mobx-react/native";
 import React, { Component } from "react";
 import { Button, FlatList, ScrollView, Text, View } from "react-native";
+import store from "react-native-simple-store";
 import { NavigationScreenProp } from "react-navigation";
 import FieldStore from "./store/FieldsStore";
 import ManureStore from "./store/manureStore";
@@ -92,5 +93,7 @@ export default class HomeScreen extends Component<
   }
   private clearStore = () => {
     this.props.FieldStore.ClearStore();
-  }
+    store.delete("settings");
+    store.delete("costs");
+  };
 }
