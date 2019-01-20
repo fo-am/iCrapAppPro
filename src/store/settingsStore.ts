@@ -46,16 +46,8 @@ class SettingsStore {
                     )
                     .then(() =>
                         store.save("costs", {
-                            kCost: this.KCost
-                        })
-                    )
-                    .then(() =>
-                        store.save("costs", {
-                            pCost: this.PCost
-                        })
-                    )
-                    .then(() =>
-                        store.save("costs", {
+                            kCost: this.KCost,
+                            pCost: this.PCost,
                             nCost: this.NCost
                         })
                     )
@@ -92,30 +84,19 @@ class SettingsStore {
     }
 
     public SaveSettings() {
-        store
-            .update("settings", {
-                Rainfall: this.rainfall
-            })
-            .then(() =>
-                store.update("settings", {
-                    Unit: this.unit
-                })
-            )
-            .then(() =>
-                store.update("costs", {
-                    kCost: this.KCost
-                })
-            )
-            .then(() =>
-                store.update("costs", {
-                    pCost: this.PCost
-                })
-            )
-            .then(() =>
-                store.update("costs", {
-                    nCost: this.NCost
-                })
-            );
+        store.update("settings", {
+            Rainfall: this.rainfall
+        });
+
+        store.update("settings", {
+            Unit: this.unit
+        });
+
+        store.update("costs", {
+            kCost: this.KCost,
+            pCost: this.PCost,
+            nCost: this.NCost
+        });
     }
 }
 export default new SettingsStore();
