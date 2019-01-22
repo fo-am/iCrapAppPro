@@ -33,19 +33,7 @@ interface Props {
   CalculatorStore: CalculatorStore;
 }
 
-interface State {
-  soilType: string | undefined;
-  applicationTypes: Array<string>;
-  qualityTypes: Array<string>;
-  customQualityTypes: Array<string>;
-
-  image: string | undefined;
-  Nitrogen: number | undefined;
-  Phosphorus: number | undefined;
-  Potassium: number | undefined;
-  testArray: Array<string>;
-  testVal: number | undefined;
-}
+interface State {}
 
 const slider = new SliderValues();
 
@@ -95,24 +83,12 @@ export default class Calculator extends Component<Props, State> {
     super(props);
     const { CalculatorStore } = this.props;
     CalculatorStore.calculatorValues.manureSelected = "fym";
-    this.state = {
-      soilType: undefined,
-      applicationTypes: [],
-      qualityTypes: [],
-      customQualityTypes: [],
-      image: undefined,
-      Nitrogen: undefined,
-      Phosphorus: undefined,
-      Potassium: undefined,
-      testArray: [],
-      testVal: undefined
-    };
 
-    this.state.applicationTypes =
+    CalculatorStore.applicationTypes =
       dropDownData[
         CalculatorStore.calculatorValues.manureSelected
       ].dropDowns.application;
-    this.state.qualityTypes =
+    CalculatorStore.qualityTypes =
       dropDownData[
         CalculatorStore.calculatorValues.manureSelected
       ].dropDowns.quality;
@@ -138,10 +114,10 @@ export default class Calculator extends Component<Props, State> {
       values[o.key] = o.name;
     });
 
-    this.state.customQualityTypes = values;
+    CalculatorStore.customQualityTypes = values;
 
     CalculatorStore.calculatorValues.applicationSelected = Object.keys(
-      this.state.applicationTypes
+      CalculatorStore.applicationTypes
     )[0];
     CalculatorStore.calculatorValues.soilSelected = Object.keys(
       this.soilType
@@ -153,7 +129,7 @@ export default class Calculator extends Component<Props, State> {
       this.season
     )[0];
     CalculatorStore.calculatorValues.qualitySelected = Object.keys(
-      this.state.qualityTypes
+      CalculatorStore.qualityTypes
     )[0];
   }
 
@@ -173,28 +149,22 @@ export default class Calculator extends Component<Props, State> {
       slider.sliderMaxValue = 100;
       slider.sliderUnit = "m3/ha";
 
-      this.setState(
-        {
-          applicationTypes: [],
-          qualityTypes: this.state.customQualityTypes
-        },
-        () =>
-          this.SliderValueChanged(CalculatorStore.calculatorValues.sliderValue)
-      );
+      CalculatorStore.applicationTypes = [];
+      CalculatorStore.qualityTypes = CalculatorStore.customQualityTypes;
+
+      this.SliderValueChanged(CalculatorStore.calculatorValues.sliderValue);
     } else {
       slider.sliderStartValue = dropDownData[itemValue].slider.maxValue / 2;
       CalculatorStore.calculatorValues.sliderValue =
         dropDownData[itemValue].slider.maxValue / 2;
       slider.sliderMaxValue = dropDownData[itemValue].slider.maxValue;
       slider.sliderUnit = dropDownData[itemValue].slider.metricUnit;
-      this.setState(
-        {
-          applicationTypes: dropDownData[itemValue].dropDowns.application,
-          qualityTypes: dropDownData[itemValue].dropDowns.quality
-        },
-        () =>
-          this.SliderValueChanged(CalculatorStore.calculatorValues.sliderValue)
-      );
+
+      CalculatorStore.applicationTypes =
+        dropDownData[itemValue].dropDowns.application;
+      CalculatorStore.qualityTypes = dropDownData[itemValue].dropDowns.quality;
+
+      this.SliderValueChanged(CalculatorStore.calculatorValues.sliderValue);
     }
   }
 
@@ -209,12 +179,10 @@ export default class Calculator extends Component<Props, State> {
 
     const closestValue = this.closest(value, keys);
     if (CalculatorStore.calculatorValues.manureSelected == "custom") {
-      this.setState({ image: Images.fym["50"] });
+      CalculatorStore.image = Images.fym["50"];
     } else {
-      this.setState({
-        image:
-          Images[CalculatorStore.calculatorValues.manureSelected][closestValue]
-      });
+      CalculatorStore.image =
+        Images[CalculatorStore.calculatorValues.manureSelected][closestValue];
     }
   }
 
@@ -258,7 +226,7 @@ export default class Calculator extends Component<Props, State> {
             onChange={item =>
               (CalculatorStore.calculatorValues.applicationSelected = item)
             }
-            values={this.state.applicationTypes}
+            values={CalculatorStore.applicationTypes}
           />
 
           <Text>Soil Type</Text>
@@ -291,7 +259,7 @@ export default class Calculator extends Component<Props, State> {
             onChange={item =>
               (CalculatorStore.calculatorValues.qualitySelected = item)
             }
-            values={this.state.qualityTypes}
+            values={CalculatorStore.qualityTypes}
           />
           <View style={styles.container}>
             <Slider
@@ -309,19 +277,19 @@ export default class Calculator extends Component<Props, State> {
             </Text>
           </View>
 
-          <Image source={this.state.image} />
+          <Image source={CalculatorStore.image} />
           <Text>Crop available nutrients(Total in manure)</Text>
           <Text>
-            N {this.state.Nitrogen} Saving{" "}
-            {this.state.Nitrogen * SettingsStore.NCost}
+            N {CalculatorStore.Nitrogen} Saving{" "}
+            {CalculatorStore.Nitrogen * SettingsStore.NCost}
           </Text>
           <Text>
-            P2O5 {this.state.Phosphorus} Saving{" "}
-            {this.state.Phosphorus * SettingsStore.PCost}
+            P2O5 {CalculatorStore.Phosphorus} Saving{" "}
+            {CalculatorStore.Phosphorus * SettingsStore.PCost}
           </Text>
           <Text>
-            K2O {this.state.Potassium} Saving{" "}
-            {this.state.Potassium * SettingsStore.KCost}
+            K2O {CalculatorStore.Potassium} Saving{" "}
+            {CalculatorStore.Potassium * SettingsStore.KCost}
           </Text>
           <Text>Fertiliser Savings</Text>
 
