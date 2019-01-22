@@ -63,10 +63,12 @@ export default class HomeScreen extends Component<
           title="Settings"
           onPress={() => this.props.navigation.navigate("Settings")}
         />
+        <Text>Calc</Text>
         <Button
           title="Go to Calc"
           onPress={() => this.props.navigation.navigate("Calculator")}
         />
+        <Text>Manure</Text>
         <Button
           title="Add a new manure"
           onPress={() => this.props.navigation.navigate("CustomManure")}

@@ -25,6 +25,7 @@ import SliderValues from "../model/sliderValues";
 // import CalculatorStore from "../store/calculatorStore";
 
 import SettingScreen from "../Settings/SettingScreen";
+import calculatorStore from "../store/calculatorStore";
 // import SettingsStore from "../store/settingsStore";
 
 interface Props {
@@ -131,6 +132,8 @@ export default class Calculator extends Component<Props, State> {
     CalculatorStore.calculatorValues.qualitySelected = Object.keys(
       CalculatorStore.qualityTypes
     )[0];
+    calculatorStore.calculatorValues.soilTestK = 0;
+    calculatorStore.calculatorValues.soilTestP = 0;
   }
 
   public componentDidMount() {
@@ -280,25 +283,23 @@ export default class Calculator extends Component<Props, State> {
           <Image source={CalculatorStore.image} />
           <Text>Crop available nutrients(Total in manure)</Text>
           <Text>
-            N {CalculatorStore.Nitrogen} Saving{" "}
-            {CalculatorStore.Nitrogen * SettingsStore.NCost}
+            N Total{CalculatorStore.nutrientResults.nitrogenTotal} available (
+            {CalculatorStore.nutrientResults.nitrogenAvailable}) Saving{" "}
+            {CalculatorStore.nutrientResults.nitrogenAvailable *
+              SettingsStore.NCost}
           </Text>
           <Text>
-            P2O5 {CalculatorStore.Phosphorus} Saving{" "}
-            {CalculatorStore.Phosphorus * SettingsStore.PCost}
+            P2O5 {CalculatorStore.nutrientResults.phosphorousTotal} available (
+            {CalculatorStore.nutrientResults.phosphorousAvailable}) Saving{" "}
+            {CalculatorStore.nutrientResults.phosphorousAvailable *
+              SettingsStore.PCost}
           </Text>
           <Text>
-            K2O {CalculatorStore.Potassium} Saving{" "}
-            {CalculatorStore.Potassium * SettingsStore.KCost}
+            K2O {CalculatorStore.nutrientResults.potassiumTotal}available (
+            {CalculatorStore.nutrientResults.potassiumAvailable}) Saving{" "}
+            {CalculatorStore.nutrientResults.potassiumAvailable *
+              SettingsStore.KCost}
           </Text>
-          <Text>Fertiliser Savings</Text>
-
-          <Text>A{CalculatorStore.nutrientResults.nitrogenAvailable}</Text>
-          <Text>B{CalculatorStore.nutrientResults.nitrogenTotal}</Text>
-          <Text>C{CalculatorStore.nutrientResults.potassiumAvailable}</Text>
-          <Text>D{CalculatorStore.nutrientResults.potassiumTotal}</Text>
-          <Text>E{CalculatorStore.nutrientResults.phosphorousAvailable}</Text>
-          <Text>F{CalculatorStore.nutrientResults.phosphorousTotal}</Text>
         </View>
       </ScrollView>
     );
