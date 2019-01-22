@@ -293,13 +293,12 @@ export default class Calculator extends Component<Props, State> {
           </Text>
           <Text>Fertiliser Savings</Text>
 
-          <Text>A{CalculatorStore.getNutrientValues()[0][0]}</Text>
-          <Text>B{CalculatorStore.getNutrientValues()[0][1]}</Text>
-          <Text>C{CalculatorStore.getNutrientValues()[0][2]}</Text>
-          <Text>D{CalculatorStore.getNutrientValues()[1][0]}</Text>
-          <Text>E{CalculatorStore.getNutrientValues()[1][1]}</Text>
-          <Text>F{CalculatorStore.getNutrientValues()[1][2]}</Text>
-          <Text>G{CalculatorStore.getNutrientValues()[1][3]}</Text>
+          <Text>A{CalculatorStore.nutrientResults.nitrogenAvailable}</Text>
+          <Text>B{CalculatorStore.nutrientResults.nitrogenTotal}</Text>
+          <Text>C{CalculatorStore.nutrientResults.potassiumAvailable}</Text>
+          <Text>D{CalculatorStore.nutrientResults.potassiumTotal}</Text>
+          <Text>E{CalculatorStore.nutrientResults.phosphorousAvailable}</Text>
+          <Text>F{CalculatorStore.nutrientResults.phosphorousTotal}</Text>
         </View>
       </ScrollView>
     );

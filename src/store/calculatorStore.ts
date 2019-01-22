@@ -1,4 +1,4 @@
-import { computed, observable } from "mobx";
+import { autorun, observable } from "mobx";
 import store from "react-native-simple-store";
 import CalculatorValues from "../model/CalculatorValues";
 import Manure from "../model/manure";
@@ -9,18 +9,11 @@ import manureTree from "../assets/data/manure.json";
 import nitrogenTotalTree from "../assets/data/n-total.json";
 import previousGrassSoilNitrogenSupplyTree from "../assets/data/previous-grass-soil-nitrogen-supply.json";
 import soilNitrogenSupplyTree from "../assets/data/soil-nitrogen-supply.json";
-
-interface NutrientResults {
-    NitrogenTotal: number;
-    NitrogenAvailable: number;
-    PotassiumTotal: number;
-    PotassiumAvailable: number;
-    PhosphorousTotal: number;
-    PhosphorousAvailable: number;
-}
+import NutrientResult from "../model/NutrientResult";
 
 class CalculatorStore {
     @observable public calculatorValues = new CalculatorValues();
+    @observable public nutrientResults = new NutrientResult();
 
     @observable public soilType: string | undefined;
     @observable public applicationTypes: Array<string>;
@@ -28,15 +21,14 @@ class CalculatorStore {
     @observable public customQualityTypes: Array<string>;
 
     @observable public image: string | undefined;
-    @observable public Nitrogen: number | undefined;
-    @observable public Phosphorus: number | undefined;
-    @observable public Potassium: number | undefined;
 
     private grasslandHighSNS: number = 100;
     private grasslandMedSNS: number = 101;
     private grasslandLowSNS: number = 102;
 
-    constructor() {}
+    constructor() {
+        const disposer = autorun(() => this.getNutrientValues());
+    }
 
     // Calculates the cost of a nutrient
     public getCostStringFromNutrient(
@@ -152,8 +144,8 @@ class CalculatorStore {
         };
     }
 
-    public getNutrientValues(): Array<number> {
-        return this.calculateNutrients(
+    public getNutrientValues() {
+        const results = this.calculateNutrients(
             this.calculatorValues.manureSelected,
             this.calculatorValues.sliderValue,
             this.calculatorValues.qualitySelected,
@@ -164,6 +156,15 @@ class CalculatorStore {
             0,
             0
         );
+
+        this.nutrientResults.nitrogenAvailable = results[0][0];
+        this.nutrientResults.nitrogenTotal = results[0][1];
+
+        this.nutrientResults.potassiumAvailable = results[0][2];
+        this.nutrientResults.potassiumTotal = results[1][0];
+
+        this.nutrientResults.phosphorousAvailable = results[1][1];
+        this.nutrientResults.phosphorousTotal = results[0][2];
     }
 
     public calculateNutrients(
