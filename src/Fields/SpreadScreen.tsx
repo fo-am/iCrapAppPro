@@ -17,10 +17,13 @@ import dropDownData from "../assets/dropDownData.json";
 import DropDown from "../components/DropDown";
 
 import Field from "../model/field";
-import FieldStore from "../store/FieldsStore";
+
 import Styles from "../styles/style";
 
-interface Props {}
+interface Props {
+  navigation: NavigationScreenProp<any, any>;
+  FieldStore: FieldStore;
+}
 
 interface State {}
 
@@ -30,12 +33,28 @@ export default class SpreadScreen extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
   }
+  public componentWillMount() {
+    const { navigation, FieldStore } = this.props;
+    const item = navigation.getParam("fieldKey", undefined);
+    if (item) {
+      FieldStore.SetField(item);
+    } else {
+      FieldStore.reset();
+    }
+  }
 
   public render() {
+    const { FieldStore } = this.props;
     return (
       <ScrollView style={Styles.container}>
         <StatusBar />
 
+        <Text>{FieldStore.field.name}</Text>
+        <Text>Spread spread</Text>
+        <Text>Spread spread</Text>
+        <Text>Spread spread</Text>
+        <Text>Spread spread</Text>
+        <Text>Spread spread</Text>
         <Text>Spread spread</Text>
       </ScrollView>
     );

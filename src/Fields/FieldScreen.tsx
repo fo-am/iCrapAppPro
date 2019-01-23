@@ -218,7 +218,11 @@ export default class FieldScreen extends Component<Props, State> {
           <Text>Add Spread</Text>
           <Button
             title="Add Spreading Event"
-            onPress={() => this.props.navigation.navigate("Spread")}
+            onPress={() =>
+              this.props.navigation.navigate("Spread", {
+                fieldKey: FieldStore.field.key
+              })
+            }
           />
         </View>
         <View>
@@ -285,7 +289,7 @@ export default class FieldScreen extends Component<Props, State> {
   private saveField = () => {
     FieldStore.Save();
     this.props.navigation.navigate("Home");
-  };
+  }
 
   private draw() {
     this.setState({
