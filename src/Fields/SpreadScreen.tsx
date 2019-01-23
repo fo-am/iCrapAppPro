@@ -50,11 +50,11 @@ export default class SpreadScreen extends Component<Props, State> {
         <StatusBar />
 
         <Text>{FieldStore.field.name}</Text>
-        <Text>Spread spread</Text>
-        <Text>Spread spread</Text>
-        <Text>Spread spread</Text>
-        <Text>Spread spread</Text>
-        <Text>Spread spread</Text>
+        <Text>Enter new crap spreading event</Text>
+        <Text>Manure type</Text>
+        <Text>Date</Text>
+        <Text>Quality</Text>
+        <Text>Application type</Text>
         <Text>Spread spread</Text>
       </ScrollView>
     );
