@@ -59,8 +59,7 @@ export default class SpreadScreen extends Component<Props, State> {
           style={{ width: 200 }}
           date={Fieldstore.newSpreadEvent.date}
           mode="date"
-          placeholder="select date"
-          format="YYYY-MM-DD"
+          format="DD-MM-YYYY"
           confirmBtnText="Confirm"
           cancelBtnText="Cancel"
           customStyles={{
@@ -82,6 +81,7 @@ export default class SpreadScreen extends Component<Props, State> {
         <Text>Quality</Text>
         <Text>Application type</Text>
         <Text>Spread spread</Text>
+        <Text>ammount slider</Text>
       </ScrollView>
     );
   }
