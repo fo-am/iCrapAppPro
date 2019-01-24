@@ -10,15 +10,17 @@ import {
   TouchableOpacity,
   View
 } from "react-native";
-
 import { NavigationScreenProp } from "react-navigation";
 
+import DatePicker from "react-native-datepicker";
 import dropDownData from "../assets/dropDownData.json";
 import DropDown from "../components/DropDown";
 
 import Field from "../model/field";
 
 import Styles from "../styles/style";
+
+import Fieldstore from "../store/FieldsStore";
 
 interface Props {
   navigation: NavigationScreenProp<any, any>;
@@ -53,6 +55,30 @@ export default class SpreadScreen extends Component<Props, State> {
         <Text>Enter new crap spreading event</Text>
         <Text>Manure type</Text>
         <Text>Date</Text>
+        <DatePicker
+          style={{ width: 200 }}
+          date={Fieldstore.newSpreadEvent.date}
+          mode="date"
+          placeholder="select date"
+          format="YYYY-MM-DD"
+          confirmBtnText="Confirm"
+          cancelBtnText="Cancel"
+          customStyles={{
+            dateIcon: {
+              position: "absolute",
+              left: 0,
+              top: 4,
+              marginLeft: 0
+            },
+            dateInput: {
+              marginLeft: 36
+            }
+            // ... You can check the source to find the other keys.
+          }}
+          onDateChange={date => {
+            Fieldstore.newSpreadEvent.date = date;
+          }}
+        />
         <Text>Quality</Text>
         <Text>Application type</Text>
         <Text>Spread spread</Text>

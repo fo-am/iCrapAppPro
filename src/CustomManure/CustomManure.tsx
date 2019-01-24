@@ -2,6 +2,7 @@ import { inject, observer } from "mobx-react/native";
 import React, { Component } from "react";
 import { Button, Text, TextInput, View } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
+import { Maths } from "../assets/Math";
 import ManureStore from "../store/manureStore";
 import Manure from "./../model/manure";
 import styles from "./../styles/style";
@@ -25,7 +26,7 @@ export default class CustomManure extends Component<
     super(props);
     this.state = {
       manure: {
-        key: this.generateUUID(),
+        key: Maths.generateUUID(),
         name: "",
         N: undefined,
         P: undefined,
@@ -120,19 +121,5 @@ export default class CustomManure extends Component<
   }
   private cancel = () => {
     this.props.navigation.goBack();
-  }
-
-  private generateUUID() {
-    let d = Date.now();
-
-    const uuid = "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
-      /[xy]/g,
-      function(c) {
-        const r = (d + Math.random() * 16) % 16 | 0;
-        d = Math.floor(d / 16);
-        return (c == "x" ? r : (r & 0x3) | 0x8).toString(16);
-      }
-    );
-    return uuid;
   }
 }
