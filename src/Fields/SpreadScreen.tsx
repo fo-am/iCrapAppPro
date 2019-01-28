@@ -25,20 +25,24 @@ import SliderValues from "../model/sliderValues";
 
 import Styles from "../styles/style";
 
-//import CalculatorStore from "../store/calculatorStore";
-//import Fieldstore from "../store/FieldsStore";
+import CalculatorStore from "../store/calculatorStore";
+import Fieldstore from "../store/FieldsStore";
+import ManureStore from "../store/manureStore";
+import SettingsStore from "../store/settingsStore";
 
 interface Props {
   navigation: NavigationScreenProp<any, any>;
   FieldStore: FieldStore;
   CalculatorStore: CalculatorStore;
+  ManureStore: ManureStore;
+  SettingsStore: SettingsStore;
 }
 
 interface State {}
 
 const slider = new SliderValues();
 
-@inject("FieldStore", "CalculatorStore")
+@inject("FieldStore", "CalculatorStore", "ManureStore", "SettingsStore")
 @observer
 export default class SpreadScreen extends Component<Props, State> {
   public manureTypes = {
@@ -49,11 +53,80 @@ export default class SpreadScreen extends Component<Props, State> {
     compost: "Compost",
     custom: "Custom"
   };
-
+  public cropType = {
+    "winter-wheat-incorporated-feed": "Winter wheat, straw incorporated, feed",
+    "winter-wheat-incorporated-mill": "Winter wheat, straw incorporated, mill",
+    "winter-wheat-removed-feed": "Winter wheat, straw removed, feed",
+    "winter-wheat-removed-mill": "Winter wheat, straw removed, mill",
+    "spring-barley-incorporated-feed":
+      "Spring barley, straw incorporated, feed",
+    "spring-barley-incorporated-malt":
+      "Spring barley, straw incorporated, malt",
+    "spring-barley-removed-feed": "Spring barley, straw removed, feed",
+    "spring-barley-removed-malt": "Spring barley, straw removed, malt",
+    "grass-cut": "Grass cut",
+    "grass-grazed": "Grass grazed"
+  };
+  public soilType = {
+    sandyshallow: "Sandy/Shallow",
+    peat: "Peat",
+    organic: "Organic (10-20% organic matter)",
+    mediumshallow: "Medium/Shallow",
+    medium: "Medium",
+    deepclay: "Deep clay",
+    deepsilt: "Deep silt"
+  };
   constructor(props: Props) {
     super(props);
-    const { CalculatorStore } = this.props;
+    const { CalculatorStore, ManureStore } = this.props;
     CalculatorStore.calculatorValues.manureSelected = "fym";
+
+    CalculatorStore.applicationTypes =
+      dropDownData[
+        CalculatorStore.calculatorValues.manureSelected
+      ].dropDowns.application;
+    CalculatorStore.qualityTypes =
+      dropDownData[
+        CalculatorStore.calculatorValues.manureSelected
+      ].dropDowns.quality;
+
+    slider.sliderStartValue =
+      dropDownData[CalculatorStore.calculatorValues.manureSelected].slider
+        .maxValue / 2;
+    CalculatorStore.calculatorValues.sliderValue =
+      dropDownData[CalculatorStore.calculatorValues.manureSelected].slider
+        .maxValue / 2;
+    slider.sliderMaxValue =
+      dropDownData[
+        CalculatorStore.calculatorValues.manureSelected
+      ].slider.maxValue;
+    slider.sliderUnit =
+      dropDownData[
+        CalculatorStore.calculatorValues.manureSelected
+      ].slider.metricUnit;
+
+    const values = {};
+
+    ManureStore.manures.forEach(o => {
+      values[o.key] = o.name;
+    });
+
+    CalculatorStore.customQualityTypes = values;
+
+    CalculatorStore.calculatorValues.applicationSelected = Object.keys(
+      CalculatorStore.applicationTypes
+    )[0];
+    CalculatorStore.calculatorValues.soilSelected = Object.keys(
+      this.soilType
+    )[0];
+    CalculatorStore.calculatorValues.cropSelected = Object.keys(
+      this.cropType
+    )[0];
+    CalculatorStore.calculatorValues.qualitySelected = Object.keys(
+      CalculatorStore.qualityTypes
+    )[0];
+    CalculatorStore.calculatorValues.soilTestK = 0;
+    CalculatorStore.calculatorValues.soilTestP = 0;
   }
 
   public componentWillMount() {
@@ -117,7 +190,7 @@ export default class SpreadScreen extends Component<Props, State> {
     }
   }
   public render() {
-    const { FieldStore, CalculatorStore } = this.props;
+    const { FieldStore, CalculatorStore, SettingsStore } = this.props;
     return (
       <ScrollView style={Styles.container}>
         <StatusBar />
@@ -154,8 +227,21 @@ export default class SpreadScreen extends Component<Props, State> {
           }}
         />
         <Text>Quality</Text>
+        <DropDown
+          selectedValue={CalculatorStore.calculatorValues.qualitySelected}
+          onChange={item =>
+            (CalculatorStore.calculatorValues.qualitySelected = item)
+          }
+          values={CalculatorStore.qualityTypes}
+        />
         <Text>Application type</Text>
-        <Text>Spread spread</Text>
+        <DropDown
+          selectedValue={CalculatorStore.calculatorValues.applicationSelected}
+          onChange={item =>
+            (CalculatorStore.calculatorValues.applicationSelected = item)
+          }
+          values={CalculatorStore.applicationTypes}
+        />
         <Text>Ammount slider</Text>
         <View style={Styles.container}>
           <Slider
@@ -172,6 +258,30 @@ export default class SpreadScreen extends Component<Props, State> {
             {slider.sliderUnit}
           </Text>
         </View>
+        <Text>Crop available nutrients(Total in manure)</Text>
+        <Text>
+          N Total{CalculatorStore.nutrientResults.nitrogenTotal} available (
+          {CalculatorStore.nutrientResults.nitrogenAvailable}) Saving{" "}
+          {CalculatorStore.nutrientResults.nitrogenAvailable *
+            SettingsStore.NCost}
+        </Text>
+        <Text>
+          P2O5 {CalculatorStore.nutrientResults.phosphorousTotal} available (
+          {CalculatorStore.nutrientResults.phosphorousAvailable}) Saving{" "}
+          {CalculatorStore.nutrientResults.phosphorousAvailable *
+            SettingsStore.PCost}
+        </Text>
+        <Text>
+          K2O {CalculatorStore.nutrientResults.potassiumTotal}available (
+          {CalculatorStore.nutrientResults.potassiumAvailable}) Saving{" "}
+          {CalculatorStore.nutrientResults.potassiumAvailable *
+            SettingsStore.KCost}
+        </Text>
+
+        <Text>Crop nutrient requirements</Text>
+
+        <Text>Nutrients still needed</Text>
+
         <Image source={CalculatorStore.image} />
       </ScrollView>
     );
