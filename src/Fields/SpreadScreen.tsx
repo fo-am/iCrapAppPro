@@ -14,6 +14,7 @@ import {
 } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
 
+import moment from "moment";
 import Images from "../assets/imageData";
 
 import DatePicker from "react-native-datepicker";
@@ -220,11 +221,8 @@ export default class SpreadScreen extends Component<Props, State> {
             dateInput: {
               marginLeft: 36
             }
-            // ... You can check the source to find the other keys.
           }}
-          onDateChange={date => {
-            FieldStore.newSpreadEvent.date = date;
-          }}
+          onDateChange={date => this.dateToSeason(date)}
         />
         <Text>Quality</Text>
         <DropDown
@@ -263,30 +261,72 @@ export default class SpreadScreen extends Component<Props, State> {
           N Total{CalculatorStore.nutrientResults.nitrogenTotal} available (
           {CalculatorStore.nutrientResults.nitrogenAvailable}) Saving{" "}
           {CalculatorStore.nutrientResults.nitrogenAvailable *
-            SettingsStore.NCost}
+            SettingsStore.NCost *
+            FieldStore.field.area}
         </Text>
         <Text>
           P2O5 {CalculatorStore.nutrientResults.phosphorousTotal} available (
           {CalculatorStore.nutrientResults.phosphorousAvailable}) Saving{" "}
           {CalculatorStore.nutrientResults.phosphorousAvailable *
-            SettingsStore.PCost}
+            SettingsStore.PCost *
+            FieldStore.field.area}
         </Text>
         <Text>
           K2O {CalculatorStore.nutrientResults.potassiumTotal}available (
           {CalculatorStore.nutrientResults.potassiumAvailable}) Saving{" "}
           {CalculatorStore.nutrientResults.potassiumAvailable *
-            SettingsStore.KCost}
+            SettingsStore.KCost *
+            FieldStore.field.area}
         </Text>
 
         <Text>Crop nutrient requirements</Text>
-
+        <Text>
+          Nitrogen requirements
+          {FieldStore.cropRequirementsResult.nitrogenRequirement}
+        </Text>
+        <Text>
+          phosphorousRequirement requirements
+          {FieldStore.cropRequirementsResult.phosphorousRequirement}
+        </Text>
+        <Text>
+          potassiumRequirement requirements
+          {FieldStore.cropRequirementsResult.potassiumRequirement}
+        </Text>
         <Text>Nutrients still needed</Text>
 
         <Image source={CalculatorStore.image} />
       </ScrollView>
     );
   }
-  public closest(num: number, arr: Array<number>) {
+  private dateToSeason(date: moment.Moment) {
+    const { FieldStore, CalculatorStore } = this.props;
+    FieldStore.newSpreadEvent.date = date;
+    CalculatorStore.calculatorValues.seasonSelected = this.getSeason(
+      parseInt(moment(date, "dd-mm-yyyy").format("M"), 10) + 1
+    );
+  }
+  private getSeason(month: number) {
+    switch (month) {
+      case 12:
+      case 1:
+      case 2:
+        return "winter";
+      case 3:
+      case 4:
+      case 5:
+        return "spring";
+      case 6:
+      case 7:
+      case 8:
+        return "summer";
+      case 9:
+      case 10:
+      case 11:
+        return "autumn";
+    }
+  }
+
+  private closest(num: number, arr: Array<number>) {
     let curr = arr[0];
     let diff = Math.abs(num - curr);
 

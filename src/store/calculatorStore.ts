@@ -1,19 +1,19 @@
 import { autorun, observable } from "mobx";
 import store from "react-native-simple-store";
+
 import CalculatorValues from "../model/CalculatorValues";
+import CropRequirementsResult from "../model/cropRequirementsResult";
+import Field from "../model/field";
 import Manure from "../model/manure";
+import NutrientResult from "../model/NutrientResult";
 
 import cropRequirementsNitrogenTree from "../assets/data/crop-requirements-n.json";
 import cropRequirementsPhosphorousPotassiumTree from "../assets/data/crop-requirements-pk.json";
 import previousGrassSoilNitrogenSupplyTree from "../assets/data/previous-grass-soil-nitrogen-supply.json";
+
 import manureTree from "../assets/data/manure.json";
 import nitrogenTotalTree from "../assets/data/n-total.json";
 import soilNitrogenSupplyTree from "../assets/data/soil-nitrogen-supply.json";
-import NutrientResult from "../model/NutrientResult";
-
-import CropRequirementsResult from "../model/cropRequirementsResult";
-
-import Field from "../model/field";
 
 class CalculatorStore {
     @observable public calculatorValues = new CalculatorValues();

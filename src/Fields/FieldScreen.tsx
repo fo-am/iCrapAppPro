@@ -313,7 +313,8 @@ export default class FieldScreen extends Component<Props, State> {
             {FieldStore.cropRequirementsResult.potassiumRequirement}
           </Text>
           <Text>
-            nitrogenSupply{FieldStore.cropRequirementsResult.nitrogenSupply}
+            nitrogenSupply{FieldStore.cropRequirementsResult.nitrogenSupply}This
+            needs turned into the value obviously!
           </Text>
         </View>
         <View>
