@@ -2,12 +2,12 @@ import { observable } from "mobx";
 import store from "react-native-simple-store";
 
 class SettingsStore {
-    @observable public unit: string;
-    @observable public rainfall: string;
+    @observable public unit: string = "metric";
+    @observable public rainfall: string = "rain-medium";
 
-    @observable public NCost: string;
-    @observable public PCost: string;
-    @observable public KCost: string;
+    @observable public NCost: string = "0.79";
+    @observable public PCost: string = "0.62";
+    @observable public KCost: string = "0.49";
 
     constructor() {
         store
@@ -37,13 +37,9 @@ class SettingsStore {
             .then(() =>
                 store
                     .save("settings", {
-                        Rainfall: this.rainfall
+                        Rainfall: this.rainfall,
+                        Unit: this.unit
                     })
-                    .then(() =>
-                        store.save("settings", {
-                            Unit: this.unit
-                        })
-                    )
                     .then(() =>
                         store.save("costs", {
                             kCost: this.KCost,
@@ -85,10 +81,7 @@ class SettingsStore {
 
     public SaveSettings() {
         store.update("settings", {
-            Rainfall: this.rainfall
-        });
-
-        store.update("settings", {
+            Rainfall: this.rainfall,
             Unit: this.unit
         });
 
