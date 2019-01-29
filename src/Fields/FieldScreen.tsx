@@ -17,13 +17,18 @@ import dropDownData from "../assets/dropDownData.json";
 import DropDown from "../components/DropDown";
 import SphericalUtil from "../geoUtils";
 import Field from "../model/field";
+import CalculatorStore from "../store/calculatorStore";
 import FieldStore from "../store/FieldsStore";
+//import SettingsStore from "../store/settingsStore";
 import Styles from "../styles/style";
 
 let id = 0;
 
 interface Props {
   navigation: NavigationScreenProp<any, any>;
+  FieldStore: FieldStore;
+  CalculatorStore: CalculatorStore;
+  //SettingsStore: SettingsStore;
 }
 
 interface State {
@@ -43,7 +48,7 @@ interface Region {
   longitudeDelta: number;
 }
 
-@inject("FieldStore")
+@inject("FieldStore", "CalculatorStore", "SettingsStore")
 @observer
 export default class FieldScreen extends Component<Props, State> {
   public soilType = {
@@ -89,8 +94,25 @@ export default class FieldScreen extends Component<Props, State> {
     "grass-cut": "Grass cut",
     "grass-grazed": "Grass grazed"
   };
+
+  public soiltestP = {
+    "soil-p-0": "0",
+    "soil-p-1": "1",
+    "soil-p-2": "2",
+    "soil-p-3": "3"
+  };
+
+  public soiltestK = {
+    "soil-k-0": "0",
+    "soil-k-1": "1",
+    "soil-k-2": "2",
+    "soil-k-2+": "2+",
+    "soil-k-3": "3"
+  };
+
   constructor(props: Props) {
     super(props);
+    const { CalculatorStore, SettingsStore } = this.props;
     this.state = {
       marker: undefined,
 
@@ -100,10 +122,11 @@ export default class FieldScreen extends Component<Props, State> {
       showDraw: true,
       showHaveProps: false
     };
+    CalculatorStore.rainfall = SettingsStore.rainfall;
   }
 
   public componentWillMount() {
-    const { navigation } = this.props;
+    const { navigation, FieldStore } = this.props;
     const item = navigation.getParam("fieldKey", undefined);
     if (item) {
       FieldStore.SetField(item);
@@ -112,6 +135,7 @@ export default class FieldScreen extends Component<Props, State> {
     }
   }
   public render() {
+    const { FieldStore } = this.props;
     return (
       <ScrollView style={Styles.container}>
         <StatusBar />
@@ -241,19 +265,18 @@ export default class FieldScreen extends Component<Props, State> {
           />
           <Text>Result of soil tests (if available)</Text>
           <Text>P</Text>
-          <TextInput
-            keyboardType="numeric"
-            onChangeText={text => (FieldStore.field.soilTestP = text)}
-          >
-            {FieldStore.field.soilTestP}
-          </TextInput>
+
+          <DropDown
+            selectedValue={FieldStore.field.soilTestP}
+            onChange={item => (FieldStore.field.soilTestP = item)}
+            values={this.soiltestP}
+          />
           <Text>K</Text>
-          <TextInput
-            keyboardType="numeric"
-            onChangeText={text => (FieldStore.field.soilTestK = text)}
-          >
-            {FieldStore.field.soilTestK}
-          </TextInput>
+          <DropDown
+            selectedValue={FieldStore.field.soilTestK}
+            onChange={item => (FieldStore.field.soilTestK = item)}
+            values={this.soiltestK}
+          />
           <TextInput>Here goes the soil N supply calculation</TextInput>
         </View>
         <View>
@@ -277,7 +300,21 @@ export default class FieldScreen extends Component<Props, State> {
             values={this.cropType}
           />
           <Text>Crop Nutrient requirements</Text>
-          <Text>Calculations go here</Text>
+          <Text>
+            Nitrogen requirements
+            {FieldStore.cropRequirementsResult.nitrogenRequirement}
+          </Text>
+          <Text>
+            phosphorousRequirement requirements
+            {FieldStore.cropRequirementsResult.phosphorousRequirement}
+          </Text>
+          <Text>
+            potassiumRequirement requirements
+            {FieldStore.cropRequirementsResult.potassiumRequirement}
+          </Text>
+          <Text>
+            nitrogenSupply{FieldStore.cropRequirementsResult.nitrogenSupply}
+          </Text>
         </View>
         <View>
           <Text>Graph</Text>
@@ -287,9 +324,10 @@ export default class FieldScreen extends Component<Props, State> {
     );
   }
   private saveField = () => {
+    const { FieldStore } = this.props;
     FieldStore.Save();
     this.props.navigation.navigate("Home");
-  }
+  };
 
   private draw() {
     this.setState({
@@ -299,6 +337,7 @@ export default class FieldScreen extends Component<Props, State> {
   }
   private save() {
     const { marker, area } = this.state;
+    const { FieldStore } = this.props;
 
     const size = new SphericalUtil({}).ComputeSignedArea(
       FieldStore.newField.coordinates.slice()
@@ -316,6 +355,7 @@ export default class FieldScreen extends Component<Props, State> {
     // save to file
   }
   private cancel() {
+    const { FieldStore } = this.props;
     FieldStore.newField.coordinates.length = 0;
     this.setState({
       marker: undefined,
@@ -324,6 +364,7 @@ export default class FieldScreen extends Component<Props, State> {
     });
   }
   private reset() {
+    const { FieldStore } = this.props;
     FieldStore.newField.coordinates.length = 0;
     this.setState({
       marker: undefined,
@@ -332,6 +373,7 @@ export default class FieldScreen extends Component<Props, State> {
   }
 
   private onPress(e: any) {
+    const { FieldStore } = this.props;
     if (this.state.showSave) {
       this.setState({
         marker: {

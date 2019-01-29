@@ -1,9 +1,12 @@
-import { action, computed, isObservableObject, observable, toJS } from "mobx";
+import { action, autorun, computed, observable, toJS } from "mobx";
 import { LatLng } from "react-native-maps";
 import store from "react-native-simple-store";
 import Coords from "../model/Coords";
+import CropRequirementsResult from "../model/cropRequirementsResult";
 import Field from "../model/field";
 import SpreadEvent from "../model/spreadEvent";
+
+import CalculatorStore from "../store/calculatorStore";
 
 interface Region {
     latitude: number;
@@ -20,6 +23,11 @@ class FieldStore {
     @observable public newField: Coords = new Coords();
 
     @observable public newSpreadEvent: SpreadEvent = new SpreadEvent();
+    @observable public spreadEvents: Array<SpreadEvent> = new Array<
+        SpreadEvent
+    >();
+    @observable
+    public cropRequirementsResult: CropRequirementsResult = new CropRequirementsResult();
 
     constructor() {
         this.field = new Field();
@@ -30,6 +38,7 @@ class FieldStore {
             latitudeDelta: 0.005,
             longitudeDelta: 0.005
         };
+        const disposer = autorun(() => this.CalcCropRequirements());
     }
     public reset() {
         this.field = new Field();
@@ -110,6 +119,11 @@ class FieldStore {
                 };
             }
         }
+    }
+    public CalcCropRequirements() {
+        this.cropRequirementsResult = CalculatorStore.getCropRequirementsSupplyFromField(
+            this.field
+        );
     }
 
     @action public ClearStore() {

@@ -5,11 +5,15 @@ import Manure from "../model/manure";
 
 import cropRequirementsNitrogenTree from "../assets/data/crop-requirements-n.json";
 import cropRequirementsPhosphorousPotassiumTree from "../assets/data/crop-requirements-pk.json";
+import previousGrassSoilNitrogenSupplyTree from "../assets/data/previous-grass-soil-nitrogen-supply.json";
 import manureTree from "../assets/data/manure.json";
 import nitrogenTotalTree from "../assets/data/n-total.json";
-import previousGrassSoilNitrogenSupplyTree from "../assets/data/previous-grass-soil-nitrogen-supply.json";
 import soilNitrogenSupplyTree from "../assets/data/soil-nitrogen-supply.json";
 import NutrientResult from "../model/NutrientResult";
+
+import CropRequirementsResult from "../model/cropRequirementsResult";
+
+import Field from "../model/field";
 
 class CalculatorStore {
     @observable public calculatorValues = new CalculatorValues();
@@ -21,6 +25,8 @@ class CalculatorStore {
     @observable public customQualityTypes: Array<string>;
 
     @observable public image: string | undefined;
+
+    @observable public rainfall: string = "";
 
     private grasslandHighSNS: number = 100;
     private grasslandMedSNS: number = 101;
@@ -89,6 +95,32 @@ class CalculatorStore {
                 regularlyManure
             );
         }
+    }
+    public CalculateCropRequirements(): string {
+        return "";
+    }
+
+    public getCropRequirementsSupplyFromField(
+        field: Field
+    ): CropRequirementsResult {
+        const temp = this.getCropRequirementsSupply(
+            this.rainfall,
+            field.cropType,
+            field.soilType,
+            field.prevCropType,
+            field.organicManure,
+            field.soilTestP,
+            field.soilTestK,
+            field.recentGrass
+        );
+
+        const values = new CropRequirementsResult();
+        values.nitrogenRequirement = temp.nitrogenRequirement;
+        values.nitrogenSupply = temp.nitrogenSupply;
+        values.phosphorousRequirement = temp.phosphorousRequirement;
+        values.potassiumRequirement = temp.phosphorousRequirement;
+
+        return values;
     }
 
     public getCropRequirementsSupply(
