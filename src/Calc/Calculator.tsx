@@ -19,6 +19,8 @@ import Images from "../assets/imageData";
 import styles from "../styles/style";
 
 import dropDownData from "../assets/dropDownData.json";
+import CashDisplay from "../components/cashDisplay";
+import FormatValue from "../components/displayNumber";
 import DropDown from "../components/DropDown";
 
 import SliderValues from "../model/sliderValues";
@@ -275,7 +277,10 @@ export default class Calculator extends Component<Props, State> {
               maximumTrackTintColor="#206F98"
             />
             <Text>
-              Value: {CalculatorStore.calculatorValues.sliderValue}{" "}
+              Value:{" "}
+              <FormatValue
+                value={CalculatorStore.calculatorValues.sliderValue}
+              />{" "}
               {slider.sliderUnit}
             </Text>
           </View>
@@ -283,22 +288,55 @@ export default class Calculator extends Component<Props, State> {
           <Image source={CalculatorStore.image} />
           <Text>Crop available nutrients(Total in manure)</Text>
           <Text>
-            N Total{CalculatorStore.nutrientResults.nitrogenTotal} available (
-            {CalculatorStore.nutrientResults.nitrogenAvailable}) Saving{" "}
-            {CalculatorStore.nutrientResults.nitrogenAvailable *
-              SettingsStore.NCost}
+            N Total{" "}
+            <FormatValue
+              value={CalculatorStore.nutrientResults.nitrogenTotal}
+            />{" "}
+            available (
+            <FormatValue
+              value={CalculatorStore.nutrientResults.nitrogenAvailable}
+            />
+            ) Saving{" "}
+            <CashDisplay
+              value={
+                CalculatorStore.nutrientResults.nitrogenAvailable *
+                SettingsStore.NCost
+              }
+            />
           </Text>
           <Text>
-            P2O5 {CalculatorStore.nutrientResults.phosphorousTotal} available (
-            {CalculatorStore.nutrientResults.phosphorousAvailable}) Saving{" "}
-            {CalculatorStore.nutrientResults.phosphorousAvailable *
-              SettingsStore.PCost}
+            P2O5{" "}
+            <FormatValue
+              value={CalculatorStore.nutrientResults.phosphorousTotal}
+            />{" "}
+            available (
+            <FormatValue
+              value={CalculatorStore.nutrientResults.phosphorousAvailable}
+            />
+            ) Saving{" "}
+            <CashDisplay
+              value={
+                CalculatorStore.nutrientResults.phosphorousAvailable *
+                SettingsStore.PCost
+              }
+            />
           </Text>
           <Text>
-            K2O {CalculatorStore.nutrientResults.potassiumTotal}available (
-            {CalculatorStore.nutrientResults.potassiumAvailable}) Saving{" "}
-            {CalculatorStore.nutrientResults.potassiumAvailable *
-              SettingsStore.KCost}
+            K2O{" "}
+            <FormatValue
+              value={CalculatorStore.nutrientResults.potassiumTotal}
+            />{" "}
+            available (
+            <FormatValue
+              value={CalculatorStore.nutrientResults.potassiumAvailable}
+            />
+            ) Saving{" "}
+            <CashDisplay
+              value={
+                CalculatorStore.nutrientResults.potassiumAvailable *
+                SettingsStore.KCost
+              }
+            />
           </Text>
         </View>
       </ScrollView>
