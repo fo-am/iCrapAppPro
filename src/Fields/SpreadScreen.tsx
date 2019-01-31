@@ -19,6 +19,8 @@ import Images from "../assets/imageData";
 
 import DatePicker from "react-native-datepicker";
 import dropDownData from "../assets/dropDownData.json";
+import CashDisplay from "../components/cashDisplay";
+import FormatValue from "../components/displayNumber";
 import DropDown from "../components/DropDown";
 
 import Field from "../model/field";
@@ -253,45 +255,87 @@ export default class SpreadScreen extends Component<Props, State> {
               maximumTrackTintColor="#206F98"
             />
             <Text>
-              Value: {CalculatorStore.calculatorValues.sliderValue}{" "}
+              Value:{" "}
+              <FormatValue
+                value={CalculatorStore.calculatorValues.sliderValue}
+              />{" "}
               {slider.sliderUnit}
             </Text>
           </View>
           <Text>Crop available nutrients(Total in manure)</Text>
           <Text>
-            N Total{CalculatorStore.nutrientResults.nitrogenTotal} available (
-            {CalculatorStore.nutrientResults.nitrogenAvailable}) Saving{" "}
-            {CalculatorStore.nutrientResults.nitrogenAvailable *
-              SettingsStore.NCost *
-              FieldStore.field.area}
+            N Total
+            <FormatValue
+              value={CalculatorStore.nutrientResults.nitrogenTotal}
+            />{" "}
+            available (
+            <FormatValue
+              value={CalculatorStore.nutrientResults.nitrogenAvailable}
+            />
+            ) Saving{" "}
+            <CashDisplay
+              value={
+                CalculatorStore.nutrientResults.nitrogenAvailable *
+                SettingsStore.NCost *
+                FieldStore.field.area
+              }
+            />
           </Text>
           <Text>
-            P2O5 {CalculatorStore.nutrientResults.phosphorousTotal} available (
-            {CalculatorStore.nutrientResults.phosphorousAvailable}) Saving{" "}
-            {CalculatorStore.nutrientResults.phosphorousAvailable *
-              SettingsStore.PCost *
-              FieldStore.field.area}
+            P2O5{" "}
+            <FormatValue
+              value={CalculatorStore.nutrientResults.phosphorousTotal}
+            />{" "}
+            available (
+            <FormatValue
+              value={CalculatorStore.nutrientResults.phosphorousAvailable}
+            />
+            ) Saving{" "}
+            <CashDisplay
+              value={
+                CalculatorStore.nutrientResults.phosphorousAvailable *
+                SettingsStore.PCost *
+                FieldStore.field.area
+              }
+            />
           </Text>
           <Text>
-            K2O {CalculatorStore.nutrientResults.potassiumTotal}available (
-            {CalculatorStore.nutrientResults.potassiumAvailable}) Saving{" "}
-            {CalculatorStore.nutrientResults.potassiumAvailable *
-              SettingsStore.KCost *
-              FieldStore.field.area}
+            K2O{" "}
+            <FormatValue
+              value={CalculatorStore.nutrientResults.potassiumTotal}
+            />{" "}
+            available (
+            <FormatValue
+              value={CalculatorStore.nutrientResults.potassiumAvailable}
+            />
+            ) Saving{" "}
+            <CashDisplay
+              value={
+                CalculatorStore.nutrientResults.potassiumAvailable *
+                SettingsStore.KCost *
+                FieldStore.field.area
+              }
+            />
           </Text>
 
           <Text>Crop nutrient requirements</Text>
           <Text>
             Nitrogen requirements
-            {FieldStore.cropRequirementsResult.nitrogenRequirement}
+            <FormatValue
+              value={FieldStore.cropRequirementsResult.nitrogenRequirement}
+            />
           </Text>
           <Text>
             phosphorousRequirement requirements
-            {FieldStore.cropRequirementsResult.phosphorousRequirement}
+            <FormatValue
+              value={FieldStore.cropRequirementsResult.phosphorousRequirement}
+            />
           </Text>
           <Text>
             potassiumRequirement requirements
-            {FieldStore.cropRequirementsResult.potassiumRequirement}
+            <FormatValue
+              value={FieldStore.cropRequirementsResult.potassiumRequirement}
+            />
           </Text>
           <Text>Nutrients still needed</Text>
 
