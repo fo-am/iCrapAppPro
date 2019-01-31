@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
   View
 } from "react-native";
-import MapView, { Marker, Polygon } from "react-native-maps";
+import MapView, { Marker, Polygon, PROVIDER_GOOGLE } from "react-native-maps";
 import { NavigationScreenProp } from "react-navigation";
 
 import dropDownData from "../assets/dropDownData.json";
@@ -155,7 +155,7 @@ export default class FieldScreen extends Component<Props, State> {
         <MapView
           style={Styles.map}
           scrollEnabled={this.state.mapMoveEnabled}
-          provider={"google"}
+          provider={PROVIDER_GOOGLE}
           rotateEnabled={false}
           showsUserLocation={true}
           showsMyLocationButton={true}
