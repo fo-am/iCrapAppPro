@@ -19,8 +19,8 @@ import SphericalUtil from "../geoUtils";
 import Field from "../model/field";
 import CalculatorStore from "../store/calculatorStore";
 import FieldStore from "../store/FieldsStore";
-//import SettingsStore from "../store/settingsStore";
-import Styles from "../styles/style";
+// import SettingsStore from "../store/settingsStore";
+import styles from "../styles/style";
 
 let id = 0;
 
@@ -28,7 +28,7 @@ interface Props {
   navigation: NavigationScreenProp<any, any>;
   FieldStore: FieldStore;
   CalculatorStore: CalculatorStore;
-  //SettingsStore: SettingsStore;
+  // SettingsStore: SettingsStore;
 }
 
 interface State {
@@ -137,7 +137,7 @@ export default class FieldScreen extends Component<Props, State> {
   public render() {
     const { FieldStore } = this.props;
     return (
-      <ScrollView style={Styles.container}>
+      <ScrollView>
         <StatusBar />
         {/*
         // get current fields from data
@@ -147,180 +147,181 @@ export default class FieldScreen extends Component<Props, State> {
         // zoom map to that place
 
         */}
+        <View style={styles.container}>
+          <Text>
+            Scroll around and find your field, when ready to mark a field press
+            the `Draw` button.
+          </Text>
+          <MapView
+            style={styles.map}
+            scrollEnabled={this.state.mapMoveEnabled}
+            provider={PROVIDER_GOOGLE}
+            rotateEnabled={false}
+            showsUserLocation={true}
+            showsMyLocationButton={true}
+            toolbarEnabled={true}
+            mapType={"satellite"}
+            initialRegion={FieldStore.UpdateLocation()}
+            onPress={e => this.onPress(e)}
+          >
+            {FieldStore.DataSource.length > 0 && (
+              <Polygon
+                geodesic={true}
+                key={FieldStore.field.fieldCoordinates.id}
+                coordinates={FieldStore.DataSource}
+                strokeColor="#F00"
+                fillColor="rgba(255,0,0,0.5)"
+                strokeWidth={1}
+                tappable={false}
+              />
+            )}
 
-        <Text>
-          Scroll around and find your field, when ready to mark a field press
-          the `Draw` button.
-        </Text>
-        <MapView
-          style={Styles.map}
-          scrollEnabled={this.state.mapMoveEnabled}
-          provider={PROVIDER_GOOGLE}
-          rotateEnabled={false}
-          showsUserLocation={true}
-          showsMyLocationButton={true}
-          toolbarEnabled={true}
-          mapType={"satellite"}
-          initialRegion={FieldStore.UpdateLocation()}
-          onPress={e => this.onPress(e)}
-        >
-          {FieldStore.DataSource.length > 0 && (
-            <Polygon
-              geodesic={true}
-              key={FieldStore.field.fieldCoordinates.id}
-              coordinates={FieldStore.DataSource}
-              strokeColor="#F00"
-              fillColor="rgba(255,0,0,0.5)"
-              strokeWidth={1}
-              tappable={false}
-            />
+            {FieldStore.newField.coordinates.length > 0 && (
+              <Polygon
+                geodesic={true}
+                key={FieldStore.newField.id}
+                coordinates={FieldStore.newField.coordinates.slice()}
+                strokeColor="#000"
+                fillColor="rgba(255,0,0,0.5)"
+                strokeWidth={1}
+                tappable={false}
+              />
+            )}
+            {this.state.marker && (
+              <Marker coordinate={this.state.marker.coordinate} />
+            )}
+          </MapView>
+          {!this.state.showSave && (
+            <View>
+              <TouchableOpacity
+                onPress={() => this.draw()}
+                style={[styles.bubble, styles.button]}
+              >
+                <Text>Draw</Text>
+              </TouchableOpacity>
+            </View>
           )}
-
-          {FieldStore.newField.coordinates.length > 0 && (
-            <Polygon
-              geodesic={true}
-              key={FieldStore.newField.id}
-              coordinates={FieldStore.newField.coordinates.slice()}
-              strokeColor="#000"
-              fillColor="rgba(255,0,0,0.5)"
-              strokeWidth={1}
-              tappable={false}
-            />
+          {this.state.showSave && (
+            <View>
+              <TouchableOpacity
+                onPress={() => this.save()}
+                style={[styles.bubble, styles.button]}
+              >
+                <Text>Save</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => this.cancel()}
+                style={[styles.bubble, styles.button]}
+              >
+                <Text>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => this.reset()}
+                style={[styles.bubble, styles.button]}
+              >
+                <Text>Reset</Text>
+              </TouchableOpacity>
+            </View>
           )}
-          {this.state.marker && (
-            <Marker coordinate={this.state.marker.coordinate} />
-          )}
-        </MapView>
-        {!this.state.showSave && (
+          <Text>Field Name</Text>
+          <TextInput
+            style={{ fontSize: 20, fontWeight: "bold" }}
+            onChangeText={text => (FieldStore.field.name = text)}
+          >
+            {FieldStore.field.name}
+          </TextInput>
+          <Text>Field Size</Text>
+          <TextInput
+            keyboardType="numeric"
+            style={{ fontSize: 20, fontWeight: "bold" }}
+            onChangeText={text => (FieldStore.field.area = text)}
+          >
+            {FieldStore.field.area}
+          </TextInput>
           <View>
-            <TouchableOpacity
-              onPress={() => this.draw()}
-              style={[Styles.bubble, Styles.button]}
-            >
-              <Text>Draw</Text>
-            </TouchableOpacity>
+            <Text>Add Spread</Text>
+            <Button
+              title="Add Spreading Event"
+              onPress={() =>
+                this.props.navigation.navigate("Spread", {
+                  fieldKey: FieldStore.field.key
+                })
+              }
+            />
           </View>
-        )}
-        {this.state.showSave && (
           <View>
-            <TouchableOpacity
-              onPress={() => this.save()}
-              style={[Styles.bubble, Styles.button]}
-            >
-              <Text>Save</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => this.cancel()}
-              style={[Styles.bubble, Styles.button]}
-            >
-              <Text>Cancel</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => this.reset()}
-              style={[Styles.bubble, Styles.button]}
-            >
-              <Text>Reset</Text>
-            </TouchableOpacity>
-          </View>
-        )}
-        <Text>Field Name</Text>
-        <TextInput
-          style={{ fontSize: 20, fontWeight: "bold" }}
-          onChangeText={text => (FieldStore.field.name = text)}
-        >
-          {FieldStore.field.name}
-        </TextInput>
-        <Text>Field Size</Text>
-        <TextInput
-          keyboardType="numeric"
-          style={{ fontSize: 20, fontWeight: "bold" }}
-          onChangeText={text => (FieldStore.field.area = text)}
-        >
-          {FieldStore.field.area}
-        </TextInput>
-        <View>
-          <Text>Add Spread</Text>
-          <Button
-            title="Add Spreading Event"
-            onPress={() =>
-              this.props.navigation.navigate("Spread", {
-                fieldKey: FieldStore.field.key
-              })
-            }
-          />
-        </View>
-        <View>
-          <Text>Soil Details</Text>
-          <Text>Soil Type</Text>
-          <DropDown
-            selectedValue={FieldStore.field.soilType}
-            onChange={item => (FieldStore.field.soilType = item)}
-            values={this.soilType}
-          />
-          <Text>Do you regularly add organic manures?</Text>
-          <DropDown
-            selectedValue={FieldStore.field.organicManure}
-            onChange={item => (FieldStore.field.organicManure = item)}
-            values={this.yesno}
-          />
-          <Text>Result of soil tests (if available)</Text>
-          <Text>P</Text>
+            <Text>Soil Details</Text>
+            <Text>Soil Type</Text>
+            <DropDown
+              selectedValue={FieldStore.field.soilType}
+              onChange={item => (FieldStore.field.soilType = item)}
+              values={this.soilType}
+            />
+            <Text>Do you regularly add organic manures?</Text>
+            <DropDown
+              selectedValue={FieldStore.field.organicManure}
+              onChange={item => (FieldStore.field.organicManure = item)}
+              values={this.yesno}
+            />
+            <Text>Result of soil tests (if available)</Text>
+            <Text>P</Text>
 
-          <DropDown
-            selectedValue={FieldStore.field.soilTestP}
-            onChange={item => (FieldStore.field.soilTestP = item)}
-            values={this.soiltestP}
-          />
-          <Text>K</Text>
-          <DropDown
-            selectedValue={FieldStore.field.soilTestK}
-            onChange={item => (FieldStore.field.soilTestK = item)}
-            values={this.soiltestK}
-          />
-          <TextInput>Here goes the soil N supply calculation</TextInput>
+            <DropDown
+              selectedValue={FieldStore.field.soilTestP}
+              onChange={item => (FieldStore.field.soilTestP = item)}
+              values={this.soiltestP}
+            />
+            <Text>K</Text>
+            <DropDown
+              selectedValue={FieldStore.field.soilTestK}
+              onChange={item => (FieldStore.field.soilTestK = item)}
+              values={this.soiltestK}
+            />
+            <TextInput>Here goes the soil N supply calculation</TextInput>
+          </View>
+          <View>
+            <Text>Crop Details</Text>
+            <Text>Previous crop type</Text>
+            <DropDown
+              selectedValue={FieldStore.field.prevCropType}
+              onChange={item => (FieldStore.field.prevCropType = item)}
+              values={this.crops}
+            />
+            <Text>Have you grown grass in the last 3 years</Text>
+            <DropDown
+              selectedValue={FieldStore.field.recentGrass}
+              onChange={item => (FieldStore.field.recentGrass = item)}
+              values={this.yesno}
+            />
+            <Text>Crop type</Text>
+            <DropDown
+              selectedValue={FieldStore.field.cropType}
+              onChange={item => (FieldStore.field.cropType = item)}
+              values={this.cropType}
+            />
+            <Text>Crop Nutrient requirements</Text>
+            <Text>
+              Nitrogen requirements
+              {FieldStore.cropRequirementsResult.nitrogenRequirement}
+            </Text>
+            <Text>
+              phosphorousRequirement requirements
+              {FieldStore.cropRequirementsResult.phosphorousRequirement}
+            </Text>
+            <Text>
+              potassiumRequirement requirements
+              {FieldStore.cropRequirementsResult.potassiumRequirement}
+            </Text>
+            <Text>
+              nitrogenSupply{FieldStore.cropRequirementsResult.nitrogenSupply}
+              This needs turned into the value obviously!
+            </Text>
+          </View>
+          <View>
+            <Text>Graph</Text>
+          </View>
+          <Button onPress={this.saveField} title="Save" />
         </View>
-        <View>
-          <Text>Crop Details</Text>
-          <Text>Previous crop type</Text>
-          <DropDown
-            selectedValue={FieldStore.field.prevCropType}
-            onChange={item => (FieldStore.field.prevCropType = item)}
-            values={this.crops}
-          />
-          <Text>Have you grown grass in the last 3 years</Text>
-          <DropDown
-            selectedValue={FieldStore.field.recentGrass}
-            onChange={item => (FieldStore.field.recentGrass = item)}
-            values={this.yesno}
-          />
-          <Text>Crop type</Text>
-          <DropDown
-            selectedValue={FieldStore.field.cropType}
-            onChange={item => (FieldStore.field.cropType = item)}
-            values={this.cropType}
-          />
-          <Text>Crop Nutrient requirements</Text>
-          <Text>
-            Nitrogen requirements
-            {FieldStore.cropRequirementsResult.nitrogenRequirement}
-          </Text>
-          <Text>
-            phosphorousRequirement requirements
-            {FieldStore.cropRequirementsResult.phosphorousRequirement}
-          </Text>
-          <Text>
-            potassiumRequirement requirements
-            {FieldStore.cropRequirementsResult.potassiumRequirement}
-          </Text>
-          <Text>
-            nitrogenSupply{FieldStore.cropRequirementsResult.nitrogenSupply}This
-            needs turned into the value obviously!
-          </Text>
-        </View>
-        <View>
-          <Text>Graph</Text>
-        </View>
-        <Button onPress={this.saveField} title="Save" />
       </ScrollView>
     );
   }
@@ -328,7 +329,7 @@ export default class FieldScreen extends Component<Props, State> {
     const { FieldStore } = this.props;
     FieldStore.Save();
     this.props.navigation.navigate("Home");
-  };
+  }
 
   private draw() {
     this.setState({

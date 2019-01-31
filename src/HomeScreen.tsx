@@ -5,6 +5,7 @@ import store from "react-native-simple-store";
 import { NavigationScreenProp } from "react-navigation";
 import FieldStore from "./store/FieldsStore";
 import ManureStore from "./store/manureStore";
+import styles from "./styles/style";
 
 interface MyComponentProps {
   navigation: NavigationScreenProp<any, any>;
@@ -26,7 +27,7 @@ export default class HomeScreen extends Component<
 
   public render() {
     return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <View style={styles.container}>
         <Text>Home Screen</Text>
         <Button
           title="Go to Map"
@@ -97,5 +98,5 @@ export default class HomeScreen extends Component<
     this.props.FieldStore.ClearStore();
     store.delete("settings");
     store.delete("costs");
-  };
+  }
 }

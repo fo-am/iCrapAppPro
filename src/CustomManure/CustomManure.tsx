@@ -45,7 +45,7 @@ export default class CustomManure extends Component<
 
   public render() {
     return (
-      <View>
+      <View style={styles.container}>
         <Text>Manure Name</Text>
         <TextInput
           //    defaultValue="My Manure"
