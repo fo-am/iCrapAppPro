@@ -277,9 +277,10 @@ export default class FieldScreen extends Component<Props, State> {
               onChange={item => (FieldStore.field.soilTestK = item)}
               values={this.soiltestK}
             />
-            <TextInput>Here goes the soil N supply calculation</TextInput>
-          </View>
-          <View>
+            <Text>
+              nitrogenSupply{FieldStore.cropRequirementsResult.nitrogenSupply}
+              This needs turned into the value obviously!
+            </Text>
             <Text>Crop Details</Text>
             <Text>Previous crop type</Text>
             <DropDown
@@ -312,10 +313,6 @@ export default class FieldScreen extends Component<Props, State> {
               potassiumRequirement requirements
               {FieldStore.cropRequirementsResult.potassiumRequirement}
             </Text>
-            <Text>
-              nitrogenSupply{FieldStore.cropRequirementsResult.nitrogenSupply}
-              This needs turned into the value obviously!
-            </Text>
           </View>
           <View>
             <Text>Graph</Text>
@@ -329,7 +326,7 @@ export default class FieldScreen extends Component<Props, State> {
     const { FieldStore } = this.props;
     FieldStore.Save();
     this.props.navigation.navigate("Home");
-  }
+  };
 
   private draw() {
     this.setState({
