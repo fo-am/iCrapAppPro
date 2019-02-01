@@ -1,5 +1,5 @@
+import { Picker } from "native-base";
 import React, { Component } from "react";
-import { Picker, View } from "react-native";
 
 interface Props {
   selectedValue: number | string;

@@ -1,4 +1,5 @@
 import { inject, observer } from "mobx-react/native";
+import { Container, Content, Form } from "native-base";
 import React, { Component } from "react";
 import {
   Button,
@@ -195,154 +196,175 @@ export default class SpreadScreen extends Component<Props, State> {
   public render() {
     const { FieldStore, CalculatorStore, SettingsStore } = this.props;
     return (
-      <ScrollView>
-        <StatusBar />
-        <View style={styles.container}>
-          <Text>{FieldStore.field.name}</Text>
-          <Text>Enter new crap spreading event</Text>
-          <Text>Manure type</Text>
-          <DropDown
-            selectedValue={CalculatorStore.calculatorValues.manureSelected}
-            onChange={item => this.SelectManure(item)}
-            values={this.manureTypes}
-          />
-          <Text>Date</Text>
-          <DatePicker
-            style={{ width: 200 }}
-            date={FieldStore.newSpreadEvent.date}
-            mode="date"
-            format="DD-MM-YYYY"
-            confirmBtnText="Confirm"
-            cancelBtnText="Cancel"
-            customStyles={{
-              dateIcon: {
-                position: "absolute",
-                left: 0,
-                top: 4,
-                marginLeft: 0
-              },
-              dateInput: {
-                marginLeft: 36
-              }
-            }}
-            onDateChange={date => this.dateToSeason(date)}
-          />
-          <Text>Quality</Text>
-          <DropDown
-            selectedValue={CalculatorStore.calculatorValues.qualitySelected}
-            onChange={item =>
-              (CalculatorStore.calculatorValues.qualitySelected = item)
-            }
-            values={CalculatorStore.qualityTypes}
-          />
-          <Text>Application type</Text>
-          <DropDown
-            selectedValue={CalculatorStore.calculatorValues.applicationSelected}
-            onChange={item =>
-              (CalculatorStore.calculatorValues.applicationSelected = item)
-            }
-            values={CalculatorStore.applicationTypes}
-          />
-          <Text>Ammount slider</Text>
-          <View style={styles.container}>
-            <Slider
-              step={0.1}
-              value={slider.sliderStartValue}
-              onValueChange={val => this.SliderValueChanged(val)}
-              maximumValue={slider.sliderMaxValue}
-              thumbTintColor="rgb(252, 228, 149)"
-              minimumTrackTintColor="#FF0000"
-              maximumTrackTintColor="#206F98"
-            />
-            <Text>
-              Value:{" "}
-              <FormatValue
-                value={CalculatorStore.calculatorValues.sliderValue}
-              />{" "}
-              {slider.sliderUnit}
-            </Text>
-          </View>
-          <Text>Crop available nutrients(Total in manure)</Text>
-          <Text>
-            N Total
-            <FormatValue
-              value={CalculatorStore.nutrientResults.nitrogenTotal}
-            />{" "}
-            available (
-            <FormatValue
-              value={CalculatorStore.nutrientResults.nitrogenAvailable}
-            />
-            ) Saving{" "}
-            <CashDisplay
-              value={
-                CalculatorStore.nutrientResults.nitrogenAvailable *
-                SettingsStore.NCost *
-                FieldStore.field.area
-              }
-            />
-          </Text>
-          <Text>
-            P2O5{" "}
-            <FormatValue
-              value={CalculatorStore.nutrientResults.phosphorousTotal}
-            />{" "}
-            available (
-            <FormatValue
-              value={CalculatorStore.nutrientResults.phosphorousAvailable}
-            />
-            ) Saving{" "}
-            <CashDisplay
-              value={
-                CalculatorStore.nutrientResults.phosphorousAvailable *
-                SettingsStore.PCost *
-                FieldStore.field.area
-              }
-            />
-          </Text>
-          <Text>
-            K2O{" "}
-            <FormatValue
-              value={CalculatorStore.nutrientResults.potassiumTotal}
-            />{" "}
-            available (
-            <FormatValue
-              value={CalculatorStore.nutrientResults.potassiumAvailable}
-            />
-            ) Saving{" "}
-            <CashDisplay
-              value={
-                CalculatorStore.nutrientResults.potassiumAvailable *
-                SettingsStore.KCost *
-                FieldStore.field.area
-              }
-            />
-          </Text>
+      <Container>
+        <Content>
+          <Form>
+            <ScrollView>
+              <StatusBar />
+              <View style={styles.container}>
+                <Text>{FieldStore.field.name}</Text>
+                <Text>Enter new crap spreading event</Text>
+                <Text>Manure type</Text>
+                <DropDown
+                  selectedValue={
+                    CalculatorStore.calculatorValues.manureSelected
+                  }
+                  onChange={item => this.SelectManure(item)}
+                  values={this.manureTypes}
+                />
+                <Text>Date</Text>
+                <DatePicker
+                  style={{ width: 200 }}
+                  date={FieldStore.newSpreadEvent.date}
+                  mode="date"
+                  format="DD-MM-YYYY"
+                  confirmBtnText="Confirm"
+                  cancelBtnText="Cancel"
+                  customStyles={{
+                    dateIcon: {
+                      position: "absolute",
+                      left: 0,
+                      top: 4,
+                      marginLeft: 0
+                    },
+                    dateInput: {
+                      marginLeft: 36
+                    }
+                  }}
+                  onDateChange={date => this.dateToSeason(date)}
+                />
+                <Text>Quality</Text>
+                <DropDown
+                  selectedValue={
+                    CalculatorStore.calculatorValues.qualitySelected
+                  }
+                  onChange={item =>
+                    (CalculatorStore.calculatorValues.qualitySelected = item)
+                  }
+                  values={CalculatorStore.qualityTypes}
+                />
+                <Text>Application type</Text>
+                <DropDown
+                  selectedValue={
+                    CalculatorStore.calculatorValues.applicationSelected
+                  }
+                  onChange={item =>
+                    (CalculatorStore.calculatorValues.applicationSelected = item)
+                  }
+                  values={CalculatorStore.applicationTypes}
+                />
+                <Text>Ammount slider</Text>
+                <View style={styles.container}>
+                  <Slider
+                    step={0.1}
+                    value={slider.sliderStartValue}
+                    onValueChange={val => this.SliderValueChanged(val)}
+                    maximumValue={slider.sliderMaxValue}
+                    thumbTintColor="rgb(252, 228, 149)"
+                    minimumTrackTintColor="#FF0000"
+                    maximumTrackTintColor="#206F98"
+                  />
+                  <Text>
+                    Value:{" "}
+                    <FormatValue
+                      value={CalculatorStore.calculatorValues.sliderValue}
+                    />{" "}
+                    {slider.sliderUnit}
+                  </Text>
+                </View>
+                <Text>Crop available nutrients(Total in manure)</Text>
+                <Text>
+                  N Total
+                  <FormatValue
+                    value={CalculatorStore.nutrientResults.nitrogenTotal}
+                  />{" "}
+                  available (
+                  <FormatValue
+                    value={CalculatorStore.nutrientResults.nitrogenAvailable}
+                  />
+                  ) Saving{" "}
+                  <CashDisplay
+                    value={
+                      CalculatorStore.nutrientResults.nitrogenAvailable *
+                      SettingsStore.NCost *
+                      FieldStore.field.area
+                    }
+                  />
+                </Text>
+                <Text>
+                  P2O5{" "}
+                  <FormatValue
+                    value={CalculatorStore.nutrientResults.phosphorousTotal}
+                  />{" "}
+                  available (
+                  <FormatValue
+                    value={CalculatorStore.nutrientResults.phosphorousAvailable}
+                  />
+                  ) Saving{" "}
+                  <CashDisplay
+                    value={
+                      CalculatorStore.nutrientResults.phosphorousAvailable *
+                      SettingsStore.PCost *
+                      FieldStore.field.area
+                    }
+                  />
+                </Text>
+                <Text>
+                  K2O{" "}
+                  <FormatValue
+                    value={CalculatorStore.nutrientResults.potassiumTotal}
+                  />{" "}
+                  available (
+                  <FormatValue
+                    value={CalculatorStore.nutrientResults.potassiumAvailable}
+                  />
+                  ) Saving{" "}
+                  <CashDisplay
+                    value={
+                      CalculatorStore.nutrientResults.potassiumAvailable *
+                      SettingsStore.KCost *
+                      FieldStore.field.area
+                    }
+                  />
+                </Text>
 
-          <Text>Crop nutrient requirements</Text>
-          <Text>
-            Nitrogen requirements
-            <FormatValue
-              value={FieldStore.cropRequirementsResult.nitrogenRequirement}
-            />
-          </Text>
-          <Text>
-            phosphorousRequirement requirements
-            <FormatValue
-              value={FieldStore.cropRequirementsResult.phosphorousRequirement}
-            />
-          </Text>
-          <Text>
-            potassiumRequirement requirements
-            <FormatValue
-              value={FieldStore.cropRequirementsResult.potassiumRequirement}
-            />
-          </Text>
-          <Text>Nutrients still needed</Text>
+                <Text>Crop nutrient requirements</Text>
+                <Text>
+                  Nitrogen requirements
+                  <FormatValue
+                    value={
+                      FieldStore.cropRequirementsResult.nitrogenRequirement
+                    }
+                  />
+                </Text>
+                <Text>
+                  phosphorousRequirement requirements
+                  <FormatValue
+                    value={
+                      FieldStore.cropRequirementsResult.phosphorousRequirement
+                    }
+                  />
+                </Text>
+                <Text>
+                  potassiumRequirement requirements
+                  <FormatValue
+                    value={
+                      FieldStore.cropRequirementsResult.potassiumRequirement
+                    }
+                  />
+                </Text>
+                <Text>Nutrients still needed</Text>
 
-          <Image source={CalculatorStore.image} />
-          <Button title="Save" onPress={() => Fieldstore.SaveSpreadEvent()} />
-        </View>
-      </ScrollView>
+                <Image source={CalculatorStore.image} />
+                <Button
+                  title="Save"
+                  onPress={() => Fieldstore.SaveSpreadEvent()}
+                />
+              </View>
+            </ScrollView>
+          </Form>
+        </Content>
+      </Container>
     );
   }
   private dateToSeason(date: moment.Moment) {

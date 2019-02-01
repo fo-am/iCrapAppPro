@@ -1,10 +1,10 @@
 import { inject, observer } from "mobx-react/native";
+import { Container, Content, Form } from "native-base";
 import React, { Component } from "react";
 import {
   Button,
   Dimensions,
   Image,
-  Picker,
   ScrollView,
   Slider,
   StatusBar,
@@ -42,59 +42,66 @@ export default class SettingScreen extends Component<Props, State> {
   public render() {
     const { SettingsStore } = this.props;
     return (
-      <ScrollView>
-        <View style={styles.container}>
-          <StatusBar />
-          <Text>Choose Unit type</Text>
-          <DropDown
-            selectedValue={SettingsStore.unit}
-            onChange={item => SettingsStore.SelectUnit(item)}
-            values={this.Units}
-          />
-          <Text>Set Farm Rainfall</Text>
-          <DropDown
-            selectedValue={SettingsStore.rainfall}
-            onChange={item => SettingsStore.SelectRainfall(item)}
-            values={this.RainfallTypes}
-          />
-          <Text>
-            How much do you pay for your fertiliser? This is used to calculate
-            your cost savings.
-          </Text>
-          <Text>N(£ per Kg)</Text>
-          <TextInput
-            keyboardType="numeric"
-            onChangeText={item => SettingsStore.SetNCost(item)}
-            value={SettingsStore.NCost}
-            selectTextOnFocus={true}
-          />
-          <Text>
-            P<Text style={{ fontSize: 11, lineHeight: 37 }}>2</Text>O
-            <Text style={{ fontSize: 11, lineHeight: 37 }}>5</Text>(£ per Kg)
-          </Text>
-          <TextInput
-            keyboardType="numeric"
-            onChangeText={item => SettingsStore.SetPCost(item)}
-            value={SettingsStore.PCost}
-            selectTextOnFocus={true}
-          />
-          <Text>
-            K<Text style={{ fontSize: 11, lineHeight: 37 }}>2</Text>
-            O(£ per Kg)
-          </Text>
-          <TextInput
-            keyboardType="numeric"
-            onChangeText={item => SettingsStore.SetKCost(item)}
-            value={SettingsStore.KCost}
-            selectTextOnFocus={true}
-          />
-        </View>
-        <Button
-          title="Save"
-          onPress={() => this.Save()}
-          accessibilityLabel="Save Settings"
-        />
-      </ScrollView>
+      <Container>
+        <Content>
+          <Form>
+            <ScrollView>
+              <View style={styles.container}>
+                <StatusBar />
+                <Text>Choose Unit type</Text>
+                <DropDown
+                  selectedValue={SettingsStore.unit}
+                  onChange={item => SettingsStore.SelectUnit(item)}
+                  values={this.Units}
+                />
+                <Text>Set Farm Rainfall</Text>
+                <DropDown
+                  selectedValue={SettingsStore.rainfall}
+                  onChange={item => SettingsStore.SelectRainfall(item)}
+                  values={this.RainfallTypes}
+                />
+                <Text>
+                  How much do you pay for your fertiliser? This is used to
+                  calculate your cost savings.
+                </Text>
+                <Text>N(£ per Kg)</Text>
+                <TextInput
+                  keyboardType="numeric"
+                  onChangeText={item => SettingsStore.SetNCost(item)}
+                  value={SettingsStore.NCost}
+                  selectTextOnFocus={true}
+                />
+                <Text>
+                  P<Text style={{ fontSize: 11, lineHeight: 37 }}>2</Text>O
+                  <Text style={{ fontSize: 11, lineHeight: 37 }}>5</Text>(£ per
+                  Kg)
+                </Text>
+                <TextInput
+                  keyboardType="numeric"
+                  onChangeText={item => SettingsStore.SetPCost(item)}
+                  value={SettingsStore.PCost}
+                  selectTextOnFocus={true}
+                />
+                <Text>
+                  K<Text style={{ fontSize: 11, lineHeight: 37 }}>2</Text>
+                  O(£ per Kg)
+                </Text>
+                <TextInput
+                  keyboardType="numeric"
+                  onChangeText={item => SettingsStore.SetKCost(item)}
+                  value={SettingsStore.KCost}
+                  selectTextOnFocus={true}
+                />
+              </View>
+              <Button
+                title="Save"
+                onPress={() => this.Save()}
+                accessibilityLabel="Save Settings"
+              />
+            </ScrollView>{" "}
+          </Form>
+        </Content>
+      </Container>
     );
   }
 

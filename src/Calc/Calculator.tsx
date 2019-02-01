@@ -1,9 +1,9 @@
 import { inject, observer } from "mobx-react/native";
+import { Container, Content, Form } from "native-base";
 import React, { Component } from "react";
 import {
   Dimensions,
   Image,
-  Picker,
   ScrollView,
   Slider,
   StatusBar,
@@ -213,133 +213,149 @@ export default class Calculator extends Component<Props, State> {
   public render() {
     const { SettingsStore, CalculatorStore } = this.props;
     return (
-      <ScrollView>
-        <View style={styles.container}>
-          <StatusBar />
-          <Text style={styles.text}>Calculator for crap calculations.</Text>
+      <Container>
+        <Content>
+          <Form>
+            <ScrollView>
+              <View style={styles.container}>
+                <StatusBar />
+                <Text style={styles.text}>
+                  Calculator for crap calculations.
+                </Text>
 
-          <Text>Manure Type</Text>
-          <DropDown
-            selectedValue={CalculatorStore.calculatorValues.manureSelected}
-            onChange={item => this.SelectManure(item)}
-            values={this.manureTypes}
-          />
+                <Text>Manure Type</Text>
+                <DropDown
+                  selectedValue={
+                    CalculatorStore.calculatorValues.manureSelected
+                  }
+                  onChange={item => this.SelectManure(item)}
+                  values={this.manureTypes}
+                />
 
-          <Text>Application Type</Text>
-          <DropDown
-            selectedValue={CalculatorStore.calculatorValues.applicationSelected}
-            onChange={item =>
-              (CalculatorStore.calculatorValues.applicationSelected = item)
-            }
-            values={CalculatorStore.applicationTypes}
-          />
+                <Text>Application Type</Text>
+                <DropDown
+                  selectedValue={
+                    CalculatorStore.calculatorValues.applicationSelected
+                  }
+                  onChange={item =>
+                    (CalculatorStore.calculatorValues.applicationSelected = item)
+                  }
+                  values={CalculatorStore.applicationTypes}
+                />
 
-          <Text>Soil Type</Text>
-          <DropDown
-            selectedValue={CalculatorStore.calculatorValues.soilSelected}
-            onChange={item =>
-              (CalculatorStore.calculatorValues.soilSelected = item)
-            }
-            values={this.soilType}
-          />
-          <Text>Crop Type</Text>
-          <DropDown
-            selectedValue={CalculatorStore.calculatorValues.cropSelected}
-            onChange={item =>
-              (CalculatorStore.calculatorValues.cropSelected = item)
-            }
-            values={this.cropType}
-          />
-          <Text>Season</Text>
-          <DropDown
-            selectedValue={CalculatorStore.calculatorValues.seasonSelected}
-            onChange={item =>
-              (CalculatorStore.calculatorValues.seasonSelected = item)
-            }
-            values={this.season}
-          />
-          <Text>Quality</Text>
-          <DropDown
-            selectedValue={CalculatorStore.calculatorValues.qualitySelected}
-            onChange={item =>
-              (CalculatorStore.calculatorValues.qualitySelected = item)
-            }
-            values={CalculatorStore.qualityTypes}
-          />
-          <View style={styles.container}>
-            <Slider
-              step={0.1}
-              value={slider.sliderStartValue}
-              onValueChange={val => this.SliderValueChanged(val)}
-              maximumValue={slider.sliderMaxValue}
-              thumbTintColor="rgb(252, 228, 149)"
-              minimumTrackTintColor="#FF0000"
-              maximumTrackTintColor="#206F98"
-            />
-            <Text>
-              Value:{" "}
-              <FormatValue
-                value={CalculatorStore.calculatorValues.sliderValue}
-              />{" "}
-              {slider.sliderUnit}
-            </Text>
-          </View>
+                <Text>Soil Type</Text>
+                <DropDown
+                  selectedValue={CalculatorStore.calculatorValues.soilSelected}
+                  onChange={item =>
+                    (CalculatorStore.calculatorValues.soilSelected = item)
+                  }
+                  values={this.soilType}
+                />
+                <Text>Crop Type</Text>
+                <DropDown
+                  selectedValue={CalculatorStore.calculatorValues.cropSelected}
+                  onChange={item =>
+                    (CalculatorStore.calculatorValues.cropSelected = item)
+                  }
+                  values={this.cropType}
+                />
+                <Text>Season</Text>
+                <DropDown
+                  selectedValue={
+                    CalculatorStore.calculatorValues.seasonSelected
+                  }
+                  onChange={item =>
+                    (CalculatorStore.calculatorValues.seasonSelected = item)
+                  }
+                  values={this.season}
+                />
+                <Text>Quality</Text>
+                <DropDown
+                  selectedValue={
+                    CalculatorStore.calculatorValues.qualitySelected
+                  }
+                  onChange={item =>
+                    (CalculatorStore.calculatorValues.qualitySelected = item)
+                  }
+                  values={CalculatorStore.qualityTypes}
+                />
+                <View style={styles.container}>
+                  <Slider
+                    step={0.1}
+                    value={slider.sliderStartValue}
+                    onValueChange={val => this.SliderValueChanged(val)}
+                    maximumValue={slider.sliderMaxValue}
+                    thumbTintColor="rgb(252, 228, 149)"
+                    minimumTrackTintColor="#FF0000"
+                    maximumTrackTintColor="#206F98"
+                  />
+                  <Text>
+                    Value:{" "}
+                    <FormatValue
+                      value={CalculatorStore.calculatorValues.sliderValue}
+                    />{" "}
+                    {slider.sliderUnit}
+                  </Text>
+                </View>
 
-          <Image source={CalculatorStore.image} />
-          <Text>Crop available nutrients(Total in manure)</Text>
-          <Text>
-            N Total{" "}
-            <FormatValue
-              value={CalculatorStore.nutrientResults.nitrogenTotal}
-            />{" "}
-            available (
-            <FormatValue
-              value={CalculatorStore.nutrientResults.nitrogenAvailable}
-            />
-            ) Saving{" "}
-            <CashDisplay
-              value={
-                CalculatorStore.nutrientResults.nitrogenAvailable *
-                SettingsStore.NCost
-              }
-            />
-          </Text>
-          <Text>
-            P2O5{" "}
-            <FormatValue
-              value={CalculatorStore.nutrientResults.phosphorousTotal}
-            />{" "}
-            available (
-            <FormatValue
-              value={CalculatorStore.nutrientResults.phosphorousAvailable}
-            />
-            ) Saving{" "}
-            <CashDisplay
-              value={
-                CalculatorStore.nutrientResults.phosphorousAvailable *
-                SettingsStore.PCost
-              }
-            />
-          </Text>
-          <Text>
-            K2O{" "}
-            <FormatValue
-              value={CalculatorStore.nutrientResults.potassiumTotal}
-            />{" "}
-            available (
-            <FormatValue
-              value={CalculatorStore.nutrientResults.potassiumAvailable}
-            />
-            ) Saving{" "}
-            <CashDisplay
-              value={
-                CalculatorStore.nutrientResults.potassiumAvailable *
-                SettingsStore.KCost
-              }
-            />
-          </Text>
-        </View>
-      </ScrollView>
+                <Image source={CalculatorStore.image} />
+                <Text>Crop available nutrients(Total in manure)</Text>
+                <Text>
+                  N Total{" "}
+                  <FormatValue
+                    value={CalculatorStore.nutrientResults.nitrogenTotal}
+                  />{" "}
+                  available (
+                  <FormatValue
+                    value={CalculatorStore.nutrientResults.nitrogenAvailable}
+                  />
+                  ) Saving{" "}
+                  <CashDisplay
+                    value={
+                      CalculatorStore.nutrientResults.nitrogenAvailable *
+                      SettingsStore.NCost
+                    }
+                  />
+                </Text>
+                <Text>
+                  P2O5{" "}
+                  <FormatValue
+                    value={CalculatorStore.nutrientResults.phosphorousTotal}
+                  />{" "}
+                  available (
+                  <FormatValue
+                    value={CalculatorStore.nutrientResults.phosphorousAvailable}
+                  />
+                  ) Saving{" "}
+                  <CashDisplay
+                    value={
+                      CalculatorStore.nutrientResults.phosphorousAvailable *
+                      SettingsStore.PCost
+                    }
+                  />
+                </Text>
+                <Text>
+                  K2O{" "}
+                  <FormatValue
+                    value={CalculatorStore.nutrientResults.potassiumTotal}
+                  />{" "}
+                  available (
+                  <FormatValue
+                    value={CalculatorStore.nutrientResults.potassiumAvailable}
+                  />
+                  ) Saving{" "}
+                  <CashDisplay
+                    value={
+                      CalculatorStore.nutrientResults.potassiumAvailable *
+                      SettingsStore.KCost
+                    }
+                  />
+                </Text>
+              </View>
+            </ScrollView>
+          </Form>
+        </Content>
+      </Container>
     );
   }
 }
