@@ -138,6 +138,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-vector-icons')
     implementation( project(':react-native-maps')){
         exclude group: "com.android.support"
     }
