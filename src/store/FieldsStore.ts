@@ -18,9 +18,8 @@ interface Region {
 class FieldStore {
     @observable public field: Field;
     @observable public fields: Array<Field> = new Array<Field>();
-    //    @observable public region: Region = undefined;
     @observable public initalRegion: Region;
-    @observable public newField: Coords = new Coords();
+    // @observable public newField: Coords = new Coords();
 
     @observable public newSpreadEvent: SpreadEvent = new SpreadEvent();
     @observable public spreadEvents: Array<SpreadEvent> = new Array<
@@ -72,6 +71,19 @@ class FieldStore {
 
         store.save("fields", this.fields);
         this.getFields();
+    }
+    public SaveSpreadEvent() {
+        const idx = this.spreadEvents.findIndex(
+            n => this.newSpreadEvent.key === n.key
+        );
+        if (idx < 0) {
+            this.spreadEvents.push(this.newSpreadEvent);
+        } else {
+            this.spreadEvents[idx] = this.newSpreadEvent;
+        }
+
+        store.save("spread", this.spreadEvents);
+        this.getSpreadEvents();
     }
 
     public SetField(key: string) {
@@ -129,6 +141,21 @@ class FieldStore {
     @action public ClearStore() {
         this.fields = [];
         store.save("fields", this.fields);
+        this.fields = [];
+        store.save("spread", this.fields);
+    }
+
+    private getSpreadEvents() {
+        store
+            .get("spread")
+            .then((res: Array<SpreadEvent> | undefined) => {
+                if (res instanceof Array) {
+                    return res;
+                } else {
+                    return [];
+                }
+            })
+            .then(res => (this.spreadEvents = res));
     }
 
     private getFields() {

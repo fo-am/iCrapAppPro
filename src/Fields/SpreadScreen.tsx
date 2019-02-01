@@ -340,6 +340,7 @@ export default class SpreadScreen extends Component<Props, State> {
           <Text>Nutrients still needed</Text>
 
           <Image source={CalculatorStore.image} />
+          <Button title="Save" onPress={} />
         </View>
       </ScrollView>
     );
