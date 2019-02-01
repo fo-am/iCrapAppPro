@@ -340,7 +340,7 @@ export default class SpreadScreen extends Component<Props, State> {
           <Text>Nutrients still needed</Text>
 
           <Image source={CalculatorStore.image} />
-          <Button title="Save" onPress={} />
+          <Button title="Save" onPress={() => Fieldstore.SaveSpreadEvent()} />
         </View>
       </ScrollView>
     );

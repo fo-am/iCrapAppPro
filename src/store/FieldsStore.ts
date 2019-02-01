@@ -19,7 +19,7 @@ class FieldStore {
     @observable public field: Field;
     @observable public fields: Array<Field> = new Array<Field>();
     @observable public initalRegion: Region;
-    // @observable public newField: Coords = new Coords();
+    @observable public newField: Coords = new Coords();
 
     @observable public newSpreadEvent: SpreadEvent = new SpreadEvent();
     @observable public spreadEvents: Array<SpreadEvent> = new Array<
