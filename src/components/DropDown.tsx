@@ -5,6 +5,7 @@ interface Props {
   selectedValue: number | string;
   onChange: any;
   values: any;
+  style: any;
 }
 
 interface State {}
@@ -14,7 +15,7 @@ export default class DropDown extends Component<Props, State> {
     return (
       <Picker
         selectedValue={this.props.selectedValue}
-        style={{ height: 50, width: 200 }}
+        style={{ height: 50, width: "100%" }}
         onValueChange={this.props.onChange}
       >
         {Object.keys(this.props.values).map(key => {

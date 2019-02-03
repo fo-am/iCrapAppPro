@@ -1,12 +1,29 @@
 import { inject, observer } from "mobx-react/native";
-import { Container, Content, Form } from "native-base";
+import {
+  Body,
+  Button,
+  Container,
+  Content,
+  Footer,
+  FooterTab,
+  Form,
+  H1,
+  H2,
+  H3,
+  Header,
+  Input,
+  Item,
+  Label,
+  Left,
+  Right,
+  Text,
+  Title
+} from "native-base";
 import React, { Component } from "react";
 import {
-  Button,
   Dimensions,
   ScrollView,
   StatusBar,
-  Text,
   TextInput,
   TouchableOpacity,
   View
@@ -152,10 +169,6 @@ export default class FieldScreen extends Component<Props, State> {
 
         */}
               <View style={styles.container}>
-                <Text>
-                  Scroll around and find your field, when ready to mark a field
-                  press the `Draw` button.
-                </Text>
                 <MapView
                   style={styles.map}
                   scrollEnabled={this.state.mapMoveEnabled}
@@ -173,8 +186,8 @@ export default class FieldScreen extends Component<Props, State> {
                       geodesic={true}
                       key={FieldStore.field.fieldCoordinates.id}
                       coordinates={FieldStore.DataSource}
-                      strokeColor="#F00"
-                      fillColor="rgba(255,0,0,0.5)"
+                      strokeColor="rgba(8,190,45,1)"
+                      fillColor="rgba(8,190,45,0.5)"
                       strokeWidth={1}
                       tappable={false}
                     />
@@ -195,79 +208,78 @@ export default class FieldScreen extends Component<Props, State> {
                     <Marker coordinate={this.state.marker.coordinate} />
                   )}
                 </MapView>
+                <Text>Scroll the map to locate your farm. </Text>
+                <Text>
+                  When ready to mark a field press the `Draw Field` button.
+                </Text>
                 {!this.state.showSave && (
-                  <View>
-                    <TouchableOpacity
-                      onPress={() => this.draw()}
-                      style={[styles.bubble, styles.button]}
-                    >
-                      <Text>Draw</Text>
-                    </TouchableOpacity>
-                  </View>
+                  <Form>
+                    <Button onPress={() => this.draw()}>
+                      <Text>Draw Field</Text>
+                    </Button>
+                  </Form>
                 )}
                 {this.state.showSave && (
-                  <View>
-                    <TouchableOpacity
-                      onPress={() => this.save()}
-                      style={[styles.bubble, styles.button]}
-                    >
+                  <View style={styles.container}>
+                    <Button info onPress={() => this.save()}>
                       <Text>Save</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      onPress={() => this.cancel()}
-                      style={[styles.bubble, styles.button]}
-                    >
+                    </Button>
+                    <Button warning onPress={() => this.cancel()}>
                       <Text>Cancel</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      onPress={() => this.reset()}
-                      style={[styles.bubble, styles.button]}
-                    >
+                    </Button>
+                    <Button info onPress={() => this.reset()}>
                       <Text>Reset</Text>
-                    </TouchableOpacity>
+                    </Button>
                   </View>
                 )}
-                <Text>Field Name</Text>
-                <TextInput
-                  style={{ fontSize: 20, fontWeight: "bold" }}
-                  onChangeText={text => (FieldStore.field.name = text)}
-                >
-                  {FieldStore.field.name}
-                </TextInput>
-                <Text>Field Size</Text>
-                <TextInput
-                  keyboardType="numeric"
-                  style={{ fontSize: 20, fontWeight: "bold" }}
-                  onChangeText={text => (FieldStore.field.area = text)}
-                >
-                  {FieldStore.field.area}
-                </TextInput>
-                <View>
-                  <Text>Add Spread</Text>
+                <Form style={{ paddingTop: "5%" }}>
+                  <Item fixedLabel rounded>
+                    <Label style={{ paddingLeft: "2%" }}>Field Name</Label>
+                    <Input
+                      placeholder="Rounded Textbox"
+                      onChangeText={text => (FieldStore.field.name = text)}
+                    >
+                      {FieldStore.field.name}
+                    </Input>
+                  </Item>
+
+                  <Item fixedLabel rounded>
+                    <Label style={{ paddingLeft: "2%" }}>Field Size</Label>
+                    <Input
+                      keyboardType="numeric"
+                      placeholder="Rounded Textbox"
+                      onChangeText={text => (FieldStore.field.name = text)}
+                    >
+                      {FieldStore.field.area}
+                    </Input>
+                  </Item>
+                </Form>
+                <View style={{ paddingTop: "5%" }}>
                   <Button
-                    title="Add Spreading Event"
                     onPress={() =>
                       this.props.navigation.navigate("Spread", {
                         fieldKey: FieldStore.field.key
                       })
                     }
-                  />
+                  >
+                    <Text>Add Spreading Event</Text>
+                  </Button>
                 </View>
-                <View>
-                  <Text>Soil Details</Text>
-                  <Text>Soil Type</Text>
+                <View style={{ paddingTop: "5%" }}>
+                  <H2>Soil Details</H2>
+                  <H3>Soil Type</H3>
                   <DropDown
                     selectedValue={FieldStore.field.soilType}
                     onChange={item => (FieldStore.field.soilType = item)}
                     values={this.soilType}
                   />
-                  <Text>Do you regularly add organic manures?</Text>
+                  <H3>Do you regularly add organic manures?</H3>
                   <DropDown
                     selectedValue={FieldStore.field.organicManure}
                     onChange={item => (FieldStore.field.organicManure = item)}
                     values={this.yesno}
                   />
-                  <Text>Result of soil tests (if available)</Text>
+                  <H3>Result of soil tests (if available)</H3>
                   <Text>P</Text>
 
                   <DropDown
@@ -286,47 +298,63 @@ export default class FieldScreen extends Component<Props, State> {
                     {FieldStore.cropRequirementsResult.nitrogenSupply}
                     This needs turned into the value obviously!
                   </Text>
-                  <Text>Crop Details</Text>
-                  <Text>Previous crop type</Text>
+                  <H2>Crop Details</H2>
+                  <H3>Previous crop type</H3>
                   <DropDown
+                    style={{ width: "90%" }}
                     selectedValue={FieldStore.field.prevCropType}
                     onChange={item => (FieldStore.field.prevCropType = item)}
                     values={this.crops}
                   />
-                  <Text>Have you grown grass in the last 3 years</Text>
+                  <H3>Have you grown grass in the last 3 years</H3>
                   <DropDown
                     selectedValue={FieldStore.field.recentGrass}
                     onChange={item => (FieldStore.field.recentGrass = item)}
                     values={this.yesno}
                   />
-                  <Text>Crop type</Text>
+                  <H3>Crop type</H3>
                   <DropDown
                     selectedValue={FieldStore.field.cropType}
                     onChange={item => (FieldStore.field.cropType = item)}
                     values={this.cropType}
                   />
-                  <Text>Crop Nutrient requirements</Text>
+                  <H2>Crop Nutrient requirements</H2>
+                  <Text>Nitrogen requirements</Text>
                   <Text>
-                    Nitrogen requirements
                     {FieldStore.cropRequirementsResult.nitrogenRequirement}
                   </Text>
+
+                  <Text>phosphorousRequirement requirements</Text>
                   <Text>
-                    phosphorousRequirement requirements
                     {FieldStore.cropRequirementsResult.phosphorousRequirement}
                   </Text>
+
+                  <Text>potassiumRequirement requirements</Text>
                   <Text>
-                    potassiumRequirement requirements
                     {FieldStore.cropRequirementsResult.potassiumRequirement}
                   </Text>
                 </View>
                 <View>
-                  <Text>Graph</Text>
+                  <H2>Graph</H2>
+                  <Text>Oh no! Not yet :(</Text>
                 </View>
-                <Button onPress={this.saveField} title="Save" />
               </View>
             </ScrollView>
           </Form>
         </Content>
+        <Footer>
+          <FooterTab>
+            <Button rounded onPress={this.saveField}>
+              <Text>Save</Text>
+            </Button>
+            <Button
+              rounded
+              onPress={() => this.props.navigation.navigate("Home")}
+            >
+              <Text>Cancel</Text>
+            </Button>
+          </FooterTab>
+        </Footer>
       </Container>
     );
   }

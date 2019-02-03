@@ -28,11 +28,6 @@ export default class HomeScreen extends Component<
   public render() {
     return (
       <View style={styles.container}>
-        <Text>Home Screen</Text>
-        <Button
-          title="Go to Map"
-          onPress={() => this.props.navigation.navigate("Map")}
-        />
         <Text>Add a field</Text>
         <Button
           title="Add new field"
@@ -98,5 +93,5 @@ export default class HomeScreen extends Component<
     this.props.FieldStore.ClearStore();
     store.delete("settings");
     store.delete("costs");
-  }
+  };
 }

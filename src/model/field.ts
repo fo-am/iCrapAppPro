@@ -11,8 +11,8 @@ export default class Field {
     @observable public spreadingEvents = Array<Spread>();
     @observable public soilType: string = "sandyshallow";
     @observable public organicManure: string = "no";
-    @observable public soilTestP: number = 0;
-    @observable public soilTestK: number = 0;
+    @observable public soilTestP: string = "soil-p-0";
+    @observable public soilTestK: string = "soil-k-0";
     @observable public prevCropType: string = "cereals";
     @observable public recentGrass: string = "no";
     @observable public cropType: string = "winter-wheat-incorporated-feed";

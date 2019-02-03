@@ -1,12 +1,25 @@
 import { inject, observer } from "mobx-react/native";
-import { Container, Content, Form } from "native-base";
+import {
+  Body,
+  Button,
+  Container,
+  Content,
+  Footer,
+  Form,
+  H1,
+  H2,
+  H3,
+  Header,
+  Left,
+  Right,
+  Text,
+  Title
+} from "native-base";
 import React, { Component } from "react";
 import {
-  Button,
   Dimensions,
   ScrollView,
   StatusBar,
-  Text,
   TextInput,
   TouchableOpacity,
   View
@@ -106,35 +119,23 @@ export default class FarmScreen extends Component<Props, State> {
                   )}
                 </MapView>
                 {!this.state.showSave && (
-                  <View style={styles.container}>
-                    <TouchableOpacity
-                      onPress={() => this.draw()}
-                      style={[styles.bubble, styles.button]}
-                    >
-                      <Text>Draw</Text>
-                    </TouchableOpacity>
-                  </View>
+                  <Form>
+                    <Button primary onPress={() => this.draw()}>
+                      <Text>Draw it</Text>
+                    </Button>
+                  </Form>
                 )}
                 {this.state.showSave && (
                   <View style={styles.container}>
-                    <TouchableOpacity
-                      onPress={() => this.save()}
-                      style={[styles.bubble, styles.button]}
-                    >
+                    <Button info onPress={() => this.save()}>
                       <Text>Save</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      onPress={() => this.cancel()}
-                      style={[styles.bubble, styles.button]}
-                    >
+                    </Button>
+                    <Button warning onPress={() => this.cancel()}>
                       <Text>Cancel</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      onPress={() => this.reset()}
-                      style={[styles.bubble, styles.button]}
-                    >
+                    </Button>
+                    <Button info onPress={() => this.reset()}>
                       <Text>Reset</Text>
-                    </TouchableOpacity>
+                    </Button>
                   </View>
                 )}
                 <Text>Field Name</Text>
