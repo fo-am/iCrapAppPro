@@ -4,34 +4,21 @@ import CustomManure from "../customManure/CustomManure";
 import FieldScreen from "../Fields/FieldScreen";
 import SpreadScreen from "../Fields/SpreadScreen";
 import HomeScreen from "../HomeScreen";
-import MapScreen from "../Map";
 import SettingScreen from "../Settings/SettingScreen";
+import SplashScreen from "../splashScreen/splashScreen";
 
 export default createStackNavigator(
-  {
-    Calculator: {
-      screen: Calculator
+    {
+        Calculator: { screen: Calculator },
+        CustomManure: { screen: CustomManure },
+        Home: { screen: HomeScreen },
+        SplashScreen: { screen: SplashScreen },
+        Field: { screen: FieldScreen },
+        Spread: { screen: SpreadScreen },
+        Settings: { screen: SettingScreen }
     },
-    CustomManure: {
-      screen: CustomManure
-    },
-    Home: {
-      screen: HomeScreen
-    },
-    Map: {
-      screen: MapScreen
-    },
-    Field: {
-      screen: FieldScreen
-    },
-    Spread: {
-      screen: SpreadScreen
-    },
-    Settings: {
-      screen: SettingScreen
+    {
+        initialRouteName: "SplashScreen",
+        navigationOptions: { header: null }
     }
-  },
-  {
-    initialRouteName: "Home"
-  }
 );
