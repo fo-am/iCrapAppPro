@@ -94,6 +94,14 @@ class FieldStore {
         }
     }
 
+    public SetSpread(key: string) {
+        const idx = this.spreadEvents.findIndex(n => key === n.key);
+        if (idx < 0) {
+        } else {
+            this.newSpreadEvent = this.spreadEvents[idx];
+        }
+    }
+
     public UpdateLocation(): Region {
         // calculate rect
         if (this.field.fieldCoordinates) {
@@ -141,8 +149,8 @@ class FieldStore {
     @action public ClearStore() {
         this.fields = [];
         store.save("fields", this.fields);
-        this.fields = [];
-        store.save("spread", this.fields);
+        this.spreadEvents = [];
+        store.save("spread", this.spreadEvents);
     }
 
     private getSpreadEvents() {
@@ -155,7 +163,12 @@ class FieldStore {
                     return [];
                 }
             })
-            .then(res => (this.spreadEvents = res));
+            .then(
+                res =>
+                    (this.spreadEvents = res.filter(
+                        i => i.fieldkey === this.field.key
+                    ))
+            );
     }
 
     private getFields() {

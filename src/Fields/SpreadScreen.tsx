@@ -1,14 +1,31 @@
 import { inject, observer } from "mobx-react/native";
-import { Container, Content, Form } from "native-base";
+import {
+  Body,
+  Button,
+  Container,
+  Content,
+  Footer,
+  FooterTab,
+  Form,
+  H1,
+  H2,
+  H3,
+  Header,
+  Input,
+  Item,
+  Label,
+  Left,
+  Right,
+  Text,
+  Title
+} from "native-base";
 import React, { Component } from "react";
 import {
-  Button,
   Dimensions,
   Image,
   ScrollView,
   Slider,
   StatusBar,
-  Text,
   TextInput,
   TouchableOpacity,
   View
@@ -33,6 +50,7 @@ import CalculatorStore from "../store/calculatorStore";
 import Fieldstore from "../store/FieldsStore";
 import ManureStore from "../store/manureStore";
 import SettingsStore from "../store/settingsStore";
+import FieldsStore from "../store/FieldsStore";
 
 interface Props {
   navigation: NavigationScreenProp<any, any>;
@@ -135,9 +153,14 @@ export default class SpreadScreen extends Component<Props, State> {
 
   public componentWillMount() {
     const { navigation, FieldStore } = this.props;
-    const item = navigation.getParam("fieldKey", undefined);
-    if (item) {
-      FieldStore.SetField(item);
+    const field = navigation.getParam("fieldKey", undefined);
+    const spread = navigation.getParam("spreadKey", undefined);
+
+    if (spread) {
+      FieldStore.SetSpread(spread);
+    } else if (field) {
+      FieldStore.SetField(field);
+      FieldsStore.newSpreadEvent.fieldkey = field;
     } else {
       FieldStore.reset();
     }
@@ -356,16 +379,26 @@ export default class SpreadScreen extends Component<Props, State> {
                 <Text>Nutrients still needed</Text>
 
                 <Image source={CalculatorStore.image} />
-                <Button
-                  title="Save"
-                  onPress={() => Fieldstore.SaveSpreadEvent()}
-                />
               </View>
             </ScrollView>
           </Form>
         </Content>
+        <Footer>
+          <FooterTab>
+            <Button rounded onPress={() => this.save()}>
+              <Text>Save</Text>
+            </Button>
+            <Button rounded onPress={() => this.props.navigation.pop()}>
+              <Text>Cancel</Text>
+            </Button>
+          </FooterTab>
+        </Footer>
       </Container>
     );
+  }
+  private save() {
+    Fieldstore.SaveSpreadEvent();
+    this.props.navigation.pop();
   }
   private dateToSeason(date: moment.Moment) {
     const { FieldStore, CalculatorStore } = this.props;
