@@ -16,24 +16,24 @@ export interface Database {
     open(): Promise<SQLite.SQLiteDatabase>;
     close(): Promise<void>;
 
-    getFarms(): Promise<Array<Farm>>;
-    getFarm(id: number): Promise<Farm>;
-    saveFarm(farm: Farm): Promise<void>;
-    deleteFarm(farm: Farm): Promise<void>;
+    // getFarms(): Promise<Array<Farm>>;
+    // getFarm(id: number): Promise<Farm>;
+    // saveFarm(farm: Farm): Promise<void>;
+    //  deleteFarm(farm: Farm): Promise<void>;
 
-    getFields(farm: Farm): Promise<Array<Field>>;
-    getField(id: number): Promise<Field>;
+    //  getFields(farm: Farm): Promise<Array<Field>>;
+    getField(id: string): Promise<Field>;
     saveField(field: Field): Promise<void>;
-    deleteField(field: Field): Promise<void>;
+    //   deleteField(field: Field): Promise<void>;
 
-    getSpreadEvents(field: Field): Promise<Array<SpreadEvent>>;
-    getSpreadEvent(id: number): Promise<SpreadEvent>;
-    saveSpreadEvent(spreadEvent: SpreadEvent): Promise<void>;
-    deleteSpreadEvent(spreadEvent: SpreadEvent): Promise<void>;
+    //   getSpreadEvents(field: Field): Promise<Array<SpreadEvent>>;
+    //   getSpreadEvent(id: number): Promise<SpreadEvent>;
+    //   saveSpreadEvent(spreadEvent: SpreadEvent): Promise<void>;
+    //   deleteSpreadEvent(spreadEvent: SpreadEvent): Promise<void>;
 
-    getManures(): Promise<Array<Manure>>;
-    saveManure(manure: Manure): Promise<void>;
-    deleteManure(manure: Manure): Promise<void>;
+    //   getManures(): Promise<Array<Manure>>;
+    //   saveManure(manure: Manure): Promise<void>;
+    //   deleteManure(manure: Manure): Promise<void>;
 
     //   getAppSettings(): Promise<AppSettings>;
     //   saveAppSettings(appSettings: AppSettings): Promise<void>;
@@ -82,13 +82,53 @@ class DatabaseImpl implements Database {
         });
     }
 
-    public getFarms(): Promise<Array<Farm>> {}
-    public getFarm(id: number): Promise<Farm> {}
-    public saveFarm(farm: Farm): Promise<void> {}
-    public deleteFarm(farm: Farm): Promise<void> {}
+    //  public getFarms(): Promise<Array<Farm>> {  }
+    //  public getFarm(id: number): Promise<Farm> {}
+    //  public saveFarm(farm: Farm): Promise<void> {}
+    //  public deleteFarm(farm: Farm): Promise<void> {}
 
-    public getFields(farm: Farm): Promise<Array<Field>> {}
-    public getField(id: number): Promise<Field> {}
+    //   public getFields(farm: Farm): Promise<Array<Field>> {}
+    public getField(id: string): Promise<Field> {
+        if (id === undefined) {
+            return Promise.resolve(new Field());
+        }
+        return this.getDatabase().then(db =>
+            db
+                .executeSql(
+                    `SELECT FieldId, FarmId, "Field-Unique-Id", Name, Coordinates, Soil, Crop, "Previous-Crop"
+                    , "Soil-Test-P", "Soil-Test-K", "Regular-Manure", "Recent-Grass", Size FROM Field
+                 WHERE "Field-Unique-Id" = ?`,
+                    [id]
+                )
+                .then(([results]) => {
+                    if (results === undefined) {
+                        return new Field();
+                    }
+
+                    const count = results.rows.length;
+                    const field: Field = new Field();
+
+                    for (let i = 0; i < count; i++) {
+                        const row = results.rows.item[i];
+                        field.fieldId = row.FieldId;
+                        field.farmKey = row.FarmId;
+                        field.key = row["Field-Unique-Id"];
+                        field.name = row.Name;
+                        field.fieldCoordinates = JSON.parse(row.Coordinates);
+                        field.soilType = row.Soil;
+                        field.cropType = row.Crop;
+                        field.prevCropType = row["Previous-Crop"];
+                        field.soilTestP = row["Soil-Test-P"];
+                        field.soilTestK = row["Soil-Test-K"];
+                        field.organicManure = row["Regular-Manure"];
+                        field.recentGrass = row["Recent-Grass"];
+                        field.area = row.Size;
+                    }
+                    return field;
+                })
+        );
+    }
+
     public saveField(field: Field): Promise<void> {
         // look in database to see if we have this ID
         // if so then update with the values here
@@ -103,36 +143,35 @@ class DatabaseImpl implements Database {
             .then(db =>
                 db.executeSql(
                     `Insert into Field (
-                    FarmId,
-                    Field-Unique-Id,
-                    Name,
-                    Coordinates,
-                    Soil,
-                    Crop,
-                    Previous-Crop,
-                    Soil-Test-P,
-                    Soil-Test-K,
-                    Regular-Manure,
-                    Recent-Grass,
-                    Size) values(?,?,?,?,?,?,?,?,?,?,?,?)
-                 ON CONFLICT(Field-Unique_Id)
-                 Do
-                 UPDATE SET
-                 FarmId = excluded.FarmId,
-                 Field-Unique-Id = excluded,
-                 Name = excluded.Name,
-                 Coordinates = excluded.Coordinates,
-                 Soil = excluded.Soil,
-                 Crop = excluded.Crop,
-                 Previous-Crop = excluded.Previous-Crop,
-                 Soil-Test-P = excluded.Soil-Test-P,
-                 Soil-Test-K = excluded.Soil-Test-K,
-                 Regular-Manure = excluded.Regular-Manure,
-                 Recent-Grass = excluded.Recent-Grass,
-                 Size = excluded.Size
-            `,
+                        FarmId,
+                        "Field-Unique-Id",
+                        Name,
+                        Coordinates,
+                        Soil,
+                        Crop,
+                        "Previous-Crop",
+                        "Soil-Test-P",
+                        "Soil-Test-K",
+                        "Regular-Manure",
+                        "Recent-Grass",
+                        Size) values(?,?,?,?,?,?,?,?,?,?,?,?)
+                     ON CONFLICT("Field-Unique-Id")
+                     Do
+                     UPDATE SET
+                     FarmId = excluded.FarmId,
+                     Name = excluded.Name,
+                     Coordinates = excluded.Coordinates,
+                     Soil = excluded.Soil,
+                     Crop = excluded.Crop,
+                     "Previous-Crop" = excluded."Previous-Crop",
+                     "Soil-Test-P" = excluded."Soil-Test-P",
+                     "Soil-Test-K" = excluded."Soil-Test-K",
+                     "Regular-Manure" = excluded."Regular-Manure",
+                     "Recent-Grass" = excluded."Recent-Grass",
+                     Size = excluded.Size`,
+
                     [
-                        field.farmId,
+                        field.farmKey,
                         field.key,
                         field.name,
                         JSON.stringify(field.fieldCoordinates),
@@ -149,21 +188,22 @@ class DatabaseImpl implements Database {
             )
             .then(([results]) =>
                 console.log(
-                    `[db] Field "${field.name}" created successfully with id:
-           ${results.insertId}`
+                    `[db] Field "${field.name}" created successfully with id: ${
+                        results.insertId
+                    }`
                 )
             );
     }
-    public deleteField(field: Field): Promise<void> {}
+    //    public deleteField(field: Field): Promise<void> {}
 
-    public getSpreadEvents(field: Field): Promise<Array<SpreadEvent>> {}
-    public getSpreadEvent(id: number): Promise<SpreadEvent> {}
-    public saveSpreadEvent(spreadEvent: SpreadEvent): Promise<void> {}
-    public deleteSpreadEvent(spreadEvent: SpreadEvent): Promise<void> {}
+    //   public getSpreadEvents(field: Field): Promise<Array<SpreadEvent>> {}
+    //   public getSpreadEvent(id: number): Promise<SpreadEvent> {}
+    //   public saveSpreadEvent(spreadEvent: SpreadEvent): Promise<void> {}
+    //   public deleteSpreadEvent(spreadEvent: SpreadEvent): Promise<void> {}
 
-    public getManures(): Promise<Array<Manure>> {}
-    public saveManure(manure: Manure): Promise<void> {}
-    public deleteManure(manure: Manure): Promise<void> {}
+    //   public getManures(): Promise<Array<Manure>> {}
+    //   public saveManure(manure: Manure): Promise<void> {}
+    //   public deleteManure(manure: Manure): Promise<void> {}
 
     private getDatabase(): Promise<SQLite.SQLiteDatabase> {
         if (this.database !== undefined) {

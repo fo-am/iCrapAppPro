@@ -64,9 +64,9 @@ class FieldStore {
     }
 
     public Save() {
-        database.saveField(this.field);
-        this.getFields();
+        database.saveField(this.field).then(() => this.getFields());
     }
+
     public SaveSpreadEvent() {
         const idx = this.spreadEvents.findIndex(
             n => this.newSpreadEvent.key === n.key
@@ -82,11 +82,7 @@ class FieldStore {
     }
 
     public SetField(key: string) {
-        const idx = this.fields.findIndex(n => key === n.key);
-        if (idx < 0) {
-        } else {
-            this.field = this.fields[idx];
-        }
+        database.getField(key).then(field => (this.field = field));
     }
 
     public SetSpread(key: string) {
