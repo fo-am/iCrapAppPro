@@ -17,7 +17,6 @@ import {
 } from "native-base";
 import React, { Component } from "react";
 import { Image } from "react-native";
-import store from "react-native-simple-store";
 import { NavigationScreenProp } from "react-navigation";
 import FieldStore from "../store/FieldsStore";
 import ManureStore from "../store/manureStore";

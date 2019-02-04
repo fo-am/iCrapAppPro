@@ -1,5 +1,4 @@
 import { autorun, observable } from "mobx";
-import store from "react-native-simple-store";
 
 import CalculatorValues from "../model/CalculatorValues";
 import CropRequirementsResult from "../model/cropRequirementsResult";
