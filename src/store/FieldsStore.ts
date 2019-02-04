@@ -163,16 +163,7 @@ class FieldStore {
     }
 
     private getFields() {
-        store
-            .get("fields")
-            .then((res: Array<Field> | undefined) => {
-                if (res instanceof Array) {
-                    return res;
-                } else {
-                    return [];
-                }
-            })
-            .then(res => (this.fields = res));
+        database.getFields(undefined).then(res => (this.fields = res));
     }
 }
 export default new FieldStore();

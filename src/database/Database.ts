@@ -21,7 +21,7 @@ export interface Database {
     // saveFarm(farm: Farm): Promise<void>;
     //  deleteFarm(farm: Farm): Promise<void>;
 
-    //  getFields(farm: Farm): Promise<Array<Field>>;
+    getFields(farm: Farm): Promise<Array<Field>>;
     getField(id: string): Promise<Field>;
     saveField(field: Field): Promise<void>;
     //   deleteField(field: Field): Promise<void>;
@@ -87,7 +87,44 @@ class DatabaseImpl implements Database {
     //  public saveFarm(farm: Farm): Promise<void> {}
     //  public deleteFarm(farm: Farm): Promise<void> {}
 
-    //   public getFields(farm: Farm): Promise<Array<Field>> {}
+    public getFields(farm: Farm): Promise<Array<Field>> {
+        return this.getDatabase().then(db =>
+            db
+                .executeSql(
+                    `SELECT FieldId, FarmId, "Field-Unique-Id", Name, Coordinates, Soil, Crop, "Previous-Crop"
+            , "Soil-Test-P", "Soil-Test-K", "Regular-Manure", "Recent-Grass", Size FROM Field`
+                )
+                .then(([results]) => {
+                    if (results === undefined) {
+                        return [];
+                    }
+                    const count = results.rows.length;
+                    const fields: Field[] = [];
+                    for (let i = 0; i < count; i++) {
+                        const row = results.rows.item(i);
+
+                        const newField = new Field();
+                        newField.fieldId = row.FieldId;
+                        newField.farmKey = row.FarmId;
+                        newField.key = row["Field-Unique-Id"];
+                        newField.name = row.Name;
+                        newField.fieldCoordinates = JSON.parse(row.Coordinates);
+                        newField.soilType = row.Soil;
+                        newField.cropType = row.Crop;
+                        newField.prevCropType = row["Previous-Crop"];
+                        newField.soilTestP = row["Soil-Test-P"];
+                        newField.soilTestK = row["Soil-Test-K"];
+                        newField.organicManure = row["Regular-Manure"];
+                        newField.recentGrass = row["Recent-Grass"];
+                        newField.area = row.Size;
+
+                        fields.push(newField);
+                    }
+                    return fields;
+                })
+        );
+    }
+
     public getField(id: string): Promise<Field> {
         if (id === undefined) {
             return Promise.resolve(new Field());
@@ -109,7 +146,7 @@ class DatabaseImpl implements Database {
                     const field: Field = new Field();
 
                     for (let i = 0; i < count; i++) {
-                        const row = results.rows.item[i];
+                        const row = results.rows.item(i);
                         field.fieldId = row.FieldId;
                         field.farmKey = row.FarmId;
                         field.key = row["Field-Unique-Id"];
@@ -142,7 +179,7 @@ class DatabaseImpl implements Database {
         return this.getDatabase()
             .then(db =>
                 db.executeSql(
-                    `Insert into Field (
+                    `Insert or Ignore Into Field (
                         FarmId,
                         "Field-Unique-Id",
                         Name,
@@ -154,21 +191,21 @@ class DatabaseImpl implements Database {
                         "Soil-Test-K",
                         "Regular-Manure",
                         "Recent-Grass",
-                        Size) values(?,?,?,?,?,?,?,?,?,?,?,?)
-                     ON CONFLICT("Field-Unique-Id")
-                     Do
-                     UPDATE SET
-                     FarmId = excluded.FarmId,
-                     Name = excluded.Name,
-                     Coordinates = excluded.Coordinates,
-                     Soil = excluded.Soil,
-                     Crop = excluded.Crop,
-                     "Previous-Crop" = excluded."Previous-Crop",
-                     "Soil-Test-P" = excluded."Soil-Test-P",
-                     "Soil-Test-K" = excluded."Soil-Test-K",
-                     "Regular-Manure" = excluded."Regular-Manure",
-                     "Recent-Grass" = excluded."Recent-Grass",
-                     Size = excluded.Size`,
+                        Size) values(?1,?2,?3,?4,?5,?6,?7,?8,?9,?10,?11,?12);
+                        UPDATE Field SET
+                        FarmId = ?1,
+                        Name = ?3,
+                        Coordinates= ?4,
+                        Soil= ?5,
+                        Crop= ?6,
+                        "Previous-Crop"= ?7,
+                        "Soil-Test-P"= ?8,
+                        "Soil-Test-K"= ?9,
+                        "Regular-Manure"= ?10,
+                        "Recent-Grass"= ?11,
+                        Size= ?12
+                        where changes() = 0 and "Field-Unique-Id" = ?2;
+                        `,
 
                     [
                         field.farmKey,
