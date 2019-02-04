@@ -4,6 +4,7 @@ import Coords from "../model/Coords";
 import Spread from "../model/spreadEvent";
 
 export default class Field {
+    @observable public farmId: string = "Farm";
     @observable public key: string;
     @observable public fieldCoordinates: Coords = new Coords();
     @observable public area: number = 0;

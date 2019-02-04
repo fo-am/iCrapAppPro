@@ -8,6 +8,8 @@ import SpreadEvent from "../model/spreadEvent";
 
 import CalculatorStore from "../store/calculatorStore";
 
+import { database } from "../database/Database";
+
 interface Region {
     latitude: number;
     longitude: number;
@@ -62,14 +64,7 @@ class FieldStore {
     }
 
     public Save() {
-        const idx = this.fields.findIndex(n => this.field.key === n.key);
-        if (idx < 0) {
-            this.fields.push(this.field);
-        } else {
-            this.fields[idx] = this.field;
-        }
-
-        store.save("fields", this.fields);
+        database.saveField(this.field);
         this.getFields();
     }
     public SaveSpreadEvent() {
