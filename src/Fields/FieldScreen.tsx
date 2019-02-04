@@ -33,6 +33,7 @@ import { NavigationScreenProp } from "react-navigation";
 
 import dropDownData from "../assets/dropDownData.json";
 import DropDown from "../components/DropDown";
+import SoilNutrientDisplay from "../components/soilNutrientDisplay";
 import SphericalUtil from "../geoUtils";
 import Field from "../model/field";
 import CalculatorStore from "../store/calculatorStore";
@@ -294,9 +295,10 @@ export default class FieldScreen extends Component<Props, State> {
                     values={this.soiltestK}
                   />
                   <Text>
-                    nitrogenSupply
-                    {FieldStore.cropRequirementsResult.nitrogenSupply}
-                    This needs turned into the value obviously!
+                    nitrogenSupply{" "}
+                    <SoilNutrientDisplay
+                      value={FieldStore.cropRequirementsResult.nitrogenSupply}
+                    />
                   </Text>
                   <H2>Crop Details</H2>
                   <H3>Previous crop type</H3>
