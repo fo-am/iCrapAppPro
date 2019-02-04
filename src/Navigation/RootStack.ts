@@ -18,7 +18,7 @@ export default createStackNavigator(
         Settings: { screen: SettingScreen }
     },
     {
-        initialRouteName: "SplashScreen",
+        initialRouteName: "Home",
         navigationOptions: { header: null }
     }
 );

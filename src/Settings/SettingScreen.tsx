@@ -98,7 +98,7 @@ export default class SettingScreen extends Component<Props, State> {
                 onPress={() => this.Save()}
                 accessibilityLabel="Save Settings"
               />
-            </ScrollView>{" "}
+            </ScrollView>
           </Form>
         </Content>
       </Container>

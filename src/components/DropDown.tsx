@@ -5,7 +5,6 @@ interface Props {
   selectedValue: number | string;
   onChange: any;
   values: any;
-  style: any;
 }
 
 interface State {}

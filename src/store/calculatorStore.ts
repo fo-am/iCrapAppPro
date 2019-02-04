@@ -115,8 +115,8 @@ class CalculatorStore {
         );
 
         const values = new CropRequirementsResult();
-        values.nitrogenRequirement = temp.nitrogenRequirement;
         values.nitrogenSupply = temp.nitrogenSupply;
+        values.nitrogenRequirement = temp.nitrogenRequirement;
         values.phosphorousRequirement = temp.phosphorousRequirement;
         values.potassiumRequirement = temp.phosphorousRequirement;
 

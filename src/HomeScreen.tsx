@@ -37,7 +37,6 @@ export default class HomeScreen extends Component<
             })
           }
         />
-
         <ScrollView>
           <FlatList
             data={this.props.FieldStore.fields.slice()}
@@ -85,7 +84,7 @@ export default class HomeScreen extends Component<
             )}
           />
         </ScrollView>
-        <Button title="clear store" onPress={this.clearStore} />
+        <Button title="clear store" onPress={() => this.clearStore()} />
       </View>
     );
   }
