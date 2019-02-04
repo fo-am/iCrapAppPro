@@ -22,6 +22,7 @@ import {
 import React, { Component } from "react";
 import {
   Dimensions,
+  FlatList,
   ScrollView,
   StatusBar,
   TextInput,
@@ -35,7 +36,11 @@ import dropDownData from "../assets/dropDownData.json";
 import DropDown from "../components/DropDown";
 import SoilNutrientDisplay from "../components/soilNutrientDisplay";
 import SphericalUtil from "../geoUtils";
+
 import Field from "../model/field";
+import SpreadEvent from "../model/spreadEvent";
+
+import moment from "moment";
 import CalculatorStore from "../store/calculatorStore";
 import FieldStore from "../store/FieldsStore";
 // import SettingsStore from "../store/settingsStore";
@@ -265,6 +270,23 @@ export default class FieldScreen extends Component<Props, State> {
                   >
                     <Text>Add Spreading Event</Text>
                   </Button>
+                  <ScrollView>
+                    <FlatList<SpreadEvent>
+                      data={this.props.FieldStore.spreadEvents.slice()}
+                      keyExtractor={item => item.key}
+                      renderItem={({ item }) => (
+                        <Button
+                          onPress={() => {
+                            this.props.navigation.navigate("Spread", {
+                              spreadKey: item.key
+                            });
+                          }}
+                        >
+                          <Text>{moment(item.date).format("MMM Do YY")}</Text>
+                        </Button>
+                      )}
+                    />
+                  </ScrollView>
                 </View>
                 <View style={{ paddingTop: "5%" }}>
                   <H2>Soil Details</H2>
