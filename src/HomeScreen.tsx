@@ -7,8 +7,6 @@ import FieldStore from "./store/FieldsStore";
 import ManureStore from "./store/manureStore";
 import styles from "./styles/style";
 
-import Data from "./data";
-
 interface MyComponentProps {
   navigation: NavigationScreenProp<any, any>;
   ManureStore: ManureStore;
