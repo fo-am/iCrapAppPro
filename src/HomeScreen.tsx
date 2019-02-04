@@ -3,6 +3,8 @@ import React, { Component } from "react";
 import { Button, FlatList, ScrollView, Text, View } from "react-native";
 import store from "react-native-simple-store";
 import { NavigationScreenProp } from "react-navigation";
+import Field from "./model/field";
+import Manure from "./model/manure";
 import FieldStore from "./store/FieldsStore";
 import ManureStore from "./store/manureStore";
 import styles from "./styles/style";
@@ -38,7 +40,7 @@ export default class HomeScreen extends Component<
           }
         />
         <ScrollView>
-          <FlatList
+          <FlatList<Field>
             data={this.props.FieldStore.fields.slice()}
             keyExtractor={item => item.key}
             renderItem={({ item }) => (
@@ -69,7 +71,7 @@ export default class HomeScreen extends Component<
           onPress={() => this.props.navigation.navigate("CustomManure")}
         />
         <ScrollView>
-          <FlatList
+          <FlatList<Manure>
             data={this.props.ManureStore.manures.slice()}
             keyExtractor={item => item.key}
             renderItem={({ item }) => (
