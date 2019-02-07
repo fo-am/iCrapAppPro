@@ -26,9 +26,9 @@ export interface Database {
     saveField(field: Field): Promise<void>;
     //   deleteField(field: Field): Promise<void>;
 
-    //   getSpreadEvents(field: Field): Promise<Array<SpreadEvent>>;
+    getSpreadEvents(field: Field): Promise<Array<SpreadEvent>>;
     //   getSpreadEvent(id: number): Promise<SpreadEvent>;
-    //   saveSpreadEvent(spreadEvent: SpreadEvent): Promise<void>;
+    saveSpreadEvent(spreadEvent: SpreadEvent): Promise<void>;
     //   deleteSpreadEvent(spreadEvent: SpreadEvent): Promise<void>;
 
     //   getManures(): Promise<Array<Manure>>;
@@ -37,6 +37,8 @@ export interface Database {
 
     //   getAppSettings(): Promise<AppSettings>;
     //   saveAppSettings(appSettings: AppSettings): Promise<void>;
+
+    delete(): Promise<void>;
 }
 
 class DatabaseImpl implements Database {
@@ -81,7 +83,8 @@ class DatabaseImpl implements Database {
             this.database = undefined;
         });
     }
-
+    // delete all the things
+    public delete(): Promise<void> {}
     //  public getFarms(): Promise<Array<Farm>> {  }
     //  public getFarm(id: number): Promise<Farm> {}
     //  public saveFarm(farm: Farm): Promise<void> {}
@@ -175,7 +178,8 @@ class DatabaseImpl implements Database {
                 Error(`Could not add item to undefined list.`)
             );
         }
-        // https://www.sqlite.org/lang_UPSERT.html
+        // https://www.sqlite.org/lang_UPSERT.html but current sqlite version cannot handle it so
+        //
         return this.getDatabase()
             .then(db =>
                 db.executeSql(
@@ -233,9 +237,132 @@ class DatabaseImpl implements Database {
     }
     //    public deleteField(field: Field): Promise<void> {}
 
-    //   public getSpreadEvents(field: Field): Promise<Array<SpreadEvent>> {}
+    public getSpreadEvents(field: Field): Promise<Array<SpreadEvent>> {
+        if (field === undefined) {
+            return Promise.resolve([]);
+        }
+        return this.getDatabase().then(db =>
+            db
+                .executeSql(
+                    `SELECT
+                     "SpreadEventId", "SpreadEvent-Unique-Id",
+                     "FieldId", "Date", "Nutrients-N", "Nutrients-P",
+                     "Nutrients-K", "Require-N", "Require-P",
+                     "Require-K", "SNS", "Soil", "Size", "Amount",
+                      "Quality", "Application", "Season", "Crop"
+                     FROM SpreadEvent`
+                )
+                .then(([results]) => {
+                    if (results === undefined) {
+                        return [];
+                    }
+                    const count = results.rows.length;
+                    const spreadEvents: SpreadEvent[] = [];
+                    for (let i = 0; i < count; i++) {
+                        const row = results.rows.item(i);
+
+                        const newSpreadEvent = new SpreadEvent();
+
+                        newSpreadEvent.key = row["SpreadEvent-Unique-Id"];
+                        newSpreadEvent.fieldkey = row.FieldId;
+                        newSpreadEvent.date = JSON.parse(row.Date);
+                        newSpreadEvent.nutrientsN = row["Nutrients-N"];
+                        newSpreadEvent.nutrientsP = row["Nutrients-P"];
+                        newSpreadEvent.nutrientsK = row["Nutrients-K"];
+                        newSpreadEvent.requireN = row["Require-N"];
+                        newSpreadEvent.requireP = row["Require-P"];
+                        newSpreadEvent.requireK = row["Require-K"];
+                        newSpreadEvent.sns = row.SNS;
+                        newSpreadEvent.soil = row.Soil;
+                        newSpreadEvent.size = row.Size;
+                        newSpreadEvent.amount = row.Amount;
+                        newSpreadEvent.quality = row.Quality;
+                        newSpreadEvent.applicationType = row.Application;
+                        newSpreadEvent.season = row.Season;
+                        newSpreadEvent.crop = row.Crop;
+
+                        spreadEvents.push(newSpreadEvent);
+                    }
+                    return spreadEvents;
+                })
+        );
+    }
     //   public getSpreadEvent(id: number): Promise<SpreadEvent> {}
-    //   public saveSpreadEvent(spreadEvent: SpreadEvent): Promise<void> {}
+    public saveSpreadEvent(spreadEvent: SpreadEvent): Promise<void> {
+        if (spreadEvent === undefined) {
+            return Promise.reject(Error(`spreadEvent not supplied.`));
+        }
+        // https://www.sqlite.org/lang_UPSERT.html but current sqlite version cannot handle it so
+        //
+        return this.getDatabase()
+            .then(db =>
+                db.executeSql(
+                    `Insert or Ignore Into SpreadEvent (
+                        "SpreadEvent-Unique-Id",
+                        "FieldId",
+                        "Date",
+                        "Nutrients-N",
+                        "Nutrients-P",
+                        "Nutrients-K",
+                        "Require-N",
+                        "Require-P",
+                        "Require-K",
+                        "SNS",
+                        "Soil",
+                        "Size",
+                        "Amount",
+                        "Quality",
+                        "Application",
+                        "Season",
+                        "Crop") values(?1,?2,?3,?4,?5,?6,?7,?8,?9,?10,?11,?12,?13,?14,?15,?16,?17);
+                    UPDATE SpreadEvent SET
+                    "FieldId" = ?2,
+                        "Date"= ?3,
+                        "Nutrients-N"= ?4,
+                        "Nutrients-P"= ?5,
+                        "Nutrients-K"= ?6,
+                        "Require-N"= ?7,
+                        "Require-P"= ?8,
+                        "Require-K"= ?9,
+                        "SNS"= ?10,
+                        "Soil"= ?11,
+                        "Size"= ?12,
+                        "Amount"= ?13,
+                        "Quality"= ?14,
+                        "Application"= ?15,
+                        "Season"= ?16,
+                        "Crop"= ?17
+                    where changes() = 0 and "SpreadEvent-Unique-Id" = ?1;
+                    `,
+
+                    [
+                        spreadEvent.key,
+                        spreadEvent.fieldkey,
+                        JSON.stringify(spreadEvent.date),
+                        spreadEvent.nutrientsN,
+                        spreadEvent.nutrientsP,
+                        spreadEvent.nutrientsK,
+                        spreadEvent.requireN,
+                        spreadEvent.requireP,
+                        spreadEvent.requireK,
+                        spreadEvent.sns,
+                        spreadEvent.soil,
+                        spreadEvent.size,
+                        spreadEvent.amount,
+                        spreadEvent.applicationType,
+                        spreadEvent.season,
+                        spreadEvent.crop
+                    ]
+                )
+            )
+            .then(([results]) =>
+                console.log(
+                    `[db] SpreadEvent "${
+                        spreadEvent.date
+                    }" created successfully with id: ${results.insertId}`
+                )
+            );
+    }
     //   public deleteSpreadEvent(spreadEvent: SpreadEvent): Promise<void> {}
 
     //   public getManures(): Promise<Array<Manure>> {}

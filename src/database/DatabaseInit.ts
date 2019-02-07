@@ -63,9 +63,8 @@ export class DatabaseInitialization {
         // Farm table
         transaction.executeSql(
             `CREATE TABLE IF NOT EXISTS "Farm" (
-                "FarmId"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+                "Farm-Unique-Id"	TEXT NOT NULL PRIMARY KEY UNIQUE,
                 "LocationId"	INTEGER NOT NULL,
-                "Farm-Unique-Id"	TEXT NOT NULL UNIQUE,
                 "Name"	TEXT NOT NULL,
                 "Rainfall"	TEXT NOT NULL,
                 "Cost-N"	NUMERIC NOT NULL,
@@ -77,9 +76,8 @@ export class DatabaseInitialization {
         // Field table
         transaction.executeSql(
             `CREATE TABLE IF NOT EXISTS  "Field" (
-            "FieldId"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+            "Field-Unique-Id"	TEXT NOT NULL PRIMARY KEY UNIQUE,
             "FarmId"	INTEGER NOT NULL,
-            "Field-Unique-Id"	TEXT NOT NULL UNIQUE,
             "Name"	TEXT NOT NULL,
             "Coordinates"	TEXT NOT NULL,
             "Soil"	TEXT NOT NULL,
@@ -95,8 +93,7 @@ export class DatabaseInitialization {
         // SpreadEvent Table
         transaction.executeSql(
             `CREATE TABLE IF NOT EXISTS "SpreadEvent" (
-            "SpreadEventId"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-            "SpreadEvent-Unique-Id"	TEXT NOT NULL UNIQUE,
+            "SpreadEvent-Unique-Id"	TEXT NOT NULL PRIMARY KEY UNIQUE,
             "FieldId" INTEGER NOT NULL,
             "Date"	TEXT NOT NULL,
             "Nutrients-N"	NUMERIC NOT NULL,
@@ -118,8 +115,7 @@ export class DatabaseInitialization {
         // Manure Table
         transaction.executeSql(
             `CREATE TABLE IF NOT EXISTS  "Manure" (
-            "ManureId"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-            "Manure-Unique-Id"	TEXT NOT NULL UNIQUE,
+            "Manure-Unique-Id"	TEXT NOT NULL  PRIMARY KEY UNIQUE,
             "Name" TEXT NOT NULL,
             "N"	NUMERIC NOT NULL,
             "P"	NUMERIC NOT NULL,
