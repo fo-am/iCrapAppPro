@@ -94,7 +94,7 @@ class DatabaseImpl implements Database {
         return this.getDatabase().then(db =>
             db
                 .executeSql(
-                    `SELECT FieldId, FarmId, "Field-Unique-Id", Name, Coordinates, Soil, Crop, "Previous-Crop"
+                    `SELECT "Field-Unique-Id", "FarmKey", Name, Coordinates, Soil, Crop, "Previous-Crop"
             , "Soil-Test-P", "Soil-Test-K", "Regular-Manure", "Recent-Grass", Size FROM Field`
                 )
                 .then(([results]) => {
@@ -107,9 +107,8 @@ class DatabaseImpl implements Database {
                         const row = results.rows.item(i);
 
                         const newField = new Field();
-                        newField.fieldId = row.FieldId;
-                        newField.farmKey = row.FarmId;
                         newField.key = row["Field-Unique-Id"];
+                        newField.farmKey = row.FarmKey;
                         newField.name = row.Name;
                         newField.fieldCoordinates = JSON.parse(row.Coordinates);
                         newField.soilType = row.Soil;
@@ -135,7 +134,7 @@ class DatabaseImpl implements Database {
         return this.getDatabase().then(db =>
             db
                 .executeSql(
-                    `SELECT FieldId, FarmId, "Field-Unique-Id", Name, Coordinates, Soil, Crop, "Previous-Crop"
+                    `SELECT  "Field-Unique-Id", FarmKey, Name, Coordinates, Soil, Crop, "Previous-Crop"
                     , "Soil-Test-P", "Soil-Test-K", "Regular-Manure", "Recent-Grass", Size FROM Field
                  WHERE "Field-Unique-Id" = ?`,
                     [id]
@@ -150,9 +149,8 @@ class DatabaseImpl implements Database {
 
                     for (let i = 0; i < count; i++) {
                         const row = results.rows.item(i);
-                        field.fieldId = row.FieldId;
-                        field.farmKey = row.FarmId;
                         field.key = row["Field-Unique-Id"];
+                        field.farmKey = row.FarmKey;
                         field.name = row.Name;
                         field.fieldCoordinates = JSON.parse(row.Coordinates);
                         field.soilType = row.Soil;
@@ -180,12 +178,13 @@ class DatabaseImpl implements Database {
         }
         // https://www.sqlite.org/lang_UPSERT.html but current sqlite version cannot handle it so
         //
+
         return this.getDatabase()
             .then(db =>
                 db.executeSql(
                     `Insert or Ignore Into Field (
-                        FarmId,
                         "Field-Unique-Id",
+                        FarmKey,
                         Name,
                         Coordinates,
                         Soil,
@@ -197,7 +196,7 @@ class DatabaseImpl implements Database {
                         "Recent-Grass",
                         Size) values(?1,?2,?3,?4,?5,?6,?7,?8,?9,?10,?11,?12);
                         UPDATE Field SET
-                        FarmId = ?1,
+                        FarmKey = ?2,
                         Name = ?3,
                         Coordinates= ?4,
                         Soil= ?5,
@@ -208,12 +207,12 @@ class DatabaseImpl implements Database {
                         "Regular-Manure"= ?10,
                         "Recent-Grass"= ?11,
                         Size= ?12
-                        where changes() = 0 and "Field-Unique-Id" = ?2;
+                        where changes() = 0 and "Field-Unique-Id" = ?1;
                         `,
 
                     [
-                        field.farmKey,
                         field.key,
+                        field.farmKey,
                         field.name,
                         JSON.stringify(field.fieldCoordinates),
                         field.soilType,
@@ -245,8 +244,8 @@ class DatabaseImpl implements Database {
             db
                 .executeSql(
                     `SELECT
-                     "SpreadEventId", "SpreadEvent-Unique-Id",
-                     "FieldId", "Date", "Nutrients-N", "Nutrients-P",
+                      "SpreadEvent-Unique-Id", FieldKey
+                      "Date", "Nutrients-N", "Nutrients-P",
                      "Nutrients-K", "Require-N", "Require-P",
                      "Require-K", "SNS", "Soil", "Size", "Amount",
                       "Quality", "Application", "Season", "Crop"
@@ -264,7 +263,7 @@ class DatabaseImpl implements Database {
                         const newSpreadEvent = new SpreadEvent();
 
                         newSpreadEvent.key = row["SpreadEvent-Unique-Id"];
-                        newSpreadEvent.fieldkey = row.FieldId;
+                        newSpreadEvent.fieldkey = row.FieldKey;
                         newSpreadEvent.date = JSON.parse(row.Date);
                         newSpreadEvent.nutrientsN = row["Nutrients-N"];
                         newSpreadEvent.nutrientsP = row["Nutrients-P"];
@@ -299,7 +298,7 @@ class DatabaseImpl implements Database {
                 db.executeSql(
                     `Insert or Ignore Into SpreadEvent (
                         "SpreadEvent-Unique-Id",
-                        "FieldId",
+                        "FieldKey",
                         "Date",
                         "Nutrients-N",
                         "Nutrients-P",
@@ -316,7 +315,7 @@ class DatabaseImpl implements Database {
                         "Season",
                         "Crop") values(?1,?2,?3,?4,?5,?6,?7,?8,?9,?10,?11,?12,?13,?14,?15,?16,?17);
                     UPDATE SpreadEvent SET
-                    "FieldId" = ?2,
+                        "FieldKey" = ?2,
                         "Date"= ?3,
                         "Nutrients-N"= ?4,
                         "Nutrients-P"= ?5,

@@ -77,7 +77,7 @@ export class DatabaseInitialization {
         transaction.executeSql(
             `CREATE TABLE IF NOT EXISTS  "Field" (
             "Field-Unique-Id"	TEXT NOT NULL PRIMARY KEY UNIQUE,
-            "FarmId"	INTEGER NOT NULL,
+            "FarmKey"	TEXT NOT NULL,
             "Name"	TEXT NOT NULL,
             "Coordinates"	TEXT NOT NULL,
             "Soil"	TEXT NOT NULL,
@@ -94,7 +94,7 @@ export class DatabaseInitialization {
         transaction.executeSql(
             `CREATE TABLE IF NOT EXISTS "SpreadEvent" (
             "SpreadEvent-Unique-Id"	TEXT NOT NULL PRIMARY KEY UNIQUE,
-            "FieldId" INTEGER NOT NULL,
+            "FieldKey" TEXT NOT NULL,
             "Date"	TEXT NOT NULL,
             "Nutrients-N"	NUMERIC NOT NULL,
             "Nutrients-P"	NUMERIC NOT NULL,
