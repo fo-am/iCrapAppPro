@@ -32,9 +32,10 @@ export interface Database {
     saveSpreadEvent(spreadEvent: SpreadEvent): Promise<void>;
     //   deleteSpreadEvent(spreadEvent: SpreadEvent): Promise<void>;
 
-    //   getManures(): Promise<Array<Manure>>;
-    //   saveManure(manure: Manure): Promise<void>;
-    //   deleteManure(manure: Manure): Promise<void>;
+    getManures(): Promise<Array<Manure>>;
+    getManure(key: string): Promise<Manure>;
+    saveManure(manure: Manure): Promise<void>;
+    deleteManure(manure: Manure): Promise<void>;
 
     //   getAppSettings(): Promise<AppSettings>;
     //   saveAppSettings(appSettings: AppSettings): Promise<void>;
@@ -128,8 +129,8 @@ class DatabaseImpl implements Database {
         );
     }
 
-    public getField(id: string): Promise<Field> {
-        if (id === undefined) {
+    public getField(key: string): Promise<Field> {
+        if (key === undefined) {
             return Promise.resolve(new Field());
         }
         return this.getDatabase().then(db =>
@@ -138,7 +139,7 @@ class DatabaseImpl implements Database {
                     `SELECT  "Field-Unique-Id", FarmKey, Name, Coordinates, Soil, Crop, "Previous-Crop"
                     , "Soil-Test-P", "Soil-Test-K", "Regular-Manure", "Recent-Grass", Size FROM Field
                  WHERE "Field-Unique-Id" = ?`,
-                    [id]
+                    [key]
                 )
                 .then(([results]) => {
                     if (results === undefined) {
@@ -470,9 +471,148 @@ class DatabaseImpl implements Database {
     }
     //   public deleteSpreadEvent(spreadEvent: SpreadEvent): Promise<void> {}
 
-    //   public getManures(): Promise<Array<Manure>> {}
-    //   public saveManure(manure: Manure): Promise<void> {}
-    //   public deleteManure(manure: Manure): Promise<void> {}
+    public getManures(): Promise<Array<Manure>> {
+        return this.getDatabase().then(db =>
+            db
+                .executeSql(
+                    `SELECT "Manure-Unique-Id" , Name, N, P, K FROM Manure`
+                )
+                .then(([results]) => {
+                    if (results === undefined) {
+                        return [];
+                    }
+                    const count = results.rows.length;
+                    const manures: Manure[] = [];
+                    for (let i = 0; i < count; i++) {
+                        const row = results.rows.item(i);
+
+                        const newManure = new Manure();
+                        newManure.key = row["Manure-Unique-Id"];
+                        newManure.name = row.Name;
+                        newManure.N = row.N;
+                        newManure.P = row.P;
+                        newManure.K = row.K;
+
+                        manures.push(newManure);
+                    }
+                    return manures;
+                })
+        );
+    }
+    public getManure(key: string): Promise<Manure> {
+        return this.getDatabase().then(db =>
+            db
+                .executeSql(
+                    `Select "Manure-Unique-Id", Name, N, P, K
+                     from Manure Where  "Manure-Unique-Id" = ? `,
+                    [key]
+                )
+                .then(([result]) => {
+                    const count = result.rows.length;
+                    const newManure = new Manure();
+
+                    for (let i = 0; i < count; i++) {
+                        const row = result.rows.item(i);
+
+                        newManure.key = key;
+                        newManure.name = row.Name;
+                        newManure.N = row.N;
+                        newManure.P = row.P;
+                        newManure.K = row.K;
+                    }
+                    return newManure;
+                })
+        );
+    }
+
+    public async saveManure(manure: Manure): Promise<void> {
+        // look in database to see if we have this ID
+        // if so then update with the values here
+        // else add a new record
+        if (manure === undefined) {
+            return Promise.reject(Error(`Could not add undefined manure.`));
+        }
+        // https://www.sqlite.org/lang_UPSERT.html but current sqlite version cannot handle it so
+        //
+        let dbCount: number = 0;
+        await this.getDatabase()
+            .then(db =>
+                db.executeSql(
+                    `select count(1) as count from Manure where "Manure-Unique-Id" = ?`,
+                    [manure.key]
+                )
+            )
+            .then(([result]) => {
+                const count = result.rows.length;
+                for (let i = 0; i < count; i++) {
+                    const row = result.rows.item(i);
+                    dbCount = row.count;
+                }
+            });
+
+        if (dbCount === 1) {
+            // update
+            return this.getDatabase()
+                .then(db =>
+                    db.executeSql(
+                        `
+                        UPDATE Manure SET
+                        Name = ?2,
+                        N = ?3,
+                        P = ?4,
+                        K = ?5
+                        WHERE "Manure-Unique-Id" = ?1;
+                        `,
+
+                        [manure.key, manure.name, manure.N, manure.P, manure.K]
+                    )
+                )
+                .then(([results]) =>
+                    console.log(
+                        `[db] Field "${manure.name}" updated successfully.`
+                    )
+                );
+        } else {
+            // insert
+            return this.getDatabase()
+                .then(db =>
+                    db.executeSql(
+                        `
+                        Insert into Manure ("Manure-Unique-Id", Name, N, P, K)
+                        VALUES
+                        (?1, ?2, ?3, ?4, ?5);
+                        `,
+
+                        [manure.key, manure.name, manure.N, manure.P, manure.K]
+                    )
+                )
+                .then(([results]) =>
+                    console.log(
+                        `[db] Manure "${
+                            manure.name
+                        }" inserted successfully rows affected: ${
+                            results.rowsAffected
+                        }`
+                    )
+                );
+        }
+    }
+    public deleteManure(manure: Manure): Promise<void> {
+        return this.getDatabase()
+            .then(db =>
+                db.executeSql(
+                    `Delete from manure where "Manure-Unique-Id" = ?;`,
+                    [manure.key]
+                )
+            )
+            .then(([res]) =>
+                console.log(
+                    `[db] Manure "${
+                        manure.name
+                    }" deleted successfully rows affected: ${res.rowsAffected}`
+                )
+            );
+    }
 
     private getDatabase(): Promise<SQLite.SQLiteDatabase> {
         if (this.database !== undefined) {

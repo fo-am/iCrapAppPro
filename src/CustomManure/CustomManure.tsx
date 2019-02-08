@@ -1,7 +1,26 @@
 import { inject, observer } from "mobx-react/native";
-import { Container, Content, Form } from "native-base";
+import {
+  Body,
+  Button,
+  Container,
+  Content,
+  Footer,
+  FooterTab,
+  Form,
+  H1,
+  H2,
+  H3,
+  Header,
+  Input,
+  Item,
+  Label,
+  Left,
+  Right,
+  Text,
+  Title
+} from "native-base";
 import React, { Component } from "react";
-import { Button, Text, TextInput, View } from "react-native";
+import { View } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
 import { Maths } from "../assets/Math";
 import ManureStore from "../store/manureStore";
@@ -13,9 +32,7 @@ interface MyComponentProps {
   ManureStore: ManureStore;
 }
 
-interface MyComponentState {
-  manure: Manure;
-}
+interface MyComponentState {}
 
 @inject("ManureStore")
 @observer
@@ -25,22 +42,15 @@ export default class CustomManure extends Component<
 > {
   constructor(props) {
     super(props);
-    this.state = {
-      manure: {
-        key: Maths.generateUUID(),
-        name: "",
-        N: undefined,
-        P: undefined,
-        K: undefined
-      }
-    };
   }
 
   public componentWillMount() {
     const { navigation } = this.props;
     const item = navigation.getParam("manure", undefined);
     if (item) {
-      this.setState({ manure: item });
+      this.props.ManureStore.manure = this.props.ManureStore.getManure(
+        item.key
+      );
     }
   }
 
@@ -51,61 +61,62 @@ export default class CustomManure extends Component<
           <Form>
             <View style={styles.container}>
               <Text>Manure Name</Text>
-              <TextInput
-                //    defaultValue="My Manure"
-                //    style={styles.textInput}
+
+              <Input
+                autoFocus={true}
                 keyboardType="default"
+                placeholder="New Manure"
                 onChangeText={text =>
-                  this.setState({
-                    manure: { ...this.state.manure, name: text }
-                  })
+                  (this.props.ManureStore.manure.name = text)
                 }
-                placeholder="New Name"
-                value={this.state.manure.name}
-              />
+              >
+                {this.props.ManureStore.manure.name}
+              </Input>
+
               <Text>N kg/t content (elemental)</Text>
-              <TextInput
-                //    defaultValue="0"
-                //    style={styles.textInput}
+
+              <Input
                 keyboardType="numeric"
-                onChangeText={text =>
-                  this.setState({
-                    manure: { ...this.state.manure, N: parseFloat(text) }
-                  })
-                }
                 placeholder="0"
-                value={this.toString(this.state.manure.N)}
-              />
+                onChangeText={text =>
+                  (this.props.ManureStore.manure.N = parseFloat(text))
+                }
+              >
+                {this.toString(this.props.ManureStore.manure.N)}
+              </Input>
+
               <Text>P kg/t content (elemental)</Text>
-              <TextInput
-                //     defaultValue="0"
-                //     style={styles.textInput}
+              <Input
                 keyboardType="numeric"
-                onChangeText={text =>
-                  this.setState({
-                    manure: { ...this.state.manure, P: parseFloat(text) }
-                  })
-                }
                 placeholder="0"
-                value={this.toString(this.state.manure.P)}
-              />
+                onChangeText={text =>
+                  (this.props.ManureStore.manure.P = parseFloat(text))
+                }
+              >
+                {this.toString(this.props.ManureStore.manure.P)}
+              </Input>
+
               <Text>K kg/t content (elemental)</Text>
-              <TextInput
-                //      defaultValue="0"
-                //     style={styles.textInput}
+
+              <Input
                 keyboardType="numeric"
-                onChangeText={text =>
-                  this.setState({
-                    manure: { ...this.state.manure, K: parseFloat(text) }
-                  })
-                }
                 placeholder="0"
-                value={this.toString(this.state.manure.K)}
-              />
-              <Button title="Cancel" onPress={this.cancel} />
-              <Button title="OK" onPress={this.saveManure} />
-              <Button title="Remove this manure" onPress={this.deleteManure} />
-              <Text>foo {JSON.stringify(this.state.manure)}</Text>
+                onChangeText={text =>
+                  (this.props.ManureStore.manure.K = parseFloat(text))
+                }
+              >
+                {this.toString(this.props.ManureStore.manure.K)}
+              </Input>
+
+              <Button onPress={this.cancel}>
+                <Text>Cancel</Text>
+              </Button>
+              <Button onPress={this.saveManure}>
+                <Text>OK</Text>
+              </Button>
+              <Button onPress={this.deleteManure}>
+                <Text>Remove this manure</Text>
+              </Button>
             </View>
           </Form>
         </Content>
@@ -120,12 +131,12 @@ export default class CustomManure extends Component<
   }
 
   private saveManure = () => {
-    this.props.ManureStore.saveManure(this.state.manure);
+    this.props.ManureStore.saveManure();
     this.props.navigation.navigate("Home");
   };
 
   private deleteManure = () => {
-    this.props.ManureStore.deleteManure(this.state.manure);
+    this.props.ManureStore.deleteManure();
     this.props.navigation.navigate("Home");
   };
   private cancel = () => {

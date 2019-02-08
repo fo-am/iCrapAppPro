@@ -1,7 +1,13 @@
-export default interface Manure {
-  key: string;
-  name: string;
-  N: number | undefined;
-  P: number | undefined;
-  K: number | undefined;
+import { Maths } from "../assets/Math";
+
+export default class Manure {
+    public key: string;
+    public name: string = "";
+    public N: number | undefined;
+    public P: number | undefined;
+    public K: number | undefined;
+
+    constructor() {
+        this.key = Maths.generateUUID();
+    }
 }
