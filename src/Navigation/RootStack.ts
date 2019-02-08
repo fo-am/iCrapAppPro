@@ -11,14 +11,16 @@ export default createStackNavigator(
     {
         Calculator: { screen: Calculator },
         CustomManure: { screen: CustomManure },
-        Home: { screen: HomeScreen },
-        SplashScreen: { screen: SplashScreen },
+        Home: { screen: HomeScreen, navigationOptions: { header: null } },
+        SplashScreen: {
+            screen: SplashScreen,
+            navigationOptions: { header: null }
+        },
         Field: { screen: FieldScreen },
         Spread: { screen: SpreadScreen },
         Settings: { screen: SettingScreen }
     },
     {
-        initialRouteName: "Home",
-        navigationOptions: { header: null }
+        initialRouteName: "SplashScreen"
     }
 );
