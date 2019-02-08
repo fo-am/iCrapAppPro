@@ -41,8 +41,7 @@ import Field from "../model/field";
 import SpreadEvent from "../model/spreadEvent";
 
 import moment from "moment";
-import CalculatorStore from "../store/calculatorStore";
-import FieldStore from "../store/FieldsStore";
+
 // import SettingsStore from "../store/settingsStore";
 import styles from "../styles/style";
 
@@ -154,6 +153,7 @@ export default class FieldScreen extends Component<Props, State> {
     const item = navigation.getParam("fieldKey", undefined);
     if (item) {
       FieldStore.SetField(item);
+      FieldStore.getSpreadEvents(FieldStore.field);
     } else {
       FieldStore.reset();
     }
@@ -242,7 +242,7 @@ export default class FieldScreen extends Component<Props, State> {
                   <Item fixedLabel rounded>
                     <Label style={{ paddingLeft: "2%" }}>Field Name</Label>
                     <Input
-                      placeholder="Rounded Textbox"
+                      placeholder="New Field"
                       onChangeText={text => (FieldStore.field.name = text)}
                     >
                       {FieldStore.field.name}
@@ -253,8 +253,8 @@ export default class FieldScreen extends Component<Props, State> {
                     <Label style={{ paddingLeft: "2%" }}>Field Size</Label>
                     <Input
                       keyboardType="numeric"
-                      placeholder="Rounded Textbox"
-                      onChangeText={text => (FieldStore.field.name = text)}
+                      placeholder="0"
+                      onChangeText={text => (FieldStore.field.area = text)}
                     >
                       {FieldStore.field.area}
                     </Input>
@@ -424,6 +424,7 @@ export default class FieldScreen extends Component<Props, State> {
   }
   private reset() {
     const { FieldStore } = this.props;
+    FieldStore.newField.coordinates.id = "delete";
     FieldStore.newField.coordinates.length = 0;
     this.setState({
       marker: undefined,

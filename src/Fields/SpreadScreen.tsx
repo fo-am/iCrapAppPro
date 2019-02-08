@@ -47,7 +47,7 @@ import SliderValues from "../model/sliderValues";
 import styles from "../styles/style";
 
 import CalculatorStore from "../store/calculatorStore";
-import Fieldstore from "../store/FieldsStore";
+// import Fieldstore from "../store/FieldsStore";
 import ManureStore from "../store/manureStore";
 import SettingsStore from "../store/settingsStore";
 import FieldsStore from "../store/FieldsStore";
@@ -169,6 +169,7 @@ export default class SpreadScreen extends Component<Props, State> {
     this.SelectManure(
       this.props.CalculatorStore.calculatorValues.manureSelected
     );
+    this.dateToSeason(this.props.FieldStore.newSpreadEvent.date);
   }
   public SelectManure(itemValue) {
     const { CalculatorStore } = this.props;
@@ -397,16 +398,23 @@ export default class SpreadScreen extends Component<Props, State> {
     );
   }
   private save() {
-    Fieldstore.SaveSpreadEvent();
+    const { FieldStore } = this.props;
+
+    FieldStore.SaveSpreadEvent();
     this.props.navigation.pop();
   }
+
   private dateToSeason(date: moment.Moment) {
     const { FieldStore, CalculatorStore } = this.props;
-    FieldStore.newSpreadEvent.date = date;
-    CalculatorStore.calculatorValues.seasonSelected = this.getSeason(
+
+    const season = this.getSeason(
       parseInt(moment(date, "dd-mm-yyyy").format("M"), 10) + 1
     );
+    FieldStore.newSpreadEvent.date = date;
+    CalculatorStore.calculatorValues.seasonSelected = season;
+    FieldStore.newSpreadEvent.season = season;
   }
+
   private getSeason(month: number) {
     switch (month) {
       case 12:

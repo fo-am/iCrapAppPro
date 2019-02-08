@@ -1,6 +1,6 @@
 import { action, autorun, computed, observable, toJS } from "mobx";
 import { LatLng } from "react-native-maps";
-import store from "react-native-simple-store";
+
 import Coords from "../model/Coords";
 import CropRequirementsResult from "../model/cropRequirementsResult";
 import Field from "../model/field";
@@ -52,33 +52,51 @@ class FieldStore {
 
     public SetCoordinates(coords: any) {
         this.field.fieldCoordinates.id = coords.id;
-        this.field.fieldCoordinates.coordinates.length = 0;
+        this.field.fieldCoordinates.coordinates.clear();
 
-        coords.coordinates.forEach(element => {
-            this.field.fieldCoordinates.coordinates.push(element);
-        });
+        this.field.fieldCoordinates.coordinates.replace(coords.coordinates);
+        const a = this.field.fieldCoordinates.coordinates.slice().length;
+        //   coords.coordinates.forEach(element => {
+        //      this.field.fieldCoordinates.coordinates.push(element);
+        //  });
     }
 
     @computed public get DataSource(): Array<LatLng> {
         return this.field.fieldCoordinates.coordinates.slice();
     }
 
-    public Save() {
-        database.saveField(this.field).then(() => this.getFields());
+    public async Save() {
+        await database.saveField(this.field);
+        this.getFields();
     }
 
     public SaveSpreadEvent() {
-        const idx = this.spreadEvents.findIndex(
-            n => this.newSpreadEvent.key === n.key
-        );
-        if (idx < 0) {
-            this.spreadEvents.push(this.newSpreadEvent);
-        } else {
-            this.spreadEvents[idx] = this.newSpreadEvent;
-        }
+        this.newSpreadEvent.amount =
+            CalculatorStore.calculatorValues.sliderValue;
+        this.newSpreadEvent.applicationType =
+            CalculatorStore.calculatorValues.applicationSelected;
 
-        store.save("spread", this.spreadEvents);
-        this.getSpreadEvents();
+        this.newSpreadEvent.fieldkey = this.field.key;
+        this.newSpreadEvent.manureType =
+            CalculatorStore.calculatorValues.manureSelected;
+        this.newSpreadEvent.nutrientsK =
+            CalculatorStore.nutrientResults.potassiumAvailable;
+        this.newSpreadEvent.nutrientsN =
+            CalculatorStore.nutrientResults.nitrogenAvailable;
+        this.newSpreadEvent.nutrientsP =
+            CalculatorStore.nutrientResults.phosphorousAvailable;
+        this.newSpreadEvent.requireK = this.cropRequirementsResult.potassiumRequirement;
+        this.newSpreadEvent.requireN = this.cropRequirementsResult.nitrogenRequirement;
+        this.newSpreadEvent.requireP = this.cropRequirementsResult.phosphorousRequirement;
+        this.newSpreadEvent.sns = this.cropRequirementsResult.nitrogenSupply;
+        this.newSpreadEvent.soil = this.field.soilType;
+        this.newSpreadEvent.size = this.field.area;
+
+        this.newSpreadEvent.crop = this.field.cropType;
+
+        database
+            .saveSpreadEvent(this.newSpreadEvent)
+            .then(() => this.getSpreadEvents(this.field));
     }
 
     public SetField(key: string) {
@@ -137,33 +155,14 @@ class FieldStore {
         );
     }
 
-    @action public ClearStore() {
-        this.fields = [];
-        store.save("fields", this.fields);
-        this.spreadEvents = [];
-        store.save("spread", this.spreadEvents);
-    }
-
-    private getSpreadEvents() {
-        store
-            .get("spread")
-            .then((res: Array<SpreadEvent> | undefined) => {
-                if (res instanceof Array) {
-                    return res;
-                } else {
-                    return [];
-                }
-            })
-            .then(
-                res =>
-                    (this.spreadEvents = res.filter(
-                        i => i.fieldkey === this.field.key
-                    ))
-            );
+    private getSpreadEvents(field: Field) {
+        database.getSpreadEvents(field).then(res => (this.spreadEvents = res));
     }
 
     private getFields() {
-        database.getFields(undefined).then(res => (this.fields = res));
+        database
+            .getFields(undefined)
+            .then((res: Field[]) => (this.fields = res));
     }
 }
 export default new FieldStore();
