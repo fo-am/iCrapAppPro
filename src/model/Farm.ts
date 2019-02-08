@@ -2,20 +2,19 @@ import { observable } from "mobx";
 import { Maths } from "../assets/Math";
 import Coords from "../model/Coords";
 import LatLng from "../model/LatLng";
+import Field from "./field";
 
 export default class Farm {
     @observable public key: string;
-    @observable public farmLocation: Coords = new Coords();
-    @observable public area: number = 0;
-    @observable public name = "New Field";
-    @observable public spreadingEvents = Array<Spread>();
-    @observable public soilType: string = "sandyshallow";
-    @observable public organicManure: string = "no";
-    @observable public soilTestP: number = 0;
-    @observable public soilTestK: number = 0;
-    @observable public prevCropType: string = "cereals";
-    @observable public recentGrass: string = "no";
-    @observable public cropType: string = "winter-wheat-incorporated-feed";
+    @observable public farmLocation: LatLng = new LatLng();
+
+    @observable public name: string = "New Farm";
+    @observable public fields: Array<Field> = Array<Field>();
+
+    @observable public rainfall: string = "rain-low";
+    @observable public costN: number = 0;
+    @observable public costP: number = 0;
+    @observable public costK: number = 0;
 
     constructor() {
         this.key = Maths.generateUUID();
