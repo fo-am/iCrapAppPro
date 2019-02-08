@@ -52,7 +52,7 @@ export default class HomeScreen extends Component<
               hasText
               transparent
               onPress={() =>
-                this.props.navigation.navigate("Field", {
+                this.props.navigation.navigate("Home", {
                   fieldKey: undefined
                 })
               }
