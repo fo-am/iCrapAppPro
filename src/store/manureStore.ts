@@ -1,23 +1,18 @@
 import { observable } from "mobx";
-import store from "react-native-simple-store";
 import Manure from "../model/manure";
+
+import { database } from "../database/Database";
 
 class ManureStore {
     @observable public manures: Array<Manure> = new Array<Manure>();
+    @observable public manure: Manure = new Manure();
+
     constructor() {
-        store
-            .get("customManure")
-            .then((res: Array<Manure> | undefined) => {
-                if (res instanceof Array) {
-                    return res;
-                } else {
-                    return [];
-                }
-            })
-            .then(res => (this.manures = res));
+        this.updateManuresList();
     }
-    public saveManure(manure: Manure) {
-        const newManure = manure;
+
+    public saveManure() {
+        const newManure = this.manure;
 
         if (!newManure.name) {
             newManure.name = "New Manure";
@@ -31,37 +26,25 @@ class ManureStore {
         if (!newManure.K) {
             newManure.K = 0;
         }
-
-        const idx = this.manures.findIndex(n => newManure.key === n.key);
-        if (idx < 0) {
-            this.manures.push(newManure);
-        } else {
-            this.manures[idx] = newManure;
-        }
-        store.save("customManure", this.manures);
+        database.saveManure(newManure).then(() => this.updateManuresList());
     }
 
     public getManures(): Array<Manure> {
         return this.manures.slice();
     }
 
-    public deleteManure(manure: Manure) {
-        const idx = this.manures.findIndex(n => n.key === manure.key);
-        if (idx < 0) {
-            throw new Error(`Note ${manure.name} not found`);
-        } else {
-            this.manures.splice(idx, 1);
-        }
-        store.save("customManure", this.manures);
+    public deleteManure() {
+        database
+            .deleteManure(this.manure)
+            .then(() => (this.manure = new Manure()))
+            .then(() => this.updateManuresList());
     }
 
-    public getManure(key: string): Manure {
-        const idx = this.manures.findIndex(n => n.key === key);
-        if (idx < 0) {
-            throw new Error(`Manure ${key} ${name} not found`);
-        } else {
-            return this.manures[idx];
-        }
+    public getManure(key: string) {
+        return database.getManure(key).then(res => (this.manure = res));
+    }
+    private updateManuresList() {
+        database.getManures().then(res => (this.manures = res));
     }
 }
 export default new ManureStore();
