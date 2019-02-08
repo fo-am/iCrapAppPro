@@ -11,6 +11,7 @@ import Field from "../model/field";
 import Manure from "../model/manure";
 
 import SpreadEvent from "../model/spreadEvent";
+import { defineBoundAction } from "mobx/lib/api/action";
 
 export interface Database {
     open(): Promise<SQLite.SQLiteDatabase>;
@@ -167,7 +168,7 @@ class DatabaseImpl implements Database {
         );
     }
 
-    public saveField(field: Field): Promise<void> {
+    public async saveField(field: Field): Promise<void> {
         // look in database to see if we have this ID
         // if so then update with the values here
         // else add a new record
@@ -178,23 +179,28 @@ class DatabaseImpl implements Database {
         }
         // https://www.sqlite.org/lang_UPSERT.html but current sqlite version cannot handle it so
         //
-
-        return this.getDatabase()
+        let r: number = 0;
+        await this.getDatabase()
             .then(db =>
                 db.executeSql(
-                    `Insert or Ignore Into Field (
-                        "Field-Unique-Id",
-                        FarmKey,
-                        Name,
-                        Coordinates,
-                        Soil,
-                        Crop,
-                        "Previous-Crop",
-                        "Soil-Test-P",
-                        "Soil-Test-K",
-                        "Regular-Manure",
-                        "Recent-Grass",
-                        Size) values(?1,?2,?3,?4,?5,?6,?7,?8,?9,?10,?11,?12);
+                    `select count(1) as count from Field where "Field-Unique-Id" = ?`,
+                    [field.key]
+                )
+            )
+            .then(([result]) => {
+                const count = result.rows.length;
+                for (let i = 0; i < count; i++) {
+                    const row = result.rows.item(i);
+                    r = row.count;
+                }
+            });
+
+        if (r === 1) {
+            // update
+            return this.getDatabase()
+                .then(db =>
+                    db.executeSql(
+                        `
                         UPDATE Field SET
                         FarmKey = ?2,
                         Name = ?3,
@@ -207,32 +213,80 @@ class DatabaseImpl implements Database {
                         "Regular-Manure"= ?10,
                         "Recent-Grass"= ?11,
                         Size= ?12
-                        where changes() = 0 and "Field-Unique-Id" = ?1;
+                        where "Field-Unique-Id" = ?1;
                         `,
 
-                    [
-                        field.key,
-                        field.farmKey,
-                        field.name,
-                        JSON.stringify(field.fieldCoordinates),
-                        field.soilType,
-                        field.cropType,
-                        field.prevCropType,
-                        field.soilTestP,
-                        field.soilTestK,
-                        field.organicManure,
-                        field.recentGrass,
-                        field.area
-                    ]
+                        [
+                            field.key,
+                            field.farmKey,
+                            field.name,
+                            JSON.stringify(field.fieldCoordinates),
+                            field.soilType,
+                            field.cropType,
+                            field.prevCropType,
+                            field.soilTestP,
+                            field.soilTestK,
+                            field.organicManure,
+                            field.recentGrass,
+                            field.area
+                        ]
+                    )
                 )
-            )
-            .then(([results]) =>
-                console.log(
-                    `[db] Field "${field.name}" created successfully with id: ${
-                        results.insertId
-                    }`
+                .then(([results]) =>
+                    console.log(
+                        `[db] Field "${
+                            field.name
+                        }" updated successfully rows affected: ${
+                            results.rowsAffected
+                        }`
+                    )
+                );
+        } else {
+            // insert
+            return this.getDatabase()
+                .then(db =>
+                    db.executeSql(
+                        `Insert or Ignore Into Field (
+                        "Field-Unique-Id",
+                        FarmKey,
+                        Name,
+                        Coordinates,
+                        Soil,
+                        Crop,
+                        "Previous-Crop",
+                        "Soil-Test-P",
+                        "Soil-Test-K",
+                        "Regular-Manure",
+                        "Recent-Grass",
+                        Size) values(?1,?2,?3,?4,?5,?6,?7,?8,?9,?10,?11,?12);
+                        `,
+
+                        [
+                            field.key,
+                            field.farmKey,
+                            field.name,
+                            JSON.stringify(field.fieldCoordinates),
+                            field.soilType,
+                            field.cropType,
+                            field.prevCropType,
+                            field.soilTestP,
+                            field.soilTestK,
+                            field.organicManure,
+                            field.recentGrass,
+                            field.area
+                        ]
+                    )
                 )
-            );
+                .then(([results]) =>
+                    console.log(
+                        `[db] Field "${
+                            field.name
+                        }" inserted successfully rows affected: ${
+                            results.rowsAffected
+                        }`
+                    )
+                );
+        }
     }
     //    public deleteField(field: Field): Promise<void> {}
 
