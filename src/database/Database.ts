@@ -179,7 +179,7 @@ class DatabaseImpl implements Database {
         }
         // https://www.sqlite.org/lang_UPSERT.html but current sqlite version cannot handle it so
         //
-        let r: number = 0;
+        let dbCount: number = 0;
         await this.getDatabase()
             .then(db =>
                 db.executeSql(
@@ -191,11 +191,11 @@ class DatabaseImpl implements Database {
                 const count = result.rows.length;
                 for (let i = 0; i < count; i++) {
                     const row = result.rows.item(i);
-                    r = row.count;
+                    dbCount = row.count;
                 }
             });
 
-        if (r === 1) {
+        if (dbCount === 1) {
             // update
             return this.getDatabase()
                 .then(db =>
@@ -341,16 +341,85 @@ class DatabaseImpl implements Database {
         );
     }
     //   public getSpreadEvent(id: number): Promise<SpreadEvent> {}
-    public saveSpreadEvent(spreadEvent: SpreadEvent): Promise<void> {
+    public async saveSpreadEvent(spreadEvent: SpreadEvent): Promise<void> {
         if (spreadEvent === undefined) {
             return Promise.reject(Error(`spreadEvent not supplied.`));
         }
         // https://www.sqlite.org/lang_UPSERT.html but current sqlite version cannot handle it so
         //
-        return this.getDatabase()
+        let dbCount: number = 0;
+        await this.getDatabase()
             .then(db =>
                 db.executeSql(
-                    `Insert or Ignore Into SpreadEvent (
+                    `select count(1) as count from SpreadEvent where "SpreadEvent-Unique-Id" = ?`,
+                    [spreadEvent.key]
+                )
+            )
+            .then(([result]) => {
+                const count = result.rows.length;
+                for (let i = 0; i < count; i++) {
+                    const row = result.rows.item(i);
+                    dbCount = row.count;
+                }
+            });
+
+        if (dbCount === 1) {
+            // update
+            return this.getDatabase()
+                .then(db =>
+                    db.executeSql(
+                        `UPDATE SpreadEvent SET
+                        "FieldKey" = ?2,
+                        "Date"= ?3,
+                        "Nutrients-N"= ?4,
+                        "Nutrients-P"= ?5,
+                        "Nutrients-K"= ?6,
+                        "Require-N"= ?7,
+                        "Require-P"= ?8,
+                        "Require-K"= ?9,
+                        "SNS"= ?10,
+                        "Soil"= ?11,
+                        "Size"= ?12,
+                        "Amount"= ?13,
+                        "Quality"= ?14,
+                        "Application"= ?15,
+                        "Season"= ?16,
+                        "Crop"= ?17
+                         WHERE  "SpreadEvent-Unique-Id" = ?1;
+                    `,
+                        [
+                            spreadEvent.key,
+                            spreadEvent.fieldkey,
+                            JSON.stringify(spreadEvent.date),
+                            spreadEvent.nutrientsN,
+                            spreadEvent.nutrientsP,
+                            spreadEvent.nutrientsK,
+                            spreadEvent.requireN,
+                            spreadEvent.requireP,
+                            spreadEvent.requireK,
+                            spreadEvent.sns,
+                            spreadEvent.soil,
+                            spreadEvent.size,
+                            spreadEvent.amount,
+                            spreadEvent.applicationType,
+                            spreadEvent.season,
+                            spreadEvent.crop
+                        ]
+                    )
+                )
+                .then(([results]) =>
+                    console.log(
+                        `[db] SpreadEvent "${
+                            spreadEvent.date
+                        }" updated successfully`
+                    )
+                );
+        } else {
+            // insert
+            return this.getDatabase()
+                .then(db =>
+                    db.executeSql(
+                        `Insert or Ignore Into SpreadEvent (
                         "SpreadEvent-Unique-Id",
                         "FieldKey",
                         "Date",
@@ -368,53 +437,36 @@ class DatabaseImpl implements Database {
                         "Application",
                         "Season",
                         "Crop") values(?1,?2,?3,?4,?5,?6,?7,?8,?9,?10,?11,?12,?13,?14,?15,?16,?17);
-                    UPDATE SpreadEvent SET
-                        "FieldKey" = ?2,
-                        "Date"= ?3,
-                        "Nutrients-N"= ?4,
-                        "Nutrients-P"= ?5,
-                        "Nutrients-K"= ?6,
-                        "Require-N"= ?7,
-                        "Require-P"= ?8,
-                        "Require-K"= ?9,
-                        "SNS"= ?10,
-                        "Soil"= ?11,
-                        "Size"= ?12,
-                        "Amount"= ?13,
-                        "Quality"= ?14,
-                        "Application"= ?15,
-                        "Season"= ?16,
-                        "Crop"= ?17
-                    where changes() = 0 and "SpreadEvent-Unique-Id" = ?1;
                     `,
 
-                    [
-                        spreadEvent.key,
-                        spreadEvent.fieldkey,
-                        JSON.stringify(spreadEvent.date),
-                        spreadEvent.nutrientsN,
-                        spreadEvent.nutrientsP,
-                        spreadEvent.nutrientsK,
-                        spreadEvent.requireN,
-                        spreadEvent.requireP,
-                        spreadEvent.requireK,
-                        spreadEvent.sns,
-                        spreadEvent.soil,
-                        spreadEvent.size,
-                        spreadEvent.amount,
-                        spreadEvent.applicationType,
-                        spreadEvent.season,
-                        spreadEvent.crop
-                    ]
+                        [
+                            spreadEvent.key,
+                            spreadEvent.fieldkey,
+                            JSON.stringify(spreadEvent.date),
+                            spreadEvent.nutrientsN,
+                            spreadEvent.nutrientsP,
+                            spreadEvent.nutrientsK,
+                            spreadEvent.requireN,
+                            spreadEvent.requireP,
+                            spreadEvent.requireK,
+                            spreadEvent.sns,
+                            spreadEvent.soil,
+                            spreadEvent.size,
+                            spreadEvent.amount,
+                            spreadEvent.applicationType,
+                            spreadEvent.season,
+                            spreadEvent.crop
+                        ]
+                    )
                 )
-            )
-            .then(([results]) =>
-                console.log(
-                    `[db] SpreadEvent "${
-                        spreadEvent.date
-                    }" created successfully with id: ${results.insertId}`
-                )
-            );
+                .then(([results]) =>
+                    console.log(
+                        `[db] SpreadEvent "${
+                            spreadEvent.date
+                        }" created successfully with id: ${results.insertId}`
+                    )
+                );
+        }
     }
     //   public deleteSpreadEvent(spreadEvent: SpreadEvent): Promise<void> {}
 
