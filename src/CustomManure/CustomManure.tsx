@@ -112,10 +112,10 @@ export default class CustomManure extends Component<
                 <Text>Cancel</Text>
               </Button>
               <Button onPress={this.saveManure}>
-                <Text>OK</Text>
+                <Text>Save Manure</Text>
               </Button>
               <Button onPress={this.deleteManure}>
-                <Text>Remove this manure</Text>
+                <Text>Remove manure</Text>
               </Button>
             </View>
           </Form>

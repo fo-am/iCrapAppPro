@@ -1,5 +1,4 @@
 import { observable } from "mobx";
-import store from "react-native-simple-store";
 import Manure from "../model/manure";
 
 import { database } from "../database/Database";
