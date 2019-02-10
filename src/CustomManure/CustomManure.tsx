@@ -51,6 +51,8 @@ export default class CustomManure extends Component<
       this.props.ManureStore.manure = this.props.ManureStore.getManure(
         item.key
       );
+    } else {
+      this.props.ManureStore.manure = new Manure();
     }
   }
 
