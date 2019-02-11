@@ -143,9 +143,9 @@ export default class FieldScreen extends Component<Props, State> {
 
   public componentWillMount() {
     const { navigation, FieldStore } = this.props;
-    const item = navigation.getParam("fieldKey", undefined);
-    if (item) {
-      FieldStore.SetField(item);
+    const key = navigation.getParam("fieldKey", undefined);
+    if (key) {
+      FieldStore.SetField(key);
       FieldStore.getSpreadEvents(FieldStore.field);
     } else {
       FieldStore.reset();

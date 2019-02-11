@@ -51,8 +51,6 @@ interface Props {
 }
 
 interface State {
-  marker: any;
-
   area: any;
   mapMoveEnabled: boolean;
   showSave: boolean;
@@ -65,19 +63,27 @@ interface State {
 export default class FarmScreen extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    const { CalculatorStore, SettingsStore } = this.props;
+    const { CalculatorStore, SettingsStore, FarmStore } = this.props;
     this.state = {
-      marker: undefined,
-
       area: undefined,
       mapMoveEnabled: true,
       showSave: false,
       showDraw: true,
       showHaveProps: false
     };
-    CalculatorStore.rainfall = SettingsStore.rainfall;
+    CalculatorStore.rainfall = FarmStore.farm.rainfall;
   }
 
+  public componentWillMount() {
+    const { navigation, FarmStore, FieldStore } = this.props;
+    const item = navigation.getParam("farmKey", undefined);
+    if (item) {
+      FarmStore.SetFarm(item);
+      FieldStore.getFields(FarmStore.farm);
+    } else {
+      FarmStore.reset();
+    }
+  }
   public render() {
     const { FarmStore } = this.props;
     return (
@@ -99,6 +105,7 @@ export default class FarmScreen extends Component<Props, State> {
               <View style={styles.container}>
                 <Text>Scroll around and find your Farm.</Text>
                 <MapView
+                  moveOnMarkerPress={false}
                   style={styles.map}
                   scrollEnabled={this.state.mapMoveEnabled}
                   provider={PROVIDER_GOOGLE}
@@ -110,8 +117,8 @@ export default class FarmScreen extends Component<Props, State> {
                   initialRegion={FarmStore.UpdateLocation()}
                   onPress={e => this.onPress(e)}
                 >
-                  {this.state.marker && (
-                    <Marker coordinate={this.state.marker.coordinate} />
+                  {FarmStore.farm.farmLocation && (
+                    <Marker coordinate={FarmStore.farm.farmLocation} />
                   )}
                 </MapView>
                 {!this.state.showSave && (
@@ -165,6 +172,7 @@ export default class FarmScreen extends Component<Props, State> {
       </Container>
     );
   }
+
   private saveFarm() {
     FarmStore.saveFarm();
     this.props.navigation.navigate("Home");
@@ -177,9 +185,9 @@ export default class FarmScreen extends Component<Props, State> {
     });
   }
   private save() {
-    const { marker, area } = this.state;
+    const { area } = this.state;
     const { FarmStore } = this.props;
-    FarmStore.farm.farmLocation = this.state.marker.coordinate;
+    //   FarmStore.farm.farmLocation = this.state.marker.coordinate;
 
     this.setState({
       showSave: false,
@@ -190,29 +198,22 @@ export default class FarmScreen extends Component<Props, State> {
   private cancel() {
     const { FarmStore } = this.props;
 
-    this.setState({
-      marker: undefined,
-      mapMoveEnabled: true,
-      showSave: false
-    });
+    FarmStore.farm.farmLocation = undefined;
+    this.setState({ mapMoveEnabled: true, showSave: false });
   }
+
   private reset() {
     const { FarmStore } = this.props;
 
-    this.setState({
-      marker: undefined,
-      mapMoveEnabled: true
-    });
+    FarmStore.farm.farmLocation = undefined;
+    this.setState({ mapMoveEnabled: true });
   }
 
   private onPress(e: any) {
     const { FarmStore } = this.props;
     if (this.state.showSave) {
+      FarmStore.farm.farmLocation = e.nativeEvent.coordinate;
       this.setState({
-        marker: {
-          coordinate: e.nativeEvent.coordinate,
-          key: id++
-        },
         mapMoveEnabled: false
       });
     }
