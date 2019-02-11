@@ -1,53 +1,62 @@
 import { observable } from "mobx";
 import store from "react-native-simple-store";
 
-class SettingsStore {
-    @observable public unit: string = "metric";
-    @observable public rainfall: string = "rain-medium";
+import appSettings from "../model/appSettings";
 
+import { database } from "../database/Database";
+
+class SettingsStore {
+    @observable public settings: appSettings = new appSettings();
+
+    @observable public rainfall: string = "rain-medium";
     @observable public NCost: string = "0.79";
     @observable public PCost: string = "0.62";
     @observable public KCost: string = "0.49";
 
     constructor() {
-        store
-            .get("settings")
-            .then(res => {
-                if (res) {
-                    this.unit = res.Unit;
-                    this.rainfall = res.Rainfall;
-                } else {
-                    this.unit = "metric";
-                    this.rainfall = "rain-medium";
-                }
-            })
-            .then(() =>
-                store.get("costs").then(res => {
-                    if (res) {
-                        this.NCost = res.nCost;
-                        this.PCost = res.pCost;
-                        this.KCost = res.kCost;
-                    } else {
-                        this.NCost = "0.79";
-                        this.PCost = "0.62";
-                        this.KCost = "0.49";
-                    }
-                })
-            )
-            .then(() =>
-                store
-                    .save("settings", {
-                        Rainfall: this.rainfall,
-                        Unit: this.unit
-                    })
-                    .then(() =>
-                        store.save("costs", {
-                            kCost: this.KCost,
-                            pCost: this.PCost,
-                            nCost: this.NCost
-                        })
-                    )
-            );
+        database.getAppSettings().then(res => {
+            this.settings.unit = res.unit;
+            this.settings.email = res.email;
+        });
+
+        // store
+        //     .get("settings")
+        //     .then(res => {
+        //         if (res) {
+        //             this.unit = res.Unit;
+        //             this.rainfall = res.Rainfall;
+        //         } else {
+        //             this.unit = "metric";
+        //             this.rainfall = "rain-medium";
+        //         }
+        //     })
+        //     .then(() =>
+        //         store.get("costs").then(res => {
+        //             if (res) {
+        //                 this.NCost = res.nCost;
+        //                 this.PCost = res.pCost;
+        //                 this.KCost = res.kCost;
+        //             } else {
+        //                 this.NCost = "0.79";
+        //                 this.PCost = "0.62";
+        //                 this.KCost = "0.49";
+        //             }
+        //         })
+        //     )
+        //     .then(() =>
+        //         store
+        //             .save("settings", {
+        //                 Rainfall: this.rainfall,
+        //                 Unit: this.unit
+        //             })
+        //             .then(() =>
+        //                 store.save("costs", {
+        //                     kCost: this.KCost,
+        //                     pCost: this.PCost,
+        //                     nCost: this.NCost
+        //                 })
+        //             )
+        //     );
     }
     // metric/imperial
     // cost of nutrients
@@ -85,11 +94,11 @@ class SettingsStore {
             Unit: this.unit
         });
 
-        store.update("costs", {
-            kCost: this.KCost,
-            pCost: this.PCost,
-            nCost: this.NCost
-        });
+        // store.update("costs", {
+        //     kCost: this.KCost,
+        //     pCost: this.PCost,
+        //     nCost: this.NCost
+        // });
     }
 }
 export default new SettingsStore();

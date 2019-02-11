@@ -6,12 +6,11 @@
 import SQLite from "react-native-sqlite-storage";
 import { DatabaseInitialization } from "./DatabaseInit";
 
+import Appsettings from "../model/appSettings";
 import Farm from "../model/Farm";
 import Field from "../model/field";
 import Manure from "../model/manure";
-
 import SpreadEvent from "../model/spreadEvent";
-import { defineBoundAction } from "mobx/lib/api/action";
 
 export interface Database {
     open(): Promise<SQLite.SQLiteDatabase>;
@@ -37,7 +36,7 @@ export interface Database {
     saveManure(manure: Manure): Promise<void>;
     deleteManure(manure: Manure): Promise<void>;
 
-    //   getAppSettings(): Promise<AppSettings>;
+    getAppSettings(): Promise<AppSettings>;
     //   saveAppSettings(appSettings: AppSettings): Promise<void>;
 
     delete(): Promise<void>;
@@ -612,6 +611,18 @@ class DatabaseImpl implements Database {
                     }" deleted successfully rows affected: ${res.rowsAffected}`
                 )
             );
+    }
+
+    public getAppSettings(): Promise<AppSettings> {
+        return this.getDatabase().then(db =>
+            db
+                .executeSql("select Email,Units from AppSettings")
+                .then(([res]) => {
+                    // if res has no results insert new defaults
+                    // if we have a result use those values.
+                    // should we check if we have multiple results and keep just one?
+                })
+        );
     }
 
     private getDatabase(): Promise<SQLite.SQLiteDatabase> {
