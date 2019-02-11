@@ -16,8 +16,8 @@ export interface Database {
     open(): Promise<SQLite.SQLiteDatabase>;
     close(): Promise<void>;
 
-    // getFarms(): Promise<Array<Farm>>;
-    // getFarm(id: number): Promise<Farm>;
+    getFarms(): Promise<Array<Farm>>;
+    getFarm(key: string): Promise<Farm>;
     saveFarm(farm: Farm): Promise<void>;
     //  deleteFarm(farm: Farm): Promise<void>;
 
@@ -86,9 +86,181 @@ class DatabaseImpl implements Database {
     }
     // delete all the things
     public delete(): Promise<void> {}
-    //  public getFarms(): Promise<Array<Farm>> {  }
-    //  public getFarm(id: number): Promise<Farm> {}
-    public saveFarm(farm: Farm): Promise<void> {}
+    public getFarms(): Promise<Array<Farm>> {
+        return this.getDatabase().then(db =>
+            db
+                .executeSql(
+                    `SELECT  "Farm-Unique-Id", "Latitude", "Longitude",  "Name",   "Rainfall",
+                    "Cost-N", "Cost-P", "Cost-K"
+                     FROM Farm`
+                )
+                .then(([results]) => {
+                    if (results === undefined) {
+                        return [];
+                    }
+                    const count = results.rows.length;
+                    const farms: Farm[] = [];
+                    for (let i = 0; i < count; i++) {
+                        const row = results.rows.item(i);
+
+                        const farm = new Farm();
+
+                        farm.key = row["Farm-Unique-Id"];
+                        farm.farmLocation.latitude = row.Latitude;
+                        farm.farmLocation.longitude = row.Longitude;
+                        farm.name = row.Name;
+                        farm.rainfall = row.Rainfall;
+                        farm.costN = row["Cost-N"];
+                        farm.costP = row["Cost-P"];
+                        farm.costK = row["Cost-K"];
+
+                        farms.push(farm);
+                    }
+                    return farms;
+                })
+        );
+    }
+    public getFarm(key: string): Promise<Farm> {
+        if (key === undefined) {
+            return Promise.resolve(new Farm());
+        }
+        return this.getDatabase().then(db =>
+            db
+                .executeSql(
+                    `SELECT  "Farm-Unique-Id", "Latitude", "Longitude",  "Name",   "Rainfall",
+                    "Cost-N", "Cost-P", "Cost-K"
+                     FROM Farm
+             WHERE "Farm-Unique-Id" = ?`,
+                    [key]
+                )
+                .then(([results]) => {
+                    if (results === undefined) {
+                        return new Farm();
+                    }
+
+                    const count = results.rows.length;
+                    const farm: Farm = new Farm();
+
+                    for (let i = 0; i < count; i++) {
+                        const row = results.rows.item(i);
+
+                        farm.key = row["Farm-Unique-Id"];
+                        farm.farmLocation.latitude = row.Latitude;
+                        farm.farmLocation.longitude = row.Longitude;
+                        farm.name = row.Name;
+                        farm.rainfall = row.Rainfall;
+                        farm.costN = row["Cost-N"];
+                        farm.costP = row["Cost-P"];
+                        farm.costK = row["Cost-K"];
+                    }
+                    return farm;
+                })
+        );
+    }
+
+    public async saveFarm(farm: Farm): Promise<void> {
+        // look in database to see if we have this ID
+        // if so then update with the values here
+        // else add a new record
+        if (farm === undefined) {
+            return Promise.reject(Error(`Could not null farm`));
+        }
+        // https://www.sqlite.org/lang_UPSERT.html but current sqlite version cannot handle it so
+        //
+        let dbCount: number = 0;
+        await this.getDatabase()
+            .then(db =>
+                db.executeSql(
+                    `select count(1) as count from Farm where "Farm-Unique-Id" = ?`,
+                    [farm.key]
+                )
+            )
+            .then(([result]) => {
+                const count = result.rows.length;
+                for (let i = 0; i < count; i++) {
+                    const row = result.rows.item(i);
+                    dbCount = row.count;
+                }
+            });
+
+        if (dbCount === 1) {
+            // update
+            return this.getDatabase()
+                .then(db =>
+                    db.executeSql(
+                        `
+                        UPDATE Farm SET
+                        Latitude = ?2,
+                        Longitude = ?3,
+                        Name= ?4,
+                        Rainfall= ?5,
+                        "Cost-N" = ?6,
+                        "Cost-P"= ?7,
+                        "Cost-K"= ?8
+                        where "Farm-Unique-Id" = ?1;
+                        `,
+
+                        [
+                            farm.key,
+                            farm.farmLocation.latitude,
+                            farm.farmLocation.longitude,
+                            farm.name,
+                            farm.rainfall,
+                            farm.costN,
+                            farm.costP,
+                            farm.costK
+                        ]
+                    )
+                )
+                .then(([results]) =>
+                    console.log(
+                        `[db] Farm "${
+                            farm.name
+                        }" updated successfully rows affected: ${
+                            results.rowsAffected
+                        }`
+                    )
+                );
+        } else {
+            // insert
+            return this.getDatabase()
+                .then(db =>
+                    db.executeSql(
+                        `Insert or Ignore Into Farm (
+                            "Farm-Unique-Id",
+                            Latitude ,
+                            Longitude,
+                            Name,
+                            Rainfall,
+                            "Cost-N",
+                            "Cost-P",
+                            "Cost-K"
+                           ) values(?1,?2,?3,?4,?5,?6,?7,?8);
+                        `,
+
+                        [
+                            farm.key,
+                            farm.farmLocation.latitude,
+                            farm.farmLocation.longitude,
+                            farm.name,
+                            farm.rainfall,
+                            farm.costN,
+                            farm.costP,
+                            farm.costK
+                        ]
+                    )
+                )
+                .then(([results]) =>
+                    console.log(
+                        `[db] Farm "${
+                            farm.name
+                        }" inserted successfully rows affected: ${
+                            results.rowsAffected
+                        }`
+                    )
+                );
+        }
+    }
     //  public deleteFarm(farm: Farm): Promise<void> {}
 
     public getFields(farm: Farm): Promise<Array<Field>> {

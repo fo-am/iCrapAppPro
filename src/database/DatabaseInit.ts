@@ -64,7 +64,8 @@ export class DatabaseInitialization {
         transaction.executeSql(
             `CREATE TABLE IF NOT EXISTS "Farm" (
                 "Farm-Unique-Id"	TEXT NOT NULL PRIMARY KEY UNIQUE,
-                "LocationId"	INTEGER NOT NULL,
+                "Latitude"	NUMERIC NOT NULL,
+                "Longitude"	NUMERIC NOT NULL,
                 "Name"	TEXT NOT NULL,
                 "Rainfall"	TEXT NOT NULL,
                 "Cost-N"	NUMERIC NOT NULL,
