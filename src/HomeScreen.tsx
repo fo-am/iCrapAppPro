@@ -3,21 +3,21 @@ import React, { Component } from "react";
 import { Button, FlatList, ScrollView, Text, View } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
 import { database } from "./database/Database";
-import Field from "./model/field";
+import Farm from "./model/Farm";
 import Manure from "./model/manure";
-import FieldStore from "./store/FieldsStore";
+import FarmStore from "./store/FarmStore";
 import ManureStore from "./store/manureStore";
 import styles from "./styles/style";
 
 interface MyComponentProps {
   navigation: NavigationScreenProp<any, any>;
   ManureStore: ManureStore;
-  FieldStore: FieldStore;
+  FarmStore: FarmStore;
 }
 
 interface MyComponentState {}
 
-@inject("ManureStore", "FieldStore")
+@inject("ManureStore", "FarmStore")
 @observer
 export default class HomeScreen extends Component<
   MyComponentProps,
@@ -30,25 +30,25 @@ export default class HomeScreen extends Component<
   public render() {
     return (
       <View style={styles.container}>
-        <Text>Add a field</Text>
+        <Text>Add a farm</Text>
         <Button
-          title="Add new field"
+          title="Add new farm"
           onPress={() =>
-            this.props.navigation.navigate("Field", {
-              fieldKey: undefined
+            this.props.navigation.navigate("Farm", {
+              farmKey: undefined
             })
           }
         />
         <ScrollView>
-          <FlatList<Field>
-            data={this.props.FieldStore.fields.slice()}
+          <FlatList<Farm>
+            data={this.props.FarmStore.farms.slice()}
             keyExtractor={item => item.key}
             renderItem={({ item }) => (
               <Button
                 title={item.name}
                 onPress={() => {
-                  this.props.navigation.navigate("Field", {
-                    fieldKey: item.key
+                  this.props.navigation.navigate("Farm", {
+                    farmKey: item.key
                   });
                 }}
               />

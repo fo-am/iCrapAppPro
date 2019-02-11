@@ -64,13 +64,6 @@ interface State {
   showHaveProps: boolean;
 }
 
-interface Region {
-  latitude: number;
-  longitude: number;
-  latitudeDelta: number;
-  longitudeDelta: number;
-}
-
 @inject("FieldStore", "CalculatorStore", "SettingsStore")
 @observer
 export default class FieldScreen extends Component<Props, State> {

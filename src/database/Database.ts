@@ -18,7 +18,7 @@ export interface Database {
 
     // getFarms(): Promise<Array<Farm>>;
     // getFarm(id: number): Promise<Farm>;
-    // saveFarm(farm: Farm): Promise<void>;
+    saveFarm(farm: Farm): Promise<void>;
     //  deleteFarm(farm: Farm): Promise<void>;
 
     getFields(farm: Farm): Promise<Array<Field>>;
@@ -88,7 +88,7 @@ class DatabaseImpl implements Database {
     public delete(): Promise<void> {}
     //  public getFarms(): Promise<Array<Farm>> {  }
     //  public getFarm(id: number): Promise<Farm> {}
-    //  public saveFarm(farm: Farm): Promise<void> {}
+    public saveFarm(farm: Farm): Promise<void> {}
     //  public deleteFarm(farm: Farm): Promise<void> {}
 
     public getFields(farm: Farm): Promise<Array<Field>> {

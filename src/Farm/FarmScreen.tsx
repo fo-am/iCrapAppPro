@@ -32,17 +32,20 @@ import DropDown from "../components/DropDown";
 import SphericalUtil from "../geoUtils";
 import Field from "../model/field";
 import CalculatorStore from "../store/calculatorStore";
+import FarmStore from "../store/FarmStore";
 import FieldStore from "../store/FieldsStore";
 // import SettingsStore from "../store/settingsStore";
 import styles from "../styles/style";
 
 import Strings from "../assets/strings";
+import { database } from "../database/Database.js";
 
 let id = 0;
 
 interface Props {
   navigation: NavigationScreenProp<any, any>;
   FieldStore: FieldStore;
+  FarmStore: FarmStore;
   CalculatorStore: CalculatorStore;
   // SettingsStore: SettingsStore;
 }
@@ -57,14 +60,7 @@ interface State {
   showHaveProps: boolean;
 }
 
-interface Region {
-  latitude: number;
-  longitude: number;
-  latitudeDelta: number;
-  longitudeDelta: number;
-}
-
-@inject("FieldStore", "CalculatorStore", "SettingsStore")
+@inject("FieldStore", "CalculatorStore", "SettingsStore", "FarmStore")
 @observer
 export default class FarmScreen extends Component<Props, State> {
   constructor(props: Props) {
@@ -83,7 +79,7 @@ export default class FarmScreen extends Component<Props, State> {
   }
 
   public render() {
-    const { FieldStore } = this.props;
+    const { FarmStore } = this.props;
     return (
       <Container>
         <Content>
@@ -111,7 +107,7 @@ export default class FarmScreen extends Component<Props, State> {
                   showsMyLocationButton={true}
                   toolbarEnabled={true}
                   mapType={"satellite"}
-                  initialRegion={FieldStore.UpdateLocation()}
+                  initialRegion={FarmStore.UpdateLocation()}
                   onPress={e => this.onPress(e)}
                 >
                   {this.state.marker && (
@@ -138,105 +134,30 @@ export default class FarmScreen extends Component<Props, State> {
                     </Button>
                   </View>
                 )}
-                <Text>Field Name</Text>
+                <Text>Farm Name</Text>
                 <TextInput
                   style={{ fontSize: 20, fontWeight: "bold" }}
-                  onChangeText={text => (FieldStore.field.name = text)}
+                  onChangeText={text => (FarmStore.farm.name = text)}
                 >
-                  {FieldStore.field.name}
+                  {FarmStore.farm.name}
                 </TextInput>
-                <Text>Field Size</Text>
-                <TextInput
-                  keyboardType="numeric"
-                  style={{ fontSize: 20, fontWeight: "bold" }}
-                  onChangeText={text => (FieldStore.field.area = text)}
-                >
-                  {FieldStore.field.area}
-                </TextInput>
+
                 <View style={styles.container}>
-                  <Text>Add Spread</Text>
+                  <Text>Add Field</Text>
                   <Button
-                    title="Add Spreading Event"
                     onPress={() =>
-                      this.props.navigation.navigate("Spread", {
-                        fieldKey: FieldStore.field.key
+                      this.props.navigation.navigate("Field", {
+                        farmKey: FarmStore.farm.key
                       })
                     }
-                  />
+                  >
+                    <Text>Add Field</Text>
+                  </Button>
                 </View>
-                <View style={styles.container}>
-                  <Text>Soil Details</Text>
-                  <Text>Soil Type</Text>
-                  <DropDown
-                    selectedValue={FieldStore.field.soilType}
-                    onChange={item => (FieldStore.field.soilType = item)}
-                    values={this.soilType}
-                  />
-                  <Text>Do you regularly add organic manures?</Text>
-                  <DropDown
-                    selectedValue={FieldStore.field.organicManure}
-                    onChange={item => (FieldStore.field.organicManure = item)}
-                    values={this.yesno}
-                  />
-                  <Text>Result of soil tests (if available)</Text>
-                  <Text>P</Text>
 
-                  <DropDown
-                    selectedValue={FieldStore.field.soilTestP}
-                    onChange={item => (FieldStore.field.soilTestP = item)}
-                    values={this.soiltestP}
-                  />
-                  <Text>K</Text>
-                  <DropDown
-                    selectedValue={FieldStore.field.soilTestK}
-                    onChange={item => (FieldStore.field.soilTestK = item)}
-                    values={this.soiltestK}
-                  />
-                  <TextInput>Here goes the soil N supply calculation</TextInput>
-                </View>
-                <View style={styles.container}>
-                  <Text>Crop Details</Text>
-                  <Text>Previous crop type</Text>
-                  <DropDown
-                    selectedValue={FieldStore.field.prevCropType}
-                    onChange={item => (FieldStore.field.prevCropType = item)}
-                    values={this.crops}
-                  />
-                  <Text>Have you grown grass in the last 3 years</Text>
-                  <DropDown
-                    selectedValue={FieldStore.field.recentGrass}
-                    onChange={item => (FieldStore.field.recentGrass = item)}
-                    values={this.yesno}
-                  />
-                  <Text>Crop type</Text>
-                  <DropDown
-                    selectedValue={FieldStore.field.cropType}
-                    onChange={item => (FieldStore.field.cropType = item)}
-                    values={this.cropType}
-                  />
-                  <Text>Crop Nutrient requirements</Text>
-                  <Text>
-                    Nitrogen requirements
-                    {FieldStore.cropRequirementsResult.nitrogenRequirement}
-                  </Text>
-                  <Text>
-                    phosphorousRequirement requirements
-                    {FieldStore.cropRequirementsResult.phosphorousRequirement}
-                  </Text>
-                  <Text>
-                    potassiumRequirement requirements
-                    {FieldStore.cropRequirementsResult.potassiumRequirement}
-                  </Text>
-                  <Text>
-                    nitrogenSupply
-                    {FieldStore.cropRequirementsResult.nitrogenSupply}
-                    This needs turned into the value obviously!
-                  </Text>
-                </View>
-                <View style={styles.container}>
-                  <Text>Graph</Text>
-                </View>
-                <Button onPress={this.saveField} title="Save" />
+                <Button onPress={() => this.saveFarm()}>
+                  <Text>Save Farm</Text>
+                </Button>
               </View>
             </ScrollView>
           </Form>
@@ -244,11 +165,10 @@ export default class FarmScreen extends Component<Props, State> {
       </Container>
     );
   }
-  private saveField = () => {
-    const { FieldStore } = this.props;
-    FieldStore.Save();
+  private saveFarm() {
+    FarmStore.saveFarm();
     this.props.navigation.navigate("Home");
-  };
+  }
 
   private draw() {
     this.setState({
@@ -258,26 +178,18 @@ export default class FarmScreen extends Component<Props, State> {
   }
   private save() {
     const { marker, area } = this.state;
-    const { FieldStore } = this.props;
-
-    const size = new SphericalUtil({}).ComputeSignedArea(
-      FieldStore.newField.coordinates.slice()
-    );
-
-    FieldStore.SetFieldArea(size);
-    FieldStore.SetCoordinates(FieldStore.newField);
-    FieldStore.newField.coordinates.length = 0;
+    const { FarmStore } = this.props;
+    FarmStore.farm.farmLocation = this.state.marker.coordinate;
 
     this.setState({
-      marker: undefined,
       showSave: false,
       mapMoveEnabled: true
     });
     // save to file
   }
   private cancel() {
-    const { FieldStore } = this.props;
-    FieldStore.newField.coordinates.length = 0;
+    const { FarmStore } = this.props;
+
     this.setState({
       marker: undefined,
       mapMoveEnabled: true,
@@ -285,8 +197,8 @@ export default class FarmScreen extends Component<Props, State> {
     });
   }
   private reset() {
-    const { FieldStore } = this.props;
-    FieldStore.newField.coordinates.length = 0;
+    const { FarmStore } = this.props;
+
     this.setState({
       marker: undefined,
       mapMoveEnabled: true
@@ -294,7 +206,7 @@ export default class FarmScreen extends Component<Props, State> {
   }
 
   private onPress(e: any) {
-    const { FieldStore } = this.props;
+    const { FarmStore } = this.props;
     if (this.state.showSave) {
       this.setState({
         marker: {
@@ -303,8 +215,6 @@ export default class FarmScreen extends Component<Props, State> {
         },
         mapMoveEnabled: false
       });
-      FieldStore.newField.id = "newField";
-      FieldStore.newField.coordinates.push(e.nativeEvent.coordinate);
     }
   }
 }
