@@ -6,7 +6,7 @@ import appSettings from "../model/appSettings";
 import { database } from "../database/Database";
 
 class SettingsStore {
-    @observable public settings: appSettings = new appSettings();
+    @observable public appSettings: appSettings = new appSettings();
 
     @observable public rainfall: string = "rain-medium";
     @observable public NCost: string = "0.79";
@@ -14,10 +14,7 @@ class SettingsStore {
     @observable public KCost: string = "0.49";
 
     constructor() {
-        database.getAppSettings().then(res => {
-            this.settings.unit = res.unit;
-            this.settings.email = res.email;
-        });
+        this.getSettings();
 
         // store
         //     .get("settings")
@@ -63,8 +60,9 @@ class SettingsStore {
     // rainfall? (per farm!)
 
     public SelectUnit(item) {
-        this.unit = item;
+        this.appSettings.unit = item;
     }
+
     public SelectRainfall(item) {
         this.rainfall = item;
     }
@@ -88,11 +86,26 @@ class SettingsStore {
         this.KCost = item;
     }
 
-    public SaveSettings() {
-        store.update("settings", {
-            Rainfall: this.rainfall,
-            Unit: this.unit
+    public getSettings() {
+        database.getAppSettings().then(res => {
+            this.appSettings.unit = res.unit;
+            this.appSettings.email = res.email;
         });
+    }
+
+    public SaveSettings(): Promise<void> {
+        if (this.appSettings.email === undefined) {
+            this.appSettings.email = "Not@Set";
+        }
+        if (this.appSettings.unit === undefined) {
+            this.appSettings.unit = "metric";
+        }
+        return database.saveAppSettings(this.appSettings);
+
+        // store.update("settings", {
+        //     Rainfall: this.rainfall,
+        //     Unit: this.unit
+        // });
 
         // store.update("costs", {
         //     kCost: this.KCost,

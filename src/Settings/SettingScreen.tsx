@@ -18,6 +18,7 @@ import Images from "../assets/imageData";
 import styles from "../styles/style";
 
 import DropDown from "../components/DropDown";
+import settingsStore from "../store/settingsStore";
 
 interface Props {
   SettingsStore: SettingsStore;
@@ -38,7 +39,10 @@ export default class SettingScreen extends Component<Props, State> {
     "rain-medium": "Medium (600-700mm)",
     "rain-low": "Low (< 600mm)"
   };
-
+  public componentWillMount() {
+    const { SettingsStore } = this.props;
+    SettingsStore.getSettings();
+  }
   public render() {
     const { SettingsStore } = this.props;
     return (
@@ -50,7 +54,7 @@ export default class SettingScreen extends Component<Props, State> {
                 <StatusBar />
                 <Text>Choose Unit type</Text>
                 <DropDown
-                  selectedValue={SettingsStore.unit}
+                  selectedValue={SettingsStore.appSettings.unit}
                   onChange={item => SettingsStore.SelectUnit(item)}
                   values={this.Units}
                 />
@@ -106,7 +110,8 @@ export default class SettingScreen extends Component<Props, State> {
   }
 
   public Save() {
-    this.props.SettingsStore.SaveSettings();
-    this.props.navigation.navigate("Home");
+    this.props.SettingsStore.SaveSettings().then(() =>
+      this.props.navigation.navigate("Home")
+    );
   }
 }

@@ -6,7 +6,7 @@
 import SQLite from "react-native-sqlite-storage";
 import { DatabaseInitialization } from "./DatabaseInit";
 
-import Appsettings from "../model/appSettings";
+import AppSettings from "../model/appSettings";
 import Farm from "../model/Farm";
 import Field from "../model/field";
 import Manure from "../model/manure";
@@ -37,7 +37,7 @@ export interface Database {
     deleteManure(manure: Manure): Promise<void>;
 
     getAppSettings(): Promise<AppSettings>;
-    //   saveAppSettings(appSettings: AppSettings): Promise<void>;
+    saveAppSettings(appSettings: AppSettings): Promise<void>;
 
     delete(): Promise<void>;
 }
@@ -618,11 +618,31 @@ class DatabaseImpl implements Database {
             db
                 .executeSql("select Email,Units from AppSettings")
                 .then(([res]) => {
-                    // if res has no results insert new defaults
-                    // if we have a result use those values.
-                    // should we check if we have multiple results and keep just one?
+                    if (res === undefined) {
+                        return new AppSettings();
+                    }
+                    const count = res.rows.length;
+                    const appSettings: AppSettings = new AppSettings();
+
+                    for (let i = 0; i < count; i++) {
+                        const row = res.rows.item(i);
+
+                        appSettings.email = row.Email;
+                        appSettings.unit = row.Units;
+                    }
+                    return appSettings;
                 })
         );
+    }
+
+    public saveAppSettings(appSettings: AppSettings): Promise<void> {
+        return this.getDatabase().then(db => {
+            db.executeSql("delete from AppSettings;");
+            db.executeSql(
+                `insert into AppSettings (Email, Units, "User-Id", Language) values (?, ?, "AndroidUser", "en-gb")`,
+                [appSettings.email, appSettings.unit]
+            );
+        });
     }
 
     private getDatabase(): Promise<SQLite.SQLiteDatabase> {
