@@ -21,7 +21,7 @@ export interface Database {
     saveFarm(farm: Farm): Promise<void>;
     //  deleteFarm(farm: Farm): Promise<void>;
 
-    getFields(farm: Farm): Promise<Array<Field>>;
+    getFields(farmKey: string): Promise<Array<Field>>;
     getField(id: string): Promise<Field>;
     saveField(field: Field): Promise<void>;
     //   deleteField(field: Field): Promise<void>;
@@ -263,12 +263,13 @@ class DatabaseImpl implements Database {
     }
     //  public deleteFarm(farm: Farm): Promise<void> {}
 
-    public getFields(farm: Farm): Promise<Array<Field>> {
+    public getFields(farmKey: string): Promise<Array<Field>> {
         return this.getDatabase().then(db =>
             db
                 .executeSql(
                     `SELECT "Field-Unique-Id", "FarmKey", Name, Coordinates, Soil, Crop, "Previous-Crop"
-            , "Soil-Test-P", "Soil-Test-K", "Regular-Manure", "Recent-Grass", Size FROM Field`
+            , "Soil-Test-P", "Soil-Test-K", "Regular-Manure", "Recent-Grass", Size FROM Field where FarmKey = ?`,
+                    [farmKey]
                 )
                 .then(([results]) => {
                     if (results === undefined) {

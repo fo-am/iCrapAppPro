@@ -3,6 +3,7 @@ import { LatLng } from "react-native-maps";
 
 import Coords from "../model/Coords";
 import CropRequirementsResult from "../model/cropRequirementsResult";
+import Farm from "../model/Farm";
 import Field from "../model/field";
 import SpreadEvent from "../model/spreadEvent";
 
@@ -32,7 +33,6 @@ class FieldStore {
 
     constructor() {
         this.field = new Field();
-        this.getFields();
         this.initalRegion = {
             latitude: 50.184363,
             longitude: -5.173699,
@@ -41,9 +41,17 @@ class FieldStore {
         };
         const disposer = autorun(() => this.CalcCropRequirements());
     }
-    public reset() {
-        this.field = new Field();
-        this.getFields();
+    public reset(farmKey: string) {
+        this.field = new Field(farmKey);
+
+        this.getFields(farmKey);
+    }
+
+    public SetField(key: string) {
+        database
+            .getField(key)
+            .then(field => (this.field = field))
+            .then(() => this.getFields(this.field.farmKey));
     }
 
     @action public SetFieldArea(area: number) {
@@ -66,8 +74,9 @@ class FieldStore {
     }
 
     public async Save() {
-        await database.saveField(this.field);
-        this.getFields();
+        await database
+            .saveField(this.field)
+            .then(() => this.getFields(this.field.farmKey));
     }
 
     public SaveSpreadEvent() {
@@ -97,10 +106,6 @@ class FieldStore {
         database
             .saveSpreadEvent(this.newSpreadEvent)
             .then(() => this.getSpreadEvents(this.field));
-    }
-
-    public SetField(key: string) {
-        database.getField(key).then(field => (this.field = field));
     }
 
     public SetSpread(key: string) {
@@ -159,10 +164,8 @@ class FieldStore {
         database.getSpreadEvents(field).then(res => (this.spreadEvents = res));
     }
 
-    private getFields() {
-        database
-            .getFields(undefined)
-            .then((res: Field[]) => (this.fields = res));
+    private getFields(farmKey: string) {
+        database.getFields(farmKey).then((res: Field[]) => (this.fields = res));
     }
 }
 export default new FieldStore();

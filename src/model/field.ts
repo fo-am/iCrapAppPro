@@ -18,7 +18,10 @@ export default class Field {
     @observable public recentGrass: string = "no";
     @observable public cropType: string = "winter-wheat-incorporated-feed";
 
-    constructor() {
+    constructor(farmKey?: string) {
         this.key = Maths.generateUUID();
+        if (farmKey) {
+            this.farmKey = farmKey;
+        }
     }
 }

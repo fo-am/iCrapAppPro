@@ -143,12 +143,14 @@ export default class FieldScreen extends Component<Props, State> {
 
   public componentWillMount() {
     const { navigation, FieldStore } = this.props;
-    const key = navigation.getParam("fieldKey", undefined);
-    if (key) {
-      FieldStore.SetField(key);
+    const fieldKey = navigation.getParam("fieldKey", undefined);
+    const farmKey = navigation.getParam("farmKey", undefined);
+
+    if (fieldKey) {
+      FieldStore.SetField(fieldKey);
       FieldStore.getSpreadEvents(FieldStore.field);
     } else {
-      FieldStore.reset();
+      FieldStore.reset(farmKey);
     }
   }
   public render() {
@@ -364,10 +366,7 @@ export default class FieldScreen extends Component<Props, State> {
             <Button rounded onPress={this.saveField}>
               <Text>Save</Text>
             </Button>
-            <Button
-              rounded
-              onPress={() => this.props.navigation.navigate("Home")}
-            >
+            <Button rounded onPress={() => this.props.navigation.goBack()}>
               <Text>Cancel</Text>
             </Button>
           </FooterTab>
@@ -378,7 +377,7 @@ export default class FieldScreen extends Component<Props, State> {
   private saveField = () => {
     const { FieldStore } = this.props;
     FieldStore.Save();
-    this.props.navigation.navigate("Home");
+    this.props.navigation.goBack();
   };
 
   private draw() {

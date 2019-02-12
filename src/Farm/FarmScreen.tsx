@@ -19,6 +19,7 @@ import {
 import React, { Component } from "react";
 import {
   Dimensions,
+  FlatList,
   ScrollView,
   StatusBar,
   TextInput,
@@ -85,7 +86,7 @@ export default class FarmScreen extends Component<Props, State> {
     const item = navigation.getParam("farmKey", undefined);
     if (item) {
       FarmStore.SetFarm(item);
-      FieldStore.getFields(FarmStore.farm);
+      FieldStore.getFields(item);
     } else {
       FarmStore.reset();
     }
@@ -167,6 +168,23 @@ export default class FarmScreen extends Component<Props, State> {
                     <Text>Add Field</Text>
                   </Button>
                 </View>
+                <ScrollView>
+                  <FlatList<Field>
+                    data={FieldStore.fields.slice()}
+                    keyExtractor={item => item.key}
+                    renderItem={({ item }) => (
+                      <Button
+                        onPress={() => {
+                          this.props.navigation.navigate("Field", {
+                            fieldKey: item.key
+                          });
+                        }}
+                      >
+                        <Text>{item.name}</Text>
+                      </Button>
+                    )}
+                  />
+                </ScrollView>
                 <Form>
                   <Text>Set Farm Rainfall</Text>
                   <DropDown
