@@ -148,7 +148,6 @@ export default class FieldScreen extends Component<Props, State> {
 
     if (fieldKey) {
       FieldStore.SetField(fieldKey);
-      FieldStore.getSpreadEvents(FieldStore.field);
     } else {
       FieldStore.reset(farmKey);
     }

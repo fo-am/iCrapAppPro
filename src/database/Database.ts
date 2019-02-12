@@ -26,8 +26,8 @@ export interface Database {
     saveField(field: Field): Promise<void>;
     //   deleteField(field: Field): Promise<void>;
 
-    getSpreadEvents(field: Field): Promise<Array<SpreadEvent>>;
-    //   getSpreadEvent(id: number): Promise<SpreadEvent>;
+    getSpreadEvents(fieldKey: string): Promise<Array<SpreadEvent>>;
+    getSpreadEvent(spreadKey: string): Promise<SpreadEvent>;
     saveSpreadEvent(spreadEvent: SpreadEvent): Promise<void>;
     //   deleteSpreadEvent(spreadEvent: SpreadEvent): Promise<void>;
 
@@ -226,7 +226,7 @@ class DatabaseImpl implements Database {
             return this.getDatabase()
                 .then(db =>
                     db.executeSql(
-                        `Insert or Ignore Into Farm (
+                        `Insert  Into Farm (
                             "Farm-Unique-Id",
                             Latitude ,
                             Longitude,
@@ -419,7 +419,7 @@ class DatabaseImpl implements Database {
             return this.getDatabase()
                 .then(db =>
                     db.executeSql(
-                        `Insert or Ignore Into Field (
+                        `Insert Into Field (
                         "Field-Unique-Id",
                         FarmKey,
                         Name,
@@ -463,20 +463,21 @@ class DatabaseImpl implements Database {
     }
     //    public deleteField(field: Field): Promise<void> {}
 
-    public getSpreadEvents(field: Field): Promise<Array<SpreadEvent>> {
-        if (field === undefined) {
+    public getSpreadEvents(fieldKey: string): Promise<Array<SpreadEvent>> {
+        if (fieldKey === undefined) {
             return Promise.resolve([]);
         }
         return this.getDatabase().then(db =>
             db
                 .executeSql(
                     `SELECT
-                      "SpreadEvent-Unique-Id", FieldKey
+                      "SpreadEvent-Unique-Id", FieldKey,
                       "Date", "Nutrients-N", "Nutrients-P",
                      "Nutrients-K", "Require-N", "Require-P",
                      "Require-K", "SNS", "Soil", "Size", "Amount",
                       "Quality", "Application", "Season", "Crop"
-                     FROM SpreadEvent`
+                     FROM SpreadEvent where FieldKey = ?`,
+                    [fieldKey]
                 )
                 .then(([results]) => {
                     if (results === undefined) {
@@ -513,7 +514,54 @@ class DatabaseImpl implements Database {
                 })
         );
     }
-    //   public getSpreadEvent(id: number): Promise<SpreadEvent> {}
+    public getSpreadEvent(spreadKey: string): Promise<SpreadEvent> {
+        if (spreadKey === undefined) {
+            return Promise.resolve(new SpreadEvent());
+        }
+        return this.getDatabase().then(db =>
+            db
+                .executeSql(
+                    `SELECT
+                  "SpreadEvent-Unique-Id", FieldKey,
+                  "Date", "Nutrients-N", "Nutrients-P",
+                 "Nutrients-K", "Require-N", "Require-P",
+                 "Require-K", "SNS", "Soil", "Size", "Amount",
+                  "Quality", "Application", "Season", "Crop"
+                 FROM SpreadEvent where "SpreadEvent-Unique-Id" = ?`,
+                    [spreadKey]
+                )
+                .then(([results]) => {
+                    if (results === undefined) {
+                        return new SpreadEvent();
+                    }
+                    const count = results.rows.length;
+                    const newSpreadEvent: SpreadEvent = new SpreadEvent();
+                    for (let i = 0; i < count; i++) {
+                        const row = results.rows.item(i);
+
+                        newSpreadEvent.key = row["SpreadEvent-Unique-Id"];
+                        newSpreadEvent.fieldkey = row.FieldKey;
+                        newSpreadEvent.date = JSON.parse(row.Date);
+                        newSpreadEvent.nutrientsN = row["Nutrients-N"];
+                        newSpreadEvent.nutrientsP = row["Nutrients-P"];
+                        newSpreadEvent.nutrientsK = row["Nutrients-K"];
+                        newSpreadEvent.requireN = row["Require-N"];
+                        newSpreadEvent.requireP = row["Require-P"];
+                        newSpreadEvent.requireK = row["Require-K"];
+                        newSpreadEvent.sns = row.SNS;
+                        newSpreadEvent.soil = row.Soil;
+                        newSpreadEvent.size = row.Size;
+                        newSpreadEvent.amount = row.Amount;
+                        newSpreadEvent.quality = row.Quality;
+                        newSpreadEvent.applicationType = row.Application;
+                        newSpreadEvent.season = row.Season;
+                        newSpreadEvent.crop = row.Crop;
+                    }
+                    return newSpreadEvent;
+                })
+        );
+    }
+
     public async saveSpreadEvent(spreadEvent: SpreadEvent): Promise<void> {
         if (spreadEvent === undefined) {
             return Promise.reject(Error(`spreadEvent not supplied.`));
@@ -543,27 +591,31 @@ class DatabaseImpl implements Database {
                     db.executeSql(
                         `UPDATE SpreadEvent SET
                         "FieldKey" = ?2,
-                        "Date"= ?3,
-                        "Nutrients-N"= ?4,
-                        "Nutrients-P"= ?5,
-                        "Nutrients-K"= ?6,
-                        "Require-N"= ?7,
-                        "Require-P"= ?8,
-                        "Require-K"= ?9,
-                        "SNS"= ?10,
-                        "Soil"= ?11,
-                        "Size"= ?12,
-                        "Amount"= ?13,
-                        "Quality"= ?14,
-                        "Application"= ?15,
-                        "Season"= ?16,
-                        "Crop"= ?17
-                         WHERE  "SpreadEvent-Unique-Id" = ?1;
-                    `,
+                        "Manure-Type" =?3,
+                        "Date"= ?4,
+                        "Quality"= ?5,
+                        "Application"= ?6,
+                        "Amount"= ?7,
+                        "Nutrients-N"= ?8,
+                        "Nutrients-P"= ?9,
+                        "Nutrients-K"= ?10,
+                        "Require-N"= ?11,
+                        "Require-P"= ?12,
+                        "Require-K"= ?13,
+                        "SNS"= ?14,
+                        "Soil"= ?15,
+                        "Size"= ?16,
+                         "Season"= ?17,
+                        "Crop"= ?18
+                         WHERE  "SpreadEvent-Unique-Id" = ?1;`,
                         [
                             spreadEvent.key,
                             spreadEvent.fieldkey,
+                            spreadEvent.manureType,
                             JSON.stringify(spreadEvent.date),
+                            spreadEvent.quality,
+                            spreadEvent.applicationType,
+                            spreadEvent.amount,
                             spreadEvent.nutrientsN,
                             spreadEvent.nutrientsP,
                             spreadEvent.nutrientsK,
@@ -573,8 +625,6 @@ class DatabaseImpl implements Database {
                             spreadEvent.sns,
                             spreadEvent.soil,
                             spreadEvent.size,
-                            spreadEvent.amount,
-                            spreadEvent.applicationType,
                             spreadEvent.season,
                             spreadEvent.crop
                         ]
@@ -592,10 +642,14 @@ class DatabaseImpl implements Database {
             return this.getDatabase()
                 .then(db =>
                     db.executeSql(
-                        `Insert or Ignore Into SpreadEvent (
+                        `Insert Into SpreadEvent (
                         "SpreadEvent-Unique-Id",
                         "FieldKey",
+                        "Manure-Type",
                         "Date",
+                        "Quality",
+                        "Application",
+                        "Amount",
                         "Nutrients-N",
                         "Nutrients-P",
                         "Nutrients-K",
@@ -605,17 +659,18 @@ class DatabaseImpl implements Database {
                         "SNS",
                         "Soil",
                         "Size",
-                        "Amount",
-                        "Quality",
-                        "Application",
-                        "Season",
-                        "Crop") values(?1,?2,?3,?4,?5,?6,?7,?8,?9,?10,?11,?12,?13,?14,?15,?16,?17);
-                    `,
-
+                         "Season",
+                        "Crop")
+                         VALUES
+                         (?1,?2,?3,?4,?5,?6,?7,?8,?9,?10,?11,?12,?13,?14,?15,?16,?17,?18);`,
                         [
                             spreadEvent.key,
                             spreadEvent.fieldkey,
+                            spreadEvent.manureType,
                             JSON.stringify(spreadEvent.date),
+                            spreadEvent.quality,
+                            spreadEvent.applicationType,
+                            spreadEvent.amount,
                             spreadEvent.nutrientsN,
                             spreadEvent.nutrientsP,
                             spreadEvent.nutrientsK,
@@ -625,8 +680,6 @@ class DatabaseImpl implements Database {
                             spreadEvent.sns,
                             spreadEvent.soil,
                             spreadEvent.size,
-                            spreadEvent.amount,
-                            spreadEvent.applicationType,
                             spreadEvent.season,
                             spreadEvent.crop
                         ]

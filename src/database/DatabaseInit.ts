@@ -96,7 +96,11 @@ export class DatabaseInitialization {
             `CREATE TABLE IF NOT EXISTS "SpreadEvent" (
             "SpreadEvent-Unique-Id"	TEXT NOT NULL PRIMARY KEY UNIQUE,
             "FieldKey" TEXT NOT NULL,
+            "Manure-Type" Text Not Null,
             "Date"	TEXT NOT NULL,
+            "Quality"	TEXT NOT NULL,
+            "Application"	NUMERIC NOT NULL,
+            "Amount"	NUMERIC NOT NULL,
             "Nutrients-N"	NUMERIC NOT NULL,
             "Nutrients-P"	NUMERIC NOT NULL,
             "Nutrients-K"	NUMERIC NOT NULL,
@@ -106,11 +110,8 @@ export class DatabaseInitialization {
             "SNS"	NUMERIC NOT NULL,
             "Soil"	TEXT NOT NULL,
             "Size"	NUMERIC NOT NULL,
-            "Amount"	NUMERIC NOT NULL,
-            "Quality"	TEXT NOT NULL,
-            "Application"	NUMERIC NOT NULL,
             "Season"	TEXT NOT NULL,
-            "Crop"	TEXT NOT NULL
+             "Crop"	TEXT NOT NULL
              );`
         );
         // Manure Table

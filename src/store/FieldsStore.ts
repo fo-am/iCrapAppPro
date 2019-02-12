@@ -47,11 +47,12 @@ class FieldStore {
         this.getFields(farmKey);
     }
 
-    public SetField(key: string) {
-        database
-            .getField(key)
-            .then(field => (this.field = field))
-            .then(() => this.getFields(this.field.farmKey));
+    public SetField(fieldKey: string) {
+        database.getField(fieldKey).then(field => {
+            this.field = field;
+            this.getFields(field.farmKey);
+            this.getSpreadEvents(field.key);
+        });
     }
 
     @action public SetFieldArea(area: number) {
@@ -80,40 +81,42 @@ class FieldStore {
     }
 
     public SaveSpreadEvent() {
-        this.newSpreadEvent.amount =
-            CalculatorStore.calculatorValues.sliderValue;
-        this.newSpreadEvent.applicationType =
-            CalculatorStore.calculatorValues.applicationSelected;
-
+        // spread key pre set
         this.newSpreadEvent.fieldkey = this.field.key;
         this.newSpreadEvent.manureType =
             CalculatorStore.calculatorValues.manureSelected;
-        this.newSpreadEvent.nutrientsK =
-            CalculatorStore.nutrientResults.potassiumAvailable;
+        // Date pre set
+        this.newSpreadEvent.quality =
+            CalculatorStore.calculatorValues.qualitySelected;
+        this.newSpreadEvent.applicationType =
+            CalculatorStore.calculatorValues.applicationSelected;
+        this.newSpreadEvent.amount =
+            CalculatorStore.calculatorValues.sliderValue;
         this.newSpreadEvent.nutrientsN =
             CalculatorStore.nutrientResults.nitrogenAvailable;
         this.newSpreadEvent.nutrientsP =
             CalculatorStore.nutrientResults.phosphorousAvailable;
-        this.newSpreadEvent.requireK = this.cropRequirementsResult.potassiumRequirement;
+        this.newSpreadEvent.nutrientsK =
+            CalculatorStore.nutrientResults.potassiumAvailable;
         this.newSpreadEvent.requireN = this.cropRequirementsResult.nitrogenRequirement;
         this.newSpreadEvent.requireP = this.cropRequirementsResult.phosphorousRequirement;
+        this.newSpreadEvent.requireK = this.cropRequirementsResult.potassiumRequirement;
         this.newSpreadEvent.sns = this.cropRequirementsResult.nitrogenSupply;
         this.newSpreadEvent.soil = this.field.soilType;
         this.newSpreadEvent.size = this.field.area;
-
+        // season pre set
         this.newSpreadEvent.crop = this.field.cropType;
 
         database
             .saveSpreadEvent(this.newSpreadEvent)
-            .then(() => this.getSpreadEvents(this.field));
+            .then(() => this.getSpreadEvents(this.field.key));
     }
 
-    public SetSpread(key: string) {
-        const idx = this.spreadEvents.findIndex(n => key === n.key);
-        if (idx < 0) {
-        } else {
-            this.newSpreadEvent = this.spreadEvents[idx];
-        }
+    public SetSpread(spreadKey: string) {
+        database
+            .getSpreadEvent(spreadKey)
+            .then(res => (this.newSpreadEvent = res))
+            .then(() => this.getSpreadEvents(this.newSpreadEvent.fieldkey));
     }
 
     public UpdateLocation(): Region {
@@ -160,8 +163,10 @@ class FieldStore {
         );
     }
 
-    private getSpreadEvents(field: Field) {
-        database.getSpreadEvents(field).then(res => (this.spreadEvents = res));
+    private getSpreadEvents(fieldKey: string) {
+        database
+            .getSpreadEvents(fieldKey)
+            .then(res => (this.spreadEvents = res));
     }
 
     private getFields(farmKey: string) {

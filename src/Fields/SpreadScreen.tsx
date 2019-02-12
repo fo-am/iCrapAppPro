@@ -51,6 +51,7 @@ import CalculatorStore from "../store/calculatorStore";
 import ManureStore from "../store/manureStore";
 import SettingsStore from "../store/settingsStore";
 import FieldsStore from "../store/FieldsStore";
+import SpreadEvent from "../model/spreadEvent";
 
 interface Props {
   navigation: NavigationScreenProp<any, any>;
@@ -64,7 +65,13 @@ interface State {}
 
 const slider = new SliderValues();
 
-@inject("FieldStore", "CalculatorStore", "ManureStore", "SettingsStore")
+@inject(
+  "FieldStore",
+  "CalculatorStore",
+  "ManureStore",
+  "SettingsStore",
+  "FarmStore"
+)
 @observer
 export default class SpreadScreen extends Component<Props, State> {
   public manureTypes = {
@@ -153,24 +160,25 @@ export default class SpreadScreen extends Component<Props, State> {
 
   public componentWillMount() {
     const { navigation, FieldStore } = this.props;
-    const field = navigation.getParam("fieldKey", undefined);
-    const spread = navigation.getParam("spreadKey", undefined);
+    const fieldKey = navigation.getParam("fieldKey", undefined);
+    const spreadKey = navigation.getParam("spreadKey", undefined);
 
-    if (spread) {
-      FieldStore.SetSpread(spread);
-    } else if (field) {
-      FieldStore.SetField(field);
-      FieldsStore.newSpreadEvent.fieldkey = field;
-    } else {
-      FieldStore.reset();
+    if (spreadKey) {
+      FieldStore.SetSpread(spreadKey);
+    } else if (fieldKey) {
+      FieldsStore.newSpreadEvent = new SpreadEvent();
+      FieldStore.SetField(fieldKey);
+      FieldsStore.newSpreadEvent.fieldkey = fieldKey;
     }
   }
+
   public componentDidMount() {
     this.SelectManure(
       this.props.CalculatorStore.calculatorValues.manureSelected
     );
     this.dateToSeason(this.props.FieldStore.newSpreadEvent.date);
   }
+
   public SelectManure(itemValue) {
     const { CalculatorStore } = this.props;
     CalculatorStore.calculatorValues.manureSelected = itemValue;
@@ -218,7 +226,12 @@ export default class SpreadScreen extends Component<Props, State> {
     }
   }
   public render() {
-    const { FieldStore, CalculatorStore, SettingsStore } = this.props;
+    const {
+      FieldStore,
+      CalculatorStore,
+      SettingsStore,
+      FarmStore
+    } = this.props;
     return (
       <Container>
         <Content>
@@ -310,7 +323,7 @@ export default class SpreadScreen extends Component<Props, State> {
                   <CashDisplay
                     value={
                       CalculatorStore.nutrientResults.nitrogenAvailable *
-                      SettingsStore.NCost *
+                      FarmStore.farm.costN *
                       FieldStore.field.area
                     }
                   />
@@ -328,7 +341,7 @@ export default class SpreadScreen extends Component<Props, State> {
                   <CashDisplay
                     value={
                       CalculatorStore.nutrientResults.phosphorousAvailable *
-                      SettingsStore.PCost *
+                      FarmStore.farm.costP *
                       FieldStore.field.area
                     }
                   />
@@ -346,7 +359,7 @@ export default class SpreadScreen extends Component<Props, State> {
                   <CashDisplay
                     value={
                       CalculatorStore.nutrientResults.potassiumAvailable *
-                      SettingsStore.KCost *
+                      FarmStore.farm.costK *
                       FieldStore.field.area
                     }
                   />
