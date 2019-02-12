@@ -56,5 +56,27 @@ class FarmStore {
     public SetFarm(key: string) {
         database.getFarm(key).then(res => (this.farm = res));
     }
+    public SelectRainfall(item) {
+        this.farm.rainfall = item;
+    }
+
+    public SetNCost(item: string) {
+        if (!item) {
+            item = "0";
+        }
+        this.farm.costN = item;
+    }
+    public SetPCost(item: string) {
+        if (!item) {
+            item = "0";
+        }
+        this.farm.costP = item;
+    }
+    public SetKCost(item: string) {
+        if (!item) {
+            item = "0";
+        }
+        this.farm.costK = item;
+    }
 }
 export default new FarmStore();

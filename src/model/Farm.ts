@@ -12,9 +12,9 @@ export default class Farm {
     @observable public fields: Array<Field> = Array<Field>();
 
     @observable public rainfall: string = "rain-low";
-    @observable public costN: number = 0;
-    @observable public costP: number = 0;
-    @observable public costK: number = 0;
+    @observable public costN: number = 0.79;
+    @observable public costP: number = 0.62;
+    @observable public costK: number = 0.49;
 
     constructor() {
         this.key = Maths.generateUUID();

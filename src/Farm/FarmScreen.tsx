@@ -10,6 +10,7 @@ import {
   H2,
   H3,
   Header,
+  Input,
   Left,
   Right,
   Text,
@@ -61,6 +62,11 @@ interface State {
 @inject("FieldStore", "CalculatorStore", "SettingsStore", "FarmStore")
 @observer
 export default class FarmScreen extends Component<Props, State> {
+  public RainfallTypes = {
+    "rain-high": "High (> 700mm)",
+    "rain-medium": "Medium (600-700mm)",
+    "rain-low": "Low (< 600mm)"
+  };
   constructor(props: Props) {
     super(props);
     const { CalculatorStore, SettingsStore, FarmStore } = this.props;
@@ -161,7 +167,46 @@ export default class FarmScreen extends Component<Props, State> {
                     <Text>Add Field</Text>
                   </Button>
                 </View>
-
+                <Form>
+                  <Text>Set Farm Rainfall</Text>
+                  <DropDown
+                    selectedValue={FarmStore.farm.rainfall}
+                    onChange={item => FarmStore.SelectRainfall(item)}
+                    values={this.RainfallTypes}
+                  />
+                  <Text>
+                    How much do you pay for your fertiliser? This is used to
+                    calculate your cost savings.
+                  </Text>
+                  <Text>N(£ per Kg)</Text>
+                  <Input
+                    keyboardType="numeric"
+                    onChangeText={item => FarmStore.SetNCost(item)}
+                    value={String(FarmStore.farm.costN)}
+                    selectTextOnFocus={true}
+                  />
+                  <Text>
+                    P<Text style={{ fontSize: 11, lineHeight: 37 }}>2</Text>O
+                    <Text style={{ fontSize: 11, lineHeight: 37 }}>5</Text>(£
+                    per Kg)
+                  </Text>
+                  <Input
+                    keyboardType="numeric"
+                    onChangeText={item => FarmStore.SetPCost(item)}
+                    value={String(FarmStore.farm.costP)}
+                    selectTextOnFocus={true}
+                  />
+                  <Text>
+                    K<Text style={{ fontSize: 11, lineHeight: 37 }}>2</Text>
+                    O(£ per Kg)
+                  </Text>
+                  <Input
+                    keyboardType="numeric"
+                    onChangeText={item => FarmStore.SetKCost(item)}
+                    value={String(FarmStore.farm.costK)}
+                    selectTextOnFocus={true}
+                  />
+                </Form>
                 <Button onPress={() => this.saveFarm()}>
                   <Text>Save Farm</Text>
                 </Button>
