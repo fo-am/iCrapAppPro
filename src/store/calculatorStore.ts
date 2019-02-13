@@ -6,6 +6,8 @@ import Field from "../model/field";
 import Manure from "../model/manure";
 import NutrientResult from "../model/NutrientResult";
 
+import { database } from "../database/Database";
+
 import cropRequirementsNitrogenTree from "../assets/data/crop-requirements-n.json";
 import cropRequirementsPhosphorousPotassiumTree from "../assets/data/crop-requirements-pk.json";
 import previousGrassSoilNitrogenSupplyTree from "../assets/data/previous-grass-soil-nitrogen-supply.json";
@@ -176,7 +178,7 @@ class CalculatorStore {
     }
 
     public getNutrientValues() {
-        const results = this.calculateNutrients(
+        this.calculateNutrients(
             this.calculatorValues.manureSelected,
             this.calculatorValues.sliderValue,
             this.calculatorValues.qualitySelected,
@@ -186,19 +188,19 @@ class CalculatorStore {
             this.calculatorValues.applicationSelected,
             this.calculatorValues.soilTestP,
             this.calculatorValues.soilTestK
-        );
-        // n
-        this.nutrientResults.nitrogenTotal = results[0][0];
-        this.nutrientResults.nitrogenAvailable = results[1][0];
-        // p
-        this.nutrientResults.phosphorousTotal = results[0][1];
-        this.nutrientResults.phosphorousAvailable = results[1][1];
-        // k
-        this.nutrientResults.potassiumTotal = results[0][2];
-        this.nutrientResults.potassiumAvailable = results[1][2];
+        ).then(results => {
+            // n
+            this.nutrientResults.nitrogenTotal = results[0][0];
+            this.nutrientResults.nitrogenAvailable = results[1][0];
+            // p
+            this.nutrientResults.phosphorousTotal = results[0][1];
+            this.nutrientResults.phosphorousAvailable = results[1][1];
+            // k
+            this.nutrientResults.potassiumTotal = results[0][2];
+            this.nutrientResults.potassiumAvailable = results[1][2];
+        });
     }
-
-    public calculateNutrients(
+    public async calculateNutrients(
         type,
         amount,
         quality,
@@ -208,18 +210,27 @@ class CalculatorStore {
         application,
         soilTestP,
         soilTestK
-    ): Array<number> {
+    ): Promise<Array<Array<number>>> {
         if (type === "custom") {
-            const nutrients = this.processNutrients(
-                amount,
-                1 //   this.settingsProvider.customManure[quality].content
-            );
-            return [
-                // total
-                nutrients,
-                // avail (duplicate)
-                nutrients
-            ];
+            return database.getManure(quality).then((manure: Manure) => {
+                if (manure.N) {
+                    const nutrients = this.processNutrients(amount, [
+                        manure.N,
+                        manure.P,
+                        manure.K
+                    ]);
+                    if (nutrients) {
+                        return [
+                            // total
+                            nutrients,
+                            // avail (duplicate)
+                            nutrients
+                        ];
+                    }
+                } else {
+                    return [[0, 0, 0], [0, 0, 0]];
+                }
+            });
         } else {
             return this.getNutrients(
                 type,
