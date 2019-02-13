@@ -163,7 +163,7 @@ class DatabaseImpl implements Database {
         // if so then update with the values here
         // else add a new record
         if (farm === undefined) {
-            return Promise.reject(Error(`Could not null farm`));
+            return Promise.reject(Error("Could not null farm"));
         }
         // https://www.sqlite.org/lang_UPSERT.html but current sqlite version cannot handle it so
         //
@@ -171,7 +171,7 @@ class DatabaseImpl implements Database {
         await this.getDatabase()
             .then(db =>
                 db.executeSql(
-                    `select count(1) as count from Farm where "Farm-Unique-Id" = ?`,
+                    'select count(1) as count from Farm where "Farm-Unique-Id" = ?',
                     [farm.key]
                 )
             )
@@ -347,7 +347,7 @@ class DatabaseImpl implements Database {
         // else add a new record
         if (field === undefined) {
             return Promise.reject(
-                Error(`Could not add item to undefined list.`)
+                Error("Could not add item to undefined list.")
             );
         }
         // https://www.sqlite.org/lang_UPSERT.html but current sqlite version cannot handle it so
@@ -356,7 +356,7 @@ class DatabaseImpl implements Database {
         await this.getDatabase()
             .then(db =>
                 db.executeSql(
-                    `select count(1) as count from Field where "Field-Unique-Id" = ?`,
+                    'select count(1) as count from Field where "Field-Unique-Id" = ?',
                     [field.key]
                 )
             )
@@ -564,7 +564,7 @@ class DatabaseImpl implements Database {
 
     public async saveSpreadEvent(spreadEvent: SpreadEvent): Promise<void> {
         if (spreadEvent === undefined) {
-            return Promise.reject(Error(`spreadEvent not supplied.`));
+            return Promise.reject(Error("spreadEvent not supplied."));
         }
         // https://www.sqlite.org/lang_UPSERT.html but current sqlite version cannot handle it so
         //
@@ -572,7 +572,7 @@ class DatabaseImpl implements Database {
         await this.getDatabase()
             .then(db =>
                 db.executeSql(
-                    `select count(1) as count from SpreadEvent where "SpreadEvent-Unique-Id" = ?`,
+                    'select count(1) as count from SpreadEvent where "SpreadEvent-Unique-Id" = ?',
                     [spreadEvent.key]
                 )
             )
@@ -700,7 +700,7 @@ class DatabaseImpl implements Database {
         return this.getDatabase().then(db =>
             db
                 .executeSql(
-                    `SELECT "Manure-Unique-Id" , Name, N, P, K FROM Manure`
+                    'SELECT "Manure-Unique-Id" , Name, N, P, K FROM Manure'
                 )
                 .then(([results]) => {
                     if (results === undefined) {
@@ -755,7 +755,7 @@ class DatabaseImpl implements Database {
         // if so then update with the values here
         // else add a new record
         if (manure === undefined) {
-            return Promise.reject(Error(`Could not add undefined manure.`));
+            return Promise.reject(Error("Could not add undefined manure."));
         }
         // https://www.sqlite.org/lang_UPSERT.html but current sqlite version cannot handle it so
         //
@@ -763,7 +763,7 @@ class DatabaseImpl implements Database {
         await this.getDatabase()
             .then(db =>
                 db.executeSql(
-                    `select count(1) as count from Manure where "Manure-Unique-Id" = ?`,
+                    'select count(1) as count from Manure where "Manure-Unique-Id" = ?',
                     [manure.key]
                 )
             )
@@ -826,7 +826,7 @@ class DatabaseImpl implements Database {
         return this.getDatabase()
             .then(db =>
                 db.executeSql(
-                    `Delete from manure where "Manure-Unique-Id" = ?;`,
+                    'Delete from manure where "Manure-Unique-Id" = ?;',
                     [manure.key]
                 )
             )
@@ -865,7 +865,7 @@ class DatabaseImpl implements Database {
         return this.getDatabase().then(db => {
             db.executeSql("delete from AppSettings;");
             db.executeSql(
-                `insert into AppSettings (Email, Units, "User-Id", Language) values (?, ?, "AndroidUser", "en-gb")`,
+                'insert into AppSettings (Email, Units, "User-Id", Language) values (?, ?, "AndroidUser", "en-gb")',
                 [appSettings.email, appSettings.unit]
             );
         });
