@@ -227,9 +227,8 @@ class CalculatorStore {
                             nutrients
                         ];
                     }
-                } else {
-                    return [[0, 0, 0], [0, 0, 0]];
                 }
+                return [[0, 0, 0], [0, 0, 0]];
             });
         } else {
             return this.getNutrients(
