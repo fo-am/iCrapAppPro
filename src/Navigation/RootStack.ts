@@ -1,4 +1,4 @@
-import { createStackNavigator, NavigationContainer } from "react-navigation";
+import { createAppContainer, createStackNavigator } from "react-navigation";
 import Calculator from "../calc/Calculator";
 import CustomManure from "../customManure/CustomManure";
 import FarmScreen from "../Farm/FarmScreen";
@@ -8,7 +8,7 @@ import HomeScreen from "../HomeScreen";
 import SettingScreen from "../Settings/SettingScreen";
 import SplashScreen from "../splashScreen/splashScreen";
 
-export default createStackNavigator(
+const appNav = createStackNavigator(
     {
         Calculator: { screen: Calculator },
         CustomManure: { screen: CustomManure },
@@ -26,3 +26,5 @@ export default createStackNavigator(
         initialRouteName: "SplashScreen"
     }
 );
+
+export default createAppContainer(appNav);
