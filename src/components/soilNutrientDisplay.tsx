@@ -1,5 +1,5 @@
+import { H1 } from "native-base";
 import React, { Component } from "react";
-import { Text, View } from "react-native";
 import { Maths } from "../assets/Math";
 interface Props {
   value: string;
@@ -33,7 +33,7 @@ export default class SoilNutrientDisplay extends Component<Props, State> {
     "grassland-low-sns": "Grassland low SNS"
   };
   public render() {
-    return <Text>{this.soilNutrientCodeToTextMetric[this.props.value]}</Text>;
+    return <H1>{this.soilNutrientCodeToTextMetric[this.props.value]}</H1>;
   }
 
   private FormattedValue(value: number): string {

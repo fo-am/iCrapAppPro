@@ -359,16 +359,46 @@ export default class FieldScreen extends Component<Props, State> {
                     onChange={item => (FieldStore.field.cropType = item)}
                     values={this.cropType}
                   />
+
                   <Grid>
                     <Row>
                       <H2>Crop Nutrient requirements</H2>
                     </Row>
                     <Row>
                       <Col>
-                        <Text>
-                          Nitrogen requirements <DisplayAreaUnit />
+                        <Text style={{ fontSize: 20, lineHeight: 30 }}>
+                          N <DisplayAreaUnit />
                         </Text>
                       </Col>
+                      <Col>
+                        <Text style={{ fontSize: 20, lineHeight: 30 }}>
+                          P
+                          <Text style={{ fontSize: 15, lineHeight: 40 }}>
+                            2
+                          </Text>
+                          O
+                          <Text style={{ fontSize: 15, lineHeight: 40 }}>
+                            5
+                          </Text>{" "}
+                          <DisplayAreaUnit />
+                        </Text>
+                      </Col>
+                      <Col>
+                        <Text style={{ fontSize: 20, lineHeight: 30 }}>
+                          K
+                          <Text
+                            style={{
+                              fontSize: 15,
+                              lineHeight: 40
+                            }}
+                          >
+                            2
+                          </Text>
+                          O <DisplayAreaUnit />
+                        </Text>
+                      </Col>
+                    </Row>
+                    <Row>
                       <Col>
                         <Text>
                           {
@@ -377,26 +407,12 @@ export default class FieldScreen extends Component<Props, State> {
                           }
                         </Text>
                       </Col>
-                    </Row>
-                    <Row>
-                      <Col>
-                        <Text>
-                          Phosphorous requirements <DisplayAreaUnit />
-                        </Text>
-                      </Col>
                       <Col>
                         <Text>
                           {
                             FieldStore.cropRequirementsResult
                               .phosphorousRequirement
                           }
-                        </Text>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col>
-                        <Text>
-                          Potassium requirements <DisplayAreaUnit />
                         </Text>
                       </Col>
                       <Col>
