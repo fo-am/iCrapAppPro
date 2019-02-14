@@ -180,20 +180,22 @@ export default class Calculator extends Component<Props, State> {
 
   public SliderValueChanged(value) {
     const { CalculatorStore } = this.props;
+
     CalculatorStore.calculatorValues.sliderValue = value;
 
+    let selectedManure = CalculatorStore.calculatorValues.manureSelected;
+
+    if (selectedManure === "custom") {
+      selectedManure = "fym";
+    }
     const keys = [] as number[];
-    for (const k in Images[CalculatorStore.calculatorValues.manureSelected]) {
+    for (const k in Images[selectedManure]) {
       keys.push(Number(k));
     }
 
     const closestValue = this.closest(value, keys);
-    if (CalculatorStore.calculatorValues.manureSelected == "custom") {
-      CalculatorStore.image = Images.fym["50"];
-    } else {
-      CalculatorStore.image =
-        Images[CalculatorStore.calculatorValues.manureSelected][closestValue];
-    }
+
+    CalculatorStore.image = Images[selectedManure][closestValue];
   }
 
   public closest(num: number, arr: Array<number>) {

@@ -211,21 +211,24 @@ export default class SpreadScreen extends Component<Props, State> {
 
   public SliderValueChanged(value) {
     const { CalculatorStore } = this.props;
+
     CalculatorStore.calculatorValues.sliderValue = value;
 
+    let selectedManure = CalculatorStore.calculatorValues.manureSelected;
+
+    if (selectedManure === "custom") {
+      selectedManure = "fym";
+    }
     const keys = [] as number[];
-    for (const k in Images[CalculatorStore.calculatorValues.manureSelected]) {
+    for (const k in Images[selectedManure]) {
       keys.push(Number(k));
     }
 
     const closestValue = this.closest(value, keys);
-    if (CalculatorStore.calculatorValues.manureSelected == "custom") {
-      CalculatorStore.image = Images.fym["50"];
-    } else {
-      CalculatorStore.image =
-        Images[CalculatorStore.calculatorValues.manureSelected][closestValue];
-    }
+
+    CalculatorStore.image = Images[selectedManure][closestValue];
   }
+
   public render() {
     const {
       FieldStore,
@@ -315,10 +318,12 @@ export default class SpreadScreen extends Component<Props, State> {
                 <Text>
                   N Total
                   <FormatValue
+                    units={"UnitsAcre"}
                     value={CalculatorStore.nutrientResults.nitrogenTotal}
                   />{" "}
                   available (
                   <FormatValue
+                    units={"UnitsAcre"}
                     value={CalculatorStore.nutrientResults.nitrogenAvailable}
                   />
                   ) Saving{" "}
@@ -333,10 +338,12 @@ export default class SpreadScreen extends Component<Props, State> {
                 <Text>
                   P2O5{" "}
                   <FormatValue
+                    units={"UnitsAcre"}
                     value={CalculatorStore.nutrientResults.phosphorousTotal}
                   />{" "}
                   available (
                   <FormatValue
+                    units={"UnitsAcre"}
                     value={CalculatorStore.nutrientResults.phosphorousAvailable}
                   />
                   ) Saving{" "}
@@ -351,10 +358,12 @@ export default class SpreadScreen extends Component<Props, State> {
                 <Text>
                   K2O{" "}
                   <FormatValue
+                    units={"UnitsAcre"}
                     value={CalculatorStore.nutrientResults.potassiumTotal}
                   />{" "}
                   available (
                   <FormatValue
+                    units={"UnitsAcre"}
                     value={CalculatorStore.nutrientResults.potassiumAvailable}
                   />
                   ) Saving{" "}
@@ -371,6 +380,7 @@ export default class SpreadScreen extends Component<Props, State> {
                 <Text>
                   Nitrogen requirements
                   <FormatValue
+                    units={"UnitsAcre"}
                     value={
                       FieldStore.cropRequirementsResult.nitrogenRequirement
                     }
@@ -379,6 +389,7 @@ export default class SpreadScreen extends Component<Props, State> {
                 <Text>
                   phosphorousRequirement requirements
                   <FormatValue
+                    units={"UnitsAcre"}
                     value={
                       FieldStore.cropRequirementsResult.phosphorousRequirement
                     }
@@ -387,6 +398,7 @@ export default class SpreadScreen extends Component<Props, State> {
                 <Text>
                   potassiumRequirement requirements
                   <FormatValue
+                    units={"UnitsAcre"}
                     value={
                       FieldStore.cropRequirementsResult.potassiumRequirement
                     }
