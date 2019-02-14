@@ -12,6 +12,9 @@ export default class CashDisplay extends Component<Props, State> {
     return <Text>£{this.FormattedValue(this.props.value)}</Text>;
   }
   private FormattedValue(value: number): string {
+    if (isNaN(value)) {
+      value = 0;
+    }
     return String(Maths.Round(value, 2));
   }
 }

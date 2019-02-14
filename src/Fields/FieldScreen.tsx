@@ -2,11 +2,13 @@ import { inject, observer } from "mobx-react/native";
 import {
   Body,
   Button,
+  Col,
   Container,
   Content,
   Footer,
   FooterTab,
   Form,
+  Grid,
   H1,
   H2,
   H3,
@@ -16,6 +18,7 @@ import {
   Label,
   Left,
   Right,
+  Row,
   Text,
   Title
 } from "native-base";
@@ -33,6 +36,8 @@ import MapView, { Marker, Polygon, PROVIDER_GOOGLE } from "react-native-maps";
 import { NavigationScreenProp } from "react-navigation";
 
 import dropDownData from "../assets/dropDownData.json";
+
+import DisplayAreaUnit from "../components/DisplayAreaUnit";
 import DropDown from "../components/DropDown";
 import SoilNutrientDisplay from "../components/soilNutrientDisplay";
 import SphericalUtil from "../geoUtils";
@@ -310,14 +315,32 @@ export default class FieldScreen extends Component<Props, State> {
                     onChange={item => (FieldStore.field.soilTestK = item)}
                     values={this.soiltestK}
                   />
-                  <Text>
-                    nitrogenSupply{" "}
-                    <SoilNutrientDisplay
-                      value={FieldStore.cropRequirementsResult.nitrogenSupply}
-                    />
-                  </Text>
+                  <Grid>
+                    <Row>
+                      <H3
+                        style={{
+                          alignSelf: "center",
+                          alignItems: "center"
+                        }}
+                      >
+                        Nitrogen Supply
+                      </H3>
+                    </Row>
+                    <Row
+                      style={{
+                        alignSelf: "center",
+                        alignItems: "center"
+                      }}
+                    >
+                      <SoilNutrientDisplay
+                        value={FieldStore.cropRequirementsResult.nitrogenSupply}
+                      />
+                    </Row>
+                  </Grid>
+
                   <H2>Crop Details</H2>
                   <H3>Previous crop type</H3>
+
                   <DropDown
                     style={{ width: "90%" }}
                     selectedValue={FieldStore.field.prevCropType}
@@ -336,21 +359,56 @@ export default class FieldScreen extends Component<Props, State> {
                     onChange={item => (FieldStore.field.cropType = item)}
                     values={this.cropType}
                   />
-                  <H2>Crop Nutrient requirements</H2>
-                  <Text>Nitrogen requirements</Text>
-                  <Text>
-                    {FieldStore.cropRequirementsResult.nitrogenRequirement}
-                  </Text>
-
-                  <Text>phosphorousRequirement requirements</Text>
-                  <Text>
-                    {FieldStore.cropRequirementsResult.phosphorousRequirement}
-                  </Text>
-
-                  <Text>potassiumRequirement requirements</Text>
-                  <Text>
-                    {FieldStore.cropRequirementsResult.potassiumRequirement}
-                  </Text>
+                  <Grid>
+                    <Row>
+                      <H2>Crop Nutrient requirements</H2>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <Text>
+                          Nitrogen requirements <DisplayAreaUnit />
+                        </Text>
+                      </Col>
+                      <Col>
+                        <Text>
+                          {
+                            FieldStore.cropRequirementsResult
+                              .nitrogenRequirement
+                          }
+                        </Text>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <Text>
+                          Phosphorous requirements <DisplayAreaUnit />
+                        </Text>
+                      </Col>
+                      <Col>
+                        <Text>
+                          {
+                            FieldStore.cropRequirementsResult
+                              .phosphorousRequirement
+                          }
+                        </Text>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <Text>
+                          Potassium requirements <DisplayAreaUnit />
+                        </Text>
+                      </Col>
+                      <Col>
+                        <Text>
+                          {
+                            FieldStore.cropRequirementsResult
+                              .potassiumRequirement
+                          }
+                        </Text>
+                      </Col>
+                    </Row>
+                  </Grid>
                 </View>
                 <View>
                   <H2>Graph</H2>

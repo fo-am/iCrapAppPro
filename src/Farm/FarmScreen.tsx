@@ -2,10 +2,12 @@ import { inject, observer } from "mobx-react/native";
 import {
   Body,
   Button,
+  Col,
   Container,
   Content,
   Footer,
   Form,
+  Grid,
   H1,
   H2,
   H3,
@@ -13,6 +15,7 @@ import {
   Input,
   Left,
   Right,
+  Row,
   Text,
   Title
 } from "native-base";
@@ -22,7 +25,6 @@ import {
   FlatList,
   ScrollView,
   StatusBar,
-  TextInput,
   TouchableOpacity,
   View
 } from "react-native";
@@ -30,16 +32,21 @@ import MapView, { Marker, Polygon, PROVIDER_GOOGLE } from "react-native-maps";
 import { NavigationScreenProp } from "react-navigation";
 
 import dropDownData from "../assets/dropDownData.json";
+
+import DisplayPoundsPerArea from "../components/displayPoundsPerArea";
 import DropDown from "../components/DropDown";
+
 import SphericalUtil from "../geoUtils";
 import Field from "../model/field";
+
 import CalculatorStore from "../store/calculatorStore";
 import FarmStore from "../store/FarmStore";
 import FieldStore from "../store/FieldsStore";
-// import SettingsStore from "../store/settingsStore";
+
 import styles from "../styles/style";
 
 import Strings from "../assets/strings";
+
 import { database } from "../database/Database.js";
 
 let id = 0;
@@ -131,14 +138,14 @@ export default class FarmScreen extends Component<Props, State> {
                 {!this.state.showSave && (
                   <Form>
                     <Button primary onPress={() => this.draw()}>
-                      <Text>Draw it</Text>
+                      <Text>Place Pin on Farm</Text>
                     </Button>
                   </Form>
                 )}
                 {this.state.showSave && (
                   <View style={styles.container}>
                     <Button info onPress={() => this.save()}>
-                      <Text>Save</Text>
+                      <Text>Set Location</Text>
                     </Button>
                     <Button warning onPress={() => this.cancel()}>
                       <Text>Cancel</Text>
@@ -149,21 +156,23 @@ export default class FarmScreen extends Component<Props, State> {
                   </View>
                 )}
                 <Text>Farm Name</Text>
-                <TextInput
+                <Input
+                  selectTextOnFocus={true}
                   style={{ fontSize: 20, fontWeight: "bold" }}
                   onChangeText={text => (FarmStore.farm.name = text)}
                 >
                   {FarmStore.farm.name}
-                </TextInput>
+                </Input>
 
                 <View style={styles.container}>
                   <Text>Add Field</Text>
                   <Button
-                    onPress={() =>
+                    onPress={() => {
+                      FarmStore.saveFarm();
                       this.props.navigation.navigate("Field", {
                         farmKey: FarmStore.farm.key
-                      })
-                    }
+                      });
+                    }}
                   >
                     <Text>Add Field</Text>
                   </Button>
@@ -175,6 +184,7 @@ export default class FarmScreen extends Component<Props, State> {
                     renderItem={({ item }) => (
                       <Button
                         onPress={() => {
+                          FarmStore.saveFarm();
                           this.props.navigation.navigate("Field", {
                             fieldKey: item.key
                           });
@@ -192,38 +202,68 @@ export default class FarmScreen extends Component<Props, State> {
                     onChange={item => FarmStore.SelectRainfall(item)}
                     values={this.RainfallTypes}
                   />
-                  <Text>
-                    How much do you pay for your fertiliser? This is used to
-                    calculate your cost savings.
-                  </Text>
-                  <Text>N(£ per Kg)</Text>
-                  <Input
-                    keyboardType="numeric"
-                    onChangeText={item => FarmStore.SetNCost(item)}
-                    value={String(FarmStore.farm.costN)}
-                    selectTextOnFocus={true}
-                  />
-                  <Text>
-                    P<Text style={{ fontSize: 11, lineHeight: 37 }}>2</Text>O
-                    <Text style={{ fontSize: 11, lineHeight: 37 }}>5</Text>(£
-                    per Kg)
-                  </Text>
-                  <Input
-                    keyboardType="numeric"
-                    onChangeText={item => FarmStore.SetPCost(item)}
-                    value={String(FarmStore.farm.costP)}
-                    selectTextOnFocus={true}
-                  />
-                  <Text>
-                    K<Text style={{ fontSize: 11, lineHeight: 37 }}>2</Text>
-                    O(£ per Kg)
-                  </Text>
-                  <Input
-                    keyboardType="numeric"
-                    onChangeText={item => FarmStore.SetKCost(item)}
-                    value={String(FarmStore.farm.costK)}
-                    selectTextOnFocus={true}
-                  />
+                  <Grid>
+                    <Row>
+                      <Text
+                        style={{
+                          alignSelf: "center",
+                          alignItems: "center"
+                        }}
+                      >
+                        How much do you pay for your fertiliser? This is used to
+                        calculate your cost savings.
+                      </Text>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <Text>
+                          N(
+                          <DisplayPoundsPerArea />)
+                        </Text>
+                      </Col>
+                      <Col>
+                        <Input
+                          keyboardType="numeric"
+                          onChangeText={item => FarmStore.SetNCost(item)}
+                          value={String(FarmStore.farm.costN)}
+                          selectTextOnFocus={true}
+                        />
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <Text>
+                          P<Text style={styles.sub}>2</Text>O
+                          <Text style={styles.sub}>5</Text>(
+                          <DisplayPoundsPerArea />)
+                        </Text>
+                      </Col>
+                      <Col>
+                        <Input
+                          keyboardType="numeric"
+                          onChangeText={item => FarmStore.SetPCost(item)}
+                          value={String(FarmStore.farm.costP)}
+                          selectTextOnFocus={true}
+                        />
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <Text>
+                          K<Text style={styles.sub}>2</Text>
+                          O (<DisplayPoundsPerArea />)
+                        </Text>
+                      </Col>
+                      <Col>
+                        <Input
+                          keyboardType="numeric"
+                          onChangeText={item => FarmStore.SetKCost(item)}
+                          value={String(FarmStore.farm.costK)}
+                          selectTextOnFocus={true}
+                        />
+                      </Col>
+                    </Row>
+                  </Grid>
                 </Form>
                 <Button onPress={() => this.saveFarm()}>
                   <Text>Save Farm</Text>
@@ -248,15 +288,10 @@ export default class FarmScreen extends Component<Props, State> {
     });
   }
   private save() {
-    const { area } = this.state;
-    const { FarmStore } = this.props;
-    //   FarmStore.farm.farmLocation = this.state.marker.coordinate;
-
     this.setState({
       showSave: false,
       mapMoveEnabled: true
     });
-    // save to file
   }
   private cancel() {
     const { FarmStore } = this.props;
