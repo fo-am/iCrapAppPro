@@ -5,8 +5,12 @@ import {
   Content,
   Form,
   Grid,
+  H1,
+  H2,
+  H3,
   Row,
-  StyleProvider
+  StyleProvider,
+  Text
 } from "native-base";
 import React, { Component } from "react";
 import {
@@ -15,7 +19,6 @@ import {
   ScrollView,
   Slider,
   StatusBar,
-  Text,
   TouchableOpacity,
   View
 } from "react-native";
@@ -224,7 +227,7 @@ export default class Calculator extends Component<Props, State> {
         <Content>
           <Form>
             <ScrollView>
-              <View style={styles.container}>
+              <View>
                 <StatusBar />
                 <Text style={styles.text}>
                   Calculator for crap calculations.
@@ -283,7 +286,7 @@ export default class Calculator extends Component<Props, State> {
                   }
                   values={CalculatorStore.qualityTypes}
                 />
-                <View style={styles.container}>
+                <View>
                   <Slider
                     step={0.1}
                     value={slider.sliderStartValue}
@@ -303,27 +306,35 @@ export default class Calculator extends Component<Props, State> {
                   </Text>
                 </View>
                 <Image source={CalculatorStore.image} />
-                <Grid>
+                <Grid style={{ alignItems: "center" }}>
                   <Row>
                     <Text>Crop available nutrients(Total in manure)</Text>
                   </Row>
                   <Row>
                     <Col>
-                      <Text>
-                        N <DisplayAreaUnit /> Total(Available)
+                      <Text style={{ fontSize: 20, lineHeight: 30 }}>
+                        N <DisplayAreaUnit />
                       </Text>
                     </Col>
                     <Col>
-                      <Text>
-                        P<Text style={styles.sub}>2</Text>O
-                        <Text style={styles.sub}>5</Text>
-                        <DisplayAreaUnit /> Total(Available)
+                      <Text style={{ fontSize: 20, lineHeight: 30 }}>
+                        P<Text style={{ fontSize: 15, lineHeight: 40 }}>2</Text>
+                        O<Text style={{ fontSize: 15, lineHeight: 40 }}>5</Text>{" "}
+                        <DisplayAreaUnit />
                       </Text>
                     </Col>
                     <Col>
-                      <Text>
-                        K<Text style={styles.sub}>2</Text>
-                        O <DisplayAreaUnit /> Total(Available)
+                      <Text style={{ fontSize: 20, lineHeight: 30 }}>
+                        K
+                        <Text
+                          style={{
+                            fontSize: 15,
+                            lineHeight: 40
+                          }}
+                        >
+                          2
+                        </Text>
+                        O <DisplayAreaUnit />
                       </Text>
                     </Col>
                   </Row>
@@ -380,7 +391,7 @@ export default class Calculator extends Component<Props, State> {
                     </Col>
                   </Row>
                   <Row>
-                    <Text>Savings</Text>
+                    <H2>Savings</H2>
                   </Row>
                   <Row>
                     <Col>

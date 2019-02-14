@@ -116,7 +116,7 @@ export default class FarmScreen extends Component<Props, State> {
 
 
         */}
-              <View style={styles.container}>
+              <View>
                 <Text>Scroll around and find your Farm.</Text>
                 <MapView
                   moveOnMarkerPress={false}
@@ -143,7 +143,7 @@ export default class FarmScreen extends Component<Props, State> {
                   </Form>
                 )}
                 {this.state.showSave && (
-                  <View style={styles.container}>
+                  <View>
                     <Button info onPress={() => this.save()}>
                       <Text>Set Location</Text>
                     </Button>
@@ -164,7 +164,7 @@ export default class FarmScreen extends Component<Props, State> {
                   {FarmStore.farm.name}
                 </Input>
 
-                <View style={styles.container}>
+                <View>
                   <Text>Add Field</Text>
                   <Button
                     onPress={() => {
@@ -233,8 +233,15 @@ export default class FarmScreen extends Component<Props, State> {
                     <Row>
                       <Col>
                         <Text>
-                          P<Text style={styles.sub}>2</Text>O
-                          <Text style={styles.sub}>5</Text>(
+                          P
+                          <Text style={{ fontSize: 15, lineHeight: 37 }}>
+                            2
+                          </Text>
+                          O
+                          <Text style={{ fontSize: 15, lineHeight: 37 }}>
+                            5
+                          </Text>
+                          (
                           <DisplayPoundsPerArea />)
                         </Text>
                       </Col>
@@ -250,7 +257,10 @@ export default class FarmScreen extends Component<Props, State> {
                     <Row>
                       <Col>
                         <Text>
-                          K<Text style={styles.sub}>2</Text>
+                          K
+                          <Text style={{ fontSize: 15, lineHeight: 37 }}>
+                            2
+                          </Text>
                           O (<DisplayPoundsPerArea />)
                         </Text>
                       </Col>

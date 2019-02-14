@@ -39,7 +39,7 @@ export default class FormatValue extends Component<Props, State> {
       }
     }
 
-    return <Text>{this.Round(finalVal)}</Text>;
+    return this.Round(finalVal);
   }
 
   private Round(value: number): string {

@@ -12,12 +12,8 @@ export default class DisplayPoundsPerArea extends Component<Props, State> {
   public render() {
     const { SettingsStore } = this.props;
 
-    return (
-      <Text>
-        {SettingsStore.appSettings.unit === "metric"
-          ? "£ per Kg"
-          : "£ per unit"}
-      </Text>
-    );
+    return SettingsStore.appSettings.unit === "metric"
+      ? "£ per Kg"
+      : "£ per unit";
   }
 }

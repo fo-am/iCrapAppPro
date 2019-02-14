@@ -243,7 +243,7 @@ export default class SpreadScreen extends Component<Props, State> {
             <ScrollView>
               <StatusBar />
               <View style={styles.container}>
-                <Text>{FieldStore.field.name}</Text>
+                <H1>{FieldStore.field.name}</H1>
                 <Text>Enter new crap spreading event</Text>
                 <Text>Manure type</Text>
                 <DropDown
@@ -295,7 +295,7 @@ export default class SpreadScreen extends Component<Props, State> {
                   values={CalculatorStore.applicationTypes}
                 />
 
-                <View style={styles.container}>
+                <View>
                   <Slider
                     step={0.1}
                     value={slider.sliderStartValue}
@@ -387,7 +387,7 @@ export default class SpreadScreen extends Component<Props, State> {
                   />
                 </Text>
                 <Text>
-                  phosphorousRequirement requirements
+                  phosphorous Requirement
                   <FormatValue
                     units={"UnitsAcre"}
                     value={
@@ -396,7 +396,7 @@ export default class SpreadScreen extends Component<Props, State> {
                   />
                 </Text>
                 <Text>
-                  potassiumRequirement requirements
+                  potassium Requirement
                   <FormatValue
                     units={"UnitsAcre"}
                     value={

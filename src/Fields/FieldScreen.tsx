@@ -173,7 +173,7 @@ export default class FieldScreen extends Component<Props, State> {
         // zoom map to that place
 
         */}
-              <View style={styles.container}>
+              <View>
                 <MapView
                   style={styles.map}
                   scrollEnabled={this.state.mapMoveEnabled}
@@ -225,7 +225,7 @@ export default class FieldScreen extends Component<Props, State> {
                   </Form>
                 )}
                 {this.state.showSave && (
-                  <View style={styles.container}>
+                  <View>
                     <Button info onPress={() => this.save()}>
                       <Text>Save</Text>
                     </Button>

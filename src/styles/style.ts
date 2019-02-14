@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#FFF",
         justifyContent: "space-between"
     },
-    text: { color: "#FFF" },
+    text: { color: "#000" },
     map: {
         width,
         height: halfHeight

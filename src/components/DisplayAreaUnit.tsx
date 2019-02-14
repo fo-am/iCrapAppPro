@@ -12,10 +12,6 @@ export default class DisplayAreaUnit extends Component<Props, State> {
   public render() {
     const { SettingsStore } = this.props;
 
-    return (
-      <Text>
-        {SettingsStore.appSettings.unit === "metric" ? "Kg/ha" : "units/acre"}
-      </Text>
-    );
+    return SettingsStore.appSettings.unit === "metric" ? "Kg/ha" : "units/acre";
   }
 }
