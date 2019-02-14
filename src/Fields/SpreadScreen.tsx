@@ -187,7 +187,8 @@ export default class SpreadScreen extends Component<Props, State> {
       slider.sliderStartValue = 50;
       CalculatorStore.calculatorValues.sliderValue = 50;
       slider.sliderMaxValue = 100;
-      slider.sliderUnit = "m3/ha";
+      slider.sliderUnit =
+        SettingsStore.appSettings.unit === "metric" ? "m3/ha" : "tons/acre";
 
       CalculatorStore.applicationTypes = [];
       CalculatorStore.qualityTypes = CalculatorStore.customQualityTypes;
@@ -290,7 +291,7 @@ export default class SpreadScreen extends Component<Props, State> {
                   }
                   values={CalculatorStore.applicationTypes}
                 />
-                <Text>Ammount slider</Text>
+
                 <View style={styles.container}>
                   <Slider
                     step={0.1}
@@ -304,6 +305,7 @@ export default class SpreadScreen extends Component<Props, State> {
                   <Text>
                     Value:{" "}
                     <FormatValue
+                      units={slider.sliderUnit}
                       value={CalculatorStore.calculatorValues.sliderValue}
                     />{" "}
                     {slider.sliderUnit}
