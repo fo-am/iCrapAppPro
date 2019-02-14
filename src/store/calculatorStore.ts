@@ -34,7 +34,9 @@ class CalculatorStore {
     private grasslandLowSNS: number = 102;
 
     constructor() {
-        const disposer = autorun(() => this.getNutrientValues());
+        const disposer = autorun(() => this.getNutrientValues(), {
+            delay: 50
+        });
     }
 
     // Calculates the cost of a nutrient
