@@ -27,14 +27,10 @@ import DropDown from "../components/DropDown";
 import SliderValues from "../model/sliderValues";
 // import CalculatorStore from "../store/calculatorStore";
 
-import calculatorStore from "../store/calculatorStore";
+//import calculatorStore from "../store/calculatorStore";
 // import SettingsStore from "../store/settingsStore";
 
-interface Props {
-  ManureStore: ManureStore;
-  SettingsStore: SettingsStore;
-  CalculatorStore: CalculatorStore;
-}
+interface Props {}
 
 interface State {}
 
@@ -134,8 +130,8 @@ export default class Calculator extends Component<Props, State> {
     CalculatorStore.calculatorValues.qualitySelected = Object.keys(
       CalculatorStore.qualityTypes
     )[0];
-    calculatorStore.calculatorValues.soilTestK = 0;
-    calculatorStore.calculatorValues.soilTestP = 0;
+    CalculatorStore.calculatorValues.soilTestK = 0;
+    CalculatorStore.calculatorValues.soilTestP = 0;
   }
 
   public componentDidMount() {
