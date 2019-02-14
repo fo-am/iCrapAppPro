@@ -1,5 +1,5 @@
 import { inject, observer } from "mobx-react/native";
-import { Container, Content, Form } from "native-base";
+import { Container, Content, Form, StyleProvider } from "native-base";
 import React, { Component } from "react";
 import {
   Dimensions,
@@ -19,14 +19,14 @@ import Images from "../assets/imageData";
 import styles from "../styles/style";
 
 import dropDownData from "../assets/dropDownData.json";
+
 import CashDisplay from "../components/cashDisplay";
+import DisplayAreaUnit from "../components/DisplayAreaUnit";
 import FormatValue from "../components/displayNumber";
 import DropDown from "../components/DropDown";
-
 import SliderValues from "../model/sliderValues";
 // import CalculatorStore from "../store/calculatorStore";
 
-import SettingScreen from "../Settings/SettingScreen";
 import calculatorStore from "../store/calculatorStore";
 // import SettingsStore from "../store/settingsStore";
 
@@ -145,14 +145,15 @@ export default class Calculator extends Component<Props, State> {
   }
 
   public SelectManure(itemValue) {
-    const { CalculatorStore } = this.props;
+    const { CalculatorStore, SettingsStore } = this.props;
     CalculatorStore.calculatorValues.manureSelected = itemValue;
 
     if (itemValue === "custom") {
       slider.sliderStartValue = 50;
       CalculatorStore.calculatorValues.sliderValue = 50;
       slider.sliderMaxValue = 100;
-      slider.sliderUnit = "m3/ha";
+      slider.sliderUnit =
+        SettingsStore.appSettings.unit === "metric" ? "m3/ha" : "gallons/acre";
 
       CalculatorStore.applicationTypes = [];
       CalculatorStore.qualityTypes = CalculatorStore.customQualityTypes;
@@ -292,6 +293,7 @@ export default class Calculator extends Component<Props, State> {
                   <Text>
                     Value:{" "}
                     <FormatValue
+                      units={slider.sliderUnit}
                       value={CalculatorStore.calculatorValues.sliderValue}
                     />{" "}
                     {slider.sliderUnit}
@@ -301,12 +303,14 @@ export default class Calculator extends Component<Props, State> {
                 <Image source={CalculatorStore.image} />
                 <Text>Crop available nutrients(Total in manure)</Text>
                 <Text>
-                  N Total{" "}
+                  N <DisplayAreaUnit /> Total
                   <FormatValue
+                    units={"UnitsAcre"}
                     value={CalculatorStore.nutrientResults.nitrogenTotal}
                   />{" "}
                   available (
                   <FormatValue
+                    units={"UnitsAcre"}
                     value={CalculatorStore.nutrientResults.nitrogenAvailable}
                   />
                   ) Saving{" "}
@@ -318,12 +322,14 @@ export default class Calculator extends Component<Props, State> {
                   />
                 </Text>
                 <Text>
-                  P2O5{" "}
+                  P2O5 <DisplayAreaUnit />
                   <FormatValue
+                    units={"UnitsAcre"}
                     value={CalculatorStore.nutrientResults.phosphorousTotal}
                   />{" "}
                   available (
                   <FormatValue
+                    units={"UnitsAcre"}
                     value={CalculatorStore.nutrientResults.phosphorousAvailable}
                   />
                   ) Saving{" "}
@@ -335,12 +341,14 @@ export default class Calculator extends Component<Props, State> {
                   />
                 </Text>
                 <Text>
-                  K2O{" "}
+                  K2O <DisplayAreaUnit />
                   <FormatValue
+                    units={"UnitsAcre"}
                     value={CalculatorStore.nutrientResults.potassiumTotal}
                   />{" "}
                   available (
                   <FormatValue
+                    units={"UnitsAcre"}
                     value={CalculatorStore.nutrientResults.potassiumAvailable}
                   />
                   ) Saving{" "}
