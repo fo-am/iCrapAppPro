@@ -36,6 +36,9 @@ import DisplayAreaUnit from "../components/DisplayAreaUnit";
 import FormatValue from "../components/displayNumber";
 import DropDown from "../components/DropDown";
 import SliderValues from "../model/sliderValues";
+
+import Strings from "../assets/Strings";
+
 // import CalculatorStore from "../store/calculatorStore";
 
 //import calculatorStore from "../store/calculatorStore";
@@ -50,44 +53,7 @@ const slider = new SliderValues();
 @inject("ManureStore", "SettingsStore", "CalculatorStore")
 @observer
 export default class Calculator extends Component<Props, State> {
-  public manureTypes = {
-    cattle: "Cattle Slurry",
-    fym: "Farmyard Manure",
-    pig: "Pig Slurry",
-    poultry: "Poultry Litter",
-    compost: "Compost",
-    custom: "Custom"
-  };
-
-  public cropType = {
-    "winter-wheat-incorporated-feed": "Winter wheat, straw incorporated, feed",
-    "winter-wheat-incorporated-mill": "Winter wheat, straw incorporated, mill",
-    "winter-wheat-removed-feed": "Winter wheat, straw removed, feed",
-    "winter-wheat-removed-mill": "Winter wheat, straw removed, mill",
-    "spring-barley-incorporated-feed":
-      "Spring barley, straw incorporated, feed",
-    "spring-barley-incorporated-malt":
-      "Spring barley, straw incorporated, malt",
-    "spring-barley-removed-feed": "Spring barley, straw removed, feed",
-    "spring-barley-removed-malt": "Spring barley, straw removed, malt",
-    "grass-cut": "Grass cut",
-    "grass-grazed": "Grass grazed"
-  };
-  public soilType = {
-    sandyshallow: "Sandy/Shallow",
-    peat: "Peat",
-    organic: "Organic (10-20% organic matter)",
-    mediumshallow: "Medium/Shallow",
-    medium: "Medium",
-    deepclay: "Deep clay",
-    deepsilt: "Deep silt"
-  };
-  public season = {
-    autumn: "Autumn",
-    winter: "Winter",
-    spring: "Spring",
-    summer: "Summer"
-  };
+  private strings: Strings = new Strings();
 
   constructor(props) {
     super(props);
@@ -130,13 +96,13 @@ export default class Calculator extends Component<Props, State> {
       CalculatorStore.applicationTypes
     )[0];
     CalculatorStore.calculatorValues.soilSelected = Object.keys(
-      this.soilType
+      this.strings.soilType
     )[0];
     CalculatorStore.calculatorValues.cropSelected = Object.keys(
-      this.cropType
+      this.strings.cropType
     )[0];
     CalculatorStore.calculatorValues.seasonSelected = Object.keys(
-      this.season
+      this.strings.season
     )[0];
     CalculatorStore.calculatorValues.qualitySelected = Object.keys(
       CalculatorStore.qualityTypes
@@ -238,7 +204,7 @@ export default class Calculator extends Component<Props, State> {
                     CalculatorStore.calculatorValues.manureSelected
                   }
                   onChange={item => this.SelectManure(item)}
-                  values={this.manureTypes}
+                  values={this.strings.manureTypes}
                 />
                 <Text>Application Type</Text>
                 <DropDown
@@ -256,7 +222,7 @@ export default class Calculator extends Component<Props, State> {
                   onChange={item =>
                     (CalculatorStore.calculatorValues.soilSelected = item)
                   }
-                  values={this.soilType}
+                  values={this.strings.soilType}
                 />
                 <Text>Crop Type</Text>
                 <DropDown
@@ -264,7 +230,7 @@ export default class Calculator extends Component<Props, State> {
                   onChange={item =>
                     (CalculatorStore.calculatorValues.cropSelected = item)
                   }
-                  values={this.cropType}
+                  values={this.strings.cropType}
                 />
                 <Text>Season</Text>
                 <DropDown
@@ -274,7 +240,7 @@ export default class Calculator extends Component<Props, State> {
                   onChange={item =>
                     (CalculatorStore.calculatorValues.seasonSelected = item)
                   }
-                  values={this.season}
+                  values={this.strings.season}
                 />
                 <Text>Quality</Text>
                 <DropDown
