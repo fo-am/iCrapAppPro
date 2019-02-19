@@ -85,7 +85,18 @@ class DatabaseImpl implements Database {
         });
     }
     // delete all the things
-    public delete(): Promise<void> {}
+    public delete(): Promise<void> {
+        return this.getDatabase().then(db => {
+            db.executeSql("DROP TABLE IF EXISTS Farm;");
+            db.executeSql("DROP TABLE IF EXISTS Field;");
+            db.executeSql("DROP TABLE IF EXISTS SpreadEvent;");
+            db.executeSql("DROP TABLE IF EXISTS Settings;");
+            db.executeSql("DROP TABLE IF EXISTS Manure;");
+            db.executeSql("DROP TABLE IF EXISTS AppSettings;");
+            db.executeSql("DROP TABLE IF EXISTS Version;");
+        });
+    }
+
     public getFarms(): Promise<Array<Farm>> {
         return this.getDatabase().then(db =>
             db
