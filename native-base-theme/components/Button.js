@@ -304,7 +304,7 @@ export default (variables /*: * */ = variable) => {
     ".large": {
       height: 60,
       "NativeBase.Text": {
-        fontSize: 22,
+        fontSize: 22
       }
     },
 
@@ -380,6 +380,7 @@ export default (variables /*: * */ = variable) => {
     borderRadius: variables.borderRadiusBase,
     borderColor: variables.btnPrimaryBg,
     borderWidth: null,
+    marginBottom: 2,
     height: 45,
     alignSelf: "flex-start",
     flexDirection: "row",

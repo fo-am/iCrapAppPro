@@ -1,6 +1,6 @@
 // @flow
 
-import variable from "./../variables/platform";
+import variable from "../variables/platform";
 
 export default (variables /*: * */ = variable) => {
   const contentTheme = {
@@ -9,7 +9,8 @@ export default (variables /*: * */ = variable) => {
     "NativeBase.Segment": {
       borderWidth: 0,
       backgroundColor: "transparent"
-    }
+    },
+    margin: "5%"
   };
 
   return contentTheme;

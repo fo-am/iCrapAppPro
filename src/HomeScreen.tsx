@@ -53,70 +53,82 @@ export default class HomeScreen extends Component<
 
   public render() {
     return (
-      <View style={styles.container}>
-        <Text>Add a farm</Text>
-        <Button
-          onPress={() =>
-            this.props.navigation.navigate("Farm", {
-              farmKey: undefined
-            })
-          }
-        >
-          <Text>Add a Farm</Text>
-        </Button>
-        <ScrollView>
-          <FlatList<Farm>
-            data={this.props.FarmStore.farms.slice()}
-            keyExtractor={item => item.key}
-            renderItem={({ item }) => (
+      <Container>
+        <Content>
+          <Form>
+            <View style={styles.container}>
+              <Text>Add a farm</Text>
               <Button
-                onPress={() => {
+                onPress={() =>
                   this.props.navigation.navigate("Farm", {
-                    farmKey: item.key
-                  });
-                }}
+                    farmKey: undefined
+                  })
+                }
               >
-                <Text>{item.name}</Text>
+                <Text>Add a Farm</Text>
               </Button>
-            )}
-          />
-        </ScrollView>
+              <ScrollView>
+                <FlatList<Farm>
+                  data={this.props.FarmStore.farms.slice()}
+                  keyExtractor={item => item.key}
+                  renderItem={({ item }) => (
+                    <Button
+                      onPress={() => {
+                        this.props.navigation.navigate("Farm", {
+                          farmKey: item.key
+                        });
+                      }}
+                    >
+                      <Text>{item.name}</Text>
+                    </Button>
+                  )}
+                />
+              </ScrollView>
 
-        <Text>Settings</Text>
-        <Button onPress={() => this.props.navigation.navigate("Settings")}>
-          <Text>Settings</Text>
-        </Button>
-        <Text>Calc</Text>
-        <Button onPress={() => this.props.navigation.navigate("Calculator")}>
-          <Text>Go to Calc</Text>
-        </Button>
-
-        <Text>Manure</Text>
-        <Button onPress={() => this.props.navigation.navigate("CustomManure")}>
-          <Text>Add a new manure</Text>
-        </Button>
-        <ScrollView>
-          <FlatList<Manure>
-            data={this.props.ManureStore.manures.slice()}
-            keyExtractor={item => item.key}
-            renderItem={({ item }) => (
+              <Text>Settings</Text>
               <Button
-                onPress={() => {
-                  this.props.navigation.navigate("CustomManure", {
-                    manure: item
-                  });
-                }}
+                onPress={() => this.props.navigation.navigate("Settings")}
               >
-                <Text>{item.name}</Text>
+                <Text>Settings</Text>
               </Button>
-            )}
-          />
-        </ScrollView>
+              <Text>Calc</Text>
+              <Button
+                onPress={() => this.props.navigation.navigate("Calculator")}
+              >
+                <Text>Go to Calc</Text>
+              </Button>
 
-        <Button onPress={() => this.clearStore()}>
-          <Text>clear store</Text>
-        </Button>
-      </View>
+              <Text>Manure</Text>
+              <Button
+                onPress={() => this.props.navigation.navigate("CustomManure")}
+              >
+                <Text>Add a new manure</Text>
+              </Button>
+              <ScrollView>
+                <FlatList<Manure>
+                  data={this.props.ManureStore.manures.slice()}
+                  keyExtractor={item => item.key}
+                  renderItem={({ item }) => (
+                    <Button
+                      onPress={() => {
+                        this.props.navigation.navigate("CustomManure", {
+                          manure: item
+                        });
+                      }}
+                    >
+                      <Text>{item.name}</Text>
+                    </Button>
+                  )}
+                />
+              </ScrollView>
+
+              <Button onPress={() => this.clearStore()}>
+                <Text>clear store</Text>
+              </Button>
+            </View>
+          </Form>
+        </Content>
+      </Container>
     );
   }
   private clearStore = () => {
