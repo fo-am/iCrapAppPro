@@ -86,7 +86,7 @@ class DatabaseImpl implements Database {
     }
     // delete all the things
     public delete(): Promise<void> {
-        return this.getDatabase().then(db => {
+        this.getDatabase().then(db => {
             db.executeSql("DROP TABLE IF EXISTS Farm;");
             db.executeSql("DROP TABLE IF EXISTS Field;");
             db.executeSql("DROP TABLE IF EXISTS SpreadEvent;");
@@ -95,6 +95,8 @@ class DatabaseImpl implements Database {
             db.executeSql("DROP TABLE IF EXISTS AppSettings;");
             db.executeSql("DROP TABLE IF EXISTS Version;");
         });
+
+        return this.close();
     }
 
     public getFarms(): Promise<Array<Farm>> {
