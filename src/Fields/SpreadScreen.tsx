@@ -53,10 +53,13 @@ import styles from "../styles/style";
 
 import CalculatorStore from "../store/calculatorStore";
 // import Fieldstore from "../store/FieldsStore";
+import FieldsStore from "../store/FieldsStore";
 import ManureStore from "../store/manureStore";
 import SettingsStore from "../store/settingsStore";
-import FieldsStore from "../store/FieldsStore";
+
 import SpreadEvent from "../model/spreadEvent";
+
+import Strings from "../assets/Strings";
 
 interface Props {
   navigation: NavigationScreenProp<any, any>;
@@ -79,37 +82,8 @@ const slider = new SliderValues();
 )
 @observer
 export default class SpreadScreen extends Component<Props, State> {
-  public manureTypes = {
-    cattle: "Cattle Slurry",
-    fym: "Farmyard Manure",
-    pig: "Pig Slurry",
-    poultry: "Poultry Litter",
-    compost: "Compost",
-    custom: "Custom"
-  };
-  public cropType = {
-    "winter-wheat-incorporated-feed": "Winter wheat, straw incorporated, feed",
-    "winter-wheat-incorporated-mill": "Winter wheat, straw incorporated, mill",
-    "winter-wheat-removed-feed": "Winter wheat, straw removed, feed",
-    "winter-wheat-removed-mill": "Winter wheat, straw removed, mill",
-    "spring-barley-incorporated-feed":
-      "Spring barley, straw incorporated, feed",
-    "spring-barley-incorporated-malt":
-      "Spring barley, straw incorporated, malt",
-    "spring-barley-removed-feed": "Spring barley, straw removed, feed",
-    "spring-barley-removed-malt": "Spring barley, straw removed, malt",
-    "grass-cut": "Grass cut",
-    "grass-grazed": "Grass grazed"
-  };
-  public soilType = {
-    sandyshallow: "Sandy/Shallow",
-    peat: "Peat",
-    organic: "Organic (10-20% organic matter)",
-    mediumshallow: "Medium/Shallow",
-    medium: "Medium",
-    deepclay: "Deep clay",
-    deepsilt: "Deep silt"
-  };
+  private strings = new Strings();
+
   constructor(props: Props) {
     super(props);
     const { CalculatorStore, ManureStore } = this.props;
@@ -151,10 +125,10 @@ export default class SpreadScreen extends Component<Props, State> {
       CalculatorStore.applicationTypes
     )[0];
     CalculatorStore.calculatorValues.soilSelected = Object.keys(
-      this.soilType
+      this.strings.soilType
     )[0];
     CalculatorStore.calculatorValues.cropSelected = Object.keys(
-      this.cropType
+      this.strings.cropType
     )[0];
     CalculatorStore.calculatorValues.qualitySelected = Object.keys(
       CalculatorStore.qualityTypes
@@ -256,7 +230,7 @@ export default class SpreadScreen extends Component<Props, State> {
                     CalculatorStore.calculatorValues.manureSelected
                   }
                   onChange={item => this.SelectManure(item)}
-                  values={this.manureTypes}
+                  values={this.strings.manureTypes}
                 />
                 <Text>Date</Text>
                 <DatePicker

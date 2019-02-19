@@ -35,7 +35,7 @@ class CalculatorStore {
 
     constructor() {
         const disposer = autorun(() => this.getNutrientValues(), {
-            delay: 50
+            delay: 10
         });
     }
 

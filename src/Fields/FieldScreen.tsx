@@ -50,6 +50,8 @@ import moment from "moment";
 // import SettingsStore from "../store/settingsStore";
 import styles from "../styles/style";
 
+import Strings from "../assets/Strings";
+
 let id = 0;
 
 interface Props {
@@ -72,67 +74,11 @@ interface State {
 @inject("FieldStore", "CalculatorStore", "SettingsStore")
 @observer
 export default class FieldScreen extends Component<Props, State> {
-  public soilType = {
-    sandyshallow: "Sandy/Shallow",
-    peat: "Peat",
-    organic: "Organic (10-20% organic matter)",
-    mediumshallow: "Medium/Shallow",
-    medium: "Medium",
-    deepclay: "Deep clay",
-    deepsilt: "Deep silt"
-  };
-  public yesno = {
-    no: "No",
-    yes: "Yes"
-  };
-
-  public crops = {
-    cereals: "Cereals",
-    oilseed: "Oilseed rape",
-    potatoes: "Potatoes",
-    sugarbeet: "Sugar beet",
-    peas: "Peas",
-    beans: "Beans",
-    "low-n-veg": "Low N veg",
-    "medium-n-veg": "Medium N veg",
-    forage: "Forage crops (cut)",
-    uncropped: "Uncropped land",
-    "grass-low-n": "Grass (low N/1 or more cuts)",
-    "grass-high-n": "Grass (3-5yr, high N, grazed)",
-    "grass-other": "Any other grass"
-  };
-  public cropType = {
-    "winter-wheat-incorporated-feed": "Winter wheat, straw incorporated, feed",
-    "winter-wheat-incorporated-mill": "Winter wheat, straw incorporated, mill",
-    "winter-wheat-removed-feed": "Winter wheat, straw removed, feed",
-    "winter-wheat-removed-mill": "Winter wheat, straw removed, mill",
-    "spring-barley-incorporated-feed":
-      "Spring barley, straw incorporated, feed",
-    "spring-barley-incorporated-malt":
-      "Spring barley, straw incorporated, malt",
-    "spring-barley-removed-feed": "Spring barley, straw removed, feed",
-    "spring-barley-removed-malt": "Spring barley, straw removed, malt",
-    "grass-cut": "Grass cut",
-    "grass-grazed": "Grass grazed"
-  };
-
-  public soiltestP = {
-    "soil-p-0": "0",
-    "soil-p-1": "1",
-    "soil-p-2": "2",
-    "soil-p-3": "3"
-  };
-
-  public soiltestK = {
-    "soil-k-0": "0",
-    "soil-k-1": "1",
-    "soil-k-2": "2",
-    "soil-k-2+": "2+",
-    "soil-k-3": "3"
-  };
+  private strings: Strings;
 
   constructor(props: Props) {
     super(props);
+    this.strings = new Strings();
     const { CalculatorStore, SettingsStore } = this.props;
     this.state = {
       marker: undefined,
@@ -293,13 +239,13 @@ export default class FieldScreen extends Component<Props, State> {
                   <DropDown
                     selectedValue={FieldStore.field.soilType}
                     onChange={item => (FieldStore.field.soilType = item)}
-                    values={this.soilType}
+                    values={this.strings.soilType}
                   />
                   <H3>Do you regularly add organic manures?</H3>
                   <DropDown
                     selectedValue={FieldStore.field.organicManure}
                     onChange={item => (FieldStore.field.organicManure = item)}
-                    values={this.yesno}
+                    values={this.strings.yesno}
                   />
                   <H3>Result of soil tests (if available)</H3>
                   <Text>P</Text>
@@ -307,13 +253,13 @@ export default class FieldScreen extends Component<Props, State> {
                   <DropDown
                     selectedValue={FieldStore.field.soilTestP}
                     onChange={item => (FieldStore.field.soilTestP = item)}
-                    values={this.soiltestP}
+                    values={this.strings.soiltestP}
                   />
                   <Text>K</Text>
                   <DropDown
                     selectedValue={FieldStore.field.soilTestK}
                     onChange={item => (FieldStore.field.soilTestK = item)}
-                    values={this.soiltestK}
+                    values={this.strings.soiltestK}
                   />
                   <Grid>
                     <Row>
@@ -342,22 +288,21 @@ export default class FieldScreen extends Component<Props, State> {
                   <H3>Previous crop type</H3>
 
                   <DropDown
-                    style={{ width: "90%" }}
                     selectedValue={FieldStore.field.prevCropType}
                     onChange={item => (FieldStore.field.prevCropType = item)}
-                    values={this.crops}
+                    values={this.strings.crops}
                   />
                   <H3>Have you grown grass in the last 3 years</H3>
                   <DropDown
                     selectedValue={FieldStore.field.recentGrass}
                     onChange={item => (FieldStore.field.recentGrass = item)}
-                    values={this.yesno}
+                    values={this.strings.yesno}
                   />
                   <H3>Crop type</H3>
                   <DropDown
                     selectedValue={FieldStore.field.cropType}
                     onChange={item => (FieldStore.field.cropType = item)}
-                    values={this.cropType}
+                    values={this.strings.cropType}
                   />
 
                   <Grid>

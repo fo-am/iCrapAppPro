@@ -24,6 +24,8 @@ class FieldStore {
     @observable public initalRegion: Region;
     @observable public newField: Coords = new Coords();
 
+    @observable public farm: Farm = new Farm();
+
     @observable public newSpreadEvent: SpreadEvent = new SpreadEvent();
     @observable public spreadEvents: Array<SpreadEvent> = new Array<
         SpreadEvent
@@ -39,7 +41,9 @@ class FieldStore {
             latitudeDelta: 0.005,
             longitudeDelta: 0.005
         };
-        const disposer = autorun(() => this.CalcCropRequirements());
+        const disposer = autorun(() => this.CalcCropRequirements(), {
+            delay: 50
+        });
     }
     public reset(farmKey: string) {
         this.field = new Field(farmKey);
@@ -50,8 +54,9 @@ class FieldStore {
     public SetField(fieldKey: string) {
         database.getField(fieldKey).then(field => {
             this.field = field;
-            this.getFields(field.farmKey);
             this.getSpreadEvents(field.key);
+            this.getFields(field.farmKey);
+            this.getFarm(field.farmKey);
         });
     }
 
@@ -161,6 +166,10 @@ class FieldStore {
         this.cropRequirementsResult = CalculatorStore.getCropRequirementsSupplyFromField(
             this.field
         );
+    }
+
+    private getFarm(farmKey) {
+        database.getFarm(farmKey).then(farm => (this.farm = farm));
     }
 
     private getSpreadEvents(fieldKey: string) {
