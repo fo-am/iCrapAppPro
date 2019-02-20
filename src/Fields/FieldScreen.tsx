@@ -452,7 +452,7 @@ export default class FieldScreen extends Component<Props, State> {
         },
         mapMoveEnabled: false
       });
-      FieldStore.newField.id = "newField";
+      FieldStore.newField.id = "newField" + Date.now();
       FieldStore.newField.coordinates.push(e.nativeEvent.coordinate);
     }
   }
