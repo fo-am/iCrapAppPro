@@ -148,6 +148,13 @@ class FieldStore {
                         longitudeDelta: deltaY
                     };
                 }
+            } else if (this.farm.farmLocation) {
+                return {
+                    latitude: this.farm.farmLocation.latitude,
+                    longitude: this.farm.farmLocation.longitude,
+                    latitudeDelta: 0.005,
+                    longitudeDelta: 0.005
+                };
             } else {
                 return {
                     latitude: 50.184363,
