@@ -1,5 +1,5 @@
+import { Text } from "native-base";
 import React, { Component } from "react";
-import { Text, View } from "react-native";
 import { Maths } from "../assets/Math";
 interface Props {
   value: number;
