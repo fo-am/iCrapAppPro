@@ -18,11 +18,21 @@ default_platform(:ios)
 platform :ios do
   desc "Push a new beta build to TestFlight"
   lane :beta do
-    clear_derived_data
+    clean
+    images
     get_certificates
     get_provisioning_profile
     increment_build_number(xcodeproj: "farm_crap_app.xcodeproj")
     build_app(workspace: "farm_crap_app.xcworkspace", scheme: "farm_crap_app")
     upload_to_testflight
+  end
+  lane :clean do
+  clear_derived_data
+  end
+  lane :images do
+   appicon(appicon_image_file: './fastlane/metadata/app_icon.png',
+    appicon_devices: [:ipad, :iphone, :ios_marketing],
+     appicon_path: 'farm_crap_app/Images.xcassets' )
+    add_badge(alpha: true, dark: true)
   end
 end
