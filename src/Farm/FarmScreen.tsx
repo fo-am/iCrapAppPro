@@ -49,7 +49,7 @@ import Strings from "../assets/strings";
 
 import { database } from "../database/Database.js";
 
-let id = 0;
+const id = 0;
 
 interface Props {
   navigation: NavigationScreenProp<any, any>;
@@ -169,6 +169,7 @@ export default class FarmScreen extends Component<Props, State> {
                   <Button
                     onPress={() => {
                       FarmStore.saveFarm();
+                      this.props.FieldStore.farm = FarmStore.farm;
                       this.props.navigation.navigate("Field", {
                         farmKey: FarmStore.farm.key
                       });
@@ -185,6 +186,7 @@ export default class FarmScreen extends Component<Props, State> {
                       <Button
                         onPress={() => {
                           FarmStore.saveFarm();
+                          this.props.FieldStore.farm = FarmStore.farm;
                           this.props.navigation.navigate("Field", {
                             fieldKey: item.key
                           });
@@ -278,6 +280,9 @@ export default class FarmScreen extends Component<Props, State> {
                 <Button onPress={() => this.saveFarm()}>
                   <Text>Save Farm</Text>
                 </Button>
+                <Button onPress={() => this.cancelScreen()}>
+                  <Text>cancel</Text>
+                </Button>
               </View>
             </ScrollView>
           </Form>
@@ -288,6 +293,10 @@ export default class FarmScreen extends Component<Props, State> {
 
   private saveFarm() {
     FarmStore.saveFarm();
+    this.props.FieldStore.farm = FarmStore.farm;
+    this.props.navigation.navigate("Home");
+  }
+  private cancelScreen() {
     this.props.navigation.navigate("Home");
   }
 

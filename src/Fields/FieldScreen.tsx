@@ -120,6 +120,7 @@ export default class FieldScreen extends Component<Props, State> {
 
         */}
               <View>
+                <H1>{FieldStore.farm.name}</H1>
                 <MapView
                   style={styles.map}
                   scrollEnabled={this.state.mapMoveEnabled}
@@ -396,7 +397,7 @@ export default class FieldScreen extends Component<Props, State> {
     const { FieldStore } = this.props;
     FieldStore.Save();
     this.props.navigation.goBack();
-  };
+  }
 
   private draw() {
     this.setState({
