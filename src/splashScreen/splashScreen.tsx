@@ -18,10 +18,10 @@ import {
 import React, { Component } from "react";
 import { Image } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
+import image from "../../resources/splash.png";
 import FieldStore from "../store/FieldsStore";
 import ManureStore from "../store/manureStore";
 import styles from "../styles/style";
-import image from "../../resources/splash.png";
 
 interface MyComponentProps {
   navigation: NavigationScreenProp<any, any>;
@@ -61,27 +61,27 @@ export default class HomeScreen extends Component<
             </Button>
           </Right>
         </Header>
-        <Content>
-          <Form
-            style={{
-              flex: 1,
-              justifyContent: "center",
-              alignItems: "center",
-              padding: 15
-            }}
-          >
-            <H1>The Farm Crap App</H1>
-            <Text>Manage your muck with the Farm Crap App</Text>
 
-            <Image
-              source={require("../../resources/splash.png")}
-              style={{
-                width: 500,
-                height: 500
-              }}
-            />
-          </Form>
-        </Content>
+        <Form
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            padding: 15
+          }}
+        >
+          <H1 style={{ marginTop: 50 }}>The Farm Crap App</H1>
+          <Text>Manage your muck with the Farm Crap App</Text>
+
+          <Image
+            source={require("../../resources/splash.png")}
+            style={{
+              width: 500,
+              height: 500
+            }}
+          />
+        </Form>
+
         <Footer />
       </Container>
     );
