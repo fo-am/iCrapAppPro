@@ -69,10 +69,6 @@ class FieldStore {
         this.field.fieldCoordinates.coordinates.clear();
 
         this.field.fieldCoordinates.coordinates.replace(coords.coordinates);
-        const a = this.field.fieldCoordinates.coordinates.slice().length;
-        //   coords.coordinates.forEach(element => {
-        //      this.field.fieldCoordinates.coordinates.push(element);
-        //  });
     }
 
     @computed public get DataSource(): Array<LatLng> {
