@@ -97,7 +97,6 @@ export default class SpreadScreen extends Component<Props, State> {
       dropDownData[
         CalculatorStore.calculatorValues.manureSelected
       ].dropDowns.quality;
-
     slider.sliderStartValue =
       dropDownData[CalculatorStore.calculatorValues.manureSelected].slider
         .maxValue / 2;
@@ -126,9 +125,6 @@ export default class SpreadScreen extends Component<Props, State> {
     )[0];
     CalculatorStore.calculatorValues.soilSelected = Object.keys(
       this.strings.soilType
-    )[0];
-    CalculatorStore.calculatorValues.cropSelected = Object.keys(
-      this.strings.cropType
     )[0];
     CalculatorStore.calculatorValues.qualitySelected = Object.keys(
       CalculatorStore.qualityTypes

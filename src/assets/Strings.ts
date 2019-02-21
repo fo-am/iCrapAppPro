@@ -1,20 +1,13 @@
 export default class Strings {
-    public cropType = {
-        "winter-wheat-incorporated-feed":
-            "Winter wheat, straw incorporated, feed",
-        "winter-wheat-incorporated-mill":
-            "Winter wheat, straw incorporated, mill",
-        "winter-wheat-removed-feed": "Winter wheat, straw removed, feed",
-        "winter-wheat-removed-mill": "Winter wheat, straw removed, mill",
-        "spring-barley-incorporated-feed":
-            "Spring barley, straw incorporated, feed",
-        "spring-barley-incorporated-malt":
-            "Spring barley, straw incorporated, malt",
-        "spring-barley-removed-feed": "Spring barley, straw removed, feed",
-        "spring-barley-removed-malt": "Spring barley, straw removed, malt",
-        "grass-cut": "Grass cut",
-        "grass-grazed": "Grass grazed"
+    public calcCropType = {
+        normal: "Normal",
+        "grass-oilseed": "Grass/Oilseed"
     };
+    public cropType = {
+        normal: "Normal",
+        "grass-oilseed": "Grass/Oilseed"
+    };
+
     public crops = {
         cereals: "Cereals",
         oilseed: "Oilseed rape",

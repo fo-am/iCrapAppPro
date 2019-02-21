@@ -41,7 +41,7 @@ import Strings from "../assets/Strings";
 
 // import CalculatorStore from "../store/calculatorStore";
 
-//import calculatorStore from "../store/calculatorStore";
+// import calculatorStore from "../store/calculatorStore";
 // import SettingsStore from "../store/settingsStore";
 
 interface Props {}
@@ -99,7 +99,7 @@ export default class Calculator extends Component<Props, State> {
       this.strings.soilType
     )[0];
     CalculatorStore.calculatorValues.cropSelected = Object.keys(
-      this.strings.cropType
+      this.strings.calcCropType
     )[0];
     CalculatorStore.calculatorValues.seasonSelected = Object.keys(
       this.strings.season
@@ -231,7 +231,7 @@ export default class Calculator extends Component<Props, State> {
                   onChange={item =>
                     (CalculatorStore.calculatorValues.cropSelected = item)
                   }
-                  values={this.strings.cropType}
+                  values={this.strings.calcCropType}
                 />
                 <Text>Season</Text>
                 <DropDown
