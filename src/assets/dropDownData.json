@@ -36,9 +36,9 @@
                 "fym-cattle": "Cattle",
                 "fym-pig": "Pig",
                 "fym-sheep": "Sheep",
-                "fym-duck ": "Duck",
+                "fym-duck": "Duck",
                 "fym-horse": "Horse",
-                "fym-goat ": "Goat"
+                "fym-goat": "Goat"
             }
         }
     },
@@ -171,10 +171,9 @@
         "dropDowns": {
             "application": {},
             "quality": {
-                "digested-cake": "Digested cake",
-                "thermally-dried": "Thermally dried",
-                "lime-stabilised": "Lime stabilised",
-                "composted": "Composted"
+                "whole": "Whole",
+                "separated-liquor": "Separated liquor",
+                "separated-fibre": "Separated fibre"
             }
         }
     },
