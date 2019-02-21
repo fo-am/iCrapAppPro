@@ -64,6 +64,13 @@ export default class Strings {
         pig: "Pig Slurry",
         poultry: "Poultry Litter",
         compost: "Compost",
+        "paper-crumble": "Paper crumble",
+        "spent-mushroom": "Spent mushroom",
+        "water-treatment-cake": "Water treatment cake",
+        "food-industry-waste": "Food industry waste",
+        "digestate-food": "Digestate food",
+        "digestate-farm": "Digestate farm",
+        biosolid: "Spent mushroom",
         custom: "Custom"
     };
     public season = {

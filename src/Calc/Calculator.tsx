@@ -154,9 +154,10 @@ export default class Calculator extends Component<Props, State> {
 
     let selectedManure = CalculatorStore.calculatorValues.manureSelected;
 
-    if (selectedManure === "custom") {
+    if (!Images[selectedManure]) {
       selectedManure = "fym";
     }
+
     const keys = [] as number[];
     for (const k in Images[selectedManure]) {
       keys.push(Number(k));

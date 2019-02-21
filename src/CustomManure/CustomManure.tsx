@@ -1,29 +1,9 @@
 import { inject, observer } from "mobx-react/native";
-import {
-  Body,
-  Button,
-  Container,
-  Content,
-  Footer,
-  FooterTab,
-  Form,
-  H1,
-  H2,
-  H3,
-  Header,
-  Input,
-  Item,
-  Label,
-  Left,
-  Right,
-  Text,
-  Title
-} from "native-base";
+import { Button, Container, Content, Form, Input, Text } from "native-base";
 import React, { Component } from "react";
 import { View } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
-import { Maths } from "../assets/Math";
-import ManureStore from "../store/manureStore";
+
 import Manure from "./../model/manure";
 import styles from "./../styles/style";
 
