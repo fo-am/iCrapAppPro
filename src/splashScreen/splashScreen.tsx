@@ -31,7 +31,7 @@ interface MyComponentState {}
 
 @inject("FieldStore")
 @observer
-export default class HomeScreen extends Component<
+export default class SplashScreen extends Component<
   MyComponentProps,
   MyComponentState
 > {
