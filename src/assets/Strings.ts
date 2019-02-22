@@ -3,12 +3,13 @@ export default class Strings {
         normal: "Normal",
         "grass-oilseed": "Grass/Oilseed"
     };
+
     public cropType = {
         normal: "Normal",
         "grass-oilseed": "Grass/Oilseed"
     };
 
-    public crops = {
+    public prevCrop = {
         cereals: "Cereals",
         oilseed: "Oilseed rape",
         potatoes: "Potatoes",

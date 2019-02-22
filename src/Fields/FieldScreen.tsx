@@ -291,7 +291,7 @@ export default class FieldScreen extends Component<Props, State> {
                   <DropDown
                     selectedValue={FieldStore.field.prevCropType}
                     onChange={item => (FieldStore.field.prevCropType = item)}
-                    values={this.strings.crops}
+                    values={this.strings.prevCrop}
                   />
                   <H3>Have you grown grass in the last 3 years</H3>
                   <DropDown
