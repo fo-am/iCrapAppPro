@@ -40,24 +40,35 @@ export default class CropSelector extends Component<Props, State> {
             </Button>
           )}
         />
-        <Button onPress={() => this.props.navigation.goBack()}>
-          <Text>Cancel</Text>
-        </Button>
-        <Button
-          onPress={() => {
-            this.setState({
-              data: data.options,
-              category: data.category,
-              result: []
-            });
+        <View
+          style={{
+            flex: 1,
+            flexDirection: "row",
+            justifyContent: "space-between"
           }}
         >
-          <Text>Back</Text>
-        </Button>
-        <View>
-          <Text>Test Data</Text>
-          <Text>{JSON.stringify(this.state.result)}</Text>
-          <Text>{this.state.category}</Text>
+          <Button
+            block
+            info
+            style={{ width: "50%" }}
+            onPress={() => this.props.navigation.goBack()}
+          >
+            <Text>Cancel</Text>
+          </Button>
+          <Button
+            block
+            success
+            style={{ width: "50%" }}
+            onPress={() => {
+              this.setState({
+                data: data.options,
+                category: data.category,
+                result: []
+              });
+            }}
+          >
+            <Text>Back</Text>
+          </Button>
         </View>
       </ScrollView>
     );
