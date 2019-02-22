@@ -299,7 +299,7 @@ class DatabaseImpl implements Database {
                         newField.name = row.Name;
                         newField.fieldCoordinates = JSON.parse(row.Coordinates);
                         newField.soilType = row.Soil;
-                        newField.cropType = row.Crop;
+                        newField.cropType = JSON.parse(row.Crop);
                         newField.prevCropType = row["Previous-Crop"];
                         newField.soilTestP = row["Soil-Test-P"];
                         newField.soilTestK = row["Soil-Test-K"];
@@ -341,7 +341,7 @@ class DatabaseImpl implements Database {
                         field.name = row.Name;
                         field.fieldCoordinates = JSON.parse(row.Coordinates);
                         field.soilType = row.Soil;
-                        field.cropType = row.Crop;
+                        field.cropType = JSON.parse(row.Crop);
                         field.prevCropType = row["Previous-Crop"];
                         field.soilTestP = row["Soil-Test-P"];
                         field.soilTestK = row["Soil-Test-K"];
@@ -408,7 +408,7 @@ class DatabaseImpl implements Database {
                             field.name,
                             JSON.stringify(field.fieldCoordinates),
                             field.soilType,
-                            field.cropType,
+                            JSON.stringify(field.cropType),
                             field.prevCropType,
                             field.soilTestP,
                             field.soilTestK,
@@ -453,7 +453,7 @@ class DatabaseImpl implements Database {
                             field.name,
                             JSON.stringify(field.fieldCoordinates),
                             field.soilType,
-                            field.cropType,
+                            JSON.stringify(field.cropType),
                             field.prevCropType,
                             field.soilTestP,
                             field.soilTestK,
@@ -519,7 +519,7 @@ class DatabaseImpl implements Database {
                         newSpreadEvent.quality = row.Quality;
                         newSpreadEvent.applicationType = row.Application;
                         newSpreadEvent.season = row.Season;
-                        newSpreadEvent.crop = row.Crop;
+                        newSpreadEvent.crop = JSON.parse(row.Crop);
 
                         spreadEvents.push(newSpreadEvent);
                     }
@@ -568,7 +568,7 @@ class DatabaseImpl implements Database {
                         newSpreadEvent.quality = row.Quality;
                         newSpreadEvent.applicationType = row.Application;
                         newSpreadEvent.season = row.Season;
-                        newSpreadEvent.crop = row.Crop;
+                        newSpreadEvent.crop = JSON.parse(row.Crop);
                     }
                     return newSpreadEvent;
                 })
@@ -639,7 +639,7 @@ class DatabaseImpl implements Database {
                             spreadEvent.soil,
                             spreadEvent.size,
                             spreadEvent.season,
-                            spreadEvent.crop
+                            JSON.stringify(spreadEvent.crop)
                         ]
                     )
                 )
@@ -694,7 +694,7 @@ class DatabaseImpl implements Database {
                             spreadEvent.soil,
                             spreadEvent.size,
                             spreadEvent.season,
-                            spreadEvent.crop
+                            JSON.stringify(spreadEvent.crop)
                         ]
                     )
                 )

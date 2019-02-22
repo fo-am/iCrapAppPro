@@ -37,6 +37,7 @@ import { NavigationScreenProp } from "react-navigation";
 
 import dropDownData from "../assets/dropDownData.json";
 
+import CropDisplay from "../components/CropDisplay";
 import DisplayAreaUnit from "../components/DisplayAreaUnit";
 import DropDown from "../components/DropDown";
 import SoilNutrientDisplay from "../components/soilNutrientDisplay";
@@ -291,7 +292,7 @@ export default class FieldScreen extends Component<Props, State> {
                   <DropDown
                     selectedValue={FieldStore.field.prevCropType}
                     onChange={item => (FieldStore.field.prevCropType = item)}
-                    values={this.strings.crops}
+                    values={this.strings.prevCrop}
                   />
                   <H3>Have you grown grass in the last 3 years</H3>
                   <DropDown
@@ -300,11 +301,14 @@ export default class FieldScreen extends Component<Props, State> {
                     values={this.strings.yesno}
                   />
                   <H3>Crop type</H3>
-                  <DropDown
-                    selectedValue={FieldStore.field.cropType}
-                    onChange={item => (FieldStore.field.cropType = item)}
-                    values={this.strings.cropType}
-                  />
+                  <CropDisplay cropArray={FieldStore.field.cropType.slice()} />
+                  <Button
+                    onPress={() =>
+                      this.props.navigation.navigate("CropSelector")
+                    }
+                  >
+                    <Text>Crop Selector</Text>
+                  </Button>
 
                   <Grid>
                     <Row>
@@ -397,7 +401,7 @@ export default class FieldScreen extends Component<Props, State> {
     const { FieldStore } = this.props;
     FieldStore.Save();
     this.props.navigation.goBack();
-  }
+  };
 
   private draw() {
     this.setState({

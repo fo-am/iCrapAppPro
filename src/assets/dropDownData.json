@@ -1,98 +1,199 @@
 {
-  "cattle": {
-    "slider": {
-      "maxValue": 100,
-      "metricUnit": "m3/ha",
-      "imperialUnit": "gallons/acre"
+    "cattle": {
+        "slider": {
+            "maxValue": 100,
+            "metricUnit": "m3/ha",
+            "imperialUnit": "gallons/acre"
+        },
+        "dropDowns": {
+            "application": {
+                "splash-surface": "Splash plate/surface",
+                "splash-incorporated": "Splash plate/incorporated",
+                "shoe-bar-spreader": "Trailing shoe/dribble bar/band spreader",
+                "shallow-injected": "Shallow injected"
+            },
+            "quality": {
+                "DM2": "2% DM (Thin soup)",
+                "DM6": "6% DM (Thick soup)",
+                "DM10": "10% DM (Porridge)"
+            }
+        }
     },
-    "dropDowns": {
-      "application": {
-        "splash-surface": "Splash plate/surface",
-        "splash-incorporated": "Splash plate/incorporated",
-        "shoe-bar-spreader": "Trailing shoe/dribble bar/band spreader",
-        "shallow-injected": "Shallow injected"
-      },
-      "quality": {
-        "DM2": "2% DM (Thin soup)",
-        "DM6": "6% DM (Thick soup)",
-        "DM10": "10% DM (Porridge)"
-      }
-    }
-  },
-  "fym": {
-    "slider": {
-      "maxValue": 100,
-      "metricUnit": "m3/ha",
-      "imperialUnit": "gallons/acre"
+    "fym": {
+        "slider": {
+            "maxValue": 100,
+            "metricUnit": "m3/ha",
+            "imperialUnit": "gallons/acre"
+        },
+        "dropDowns": {
+            "application": {
+                "straight-surface": "Straight to surface",
+                "straight-ploughed": "Straight and ploughed",
+                "stored-spread": "Stored to surface",
+                "stored-ploughed": "Stored and ploughed"
+            },
+            "quality": {
+                "fym-cattle": "Cattle",
+                "fym-pig": "Pig",
+                "fym-sheep": "Sheep",
+                "fym-duck": "Duck",
+                "fym-horse": "Horse",
+                "fym-goat": "Goat"
+            }
+        }
     },
-    "dropDowns": {
-      "application": {
-        "straight-surface": "Straight to surface",
-        "straight-ploughed": "Straight and ploughed",
-        "stored-spread": "Stored to surface",
-        "stored-ploughed": "Stored and ploughed"
-      },
-      "quality": {
-        "fym-cattle": "Cattle",
-        "fym-pig": "Pig",
-        "fym-sheep": "Sheep",
-        "fym-duck ": "Duck",
-        "fym-horse": "Horse",
-        "fym-goat ": "Goat"
-      }
-    }
-  },
-  "pig": {
-    "slider": {
-      "maxValue": 100,
-      "metricUnit": "m3/ha",
-      "imperialUnit": "gallons/acre"
+    "pig": {
+        "slider": {
+            "maxValue": 100,
+            "metricUnit": "m3/ha",
+            "imperialUnit": "gallons/acre"
+        },
+        "dropDowns": {
+            "application": {
+                "splash-surface": "Splash plate/surface",
+                "splash-incorporated": "Splash plate/incorporated",
+                "shoe-bar-spreader": "Trailing shoe/dribble bar/band spreader",
+                "shallow-injected": "Shallow injected"
+            },
+            "quality": {
+                "DM2": "2% DM (Thin soup)",
+                "DM4": "4% DM (Thick soup)",
+                "DM6": "6% DM (Thick soup)"
+            }
+        }
     },
-    "dropDowns": {
-      "application": {
-        "splash-surface": "Splash plate/surface",
-        "splash-incorporated": "Splash plate/incorporated",
-        "shoe-bar-spreader": "Trailing shoe/dribble bar/band spreader",
-        "shallow-injected": "Shallow injected"
-      },
-      "quality": {
-        "DM2": "2% DM (Thin soup)",
-        "DM4": "4% DM (Thick soup)",
-        "DM6": "6% DM (Thick soup)"
-      }
-    }
-  },
-  "poultry": {
-    "slider": {
-      "maxValue": 7.5,
-      "metricUnit": "tons/ha",
-      "imperialUnit": "tons/acre"
+    "poultry": {
+        "slider": {
+            "maxValue": 7.5,
+            "metricUnit": "tons/ha",
+            "imperialUnit": "tons/acre"
+        },
+        "dropDowns": {
+            "application": {
+                "surface": "Surface",
+                "ploughed": "Ploughed"
+            },
+            "quality": {
+                "DM20": "20% DM",
+                "DM40": "40% DM",
+                "DM60": "60% DM",
+                "DM80": "80% DM"
+            }
+        }
     },
-    "dropDowns": {
-      "application": {
-        "surface": "Surface",
-        "ploughed": "Ploughed"
-      },
-      "quality": {
-        "DM20": "20% DM",
-        "DM40": "40% DM",
-        "DM60": "60% DM",
-        "DM80": "80% DM"
-      }
-    }
-  },
-  "compost": {
-    "slider": {
-      "maxValue": 100,
-      "metricUnit": "tons/ha",
-      "imperialUnit": "tons/acre"
+    "compost": {
+        "slider": {
+            "maxValue": 100,
+            "metricUnit": "tons/ha",
+            "imperialUnit": "tons/acre"
+        },
+        "dropDowns": {
+            "application": {},
+            "quality": {
+                "green": "Green compost",
+                "green-food": "Green and foodwaste"
+            }
+        }
     },
-    "dropDowns": {
-      "application": {},
-      "quality": {
-        "green": "Green compost",
-        "green-food": "Green and foodwaste"
-      }
+    "paper-crumble": {
+        "slider": {
+            "maxValue": 100,
+            "metricUnit": "tons/ha",
+            "imperialUnit": "tons/acre"
+        },
+        "dropDowns": {
+            "application": {},
+            "quality": {
+                "chemical-physical": "Chemical/Physical",
+                "biological": "Biological"
+            }
+        }
+    },
+    "spent-mushroom": {
+        "slider": {
+            "maxValue": 100,
+            "metricUnit": "tons/ha",
+            "imperialUnit": "tons/acre"
+        },
+        "dropDowns": {
+            "application": {},
+            "quality": {}
+        }
+    },
+    "water-treatment-cake": {
+        "slider": {
+            "maxValue": 100,
+            "metricUnit": "tons/ha",
+            "imperialUnit": "tons/acre"
+        },
+        "dropDowns": {
+            "application": {},
+            "quality": {}
+        }
+    },
+    "food-industry-waste": {
+        "slider": {
+            "maxValue": 100,
+            "metricUnit": "tons/ha",
+            "imperialUnit": "tons/acre"
+        },
+        "dropDowns": {
+            "application": {},
+            "quality": {
+                "dairy": "Dairy",
+                "soft-drinks": "Soft drinks",
+                "brewing": "Brewing",
+                "general": "General"
+            }
+        }
+    },
+    "digestate-food": {
+        "slider": {
+            "maxValue": 100,
+            "metricUnit": "tons/ha",
+            "imperialUnit": "tons/acre"
+        },
+        "dropDowns": {
+            "application": {},
+            "quality": {
+                "whole": "Whole",
+                "separated-liquor": "Separated liquor",
+                "separated-fibre": "Separated fibre"
+            }
+        }
+    },
+    "digestate-farm": {
+        "slider": {
+            "maxValue": 100,
+            "metricUnit": "tons/ha",
+            "imperialUnit": "tons/acre"
+        },
+        "dropDowns": {
+            "application": {},
+            "quality": {
+                "whole": "Whole",
+                "separated-liquor": "Separated liquor",
+                "separated-fibre": "Separated fibre"
+            }
+        }
+    },
+    "biosolid": {
+        "slider": {
+            "maxValue": 100,
+            "metricUnit": "tons/ha",
+            "imperialUnit": "tons/acre"
+        },
+        "dropDowns": {
+            "application": {
+                "surface": "Surface",
+                "ploughed": "Ploughed"
+            },
+            "quality": {
+                "digested-cake": "Digested cake",
+                "thermally-dried": "Thermally dried",
+                "lime-stabilised": "Lime stabilised",
+                "composted": "Composted"
+            }
+        }
     }
-  }
 }

@@ -1,21 +1,15 @@
 export default class Strings {
-    public cropType = {
-        "winter-wheat-incorporated-feed":
-            "Winter wheat, straw incorporated, feed",
-        "winter-wheat-incorporated-mill":
-            "Winter wheat, straw incorporated, mill",
-        "winter-wheat-removed-feed": "Winter wheat, straw removed, feed",
-        "winter-wheat-removed-mill": "Winter wheat, straw removed, mill",
-        "spring-barley-incorporated-feed":
-            "Spring barley, straw incorporated, feed",
-        "spring-barley-incorporated-malt":
-            "Spring barley, straw incorporated, malt",
-        "spring-barley-removed-feed": "Spring barley, straw removed, feed",
-        "spring-barley-removed-malt": "Spring barley, straw removed, malt",
-        "grass-cut": "Grass cut",
-        "grass-grazed": "Grass grazed"
+    public calcCropType = {
+        normal: "Normal",
+        "grass-oilseed": "Grass/Oilseed"
     };
-    public crops = {
+
+    public cropType = {
+        normal: "Normal",
+        "grass-oilseed": "Grass/Oilseed"
+    };
+
+    public prevCrop = {
         cereals: "Cereals",
         oilseed: "Oilseed rape",
         potatoes: "Potatoes",
@@ -64,6 +58,13 @@ export default class Strings {
         pig: "Pig Slurry",
         poultry: "Poultry Litter",
         compost: "Compost",
+        "paper-crumble": "Paper crumble",
+        "spent-mushroom": "Spent mushroom",
+        "water-treatment-cake": "Water treatment cake",
+        "food-industry-waste": "Food industry waste",
+        "digestate-food": "Digestate food",
+        "digestate-farm": "Digestate farm",
+        biosolid: "Spent mushroom",
         custom: "Custom"
     };
     public season = {
