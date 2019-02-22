@@ -301,42 +301,14 @@ export default class FieldScreen extends Component<Props, State> {
                     values={this.strings.yesno}
                   />
                   <H3>Crop type</H3>
-                  <CropDisplay
-                    cropArray={[
-                      ["crop", "barley"],
-                      ["sown", "spring"],
-                      ["application", "incorporated"],
-                      ["process", "feed"]
-                    ]}
-                  />
-                  <Button>
+                  <CropDisplay cropArray={FieldStore.field.cropType.slice()} />
+                  <Button
+                    onPress={() =>
+                      this.props.navigation.navigate("CropSelector")
+                    }
+                  >
                     <Text>Crop Selector</Text>
                   </Button>
-                  {
-                    /*    let query = [
-                                ["crop"`, "barley"],
-                                ["sown", "spring"],
-                                ["application", "incorporated"],
-                                ["process", "feed"]
-                              ];
-                              let thing = query.reduce(
-                                (object, [key, value]) => ((object[key] = value), object),
-                                {}
-                              );
-
-                              let params = {
-                                ...thing
-                              };
-                              var calc = new C();
-                              let result = calc.decision(manure, params);` */
-                    // this is the new exciting place where a crop selector tree will go
-                  }
-
-                  <DropDown
-                    selectedValue={FieldStore.field.cropType}
-                    onChange={item => (FieldStore.field.cropType = item)}
-                    values={this.strings.cropType}
-                  />
 
                   <Grid>
                     <Row>

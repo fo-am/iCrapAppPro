@@ -16,7 +16,7 @@ export default class Field {
     @observable public soilTestK: string = "soil-k-0";
     @observable public prevCropType: string = "cereals";
     @observable public recentGrass: string = "no";
-    @observable public cropType: string = "winter-wheat-incorporated-feed";
+    @observable public cropType: Array<Array<string>> = [["crop", "maize"]];
 
     constructor(farmKey?: string) {
         this.key = Maths.generateUUID();

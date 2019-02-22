@@ -106,9 +106,19 @@ class CalculatorStore {
     public getCropRequirementsSupplyFromField(
         field: Field
     ): CropRequirementsResult {
+        // this horror takes an array of array of string and
+        // turns it into an object, this is later "spread" to form the params passed to 'decision
+
+        const cropObject = field.cropType
+            .slice()
+            .reduce(
+                (object, [key, value]) => ((object[key] = value), object),
+                {}
+            );
+
         const temp = this.getCropRequirementsSupply(
             this.rainfall,
-            field.cropType,
+            cropObject,
             field.soilType,
             field.prevCropType,
             field.organicManure,
@@ -148,7 +158,7 @@ class CalculatorStore {
             sns, // sns not used for grass requirement, ok to be grassland low/med/high
             rainfall,
             soil,
-            crop,
+            ...crop,
             "p-index": soilTestP,
             "k-index": soilTestK
         };
@@ -165,7 +175,7 @@ class CalculatorStore {
         }
         const phosphorousRequirement = this.decision(
             cropRequirementsPhosphorousPotassiumTree,
-            { nutrient: "phosphorous", ...choices }
+            { nutrient: "phosphorus", ...choices }
         );
         const potassiumRequirement = this.decision(
             cropRequirementsPhosphorousPotassiumTree,
