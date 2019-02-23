@@ -35,15 +35,12 @@ import {
 import MapView, { Marker, Polygon, PROVIDER_GOOGLE } from "react-native-maps";
 import { NavigationScreenProp } from "react-navigation";
 
-import dropDownData from "../assets/dropDownData.json";
-
 import CropDisplay from "../components/CropDisplay";
 import DisplayAreaUnit from "../components/DisplayAreaUnit";
 import DropDown from "../components/DropDown";
 import SoilNutrientDisplay from "../components/soilNutrientDisplay";
 import SphericalUtil from "../geoUtils";
 
-import Field from "../model/field";
 import SpreadEvent from "../model/spreadEvent";
 
 import moment from "moment";
