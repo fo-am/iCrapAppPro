@@ -1,9 +1,10 @@
 import { inject, observer } from "mobx-react/native";
 import { Button, Form, Text } from "native-base";
 import React, { Component } from "react";
+import { translate } from "react-i18next";
 import { FlatList, ScrollView, View } from "react-native";
-import data from "../assets/data/crop-menu.json";
 import { NavigationScreenProp } from "react-navigation";
+import data from "../assets/data/crop-menu.json";
 
 interface Props {
   navigation: NavigationScreenProp<any, any>;
@@ -15,6 +16,8 @@ interface State {
   category: string;
   result: Array<string>;
 }
+
+@translate(["common"], { wait: true })
 @inject("FieldStore")
 @observer
 export default class CropSelector extends Component<Props, State> {
@@ -29,6 +32,7 @@ export default class CropSelector extends Component<Props, State> {
   }
 
   public render() {
+    const { t, i18n } = this.props;
     return (
       <ScrollView>
         <FlatList
@@ -36,7 +40,7 @@ export default class CropSelector extends Component<Props, State> {
           data={this.state.data}
           renderItem={({ item }) => (
             <Button onPress={() => this.buttonPress(item)}>
-              <Text>{item["name"] || item}</Text>
+              <Text>{t(item.name) || t(item)}</Text>
             </Button>
           )}
         />
