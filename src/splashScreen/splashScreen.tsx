@@ -14,6 +14,7 @@ import {
   Title
 } from "native-base";
 import React, { Component } from "react";
+import { translate } from "react-i18next";
 import { Image } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
 
@@ -23,6 +24,7 @@ interface MyComponentProps {
 
 interface MyComponentState {}
 
+@translate(["common"], { wait: true })
 @inject("FieldStore")
 @observer
 export default class SplashScreen extends Component<
@@ -34,12 +36,13 @@ export default class SplashScreen extends Component<
   }
 
   public render() {
+    const { t, i18n, navigation } = this.props;
     return (
       <Container>
         <Header>
           <Left />
           <Body>
-            <Title>Farm Crap App Pro</Title>
+            <Title>{t("the-farm-crap-app-pro")}</Title>
           </Body>
           <Right>
             <Button
@@ -64,10 +67,8 @@ export default class SplashScreen extends Component<
               padding: 15
             }}
           >
-            <H1>The Farm Crap App</H1>
-            <Text style={{ textAlign: "center" }}>
-              Manage your muck with the Farm Crap App
-            </Text>
+            <H1>{t("the-farm-crap-app-pro")}</H1>
+            <Text style={{ textAlign: "center" }}>{t("introduction")}</Text>
 
             <Image
               source={require("../../resources/splash.png")}
