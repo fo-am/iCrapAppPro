@@ -51,12 +51,6 @@ import SliderValues from "../model/sliderValues";
 
 import styles from "../styles/style";
 
-import CalculatorStore from "../store/calculatorStore";
-// import Fieldstore from "../store/FieldsStore";
-import FieldsStore from "../store/FieldsStore";
-import ManureStore from "../store/manureStore";
-import SettingsStore from "../store/settingsStore";
-
 import SpreadEvent from "../model/spreadEvent";
 
 import Strings from "../assets/Strings";
@@ -64,6 +58,7 @@ import Strings from "../assets/Strings";
 interface Props {
   navigation: NavigationScreenProp<any, any>;
   FieldStore: FieldStore;
+  FarmStore: FarmStore;
   CalculatorStore: CalculatorStore;
   ManureStore: ManureStore;
   SettingsStore: SettingsStore;
@@ -141,9 +136,9 @@ export default class SpreadScreen extends Component<Props, State> {
     if (spreadKey) {
       FieldStore.SetSpread(spreadKey);
     } else if (fieldKey) {
-      FieldsStore.newSpreadEvent = new SpreadEvent();
+      FieldStore.newSpreadEvent = new SpreadEvent();
       FieldStore.SetField(fieldKey);
-      FieldsStore.newSpreadEvent.fieldkey = fieldKey;
+      FieldStore.newSpreadEvent.fieldkey = fieldKey;
     }
   }
 
@@ -155,7 +150,7 @@ export default class SpreadScreen extends Component<Props, State> {
   }
 
   public SelectManure(itemValue) {
-    const { CalculatorStore } = this.props;
+    const { CalculatorStore, SettingsStore } = this.props;
     CalculatorStore.calculatorValues.manureSelected = itemValue;
 
     if (itemValue === "custom") {
@@ -234,7 +229,7 @@ export default class SpreadScreen extends Component<Props, State> {
                   style={{ width: 200 }}
                   date={FieldStore.newSpreadEvent.date}
                   mode="date"
-                  format="DD-MM-YYYY"
+                  //  format="DD-MM-YYYY"
                   confirmBtnText="Confirm"
                   cancelBtnText="Cancel"
                   customStyles={{
@@ -248,7 +243,10 @@ export default class SpreadScreen extends Component<Props, State> {
                       marginLeft: 36
                     }
                   }}
-                  onDateChange={date => this.dateToSeason(date)}
+                  onDateChange={date => {
+                    //    FieldStore.newSpreadEvent.date = moment(date, "DD-MM-YYYY");
+                    this.dateToSeason(moment(date));
+                  }}
                 />
                 <Text>Quality</Text>
                 <DropDown

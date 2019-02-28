@@ -73,7 +73,7 @@
     "prefer-switch": true,
     "prefer-template": true,
     "promise-function-async": true,
-    "quotemark": [true, "double", "avoid-template"],
+    //  "quotemark": [true, "double", "avoid-template"],
     "restrict-plus-operands": true,
     "return-undefined": true,
     "semicolon": true,

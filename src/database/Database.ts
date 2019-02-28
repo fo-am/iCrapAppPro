@@ -12,6 +12,8 @@ import Field from "../model/field";
 import Manure from "../model/manure";
 import SpreadEvent from "../model/spreadEvent";
 
+import moment, {Moment} from "moment";
+
 export interface Database {
     open(): Promise<SQLite.SQLiteDatabase>;
     close(): Promise<void>;
@@ -505,7 +507,7 @@ class DatabaseImpl implements Database {
 
                         newSpreadEvent.key = row["SpreadEvent-Unique-Id"];
                         newSpreadEvent.fieldkey = row.FieldKey;
-                        newSpreadEvent.date = JSON.parse(row.Date);
+                        newSpreadEvent.date = moment(row.Date);
                         newSpreadEvent.nutrientsN = row["Nutrients-N"];
                         newSpreadEvent.nutrientsP = row["Nutrients-P"];
                         newSpreadEvent.nutrientsK = row["Nutrients-K"];
@@ -554,7 +556,7 @@ class DatabaseImpl implements Database {
 
                         newSpreadEvent.key = row["SpreadEvent-Unique-Id"];
                         newSpreadEvent.fieldkey = row.FieldKey;
-                        newSpreadEvent.date = JSON.parse(row.Date);
+                        newSpreadEvent.date = moment(row.Date);
                         newSpreadEvent.nutrientsN = row["Nutrients-N"];
                         newSpreadEvent.nutrientsP = row["Nutrients-P"];
                         newSpreadEvent.nutrientsK = row["Nutrients-K"];
@@ -625,7 +627,7 @@ class DatabaseImpl implements Database {
                             spreadEvent.key,
                             spreadEvent.fieldkey,
                             spreadEvent.manureType,
-                            JSON.stringify(spreadEvent.date),
+                            spreadEvent.date.toISOString(),
                             spreadEvent.quality,
                             spreadEvent.applicationType,
                             spreadEvent.amount,
@@ -680,7 +682,7 @@ class DatabaseImpl implements Database {
                             spreadEvent.key,
                             spreadEvent.fieldkey,
                             spreadEvent.manureType,
-                            JSON.stringify(spreadEvent.date),
+                            spreadEvent.date.toISOString(),
                             spreadEvent.quality,
                             spreadEvent.applicationType,
                             spreadEvent.amount,

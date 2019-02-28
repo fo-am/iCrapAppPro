@@ -214,23 +214,25 @@ export default class FieldScreen extends Component<Props, State> {
                   >
                     <Text>Add Spreading Event</Text>
                   </Button>
-                  <ScrollView>
-                    <FlatList<SpreadEvent>
-                      data={this.props.FieldStore.spreadEvents.slice()}
-                      keyExtractor={item => item.key}
-                      renderItem={({ item }) => (
-                        <Button
-                          onPress={() => {
-                            this.props.navigation.navigate("Spread", {
-                              spreadKey: item.key
-                            });
-                          }}
-                        >
-                          <Text>{moment(item.date).format("MMM Do YY")}</Text>
-                        </Button>
-                      )}
-                    />
-                  </ScrollView>
+                  <View>
+                    <ScrollView>
+                      <FlatList<SpreadEvent>
+                        data={this.props.FieldStore.spreadEvents.slice()}
+                        keyExtractor={item => item.key}
+                        renderItem={({ item }) => (
+                          <Button
+                            onPress={() => {
+                              this.props.navigation.navigate("Spread", {
+                                spreadKey: item.key
+                              });
+                            }}
+                          >
+                            <Text>{item.date.format("DD-MM-YYYY")}</Text>
+                          </Button>
+                        )}
+                      />
+                    </ScrollView>
+                  </View>
                 </View>
                 <View style={{ paddingTop: "5%" }}>
                   <H2>Soil Details</H2>
@@ -398,7 +400,7 @@ export default class FieldScreen extends Component<Props, State> {
     const { FieldStore } = this.props;
     FieldStore.Save();
     this.props.navigation.goBack();
-  };
+  }
 
   private draw() {
     this.setState({
