@@ -1,24 +1,12 @@
 import { inject, observer } from "mobx-react/native";
-import { Container, Content, Form } from "native-base";
+import { Button, Container, Content, Form, Input, Text } from "native-base";
 import React, { Component } from "react";
-import {
-  Button,
-  Dimensions,
-  Image,
-  ScrollView,
-  Slider,
-  StatusBar,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View
-} from "react-native";
+import { ScrollView, StatusBar, View } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
-import Images from "../assets/imageData";
+
 import styles from "../styles/style";
 
 import DropDown from "../components/DropDown";
-import settingsStore from "../store/settingsStore";
 
 interface Props {
   SettingsStore: SettingsStore;
@@ -54,12 +42,21 @@ export default class SettingScreen extends Component<Props, State> {
                   onChange={item => SettingsStore.SelectUnit(item)}
                   values={this.Units}
                 />
+                <Text>Email address</Text>
+                <Input
+                  selectTextOnFocus={true}
+                  style={{ fontSize: 20, fontWeight: "bold" }}
+                  placeholder="your@email.com"
+                  onChangeText={email =>
+                    (SettingsStore.appSettings.email = email)
+                  }
+                >
+                  {SettingsStore.appSettings.email}
+                </Input>
               </View>
-              <Button
-                title="Save"
-                onPress={() => this.Save()}
-                accessibilityLabel="Save Settings"
-              />
+              <Button onPress={() => this.Save()}>
+                <Text>Save</Text>
+              </Button>
             </ScrollView>
           </Form>
         </Content>
@@ -67,9 +64,8 @@ export default class SettingScreen extends Component<Props, State> {
     );
   }
 
-  public Save() {
-    this.props.SettingsStore.SaveSettings().then(() =>
-      this.props.navigation.navigate("Home")
-    );
+  private Save() {
+    const { SettingsStore, navigation } = this.props;
+    SettingsStore.SaveSettings().then(() => navigation.navigate("Home"));
   }
 }

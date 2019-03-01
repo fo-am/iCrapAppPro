@@ -22,7 +22,7 @@ class SettingsStore {
         });
     }
 
-    public SaveSettings(): Promise<void> {
+    public async SaveSettings(): Promise<void> {
         if (this.appSettings.email === undefined) {
             this.appSettings.email = "Not@Set";
         }
