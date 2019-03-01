@@ -23,10 +23,7 @@ import {
   View
 } from "react-native";
 
-import ManureStore from "../store/manureStore";
-import Manure from "./../model/manure";
-
-import Images from "../assets/imageData";
+import images from "../assets/imageData";
 import styles from "../styles/style";
 
 import dropDownData from "../assets/dropDownData.json";
@@ -38,11 +35,6 @@ import DropDown from "../components/DropDown";
 import SliderValues from "../model/sliderValues";
 
 import Strings from "../assets/Strings";
-
-// import CalculatorStore from "../store/calculatorStore";
-
-// import calculatorStore from "../store/calculatorStore";
-// import SettingsStore from "../store/settingsStore";
 
 interface Props {}
 
@@ -57,7 +49,9 @@ export default class Calculator extends Component<Props, State> {
 
   constructor(props) {
     super(props);
-    const { CalculatorStore } = this.props;
+
+    const { CalculatorStore, ManureStore } = this.props;
+
     CalculatorStore.calculatorValues.manureSelected = "fym";
 
     CalculatorStore.applicationTypes =
@@ -86,7 +80,7 @@ export default class Calculator extends Component<Props, State> {
 
     const values = {};
 
-    this.props.ManureStore.manures.forEach(o => {
+    ManureStore.manures.forEach(o => {
       values[o.key] = o.name;
     });
 
@@ -112,9 +106,8 @@ export default class Calculator extends Component<Props, State> {
   }
 
   public componentDidMount() {
-    this.SelectManure(
-      this.props.CalculatorStore.calculatorValues.manureSelected
-    );
+    const { CalculatorStore } = this.props;
+    this.SelectManure(CalculatorStore.calculatorValues.manureSelected);
   }
 
   public SelectManure(itemValue) {
@@ -154,18 +147,18 @@ export default class Calculator extends Component<Props, State> {
 
     let selectedManure = CalculatorStore.calculatorValues.manureSelected;
 
-    if (!Images[selectedManure]) {
+    if (!images[selectedManure]) {
       selectedManure = "fym";
     }
 
     const keys = [] as number[];
-    for (const k in Images[selectedManure]) {
+    for (const k in images[selectedManure]) {
       keys.push(Number(k));
     }
 
     const closestValue = this.closest(value, keys);
 
-    CalculatorStore.image = Images[selectedManure][closestValue];
+    CalculatorStore.image = images[selectedManure][closestValue];
   }
 
   public closest(num: number, arr: Array<number>) {
@@ -365,7 +358,7 @@ export default class Calculator extends Component<Props, State> {
                       <CashDisplay
                         value={
                           CalculatorStore.nutrientResults.nitrogenAvailable *
-                          SettingsStore.NCost
+                          0.79
                         }
                       />
                     </Col>
@@ -373,7 +366,7 @@ export default class Calculator extends Component<Props, State> {
                       <CashDisplay
                         value={
                           CalculatorStore.nutrientResults.phosphorousAvailable *
-                          SettingsStore.PCost
+                          0.62
                         }
                       />
                     </Col>
@@ -381,7 +374,7 @@ export default class Calculator extends Component<Props, State> {
                       <CashDisplay
                         value={
                           CalculatorStore.nutrientResults.potassiumAvailable *
-                          SettingsStore.KCost
+                          0.49
                         }
                       />
                     </Col>
