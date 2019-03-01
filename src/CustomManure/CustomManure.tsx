@@ -46,6 +46,8 @@ export default class CustomManure extends Component<
 
               <Input
                 autoFocus={true}
+                selectTextOnFocus={true}
+                style={{ fontSize: 20, fontWeight: "bold" }}
                 keyboardType="default"
                 placeholder="New Manure"
                 onChangeText={text =>
@@ -58,6 +60,8 @@ export default class CustomManure extends Component<
               <Text>N kg/t content (elemental)</Text>
 
               <Input
+                selectTextOnFocus={true}
+                style={{ fontSize: 20, fontWeight: "bold" }}
                 keyboardType="numeric"
                 placeholder="0"
                 onChangeText={text =>
@@ -69,6 +73,8 @@ export default class CustomManure extends Component<
 
               <Text>P kg/t content (elemental)</Text>
               <Input
+                selectTextOnFocus={true}
+                style={{ fontSize: 20, fontWeight: "bold" }}
                 keyboardType="numeric"
                 placeholder="0"
                 onChangeText={text =>
@@ -81,6 +87,8 @@ export default class CustomManure extends Component<
               <Text>K kg/t content (elemental)</Text>
 
               <Input
+                selectTextOnFocus={true}
+                style={{ fontSize: 20, fontWeight: "bold" }}
                 keyboardType="numeric"
                 placeholder="0"
                 onChangeText={text =>

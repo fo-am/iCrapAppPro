@@ -186,6 +186,8 @@ export default class FieldScreen extends Component<Props, State> {
                   <Item fixedLabel rounded>
                     <Label style={{ paddingLeft: "2%" }}>Field Name</Label>
                     <Input
+                      selectTextOnFocus={true}
+                      style={{ fontSize: 20, fontWeight: "bold" }}
                       placeholder="New Field"
                       onChangeText={text => (FieldStore.field.name = text)}
                     >
@@ -196,6 +198,8 @@ export default class FieldScreen extends Component<Props, State> {
                   <Item fixedLabel rounded>
                     <Label style={{ paddingLeft: "2%" }}>Field Size</Label>
                     <Input
+                      selectTextOnFocus={true}
+                      style={{ fontSize: 20, fontWeight: "bold" }}
                       keyboardType="numeric"
                       placeholder="0"
                       onChangeText={text => (FieldStore.field.area = text)}
@@ -400,7 +404,7 @@ export default class FieldScreen extends Component<Props, State> {
     const { FieldStore } = this.props;
     FieldStore.Save();
     this.props.navigation.goBack();
-  }
+  };
 
   private draw() {
     this.setState({
