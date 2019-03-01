@@ -2,13 +2,13 @@ import { createAppContainer, createStackNavigator } from "react-navigation";
 import Calculator from "../calc/Calculator";
 import CropSelector from "../components/CropSelector";
 import CustomManure from "../customManure/CustomManure";
+import ExportScreen from "../Export/ExportScreen";
 import FarmScreen from "../Farm/FarmScreen";
 import FieldScreen from "../Fields/FieldScreen";
 import SpreadScreen from "../Fields/SpreadScreen";
 import HomeScreen from "../HomeScreen";
 import SettingScreen from "../Settings/SettingScreen";
 import SplashScreen from "../splashScreen/splashScreen";
-
 const appNav = createStackNavigator(
     {
         Calculator: { screen: Calculator },
@@ -25,7 +25,8 @@ const appNav = createStackNavigator(
         CropSelector: {
             screen: CropSelector,
             navigationOptions: { header: null }
-        }
+        },
+        Export: { screen: ExportScreen }
     },
     {
         initialRouteName: "SplashScreen"

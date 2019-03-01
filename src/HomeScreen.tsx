@@ -121,7 +121,9 @@ export default class HomeScreen extends Component<
                   )}
                 />
               </ScrollView>
-
+              <Button onPress={() => this.props.navigation.navigate("Export")}>
+                <Text>Export Data</Text>
+              </Button>
               <Button onPress={() => this.clearStore()}>
                 <Text>clear store</Text>
               </Button>
