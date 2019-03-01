@@ -48,6 +48,8 @@ target 'farm_crap_app' do
 
   pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
 
+  pod 'react-native-mail', :path => '../node_modules/react-native-mail'
+
 end
 
 post_install do |installer|
