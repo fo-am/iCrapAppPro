@@ -29,21 +29,8 @@ import {
   View
 } from "react-native";
 
+import Mailer from "react-native-mail";
 import { NavigationScreenProp } from "react-navigation";
-
-import dropDownData from "../assets/dropDownData.json";
-
-import DisplayPoundsPerArea from "../components/displayPoundsPerArea";
-import DropDown from "../components/DropDown";
-
-import SphericalUtil from "../geoUtils";
-import Field from "../model/field";
-
-import styles from "../styles/style";
-
-import Strings from "../assets/strings";
-
-import { database } from "../database/Database.js";
 
 const id = 0;
 
@@ -74,6 +61,29 @@ export default class ExportScreen extends Component<Props, State> {
   public componentWillMount() {
     const { CalculatorStore, SettingsStore, FarmStore } = this.props;
   }
+  public handleEmail = () => {
+    const { CalculatorStore, SettingsStore, FarmStore } = this.props;
+    // make farm detials csv
+    // get handle on file path.
+    Mailer.mail(
+      {
+        subject: "Farm Data",
+        recipients: [SettingsStore.appSettings.email],
+
+        body: "Here is your farm information.",
+        isHTML: false,
+        attachment: {
+          path: "", // The absolute path of the file from which to read data.
+          type: "", // Mime Type: jpg, png, doc, ppt, html, pdf, csv
+          name: "" // Optional: Custom filename for attachment
+        }
+      },
+      (error, event) => {
+        // handle error
+      }
+    );
+  };
+
   public render() {
     const {
       FieldStore,
@@ -86,7 +96,7 @@ export default class ExportScreen extends Component<Props, State> {
       <Container>
         <Content>
           <Form>
-            <Button>
+            <Button onPress={this.handleEmail}>
               <Text>Export to {SettingsStore.appSettings.email}</Text>
             </Button>
           </Form>
