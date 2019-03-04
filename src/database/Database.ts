@@ -12,7 +12,7 @@ import Field from "../model/field";
 import Manure from "../model/manure";
 import SpreadEvent from "../model/spreadEvent";
 
-import moment, {Moment} from "moment";
+import moment, { Moment } from "moment";
 
 export interface Database {
     open(): Promise<SQLite.SQLiteDatabase>;
@@ -40,6 +40,8 @@ export interface Database {
 
     getAppSettings(): Promise<AppSettings>;
     saveAppSettings(appSettings: AppSettings): Promise<void>;
+
+    getCSVData(): Promise<Array<Array<string>>>;
 
     delete(): Promise<void>;
 }
@@ -885,7 +887,31 @@ class DatabaseImpl implements Database {
             );
         });
     }
+    public getCSVData(): Promise<Array<Array<string>>> {
+        return this.getDatabase()
+            .then(db =>
+                db.executeSql(`
+            select fa.name, s."Manure-Type" ,s.date, s."Nutrients-N", s."Nutrients-P", s."Nutrients-K\"
+            ,s.\`Require-N\`,s.\`Require-P\`,s.\`Require-K\`,s.SNS,s.Soil,s.Size, s.Amount ,s.Quality,s.Application,
+            s.Season,s.Crop
+            from SpreadEvent  s
+            join Field fi on fi.\`Field-Unique-Id\` = s.FieldKey
+            join Farm fa on fa.\`Farm-Unique-Id\` = fi.FarmKey
+            `)
+            )
+            .then(([res]) => {
+                const count = res.rows.length;
+                const results: Array<Array<string>> = new Array<
+                    Array<string>
+                >();
 
+                for (let i = 0; i < count; i++) {
+                    const row = res.rows.item(i);
+                    results.push(row);
+                }
+                return results;
+            });
+    }
     private getDatabase(): Promise<SQLite.SQLiteDatabase> {
         if (this.database !== undefined) {
             return Promise.resolve(this.database);

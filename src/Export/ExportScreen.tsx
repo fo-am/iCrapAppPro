@@ -35,6 +35,8 @@ import RNFS from "react-native-fs";
 import Mailer from "react-native-mail";
 import { NavigationScreenProp } from "react-navigation";
 
+import { database } from "../database/Database";
+
 interface Props {
   navigation: NavigationScreenProp<any, any>;
   FieldStore: FieldStore;
@@ -64,18 +66,11 @@ export default class ExportScreen extends Component<Props, State> {
   }
   public handleEmail = () => {
     const { CalculatorStore, SettingsStore, FarmStore } = this.props;
-    this.requestCameraPermission();
-    // make farm detials csv
-    // write to filesystem
-    const filePath = RNFS.ExternalStorageDirectoryPath + "/test.txt";
-    RNFS.writeFile(filePath, "Lorem ipsum dolor sit amet", "utf8")
-      .then(success => {
-        console.log("FILE WRITTEN!");
-      })
-      .catch(err => {
-        console.log(err.message);
-      })
-      .then(
+    this.requestFileWritePermission();
+
+    this.writeCsvFile().then(arr => {
+      const filePath = RNFS.ExternalStorageDirectoryPath + "/test.txt";
+      RNFS.writeFile(filePath, arr.join("\n"), "utf8").then(
         // get handle on file path.
         Mailer.mail(
           {
@@ -86,8 +81,8 @@ export default class ExportScreen extends Component<Props, State> {
             isHTML: false,
             attachment: {
               path: filePath, // The absolute path of the file from which to read data.
-              type: "", // Mime Type: jpg, png, doc, ppt, html, pdf, csv
-              name: "" // Optional: Custom filename for attachment
+              type: "csv", // Mime Type: jpg, png, doc, ppt, html, pdf, csv
+              name: "YourData.csv" // Optional: Custom filename for attachment
             }
           },
           (error, event) => {
@@ -95,6 +90,9 @@ export default class ExportScreen extends Component<Props, State> {
           }
         )
       );
+    });
+    // make farm detials csv
+    // write to filesystem
   };
 
   public render() {
@@ -117,7 +115,37 @@ export default class ExportScreen extends Component<Props, State> {
       </Container>
     );
   }
-  private async requestCameraPermission() {
+
+  private writeCsvFile(): Promise<Array<Array<string>>> {
+    const csv: Array<Array<string>> = [];
+    // Add headings
+    csv.push([
+      '"Farm name"',
+      '"Field name"',
+      '"Manure type"',
+      '"Date"',
+      '"Crop avail N"',
+      '"Crop avail P"',
+      '"Crop avail K"',
+      '"Crop req N"',
+      '"Crop req P"',
+      '"Crop req K"',
+      '"SNS"',
+      '"Soil"',
+      '"Field size"',
+      '"Rate"',
+      '"Manure quality"',
+      '"Manure application"',
+      '"Season"',
+      '"Crop"'
+    ]);
+    return database.getCSVData().then(res => {
+      csv.push(...res);
+      return csv;
+    });
+  }
+
+  private async requestFileWritePermission() {
     if (Platform.OS !== "ios") {
       try {
         let hasPermission = await PermissionsAndroid.check(
