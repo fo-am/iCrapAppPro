@@ -19,6 +19,7 @@
     "react-i18next": "9.0.10",
     "react-native": "0.57.7",
     "react-native-datepicker": "1.7.2",
+    "react-native-fs": "2.13.3",
     "react-native-gesture-handler": "1.0.15",
     "react-native-mail": "3.0.7",
     "react-native-maps": "https://github.com/react-community/react-native-maps.git",

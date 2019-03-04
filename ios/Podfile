@@ -50,6 +50,8 @@ target 'farm_crap_app' do
 
   pod 'react-native-mail', :path => '../node_modules/react-native-mail'
 
+  pod 'RNFS', :path => '../node_modules/react-native-fs'
+
 end
 
 post_install do |installer|
