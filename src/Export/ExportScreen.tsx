@@ -69,7 +69,7 @@ export default class ExportScreen extends Component<Props, State> {
     const { CalculatorStore, SettingsStore, FarmStore } = this.props;
 
     this.writeCsvFile().then(arr => {
-      const filePath = RNFS.ExternalStorageDirectoryPath + "/YourData.csv";
+      const filePath = RNFS.ExternalStorageDirectoryPath;
       RNFS.writeFile(filePath, arr.join("\n"), "utf8").then(
         // get handle on file path.
         Mailer.mail(
@@ -82,7 +82,7 @@ export default class ExportScreen extends Component<Props, State> {
             attachment: {
               path: filePath, // The absolute path of the file from which to read data.
               type: "text/csv", // Mime Type: jpg, png, doc, ppt, html, pdf, csv
-              name: "YourData.csv" // Optional: Custom filename for attachment
+              name: "FarmData.csv" // Optional: Custom filename for attachment
             }
           },
           (error, event) => {
