@@ -887,12 +887,14 @@ class DatabaseImpl implements Database {
             );
         });
     }
-    public getCSVData(): Promise<Array<Array<string>>> {
+    public async getCSVData(): Promise<Array<Array<string>>> {
         return this.getDatabase()
             .then(db =>
                 db.executeSql(`
-            select fa.name, s."Manure-Type" ,s.date, s."Nutrients-N", s."Nutrients-P", s."Nutrients-K\"
-            ,s.\`Require-N\`,s.\`Require-P\`,s.\`Require-K\`,s.SNS,s.Soil,s.Size, s.Amount ,s.Quality,s.Application,
+            select fa.name as farmName, fi.name as fieldName, s."Manure-Type" ,s.date,
+             s."Nutrients-N", s."Nutrients-P", s."Nutrients-K\",
+            s.\`Require-N\`,s.\`Require-P\`,s.\`Require-K\`,
+            s.SNS,s.Soil,s.Size, s.Amount ,s.Quality,s.Application,
             s.Season,s.Crop
             from SpreadEvent  s
             join Field fi on fi.\`Field-Unique-Id\` = s.FieldKey
@@ -906,13 +908,35 @@ class DatabaseImpl implements Database {
                 >();
 
                 for (let i = 0; i < count; i++) {
+                    const rowArray: Array<string> = [];
                     const row = res.rows.item(i);
-                    results.push(row);
+
+                    // need to translate these!
+                    rowArray.push(row.farmName);
+                    rowArray.push(row.fieldName);
+                    rowArray.push(row["Manure-Type"]);
+                    rowArray.push(row.Date);
+                    rowArray.push(row["Nutrients-N"]);
+                    rowArray.push(row["Nutrients-P"]);
+                    rowArray.push(row["Nutrients-K"]);
+                    rowArray.push(row["Require-N"]);
+                    rowArray.push(row["Require-P"]);
+                    rowArray.push(row["Require-K"]);
+                    rowArray.push(row.SNS);
+                    rowArray.push(row.Soil);
+                    rowArray.push(row.Size);
+                    rowArray.push(row.Amount);
+                    rowArray.push(row.Quality);
+                    rowArray.push(row.Application);
+                    rowArray.push(row.Season);
+                    rowArray.push(row.Crop);
+
+                    results.push(rowArray);
                 }
                 return results;
             });
     }
-    private getDatabase(): Promise<SQLite.SQLiteDatabase> {
+    private async getDatabase(): Promise<SQLite.SQLiteDatabase> {
         if (this.database !== undefined) {
             return Promise.resolve(this.database);
         }
