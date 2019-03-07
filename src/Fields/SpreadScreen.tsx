@@ -124,8 +124,8 @@ export default class SpreadScreen extends Component<Props, State> {
     CalculatorStore.calculatorValues.qualitySelected = Object.keys(
       CalculatorStore.qualityTypes
     )[0];
-    CalculatorStore.calculatorValues.soilTestK = 0;
-    CalculatorStore.calculatorValues.soilTestP = 0;
+    CalculatorStore.calculatorValues.soilTestK = FieldStore.field.soilTestK;
+    CalculatorStore.calculatorValues.soilTestP = FieldStore.field.soilTestP;
   }
 
   public componentWillMount() {
