@@ -17,7 +17,7 @@ export default class DropDown extends Component<Props, State> {
         style={{ height: 50, width: "100%" }}
         onValueChange={this.props.onChange}
       >
-        {Object.keys(this.props.values).map(key => {
+        {Object.keys(this.props.values || []).map(key => {
           return (
             <Picker.Item label={this.props.values[key]} value={key} key={key} />
           );
