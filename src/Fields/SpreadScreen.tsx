@@ -81,55 +81,7 @@ export default class SpreadScreen extends Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
-    const { CalculatorStore, ManureStore, FieldStore } = this.props;
-    CalculatorStore.calculatorValues.manureSelected = "fym";
-
-    CalculatorStore.applicationTypes =
-      dropDownData[
-        CalculatorStore.calculatorValues.manureSelected
-      ].dropDowns.application;
-    CalculatorStore.qualityTypes =
-      dropDownData[
-        CalculatorStore.calculatorValues.manureSelected
-      ].dropDowns.quality;
-    slider.sliderStartValue =
-      dropDownData[CalculatorStore.calculatorValues.manureSelected].slider
-        .maxValue / 2;
-    CalculatorStore.calculatorValues.sliderValue =
-      dropDownData[CalculatorStore.calculatorValues.manureSelected].slider
-        .maxValue / 2;
-    slider.sliderMaxValue =
-      dropDownData[
-        CalculatorStore.calculatorValues.manureSelected
-      ].slider.maxValue;
-    slider.sliderUnit =
-      dropDownData[
-        CalculatorStore.calculatorValues.manureSelected
-      ].slider.metricUnit;
-
-    const values = {};
-
-    ManureStore.manures.forEach(o => {
-      values[o.key] = o.name;
-    });
-
-    CalculatorStore.customQualityTypes = values;
-
-    CalculatorStore.calculatorValues.applicationSelected = Object.keys(
-      CalculatorStore.applicationTypes
-    )[0];
-    CalculatorStore.calculatorValues.soilSelected = Object.keys(
-      this.strings.soilType
-    )[0];
-    CalculatorStore.calculatorValues.qualitySelected = Object.keys(
-      CalculatorStore.qualityTypes
-    )[0];
-    CalculatorStore.calculatorValues.soilTestK = FieldStore.field.soilTestK;
-    CalculatorStore.calculatorValues.soilTestP = FieldStore.field.soilTestP;
-  }
-
-  public componentWillMount() {
-    const { navigation, FieldStore, CalculatorStore } = this.props;
+    const { navigation, FieldStore, CalculatorStore, ManureStore } = this.props;
     const fieldKey = navigation.getParam("fieldKey", undefined);
     const spreadKey = navigation.getParam("spreadKey", undefined);
 
@@ -142,10 +94,23 @@ export default class SpreadScreen extends Component<Props, State> {
       FieldStore.newSpreadEvent = new SpreadEvent();
       FieldStore.SetField(fieldKey);
       FieldStore.newSpreadEvent.fieldkey = fieldKey;
-      this.InitialiseDropdowns(CalculatorStore.calculatorValues.manureSelected);
+      this.InitialiseDropdowns("fym");
       this.dateToSeason(this.props.FieldStore.newSpreadEvent.date);
     }
+
+    const values = {};
+
+    ManureStore.manures.forEach(o => {
+      values[o.key] = o.name;
+    });
+
+    CalculatorStore.customQualityTypes = values;
+
+    CalculatorStore.calculatorValues.soilTestK = FieldStore.field.soilTestK;
+    CalculatorStore.calculatorValues.soilTestP = FieldStore.field.soilTestP;
   }
+
+  public componentWillMount() {}
   public setDropDowns(itemValue) {
     const { CalculatorStore, SettingsStore } = this.props;
     CalculatorStore.calculatorValues.manureSelected = itemValue;
