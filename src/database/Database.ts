@@ -14,6 +14,8 @@ import SpreadEvent from "../model/spreadEvent";
 
 import moment, { Moment } from "moment";
 
+import i18n from "../translations/i18n";
+
 export interface Database {
     open(): Promise<SQLite.SQLiteDatabase>;
     close(): Promise<void>;
@@ -51,7 +53,7 @@ class DatabaseImpl implements Database {
     private database: SQLite.SQLiteDatabase | undefined;
 
     // Open the connection to the database
-    public open(): Promise<SQLite.SQLiteDatabase> {
+    public async open(): Promise<SQLite.SQLiteDatabase> {
         SQLite.DEBUG(true);
         SQLite.enablePromise(true);
         let databaseInstance: SQLite.SQLiteDatabase;
@@ -489,7 +491,7 @@ class DatabaseImpl implements Database {
                 .executeSql(
                     `SELECT
                       "SpreadEvent-Unique-Id", FieldKey,
-                      "Date", "Nutrients-N", "Nutrients-P",
+                      "Date", "Manure-Type", "Nutrients-N", "Nutrients-P",
                      "Nutrients-K", "Require-N", "Require-P",
                      "Require-K", "SNS", "Soil", "Size", "Amount",
                       "Quality", "Application", "Season", "Crop"
@@ -510,12 +512,25 @@ class DatabaseImpl implements Database {
                         newSpreadEvent.key = row["SpreadEvent-Unique-Id"];
                         newSpreadEvent.fieldkey = row.FieldKey;
                         newSpreadEvent.date = moment(row.Date);
-                        newSpreadEvent.nutrientsN = row["Nutrients-N"];
-                        newSpreadEvent.nutrientsP = row["Nutrients-P"];
-                        newSpreadEvent.nutrientsK = row["Nutrients-K"];
-                        newSpreadEvent.requireN = row["Require-N"];
-                        newSpreadEvent.requireP = row["Require-P"];
-                        newSpreadEvent.requireK = row["Require-K"];
+                        newSpreadEvent.manureType = row["Manure-Type"];
+                        newSpreadEvent.nutrientsN = this.safeNumber(
+                            row["Nutrients-N"]
+                        );
+                        newSpreadEvent.nutrientsP = this.safeNumber(
+                            row["Nutrients-P"]
+                        );
+                        newSpreadEvent.nutrientsK = this.safeNumber(
+                            row["Nutrients-K"]
+                        );
+                        newSpreadEvent.requireN = this.safeNumber(
+                            row["Require-N"]
+                        );
+                        newSpreadEvent.requireP = this.safeNumber(
+                            row["Require-P"]
+                        );
+                        newSpreadEvent.requireK = this.safeNumber(
+                            row["Require-K"]
+                        );
                         newSpreadEvent.sns = row.SNS;
                         newSpreadEvent.soil = row.Soil;
                         newSpreadEvent.size = row.Size;
@@ -540,7 +555,7 @@ class DatabaseImpl implements Database {
                 .executeSql(
                     `SELECT
                   "SpreadEvent-Unique-Id", FieldKey,
-                  "Date", "Nutrients-N", "Nutrients-P",
+                  "Date", "Manure-Type", "Nutrients-N", "Nutrients-P",
                  "Nutrients-K", "Require-N", "Require-P",
                  "Require-K", "SNS", "Soil", "Size", "Amount",
                   "Quality", "Application", "Season", "Crop"
@@ -559,12 +574,25 @@ class DatabaseImpl implements Database {
                         newSpreadEvent.key = row["SpreadEvent-Unique-Id"];
                         newSpreadEvent.fieldkey = row.FieldKey;
                         newSpreadEvent.date = moment(row.Date);
-                        newSpreadEvent.nutrientsN = row["Nutrients-N"];
-                        newSpreadEvent.nutrientsP = row["Nutrients-P"];
-                        newSpreadEvent.nutrientsK = row["Nutrients-K"];
-                        newSpreadEvent.requireN = row["Require-N"];
-                        newSpreadEvent.requireP = row["Require-P"];
-                        newSpreadEvent.requireK = row["Require-K"];
+                        newSpreadEvent.manureType = row["Manure-Type"];
+                        newSpreadEvent.nutrientsN = this.safeNumber(
+                            row["Nutrients-N"]
+                        );
+                        newSpreadEvent.nutrientsP = this.safeNumber(
+                            row["Nutrients-P"]
+                        );
+                        newSpreadEvent.nutrientsK = this.safeNumber(
+                            row["Nutrients-K"]
+                        );
+                        newSpreadEvent.requireN = this.safeNumber(
+                            row["Require-N"]
+                        );
+                        newSpreadEvent.requireP = this.safeNumber(
+                            row["Require-P"]
+                        );
+                        newSpreadEvent.requireK = this.safeNumber(
+                            row["Require-K"]
+                        );
                         newSpreadEvent.sns = row.SNS;
                         newSpreadEvent.soil = row.Soil;
                         newSpreadEvent.size = row.Size;
@@ -578,7 +606,6 @@ class DatabaseImpl implements Database {
                 })
         );
     }
-
     public async saveSpreadEvent(spreadEvent: SpreadEvent): Promise<void> {
         if (spreadEvent === undefined) {
             return Promise.reject(Error("spreadEvent not supplied."));
@@ -633,12 +660,12 @@ class DatabaseImpl implements Database {
                             spreadEvent.quality,
                             spreadEvent.applicationType,
                             spreadEvent.amount,
-                            spreadEvent.nutrientsN,
-                            spreadEvent.nutrientsP,
-                            spreadEvent.nutrientsK,
-                            spreadEvent.requireN,
-                            spreadEvent.requireP,
-                            spreadEvent.requireK,
+                            this.safeNumber(spreadEvent.nutrientsN),
+                            this.safeNumber(spreadEvent.nutrientsP),
+                            this.safeNumber(spreadEvent.nutrientsK),
+                            this.safeNumber(spreadEvent.requireN),
+                            this.safeNumber(spreadEvent.requireP),
+                            this.safeNumber(spreadEvent.requireK),
                             spreadEvent.sns,
                             spreadEvent.soil,
                             spreadEvent.size,
@@ -688,12 +715,12 @@ class DatabaseImpl implements Database {
                             spreadEvent.quality,
                             spreadEvent.applicationType,
                             spreadEvent.amount,
-                            spreadEvent.nutrientsN,
-                            spreadEvent.nutrientsP,
-                            spreadEvent.nutrientsK,
-                            spreadEvent.requireN,
-                            spreadEvent.requireP,
-                            spreadEvent.requireK,
+                            this.safeNumber(spreadEvent.nutrientsN),
+                            this.safeNumber(spreadEvent.nutrientsP),
+                            this.safeNumber(spreadEvent.nutrientsK),
+                            this.safeNumber(spreadEvent.requireN),
+                            this.safeNumber(spreadEvent.requireP),
+                            this.safeNumber(spreadEvent.requireK),
                             spreadEvent.sns,
                             spreadEvent.soil,
                             spreadEvent.size,
@@ -914,28 +941,48 @@ class DatabaseImpl implements Database {
                     // need to translate these!
                     rowArray.push(row.farmName);
                     rowArray.push(row.fieldName);
-                    rowArray.push(row["Manure-Type"]);
+                    rowArray.push(i18n.t(row["Manure-Type"]));
                     rowArray.push(row.Date);
-                    rowArray.push(row["Nutrients-N"]);
-                    rowArray.push(row["Nutrients-P"]);
-                    rowArray.push(row["Nutrients-K"]);
-                    rowArray.push(row["Require-N"]);
-                    rowArray.push(row["Require-P"]);
-                    rowArray.push(row["Require-K"]);
+                    rowArray.push(this.safeNumber(row["Nutrients-N"]));
+                    rowArray.push(this.safeNumber(row["Nutrients-P"]));
+                    rowArray.push(this.safeNumber(row["Nutrients-K"]));
+                    rowArray.push(this.safeNumber(row["Require-N"]));
+                    rowArray.push(this.safeNumber(row["Require-P"]));
+                    rowArray.push(this.safeNumber(row["Require-K"]));
                     rowArray.push(row.SNS);
-                    rowArray.push(row.Soil);
+                    rowArray.push(i18n.t(row.Soil));
                     rowArray.push(row.Size);
                     rowArray.push(row.Amount);
-                    rowArray.push(row.Quality);
-                    rowArray.push(row.Application);
-                    rowArray.push(row.Season);
-                    rowArray.push(row.Crop);
+                    rowArray.push(i18n.t(row.Quality));
+                    rowArray.push(i18n.t(row.Application));
+                    rowArray.push(i18n.t(row.Season));
+                    rowArray.push(this.sortCrops(row.Crop));
 
                     results.push(rowArray);
                 }
                 return results;
             });
     }
+    private safeNumber(possibleNumber: number | undefined): number {
+        if (possibleNumber === undefined || Number.isNaN(possibleNumber)) {
+            return 0;
+        }
+        return possibleNumber;
+    }
+
+    private sortCrops(cropString: string): string {
+        let cropPart: string = "";
+        let fullList: string = "";
+
+        const crop = JSON.parse(cropString);
+        crop.forEach(f => {
+            cropPart = `${i18n.t(f[0])}: ${i18n.t(f[1])}`;
+
+            fullList += `${cropPart} `;
+        });
+        return fullList;
+    }
+
     private async getDatabase(): Promise<SQLite.SQLiteDatabase> {
         if (this.database !== undefined) {
             return Promise.resolve(this.database);
