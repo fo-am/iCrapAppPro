@@ -47,7 +47,7 @@ class FieldStore {
     }
     public reset(farmKey: string) {
         this.field = new Field(farmKey);
-
+        this.getSpreadEvents(this.field.key);
         this.getFields(farmKey);
     }
 
@@ -113,10 +113,30 @@ class FieldStore {
             .then(() => this.getSpreadEvents(this.field.key));
     }
 
-    public SetSpread(spreadKey: string) {
-        database
+    public async SetSpread(spreadKey: string): Promise<void> {
+        return database
             .getSpreadEvent(spreadKey)
-            .then(res => (this.newSpreadEvent = res))
+            .then(res => {
+                this.newSpreadEvent = res;
+                // set the items in the spread event.
+                CalculatorStore.calculatorValues.manureSelected =
+                    res.manureType;
+                CalculatorStore.calculatorValues.qualitySelected = res.quality;
+                CalculatorStore.calculatorValues.applicationSelected =
+                    res.applicationType;
+                CalculatorStore.calculatorValues.sliderValue = res.amount;
+                CalculatorStore.nutrientResults.nitrogenAvailable =
+                    res.nutrientsN;
+                CalculatorStore.nutrientResults.phosphorousAvailable =
+                    res.nutrientsP;
+                CalculatorStore.nutrientResults.potassiumAvailable =
+                    res.nutrientsK;
+                this.cropRequirementsResult.nitrogenRequirement = res.requireN;
+                this.cropRequirementsResult.phosphorousRequirement =
+                    res.requireP;
+                this.cropRequirementsResult.potassiumRequirement = res.requireK;
+                this.cropRequirementsResult.nitrogenSupply = res.sns;
+            })
             .then(() => this.getSpreadEvents(this.newSpreadEvent.fieldkey));
     }
 

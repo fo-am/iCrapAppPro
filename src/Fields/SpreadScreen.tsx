@@ -81,7 +81,7 @@ export default class SpreadScreen extends Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
-    const { CalculatorStore, ManureStore } = this.props;
+    const { CalculatorStore, ManureStore, FieldStore } = this.props;
     CalculatorStore.calculatorValues.manureSelected = "fym";
 
     CalculatorStore.applicationTypes =
@@ -129,27 +129,52 @@ export default class SpreadScreen extends Component<Props, State> {
   }
 
   public componentWillMount() {
-    const { navigation, FieldStore } = this.props;
+    const { navigation, FieldStore, CalculatorStore } = this.props;
     const fieldKey = navigation.getParam("fieldKey", undefined);
     const spreadKey = navigation.getParam("spreadKey", undefined);
 
     if (spreadKey) {
-      FieldStore.SetSpread(spreadKey);
+      FieldStore.SetSpread(spreadKey).then(() => {
+        this.setDropDowns(CalculatorStore.calculatorValues.manureSelected);
+        this.dateToSeason(this.props.FieldStore.newSpreadEvent.date);
+      });
     } else if (fieldKey) {
       FieldStore.newSpreadEvent = new SpreadEvent();
       FieldStore.SetField(fieldKey);
       FieldStore.newSpreadEvent.fieldkey = fieldKey;
+      this.InitialiseDropdowns(CalculatorStore.calculatorValues.manureSelected);
+      this.dateToSeason(this.props.FieldStore.newSpreadEvent.date);
+    }
+  }
+  public setDropDowns(itemValue) {
+    const { CalculatorStore, SettingsStore } = this.props;
+    CalculatorStore.calculatorValues.manureSelected = itemValue;
+
+    if (itemValue === "custom") {
+      slider.sliderStartValue = CalculatorStore.calculatorValues.sliderValue;
+      slider.sliderMaxValue = 100;
+      slider.sliderUnit =
+        SettingsStore.appSettings.unit === "metric" ? "m3/ha" : "tons/acre";
+
+      CalculatorStore.applicationTypes = [];
+      CalculatorStore.qualityTypes = CalculatorStore.customQualityTypes;
+
+      this.SliderValueChanged(CalculatorStore.calculatorValues.sliderValue);
+    } else {
+      slider.sliderStartValue = CalculatorStore.calculatorValues.sliderValue;
+
+      slider.sliderMaxValue = dropDownData[itemValue].slider.maxValue;
+      slider.sliderUnit = dropDownData[itemValue].slider.metricUnit;
+
+      CalculatorStore.applicationTypes =
+        dropDownData[itemValue].dropDowns.application;
+      CalculatorStore.qualityTypes = dropDownData[itemValue].dropDowns.quality;
+
+      this.SliderValueChanged(CalculatorStore.calculatorValues.sliderValue);
     }
   }
 
-  public componentDidMount() {
-    this.SelectManure(
-      this.props.CalculatorStore.calculatorValues.manureSelected
-    );
-    this.dateToSeason(this.props.FieldStore.newSpreadEvent.date);
-  }
-
-  public SelectManure(itemValue) {
+  public InitialiseDropdowns(itemValue) {
     const { CalculatorStore, SettingsStore } = this.props;
     CalculatorStore.calculatorValues.manureSelected = itemValue;
 
@@ -208,7 +233,7 @@ export default class SpreadScreen extends Component<Props, State> {
       FarmStore
     } = this.props;
     return (
-      <Container>
+      <Container key={FieldStore.newSpreadEvent.key}>
         <Content>
           <Form>
             <ScrollView>
@@ -221,7 +246,7 @@ export default class SpreadScreen extends Component<Props, State> {
                   selectedValue={
                     CalculatorStore.calculatorValues.manureSelected
                   }
-                  onChange={item => this.SelectManure(item)}
+                  onChange={item => this.InitialiseDropdowns(item)}
                   values={this.strings.manureTypes}
                 />
                 <Text>Date</Text>
