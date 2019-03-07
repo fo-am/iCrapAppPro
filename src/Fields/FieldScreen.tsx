@@ -230,7 +230,7 @@ export default class FieldScreen extends Component<Props, State> {
                             onPress={() => {
                               FieldStore.Save().then(() => {
                                 this.props.navigation.navigate("Spread", {
-                                  fieldKey: FieldStore.field.key
+                                  spreadKey: item.key
                                 });
                               });
                             }}
