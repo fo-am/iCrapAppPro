@@ -56,7 +56,8 @@ interface Props {
   navigation: NavigationScreenProp<any, any>;
   FieldStore: FieldStore;
   CalculatorStore: CalculatorStore;
-  // SettingsStore: SettingsStore;
+  SettingsStore: SettingsStore;
+  FarmStore: FarmStore;
 }
 
 interface State {
@@ -69,7 +70,7 @@ interface State {
   showHaveProps: boolean;
 }
 
-@inject("FieldStore", "CalculatorStore", "SettingsStore")
+@inject("FieldStore", "CalculatorStore", "SettingsStore", "FarmStore")
 @observer
 export default class FieldScreen extends Component<Props, State> {
   private strings: Strings;
@@ -77,7 +78,7 @@ export default class FieldScreen extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.strings = new Strings();
-    const { CalculatorStore, SettingsStore } = this.props;
+    const { CalculatorStore, SettingsStore, FarmStore } = this.props;
     this.state = {
       marker: undefined,
 
@@ -87,7 +88,7 @@ export default class FieldScreen extends Component<Props, State> {
       showDraw: true,
       showHaveProps: false
     };
-    CalculatorStore.rainfall = SettingsStore.rainfall;
+    CalculatorStore.rainfall = FarmStore.farm.rainfall;
   }
 
   public componentWillMount() {
