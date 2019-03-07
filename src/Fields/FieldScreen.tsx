@@ -210,11 +210,12 @@ export default class FieldScreen extends Component<Props, State> {
                 </Form>
                 <View style={{ paddingTop: "5%" }}>
                   <Button
-                    onPress={() =>
+                    onPress={() => {
+                      FieldStore.Save();
                       this.props.navigation.navigate("Spread", {
                         fieldKey: FieldStore.field.key
-                      })
-                    }
+                      });
+                    }}
                   >
                     <Text>Add Spreading Event</Text>
                   </Button>
