@@ -75,8 +75,8 @@ class FieldStore {
         return this.field.fieldCoordinates.coordinates.slice();
     }
 
-    public async Save() {
-        await database
+    public async Save(): Promise<void> {
+        return database
             .saveField(this.field)
             .then(() => this.getFields(this.field.farmKey));
     }

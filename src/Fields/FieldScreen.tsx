@@ -211,9 +211,10 @@ export default class FieldScreen extends Component<Props, State> {
                 <View style={{ paddingTop: "5%" }}>
                   <Button
                     onPress={() => {
-                      FieldStore.Save();
-                      this.props.navigation.navigate("Spread", {
-                        fieldKey: FieldStore.field.key
+                      FieldStore.Save().then(() => {
+                        this.props.navigation.navigate("Spread", {
+                          fieldKey: FieldStore.field.key
+                        });
                       });
                     }}
                   >
@@ -227,8 +228,10 @@ export default class FieldScreen extends Component<Props, State> {
                         renderItem={({ item }) => (
                           <Button
                             onPress={() => {
-                              this.props.navigation.navigate("Spread", {
-                                spreadKey: item.key
+                              FieldStore.Save().then(() => {
+                                this.props.navigation.navigate("Spread", {
+                                  fieldKey: FieldStore.field.key
+                                });
                               });
                             }}
                           >
@@ -382,6 +385,9 @@ export default class FieldScreen extends Component<Props, State> {
                 </View>
                 <View>
                   <H2>Graph</H2>
+                  {
+                    // https://github.com/TradingPal/react-native-highcharts
+                  }
                   <Text>Oh no! Not yet :(</Text>
                 </View>
               </View>

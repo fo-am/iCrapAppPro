@@ -47,8 +47,8 @@ class FarmStore {
     public getFarms() {
         database.getFarms().then(res => (this.farms = res));
     }
-    public saveFarm() {
-        database.saveFarm(this.farm).then(() => this.getFarms());
+    public async saveFarm(): Promise<void> {
+        return database.saveFarm(this.farm).then(() => this.getFarms());
     }
     public reset() {
         this.farm = new Farm();

@@ -39,10 +39,6 @@ import DropDown from "../components/DropDown";
 import SphericalUtil from "../geoUtils";
 import Field from "../model/field";
 
-import CalculatorStore from "../store/calculatorStore";
-import FarmStore from "../store/FarmStore";
-import FieldStore from "../store/FieldsStore";
-
 import styles from "../styles/style";
 
 import Strings from "../assets/strings";
@@ -77,7 +73,7 @@ export default class FarmScreen extends Component<Props, State> {
   };
   constructor(props: Props) {
     super(props);
-    const { CalculatorStore, SettingsStore, FarmStore } = this.props;
+    const { CalculatorStore, FarmStore } = this.props;
     this.state = {
       area: undefined,
       mapMoveEnabled: true,
@@ -99,7 +95,7 @@ export default class FarmScreen extends Component<Props, State> {
     }
   }
   public render() {
-    const { FarmStore } = this.props;
+    const { FarmStore, FieldStore } = this.props;
     return (
       <Container>
         <Content>
@@ -168,10 +164,11 @@ export default class FarmScreen extends Component<Props, State> {
                   <Text>Add Field</Text>
                   <Button
                     onPress={() => {
-                      FarmStore.saveFarm();
-                      this.props.FieldStore.farm = FarmStore.farm;
-                      this.props.navigation.navigate("Field", {
-                        farmKey: FarmStore.farm.key
+                      FarmStore.saveFarm().then(() => {
+                        this.props.FieldStore.farm = FarmStore.farm;
+                        this.props.navigation.navigate("Field", {
+                          farmKey: FarmStore.farm.key
+                        });
                       });
                     }}
                   >
@@ -185,10 +182,11 @@ export default class FarmScreen extends Component<Props, State> {
                     renderItem={({ item }) => (
                       <Button
                         onPress={() => {
-                          FarmStore.saveFarm();
-                          this.props.FieldStore.farm = FarmStore.farm;
-                          this.props.navigation.navigate("Field", {
-                            fieldKey: item.key
+                          FarmStore.saveFarm().then(() => {
+                            this.props.FieldStore.farm = FarmStore.farm;
+                            this.props.navigation.navigate("Field", {
+                              fieldKey: item.key
+                            });
                           });
                         }}
                       >
@@ -292,6 +290,7 @@ export default class FarmScreen extends Component<Props, State> {
   }
 
   private saveFarm() {
+    const { FarmStore } = this.props;
     FarmStore.saveFarm();
     this.props.FieldStore.farm = FarmStore.farm;
     this.props.navigation.navigate("Home");
