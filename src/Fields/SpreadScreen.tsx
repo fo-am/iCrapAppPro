@@ -88,14 +88,14 @@ export default class SpreadScreen extends Component<Props, State> {
     if (spreadKey) {
       FieldStore.SetSpread(spreadKey).then(() => {
         this.setDropDowns(CalculatorStore.calculatorValues.manureSelected);
-        this.dateToSeason(this.props.FieldStore.newSpreadEvent.date);
+        this.dateToSeason(FieldStore.newSpreadEvent.date);
       });
     } else if (fieldKey) {
       FieldStore.newSpreadEvent = new SpreadEvent();
       FieldStore.SetField(fieldKey);
       FieldStore.newSpreadEvent.fieldkey = fieldKey;
       this.InitialiseDropdowns("fym");
-      this.dateToSeason(this.props.FieldStore.newSpreadEvent.date);
+      this.dateToSeason(FieldStore.newSpreadEvent.date);
     }
 
     const values = {};
