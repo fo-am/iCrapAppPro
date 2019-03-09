@@ -51,8 +51,8 @@ class FieldStore {
         this.getFields(farmKey);
     }
 
-    public SetField(fieldKey: string) {
-        database.getField(fieldKey).then(field => {
+    public async SetField(fieldKey: string): Promise<void> {
+        return database.getField(fieldKey).then(field => {
             this.field = field;
             this.getSpreadEvents(field.key);
             this.getFields(field.farmKey);

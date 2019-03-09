@@ -32,7 +32,12 @@ import {
   TouchableOpacity,
   View
 } from "react-native";
-import MapView, { Marker, Polygon, PROVIDER_GOOGLE } from "react-native-maps";
+import MapView, {
+  Marker,
+  Polygon,
+  PROVIDER_GOOGLE,
+  Region
+} from "react-native-maps";
 import { NavigationScreenProp } from "react-navigation";
 
 import CropDisplay from "../components/CropDisplay";
@@ -130,6 +135,7 @@ export default class FieldScreen extends Component<Props, State> {
                   toolbarEnabled={true}
                   mapType={"satellite"}
                   initialRegion={FieldStore.UpdateLocation()}
+                  region={this.setLocation()}
                   onPress={e => this.onPress(e)}
                 >
                   {FieldStore.DataSource.length > 0 && (
@@ -408,6 +414,13 @@ export default class FieldScreen extends Component<Props, State> {
       </Container>
     );
   }
+  private setLocation(): Region | undefined {
+    const { FieldStore } = this.props;
+    if (this.state.mapMoveEnabled) {
+      return FieldStore.UpdateLocation();
+    }
+  }
+
   private saveField = () => {
     const { FieldStore } = this.props;
     FieldStore.Save();
