@@ -69,7 +69,7 @@ export default class ExportScreen extends Component<Props, State> {
     const { CalculatorStore, SettingsStore, FarmStore } = this.props;
 
     this.writeCsvFile().then(arr => {
-      const filePath = `${RNFS.ExternalStorageDirectoryPath}/FarmData.csv`;
+      const filePath = `${RNFS.TemporaryDirectoryPath}/FarmData.csv`;
       RNFS.writeFile(filePath, arr.join("\n"), "utf8").then(
         // get handle on file path.
         Mailer.mail(
