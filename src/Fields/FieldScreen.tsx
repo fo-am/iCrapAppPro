@@ -79,6 +79,7 @@ interface State {
 @observer
 export default class FieldScreen extends Component<Props, State> {
   private strings: Strings;
+  private prevRegion: Region | undefined = undefined;
 
   constructor(props: Props) {
     super(props);
@@ -137,6 +138,7 @@ export default class FieldScreen extends Component<Props, State> {
                   initialRegion={FieldStore.UpdateLocation()}
                   region={this.setLocation()}
                   onPress={e => this.onPress(e)}
+                  onRegionChangeComplete={reg => (this.prevRegion = reg)}
                 >
                   {FieldStore.DataSource.length > 0 && (
                     <Polygon
@@ -414,10 +416,14 @@ export default class FieldScreen extends Component<Props, State> {
       </Container>
     );
   }
+
   private setLocation(): Region | undefined {
     const { FieldStore } = this.props;
     if (this.state.mapMoveEnabled) {
-      return FieldStore.UpdateLocation();
+      this.prevRegion = FieldStore.UpdateLocation();
+      return this.prevRegion;
+    } else {
+      return this.prevRegion;
     }
   }
 
@@ -437,13 +443,15 @@ export default class FieldScreen extends Component<Props, State> {
     const { marker, area } = this.state;
     const { FieldStore } = this.props;
 
-    const size = new SphericalUtil({}).ComputeSignedArea(
-      FieldStore.newField.coordinates.slice()
-    );
+    if (FieldStore.newField.coordinates.length != 0) {
+      const size = new SphericalUtil({}).ComputeSignedArea(
+        FieldStore.newField.coordinates.slice()
+      );
 
-    FieldStore.SetFieldArea(size);
-    FieldStore.SetCoordinates(FieldStore.newField);
-    FieldStore.newField.coordinates.length = 0;
+      FieldStore.SetFieldArea(size);
+      FieldStore.SetCoordinates(FieldStore.newField);
+      FieldStore.newField.coordinates.length = 0;
+    }
 
     this.setState({
       marker: undefined,
