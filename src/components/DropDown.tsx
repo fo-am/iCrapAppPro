@@ -11,8 +11,15 @@ interface State {}
 
 export default class DropDown extends Component<Props, State> {
   public render() {
+    let enabled = false;
+
+    if (Object.keys(this.props.values || []).length !== 0) {
+      enabled = true;
+    }
+
     return (
       <Picker
+        enabled={enabled}
         selectedValue={this.props.selectedValue}
         style={{ height: 50, width: "100%" }}
         onValueChange={this.props.onChange}
