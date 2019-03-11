@@ -112,8 +112,10 @@ export default class SpreadScreen extends Component<Props, State> {
 
   public componentWillMount() {}
   public setDropDowns(itemValue) {
+    // use this if we are setting up a known spread event with the right values
+    // drop down values are set in the FieldStore.SetSpread method
+
     const { CalculatorStore, SettingsStore } = this.props;
-    CalculatorStore.calculatorValues.manureSelected = itemValue;
 
     if (itemValue === "custom") {
       slider.sliderStartValue = CalculatorStore.calculatorValues.sliderValue;
@@ -140,6 +142,7 @@ export default class SpreadScreen extends Component<Props, State> {
   }
 
   public InitialiseDropdowns(itemValue) {
+    // initialise other dropdowns when we select new manure type
     const { CalculatorStore, SettingsStore } = this.props;
     CalculatorStore.calculatorValues.manureSelected = itemValue;
 
@@ -166,6 +169,16 @@ export default class SpreadScreen extends Component<Props, State> {
       CalculatorStore.qualityTypes = dropDownData[itemValue].dropDowns.quality;
 
       this.SliderValueChanged(CalculatorStore.calculatorValues.sliderValue);
+    }
+    if (CalculatorStore.qualityTypes) {
+      CalculatorStore.calculatorValues.qualitySelected = Object.keys(
+        CalculatorStore.qualityTypes
+      )[0];
+    }
+    if (CalculatorStore.applicationTypes) {
+      CalculatorStore.calculatorValues.applicationSelected = Object.keys(
+        CalculatorStore.applicationTypes
+      )[0];
     }
   }
 
