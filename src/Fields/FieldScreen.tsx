@@ -56,7 +56,6 @@ import moment from "moment";
 import styles from "../styles/style";
 
 import Strings from "../assets/Strings";
-import settingsStore from "../store/settingsStore";
 
 let id = 0;
 
@@ -90,7 +89,7 @@ export default class FieldScreen extends Component<Props, State> {
     this.strings = new Strings();
     const { CalculatorStore, SettingsStore, FarmStore } = this.props;
     this.areaUnits =
-      settingsStore.appSettings.unit == "metric" ? "hectares" : "acres";
+      SettingsStore.appSettings.unit == "metric" ? "hectares" : "acres";
     this.state = {
       marker: undefined,
 
@@ -218,12 +217,11 @@ export default class FieldScreen extends Component<Props, State> {
                       style={{ fontSize: 20, fontWeight: "bold" }}
                       keyboardType="numeric"
                       placeholder="0"
-                      onChangeText={text => (FieldStore.field.area = text)}
+                      onEndEditing={text => {
+                        this.ensureAreaValue(text);
+                      }}
                     >
-                      <FormatValue
-                        units={this.areaUnits}
-                        value={FieldStore.field.area}
-                      />
+                      {this.getAreaValue()}
                     </Input>
                   </Item>
                 </Form>
@@ -426,7 +424,22 @@ export default class FieldScreen extends Component<Props, State> {
       </Container>
     );
   }
-
+  private getAreaValue(): number {
+    const { FieldStore, SettingsStore } = this.props;
+    if (SettingsStore.appSettings.unit !== "metric") {
+      // ha to acres
+      return FieldStore.field.area * 2.4710538146717;
+    }
+    return FieldStore.field.area;
+  }
+  private ensureAreaValue(input) {
+    const { FieldStore, SettingsStore } = this.props;
+    if (SettingsStore.appSettings.unit !== "metric") {
+      // acres to ha
+      FieldStore.field.area = input.nativeEvent.text * 0.404686;
+    }
+    FieldStore.field.area = input.nativeEvent.text;
+  }
   private setLocation(): Region | undefined {
     const { FieldStore } = this.props;
     if (this.state.mapMoveEnabled) {
