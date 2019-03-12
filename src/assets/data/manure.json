@@ -17,7 +17,7 @@
                               "decision":"quality",
                               "choices":[
                                  {
-                                    "choice":"dm2",
+                                    "choice":"DM2",
                                     "value":{
                                        "decision":"season",
                                        "choices":[
@@ -89,7 +89,7 @@
                                     }
                                  },
                                  {
-                                    "choice":"dm6",
+                                    "choice":"DM6",
                                     "value":{
                                        "decision":"season",
                                        "choices":[
@@ -161,7 +161,7 @@
                                     }
                                  },
                                  {
-                                    "choice":"dm10",
+                                    "choice":"DM10",
                                     "value":{
                                        "decision":"season",
                                        "choices":[
@@ -601,7 +601,7 @@
                               "decision":"quality",
                               "choices":[
                                  {
-                                    "choice":"dm2",
+                                    "choice":"DM2",
                                     "value":{
                                        "decision":"season",
                                        "choices":[
@@ -673,7 +673,7 @@
                                     }
                                  },
                                  {
-                                    "choice":"dm6",
+                                    "choice":"DM6",
                                     "value":{
                                        "decision":"season",
                                        "choices":[
@@ -745,7 +745,7 @@
                                     }
                                  },
                                  {
-                                    "choice":"dm10",
+                                    "choice":"DM10",
                                     "value":{
                                        "decision":"season",
                                        "choices":[
@@ -897,7 +897,7 @@
                               "decision":"quality",
                               "choices":[
                                  {
-                                    "choice":"dm2",
+                                    "choice":"DM2",
                                     "value":{
                                        "decision":"season",
                                        "choices":[
@@ -969,7 +969,7 @@
                                     }
                                  },
                                  {
-                                    "choice":"dm6",
+                                    "choice":"DM6",
                                     "value":{
                                        "decision":"season",
                                        "choices":[
@@ -1041,7 +1041,7 @@
                                     }
                                  },
                                  {
-                                    "choice":"dm10",
+                                    "choice":"DM10",
                                     "value":{
                                        "decision":"season",
                                        "choices":[
@@ -1121,7 +1121,7 @@
                               "decision":"quality",
                               "choices":[
                                  {
-                                    "choice":"dm2",
+                                    "choice":"DM2",
                                     "value":{
                                        "decision":"season",
                                        "choices":[
@@ -1193,7 +1193,7 @@
                                     }
                                  },
                                  {
-                                    "choice":"dm6",
+                                    "choice":"DM6",
                                     "value":{
                                        "decision":"season",
                                        "choices":[
@@ -1265,7 +1265,7 @@
                                     }
                                  },
                                  {
-                                    "choice":"dm10",
+                                    "choice":"DM10",
                                     "value":{
                                        "decision":"season",
                                        "choices":[
@@ -1348,15 +1348,15 @@
                      "decision":"quality",
                      "choices":[
                         {
-                           "choice":"dm2",
+                           "choice":"DM2",
                            "value":0.6
                         },
                         {
-                           "choice":"dm6",
+                           "choice":"DM6",
                            "value":1.2
                         },
                         {
-                           "choice":"dm10",
+                           "choice":"DM10",
                            "value":1.8
                         },
                         {
@@ -1388,15 +1388,15 @@
                      "decision":"quality",
                      "choices":[
                         {
-                           "choice":"dm2",
+                           "choice":"DM2",
                            "value":0.3
                         },
                         {
-                           "choice":"dm6",
+                           "choice":"DM6",
                            "value":0.6
                         },
                         {
-                           "choice":"dm10",
+                           "choice":"DM10",
                            "value":0.9
                         },
                         {
@@ -1428,15 +1428,15 @@
                      "decision":"quality",
                      "choices":[
                         {
-                           "choice":"dm2",
+                           "choice":"DM2",
                            "value":1.7
                         },
                         {
-                           "choice":"dm6",
+                           "choice":"DM6",
                            "value":2.5
                         },
                         {
-                           "choice":"dm10",
+                           "choice":"DM10",
                            "value":3.4
                         },
                         {
@@ -1468,15 +1468,15 @@
                      "decision":"quality",
                      "choices":[
                         {
-                           "choice":"dm2",
+                           "choice":"DM2",
                            "value":1.5
                         },
                         {
-                           "choice":"dm6",
+                           "choice":"DM6",
                            "value":2.3
                         },
                         {
-                           "choice":"dm10",
+                           "choice":"DM10",
                            "value":3.0
                         },
                         {
@@ -1508,15 +1508,15 @@
                      "decision":"quality",
                      "choices":[
                         {
-                           "choice":"dm2",
+                           "choice":"DM2",
                            "value":0.3
                         },
                         {
-                           "choice":"dm6",
+                           "choice":"DM6",
                            "value":0.7
                         },
                         {
-                           "choice":"dm10",
+                           "choice":"DM10",
                            "value":1.0
                         },
                         {
@@ -1553,15 +1553,15 @@
                               "decision":"quality",
                               "choices":[
                                  {
-                                    "choice":"dm2",
+                                    "choice":"DM2",
                                     "value":0.0225
                                  },
                                  {
-                                    "choice":"dm6",
+                                    "choice":"DM6",
                                     "value":0.0525
                                  },
                                  {
-                                    "choice":"dm10",
+                                    "choice":"DM10",
                                     "value":0.075
                                  },
                                  {
@@ -1593,15 +1593,15 @@
                               "decision":"quality",
                               "choices":[
                                  {
-                                    "choice":"dm2",
+                                    "choice":"DM2",
                                     "value":0.105
                                  },
                                  {
-                                    "choice":"dm6",
+                                    "choice":"DM6",
                                     "value":0.245
                                  },
                                  {
-                                    "choice":"dm10",
+                                    "choice":"DM10",
                                     "value":0.35
                                  },
                                  {
@@ -1644,15 +1644,15 @@
                      "decision":"quality",
                      "choices":[
                         {
-                           "choice":"dm2",
+                           "choice":"DM2",
                            "value":0.2
                         },
                         {
-                           "choice":"dm6",
+                           "choice":"DM6",
                            "value":0.6
                         },
                         {
-                           "choice":"dm10",
+                           "choice":"DM10",
                            "value":0.9
                         },
                         {
@@ -1684,15 +1684,15 @@
                      "decision":"quality",
                      "choices":[
                         {
-                           "choice":"dm2",
+                           "choice":"DM2",
                            "value":0.2
                         },
                         {
-                           "choice":"dm6",
+                           "choice":"DM6",
                            "value":0.6
                         },
                         {
-                           "choice":"dm10",
+                           "choice":"DM10",
                            "value":0.9
                         },
                         {
@@ -1737,7 +1737,7 @@
                               "decision":"quality",
                               "choices":[
                                  {
-                                    "choice":"dm2",
+                                    "choice":"DM2",
                                     "value":{
                                        "decision":"season",
                                        "choices":[
@@ -1809,7 +1809,7 @@
                                     }
                                  },
                                  {
-                                    "choice":"dm4",
+                                    "choice":"DM4",
                                     "value":{
                                        "decision":"season",
                                        "choices":[
@@ -1881,7 +1881,7 @@
                                     }
                                  },
                                  {
-                                    "choice":"dm6",
+                                    "choice":"DM6",
                                     "value":{
                                        "decision":"season",
                                        "choices":[
@@ -2105,7 +2105,7 @@
                               "decision":"quality",
                               "choices":[
                                  {
-                                    "choice":"dm2",
+                                    "choice":"DM2",
                                     "value":{
                                        "decision":"season",
                                        "choices":[
@@ -2177,7 +2177,7 @@
                                     }
                                  },
                                  {
-                                    "choice":"dm4",
+                                    "choice":"DM4",
                                     "value":{
                                        "decision":"season",
                                        "choices":[
@@ -2249,7 +2249,7 @@
                                     }
                                  },
                                  {
-                                    "choice":"dm6",
+                                    "choice":"DM6",
                                     "value":{
                                        "decision":"season",
                                        "choices":[
@@ -2401,7 +2401,7 @@
                               "decision":"quality",
                               "choices":[
                                  {
-                                    "choice":"dm2",
+                                    "choice":"DM2",
                                     "value":{
                                        "decision":"season",
                                        "choices":[
@@ -2473,7 +2473,7 @@
                                     }
                                  },
                                  {
-                                    "choice":"dm4",
+                                    "choice":"DM4",
                                     "value":{
                                        "decision":"season",
                                        "choices":[
@@ -2545,7 +2545,7 @@
                                     }
                                  },
                                  {
-                                    "choice":"dm6",
+                                    "choice":"DM6",
                                     "value":{
                                        "decision":"season",
                                        "choices":[
@@ -2625,7 +2625,7 @@
                               "decision":"quality",
                               "choices":[
                                  {
-                                    "choice":"dm2",
+                                    "choice":"DM2",
                                     "value":{
                                        "decision":"season",
                                        "choices":[
@@ -2697,7 +2697,7 @@
                                     }
                                  },
                                  {
-                                    "choice":"dm4",
+                                    "choice":"DM4",
                                     "value":{
                                        "decision":"season",
                                        "choices":[
@@ -2769,7 +2769,7 @@
                                     }
                                  },
                                  {
-                                    "choice":"dm6",
+                                    "choice":"DM6",
                                     "value":{
                                        "decision":"season",
                                        "choices":[
@@ -2852,15 +2852,15 @@
                      "decision":"quality",
                      "choices":[
                         {
-                           "choice":"dm2",
+                           "choice":"DM2",
                            "value":0.8
                         },
                         {
-                           "choice":"dm4",
+                           "choice":"DM4",
                            "value":1.5
                         },
                         {
-                           "choice":"dm6",
+                           "choice":"DM6",
                            "value":2.2
                         },
                         {
@@ -2880,15 +2880,15 @@
                      "decision":"quality",
                      "choices":[
                         {
-                           "choice":"dm2",
+                           "choice":"DM2",
                            "value":0.4
                         },
                         {
-                           "choice":"dm4",
+                           "choice":"DM4",
                            "value":0.8
                         },
                         {
-                           "choice":"dm6",
+                           "choice":"DM6",
                            "value":1.1
                         },
                         {
@@ -2908,15 +2908,15 @@
                      "decision":"quality",
                      "choices":[
                         {
-                           "choice":"dm2",
+                           "choice":"DM2",
                            "value":1.8
                         },
                         {
-                           "choice":"dm4",
+                           "choice":"DM4",
                            "value":2.2
                         },
                         {
-                           "choice":"dm6",
+                           "choice":"DM6",
                            "value":2.6
                         },
                         {
@@ -2936,15 +2936,15 @@
                      "decision":"quality",
                      "choices":[
                         {
-                           "choice":"dm2",
+                           "choice":"DM2",
                            "value":1.6
                         },
                         {
-                           "choice":"dm4",
+                           "choice":"DM4",
                            "value":2.0
                         },
                         {
-                           "choice":"dm6",
+                           "choice":"DM6",
                            "value":2.3
                         },
                         {
@@ -2967,7 +2967,7 @@
             "decision":"quality",
             "choices":[
                {
-                  "choice":"dm20",
+                  "choice":"DM20",
                   "value":{
                      "decision":"nutrient",
                      "choices":[
@@ -3159,7 +3159,7 @@
                   }
                },
                {
-                  "choice":"dm40",
+                  "choice":"DM40",
                   "value":{
                      "decision":"nutrient",
                      "choices":[
@@ -3363,7 +3363,7 @@
                   }
                },
                {
-                  "choice":"dm60",
+                  "choice":"DM60",
                   "value":{
                      "decision":"nutrient",
                      "choices":[
@@ -3567,7 +3567,7 @@
                   }
                },
                {
-                  "choice":"dm80",
+                  "choice":"DM80",
                   "value":{
                      "decision":"nutrient",
                      "choices":[

@@ -7,15 +7,15 @@
         "decision": "quality",
         "choices": [
           {
-            "choice": "dm2",
+            "choice": "DM2",
             "value": 1.5
           },
           {
-            "choice": "dm6",
+            "choice": "DM6",
             "value": 2.6
           },
           {
-            "choice": "dm10",
+            "choice": "DM10",
             "value": 3.6
           }
         ]
@@ -27,15 +27,15 @@
         "decision": "quality",
         "choices": [
           {
-            "choice": "dm2",
+            "choice": "DM2",
             "value": 3.0
           },
           {
-            "choice": "dm4",
+            "choice": "DM4",
             "value": 3.6
           },
           {
-            "choice": "dm6",
+            "choice": "DM6",
             "value": 4.7
           }
         ]

@@ -313,7 +313,7 @@ class CalculatorStore {
         ]);
 
         // Crop available values
-        let n2 = this.decision(manureTree, { ...params, nutrient: "n-total" });
+        let n2 = this.decision(manureTree, { ...params, nutrient: "n-avail" });
         // N/A value
         if (n2 !== "na") {
             // Apply percent or return straight value

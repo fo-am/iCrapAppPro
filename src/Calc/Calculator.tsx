@@ -367,15 +367,14 @@ export default class Calculator extends Component<Props, State> {
                     <Col>
                       <CashDisplay
                         value={
-                          CalculatorStore.nutrientResults.nitrogenAvailable *
-                          0.79
+                          CalculatorStore.nutrientResults.nitrogenTotal * 0.79
                         }
                       />
                     </Col>
                     <Col>
                       <CashDisplay
                         value={
-                          CalculatorStore.nutrientResults.phosphorousAvailable *
+                          CalculatorStore.nutrientResults.phosphorousTotal *
                           0.62
                         }
                       />
@@ -383,8 +382,7 @@ export default class Calculator extends Component<Props, State> {
                     <Col>
                       <CashDisplay
                         value={
-                          CalculatorStore.nutrientResults.potassiumAvailable *
-                          0.49
+                          CalculatorStore.nutrientResults.potassiumTotal * 0.49
                         }
                       />
                     </Col>

@@ -12,7 +12,7 @@
                      "decision":"targetyield",
                      "choices":[
                         {
-                           "choice":"dm5-7",
+                           "choice":"DM5-7",
                            "value":{
                               "decision":"cut",
                               "choices":[
@@ -36,7 +36,7 @@
                            }
                         },
                         {
-                           "choice":"dm7-9",
+                           "choice":"DM7-9",
                            "value":{
                               "decision":"cut",
                               "choices":[
@@ -60,7 +60,7 @@
                            }
                         },
                         {
-                           "choice":"dm9-12",
+                           "choice":"DM9-12",
                            "value":{
                               "decision":"cut",
                               "choices":[
@@ -84,7 +84,7 @@
                            }
                         },
                         {
-                           "choice":"dm12-15+",
+                           "choice":"DM12-15+",
                            "value":{
                               "decision":"cut",
                               "choices":[
@@ -116,7 +116,7 @@
                      "decision":"targetyield",
                      "choices":[
                         {
-                           "choice":"dm4-5",
+                           "choice":"DM4-5",
                            "value":{
                               "decision":"month",
                               "choices":[
@@ -132,7 +132,7 @@
                            }
                         },
                         {
-                           "choice":"dm5-7",
+                           "choice":"DM5-7",
                            "value":{
                               "decision":"month",
                               "choices":[
@@ -152,7 +152,7 @@
                            }
                         },
                         {
-                           "choice":"dm6-8",
+                           "choice":"DM6-8",
                            "value":{
                               "decision":"month",
                               "choices":[
@@ -176,19 +176,19 @@
                            }
                         },
                         {
-                           "choice":"dm",
+                           "choice":"DM",
                            "value":"7-9"
                         },
                         {
-                           "choice":"dm",
+                           "choice":"DM",
                            "value":"9-12"
                         },
                         {
-                           "choice":"dm",
+                           "choice":"DM",
                            "value":"10-13"
                         },
                         {
-                           "choice":"dm",
+                           "choice":"DM",
                            "value":"12-15+"
                         }
                      ]

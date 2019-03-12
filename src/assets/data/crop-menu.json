@@ -320,7 +320,7 @@
                "category":"target-yield",
                "options":[
                   {
-                     "name":"dm5-7",
+                     "name":"DM5-7",
                      "category":"cut",
                      "options":[
                         "one",
@@ -330,7 +330,7 @@
                      ]
                   },
                   {
-                     "name":"dm7-9",
+                     "name":"DM7-9",
                      "category":"cut",
                      "options":[
                         "one",
@@ -340,7 +340,7 @@
                      ]
                   },
                   {
-                     "name":"dm9-12",
+                     "name":"DM9-12",
                      "category":"cut",
                      "options":[
                         "one",
@@ -350,7 +350,7 @@
                      ]
                   },
                   {
-                     "name":"dm12-15+",
+                     "name":"DM12-15+",
                      "category":"cut",
                      "options":[
                         "one",
@@ -365,13 +365,13 @@
                "name":"grazed",
                "category":"target-yield",
                "options":[
-                  "dm4-5",
-                  "dm5-7",
-                  "dm6-8",
-                  "dm7-9",
-                  "dm9-12",
-                  "dm10-13",
-                  "dm12-15+"
+                  "DM4-5",
+                  "DM5-7",
+                  "DM6-8",
+                  "DM7-9",
+                  "DM9-12",
+                  "DM10-13",
+                  "DM12-15+"
                ]
             },
             "hay",
