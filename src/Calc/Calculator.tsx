@@ -8,6 +8,8 @@ import {
   H1,
   H2,
   H3,
+  Input,
+  Item,
   Row,
   StyleProvider,
   Text
@@ -267,13 +269,30 @@ export default class Calculator extends Component<Props, State> {
                     maximumTrackTintColor="#206F98"
                   />
                   <Text>
-                    Value:{" "}
+                    Ammount:{" "}
                     <FormatValue
                       units={slider.sliderUnit}
                       value={CalculatorStore.calculatorValues.sliderValue}
                     />{" "}
                     {slider.sliderUnit}
                   </Text>
+                  <Item regular>
+                    <Input
+                      selectTextOnFocus={true}
+                      style={{ fontSize: 20, fontWeight: "bold" }}
+                      keyboardType="number-pad"
+                      placeholder="50"
+                      onChangeText={text => {
+                        slider.sliderStartValue = +text;
+                        this.SliderValueChanged(text);
+                      }}
+                    >
+                      <FormatValue
+                        units={slider.sliderUnit}
+                        value={CalculatorStore.calculatorValues.sliderValue}
+                      />
+                    </Input>
+                  </Item>
                 </View>
                 <Image source={CalculatorStore.image} />
                 <Grid style={{ alignItems: "center" }}>
