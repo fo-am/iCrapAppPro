@@ -138,6 +138,16 @@ export default class Calculator extends Component<Props, State> {
 
       this.SliderValueChanged(CalculatorStore.calculatorValues.sliderValue);
     }
+    if (CalculatorStore.qualityTypes) {
+      CalculatorStore.calculatorValues.qualitySelected = Object.keys(
+        CalculatorStore.qualityTypes
+      )[0];
+    }
+    if (CalculatorStore.applicationTypes) {
+      CalculatorStore.calculatorValues.applicationSelected = Object.keys(
+        CalculatorStore.applicationTypes
+      )[0];
+    }
   }
 
   public SliderValueChanged(value) {
