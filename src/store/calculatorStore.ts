@@ -202,14 +202,14 @@ class CalculatorStore {
             this.calculatorValues.soilTestK
         ).then(results => {
             // n
-            this.nutrientResults.nitrogenTotal = results[0][0];
-            this.nutrientResults.nitrogenAvailable = results[1][0];
+            this.nutrientResults.nitrogenTotal = results[1][0];
+            this.nutrientResults.nitrogenAvailable = results[0][0];
             // p
-            this.nutrientResults.phosphorousTotal = results[0][1];
-            this.nutrientResults.phosphorousAvailable = results[1][1];
+            this.nutrientResults.phosphorousTotal = results[1][1];
+            this.nutrientResults.phosphorousAvailable = results[0][1];
             // k
-            this.nutrientResults.potassiumTotal = results[0][2];
-            this.nutrientResults.potassiumAvailable = results[1][2];
+            this.nutrientResults.potassiumTotal = results[1][2];
+            this.nutrientResults.potassiumAvailable = results[0][2];
         });
     }
     public async calculateNutrients(
