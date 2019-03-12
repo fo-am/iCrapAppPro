@@ -32,6 +32,9 @@ export default class FormatValue extends Component<Props, State> {
           case "UnitsAcre":
             finalVal = this.kilogramHectareToUnitsAcre(metricValue);
             break;
+          case "acres":
+            finalVal = this.hectaresToAcres(metricValue);
+            break;
 
           default:
           // code block
@@ -63,5 +66,8 @@ export default class FormatValue extends Component<Props, State> {
 
   private hectaresToAcres(hectares) {
     return hectares * 2.4710538146717;
+  }
+  private AcresToHectares(acres) {
+    return acres * 0.404686;
   }
 }

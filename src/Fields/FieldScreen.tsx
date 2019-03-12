@@ -48,12 +48,15 @@ import SphericalUtil from "../geoUtils";
 
 import SpreadEvent from "../model/spreadEvent";
 
+import FormatValue from "../components/displayNumber";
+
 import moment from "moment";
 
 // import SettingsStore from "../store/settingsStore";
 import styles from "../styles/style";
 
 import Strings from "../assets/Strings";
+import settingsStore from "../store/settingsStore";
 
 let id = 0;
 
@@ -80,11 +83,14 @@ interface State {
 export default class FieldScreen extends Component<Props, State> {
   private strings: Strings;
   private prevRegion: Region | undefined = undefined;
+  private areaUnits: string;
 
   constructor(props: Props) {
     super(props);
     this.strings = new Strings();
     const { CalculatorStore, SettingsStore, FarmStore } = this.props;
+    this.areaUnits =
+      settingsStore.appSettings.unit == "metric" ? "hectares" : "acres";
     this.state = {
       marker: undefined,
 
@@ -192,8 +198,8 @@ export default class FieldScreen extends Component<Props, State> {
                   </View>
                 )}
                 <Form style={{ paddingTop: "5%" }}>
-                  <Item fixedLabel rounded>
-                    <Label style={{ paddingLeft: "2%" }}>Field Name</Label>
+                  <Label style={{ paddingLeft: "2%" }}>Field Name</Label>
+                  <Item rounded>
                     <Input
                       selectTextOnFocus={true}
                       style={{ fontSize: 20, fontWeight: "bold" }}
@@ -203,9 +209,10 @@ export default class FieldScreen extends Component<Props, State> {
                       {FieldStore.field.name}
                     </Input>
                   </Item>
-
-                  <Item fixedLabel rounded>
-                    <Label style={{ paddingLeft: "2%" }}>Field Size</Label>
+                  <Label style={{ paddingLeft: "2%" }}>
+                    Field Size ({this.areaUnits})
+                  </Label>
+                  <Item rounded>
                     <Input
                       selectTextOnFocus={true}
                       style={{ fontSize: 20, fontWeight: "bold" }}
@@ -213,7 +220,10 @@ export default class FieldScreen extends Component<Props, State> {
                       placeholder="0"
                       onChangeText={text => (FieldStore.field.area = text)}
                     >
-                      {FieldStore.field.area}
+                      <FormatValue
+                        units={this.areaUnits}
+                        value={FieldStore.field.area}
+                      />
                     </Input>
                   </Item>
                 </Form>
