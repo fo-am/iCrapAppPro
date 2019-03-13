@@ -377,7 +377,7 @@ export default class SpreadScreen extends Component<Props, State> {
                     </Col>
                   </Row>
                   <Row>
-                    <Text>Savings</Text>
+                    <Text>Savings for this field</Text>
                   </Row>
                   <Row>
                     <Col>
