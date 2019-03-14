@@ -269,7 +269,7 @@ export default class Calculator extends Component<Props, State> {
                     maximumTrackTintColor="#206F98"
                   />
                   <Text>
-                    Ammount:{" "}
+                    Amount:{" "}
                     <FormatValue
                       units={slider.sliderUnit}
                       value={CalculatorStore.calculatorValues.sliderValue}
