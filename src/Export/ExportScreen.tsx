@@ -51,6 +51,8 @@ interface State {
   showSave: boolean;
   showDraw: boolean;
   showHaveProps: boolean;
+  typesOfFolder: string;
+  errorsString: string;
 }
 
 @inject("FieldStore", "CalculatorStore", "SettingsStore", "FarmStore")
@@ -65,11 +67,62 @@ export default class ExportScreen extends Component<Props, State> {
   public componentWillMount() {
     const { CalculatorStore, SettingsStore, FarmStore } = this.props;
   }
-  public handleEmail = () => {
+
+  public render() {
+    const {
+      FieldStore,
+      CalculatorStore,
+      SettingsStore,
+      FarmStore
+    } = this.props;
+
+    return (
+      <Container>
+        <Content>
+          <Form>
+            <Button onPress={this.handleEmail}>
+              <Text>Send csv data to {SettingsStore.appSettings.email}</Text>
+            </Button>
+          </Form>
+          <Form>
+            <Button onPress={this.exportJson}>
+              <Text>
+                Export Farm data to {SettingsStore.appSettings.email}{" "}
+              </Text>
+            </Button>
+          </Form>
+        </Content>
+        <Text>{this.state.typesOfFolder}</Text>
+        <Text>{this.state.errorsString}</Text>
+      </Container>
+    );
+  }
+  private exportJson() {
+    // get data from database and put it into the json format
+    // encrypt the json
+    // email the json
+  }
+
+  private importJson() {
+    // get the encrypted file somehow
+    // take the password from the page and decrypt the file
+    // merge each thing with our existing database items.
+    // display what has been imported (or what will be imported maybe?)
+  }
+
+  private handleEmail = () => {
     const { CalculatorStore, SettingsStore, FarmStore } = this.props;
 
     this.writeCsvFile().then(arr => {
-      const filePath = `${RNFS.TemporaryDirectoryPath}/FarmData.csv`;
+      this.setState({
+        typesOfFolder:
+          RNFS.ExternalDirectoryPath +
+          " " +
+          RNFS.TemporaryDirectoryPath +
+          " " +
+          RNFS.DocumentDirectoryPath
+      });
+      const filePath = `${RNFS.DocumentDirectoryPath}/FarmData.csv`;
       RNFS.writeFile(filePath, arr.join("\n"), "utf8").then(
         // get handle on file path.
         Mailer.mail(
@@ -85,6 +138,7 @@ export default class ExportScreen extends Component<Props, State> {
             }
           },
           (error, event) => {
+            this.setState({ errorsString: error + " " + event });
             // handle error
           }
         )
@@ -93,27 +147,6 @@ export default class ExportScreen extends Component<Props, State> {
     // make farm detials csv
     // write to filesystem
   };
-
-  public render() {
-    const {
-      FieldStore,
-      CalculatorStore,
-      SettingsStore,
-      FarmStore
-    } = this.props;
-
-    return (
-      <Container>
-        <Content>
-          <Form>
-            <Button onPress={this.handleEmail}>
-              <Text>Send Farm data to {SettingsStore.appSettings.email}</Text>
-            </Button>
-          </Form>
-        </Content>
-      </Container>
-    );
-  }
 
   private writeCsvFile(): Promise<Array<Array<string>>> {
     const csv: Array<Array<string>> = [];
