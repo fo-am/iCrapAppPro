@@ -38,7 +38,11 @@ import SliderValues from "../model/sliderValues";
 
 import Strings from "../assets/Strings";
 
-interface Props {}
+interface Props {
+  ManureStore: ManureStore;
+  CalculatorStore: CalculatorStore;
+  SettingsStore: SettingsStore;
+}
 
 interface State {}
 
@@ -297,7 +301,7 @@ export default class Calculator extends Component<Props, State> {
                 <Image source={CalculatorStore.image} />
                 <Grid style={{ alignItems: "center" }}>
                   <Row>
-                    <Text>Crop available nutrients(Total in manure)</Text>
+                    <Text>Crop available nutrients (Total in manure)</Text>
                   </Row>
                   <Row>
                     <Col>
