@@ -5,7 +5,7 @@ import { Maths } from "../assets/Math";
 
 interface Props {
   value: string;
-  SettingsStore: SettingsStore;
+  SettingsStore?: SettingsStore;
 }
 
 interface State {}
