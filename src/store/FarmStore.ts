@@ -36,8 +36,8 @@ class FarmStore {
                 return {
                     latitude: this.farm.farmLocation.latitude,
                     longitude: this.farm.farmLocation.longitude,
-                    latitudeDelta: 0.01,
-                    longitudeDelta: 0.01
+                    latitudeDelta: 0.008,
+                    longitudeDelta: 0.008
                 };
             }
         }

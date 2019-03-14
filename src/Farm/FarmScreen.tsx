@@ -19,7 +19,7 @@ import {
 } from "native-base";
 import React, { Component } from "react";
 import { FlatList, ScrollView, StatusBar, View } from "react-native";
-import MapView, { Marker, Polygon, PROVIDER_GOOGLE } from "react-native-maps";
+import MapView, { Marker, PROVIDER_GOOGLE, Region } from "react-native-maps";
 import { NavigationScreenProp } from "react-navigation";
 
 import DisplayPoundsPerArea from "../components/displayPoundsPerArea";
@@ -53,6 +53,7 @@ export default class FarmScreen extends Component<Props, State> {
     "rain-medium": "Medium (600-700mm)",
     "rain-low": "Low (< 600mm)"
   };
+  private prevRegion: Region | undefined = undefined;
   constructor(props: Props) {
     super(props);
     const { CalculatorStore, FarmStore } = this.props;
@@ -107,7 +108,9 @@ export default class FarmScreen extends Component<Props, State> {
                   toolbarEnabled={true}
                   mapType={"satellite"}
                   initialRegion={FarmStore.UpdateLocation()}
+                  region={this.setLocation()}
                   onPress={e => this.onPress(e)}
+                  onRegionChangeComplete={reg => (this.prevRegion = reg)}
                 >
                   {FarmStore.farm.farmLocation && (
                     <Marker coordinate={FarmStore.farm.farmLocation} />
@@ -274,7 +277,15 @@ export default class FarmScreen extends Component<Props, State> {
       </Container>
     );
   }
-
+  private setLocation(): Region | undefined {
+    const { FarmStore } = this.props;
+    if (this.state.mapMoveEnabled) {
+      this.prevRegion = FarmStore.UpdateLocation();
+      return this.prevRegion;
+    } else {
+      return this.prevRegion;
+    }
+  }
   private saveFarm() {
     const { FarmStore } = this.props;
     FarmStore.saveFarm();
