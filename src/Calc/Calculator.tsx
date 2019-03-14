@@ -198,9 +198,9 @@ export default class Calculator extends Component<Props, State> {
       <Container>
         <Content>
           <Form>
+            <StatusBar />
             <ScrollView>
               <View>
-                <StatusBar />
                 <Text style={styles.text}>
                   Calculator for crap calculations.
                 </Text>

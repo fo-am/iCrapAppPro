@@ -33,9 +33,9 @@ export default class SettingScreen extends Component<Props, State> {
       <Container>
         <Content>
           <Form>
+            <StatusBar />
             <ScrollView>
               <View style={styles.container}>
-                <StatusBar />
                 <Text>Choose Unit type</Text>
                 <DropDown
                   selectedValue={SettingsStore.appSettings.unit}

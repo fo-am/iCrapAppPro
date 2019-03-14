@@ -1,7 +1,7 @@
 import { inject, observer } from "mobx-react/native";
 import { Button, Container, Content, Form, Input, Text } from "native-base";
 import React, { Component } from "react";
-import { View } from "react-native";
+import { StatusBar, View } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
 
 import Manure from "./../model/manure";
@@ -41,6 +41,7 @@ export default class CustomManure extends Component<
       <Container>
         <Content>
           <Form>
+            <StatusBar />
             <View style={styles.container}>
               <Text>Manure Name</Text>
 

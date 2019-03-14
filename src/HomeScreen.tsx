@@ -24,7 +24,7 @@ import {
   Title
 } from "native-base";
 import React, { Component } from "react";
-import { FlatList, ScrollView, View } from "react-native";
+import { FlatList, ScrollView, StatusBar, View } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
 import { database } from "./database/Database";
 import Farm from "./model/Farm";
@@ -56,6 +56,7 @@ export default class HomeScreen extends Component<
       <Container>
         <Content>
           <Form>
+            <StatusBar />
             <View style={styles.container}>
               <Text>Add a farm</Text>
               <Button
@@ -91,11 +92,11 @@ export default class HomeScreen extends Component<
               >
                 <Text>Settings</Text>
               </Button>
-              <Text>Calc</Text>
+
               <Button
                 onPress={() => this.props.navigation.navigate("Calculator")}
               >
-                <Text>Go to Calc</Text>
+                <Text>Calculator</Text>
               </Button>
 
               <Text>Manure</Text>
