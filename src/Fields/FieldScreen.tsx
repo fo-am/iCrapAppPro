@@ -414,7 +414,7 @@ export default class FieldScreen extends Component<Props, State> {
         <Footer>
           <FooterTab>
             <Button rounded onPress={this.saveField}>
-              <Text>Save</Text>
+              <Text>Save Field</Text>
             </Button>
             <Button rounded onPress={() => this.props.navigation.goBack()}>
               <Text>Cancel</Text>

@@ -6,6 +6,7 @@ import {
   Container,
   Content,
   Footer,
+  FooterTab,
   Form,
   Grid,
   H1,
@@ -13,39 +14,20 @@ import {
   H3,
   Header,
   Input,
-  Left,
-  Right,
   Row,
-  Text,
-  Title
+  Text
 } from "native-base";
 import React, { Component } from "react";
-import {
-  Dimensions,
-  FlatList,
-  ScrollView,
-  StatusBar,
-  TouchableOpacity,
-  View
-} from "react-native";
+import { FlatList, ScrollView, StatusBar, View } from "react-native";
 import MapView, { Marker, Polygon, PROVIDER_GOOGLE } from "react-native-maps";
 import { NavigationScreenProp } from "react-navigation";
-
-import dropDownData from "../assets/dropDownData.json";
 
 import DisplayPoundsPerArea from "../components/displayPoundsPerArea";
 import DropDown from "../components/DropDown";
 
-import SphericalUtil from "../geoUtils";
 import Field from "../model/field";
 
 import styles from "../styles/style";
-
-import Strings from "../assets/strings";
-
-import { database } from "../database/Database.js";
-
-const id = 0;
 
 interface Props {
   navigation: NavigationScreenProp<any, any>;
@@ -275,16 +257,20 @@ export default class FarmScreen extends Component<Props, State> {
                     </Row>
                   </Grid>
                 </Form>
-                <Button onPress={() => this.saveFarm()}>
-                  <Text>Save Farm</Text>
-                </Button>
-                <Button onPress={() => this.cancelScreen()}>
-                  <Text>cancel</Text>
-                </Button>
               </View>
             </ScrollView>
           </Form>
         </Content>
+        <Footer>
+          <FooterTab>
+            <Button rounded onPress={() => this.saveFarm()}>
+              <Text>Save Farm</Text>
+            </Button>
+            <Button rounded onPress={() => this.cancelScreen()}>
+              <Text>cancel</Text>
+            </Button>
+          </FooterTab>
+        </Footer>
       </Container>
     );
   }

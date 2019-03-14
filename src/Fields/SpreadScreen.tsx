@@ -490,7 +490,7 @@ export default class SpreadScreen extends Component<Props, State> {
         <Footer>
           <FooterTab>
             <Button rounded onPress={() => this.save()}>
-              <Text>Save</Text>
+              <Text>Save Spread</Text>
             </Button>
             <Button rounded onPress={() => this.props.navigation.pop()}>
               <Text>Cancel</Text>
