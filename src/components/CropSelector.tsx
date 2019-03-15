@@ -1,5 +1,5 @@
 import { inject, observer } from "mobx-react/native";
-import { Button, Container, Content, Form, Text } from "native-base";
+import { Button, Container, Content, Form, H1, Text } from "native-base";
 import React, { Component } from "react";
 import { translate } from "react-i18next";
 import { FlatList, ScrollView, StatusBar, View } from "react-native";
@@ -37,8 +37,9 @@ export default class CropSelector extends Component<Props, State> {
       <Container>
         <Content>
           <Form>
+            <StatusBar />
             <ScrollView>
-              <StatusBar />
+              <H1>Expert crop select</H1>
               <FlatList
                 keyExtractor={(item, index) => "key" + index}
                 data={this.state.data}
