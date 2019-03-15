@@ -91,7 +91,7 @@ class DatabaseImpl implements Database {
         });
     }
     // delete all the things
-    public delete(): Promise<void> {
+    public async delete(): Promise<void> {
         this.getDatabase().then(db => {
             db.executeSql("DROP TABLE IF EXISTS Farm;");
             db.executeSql("DROP TABLE IF EXISTS Field;");
@@ -883,7 +883,7 @@ class DatabaseImpl implements Database {
             );
     }
 
-    public getAppSettings(): Promise<AppSettings> {
+    public async getAppSettings(): Promise<AppSettings> {
         return this.getDatabase().then(db =>
             db
                 .executeSql("select Email,Units from AppSettings")

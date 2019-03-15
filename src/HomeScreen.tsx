@@ -135,7 +135,7 @@ export default class HomeScreen extends Component<
     );
   }
   private clearStore = () => {
-    database.delete();
+    database.delete().then(() => database.getAppSettings());
     this.props.FarmStore.farms = new Array<Farm>();
     this.props.ManureStore.manures = new Array<Manure>();
   };
