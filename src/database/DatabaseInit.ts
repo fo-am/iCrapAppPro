@@ -54,7 +54,6 @@ export class DatabaseInitialization {
             transaction.executeSql("DROP TABLE IF EXISTS Farm;");
             transaction.executeSql("DROP TABLE IF EXISTS Field;");
             transaction.executeSql("DROP TABLE IF EXISTS SpreadEvent;");
-            transaction.executeSql("DROP TABLE IF EXISTS Settings;");
             transaction.executeSql("DROP TABLE IF EXISTS Manure;");
             transaction.executeSql("DROP TABLE IF EXISTS AppSettings;");
             transaction.executeSql("DROP TABLE IF EXISTS Version;");

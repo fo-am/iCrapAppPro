@@ -96,7 +96,6 @@ class DatabaseImpl implements Database {
             db.executeSql("DROP TABLE IF EXISTS Farm;");
             db.executeSql("DROP TABLE IF EXISTS Field;");
             db.executeSql("DROP TABLE IF EXISTS SpreadEvent;");
-            db.executeSql("DROP TABLE IF EXISTS Settings;");
             db.executeSql("DROP TABLE IF EXISTS Manure;");
             db.executeSql("DROP TABLE IF EXISTS AppSettings;");
             db.executeSql("DROP TABLE IF EXISTS Version;");
