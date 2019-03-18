@@ -11,22 +11,46 @@ import SettingScreen from "../Settings/SettingScreen";
 import SplashScreen from "../splashScreen/splashScreen";
 const appNav = createStackNavigator(
     {
-        Calculator: { screen: Calculator },
-        CustomManure: { screen: CustomManure },
-        Home: { screen: HomeScreen, navigationOptions: { header: null } },
+        Calculator: {
+            screen: Calculator,
+            navigationOptions: { title: "Calculator" }
+        },
+        CustomManure: {
+            screen: CustomManure,
+            navigationOptions: { title: "Custom Manure" }
+        },
+        Home: {
+            screen: HomeScreen,
+            navigationOptions: { header: null }
+        },
         SplashScreen: {
             screen: SplashScreen,
             navigationOptions: { header: null }
         },
-        Farm: { screen: FarmScreen },
-        Field: { screen: FieldScreen },
-        Spread: { screen: SpreadScreen },
-        Settings: { screen: SettingScreen },
+        Farm: {
+            screen: FarmScreen,
+            navigationOptions: { header: null }
+        },
+        Field: {
+            screen: FieldScreen,
+            navigationOptions: { header: null }
+        },
+        Spread: {
+            screen: SpreadScreen,
+            navigationOptions: { header: null }
+        },
+        Settings: {
+            screen: SettingScreen,
+            navigationOptions: { title: "Settings" }
+        },
         CropSelector: {
             screen: CropSelector,
             navigationOptions: { header: null }
         },
-        Export: { screen: ExportScreen }
+        Export: {
+            screen: ExportScreen,
+            navigationOptions: { title: "Export Data" }
+        }
     },
     {
         initialRouteName: "SplashScreen"

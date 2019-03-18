@@ -1,7 +1,7 @@
 import { Dimensions, Platform, StatusBar, StyleSheet } from "react-native";
 
 const { width, height } = Dimensions.get("window");
-const halfHeight = height / 2;
+const mapHeight = height / 2.5;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
     text: { color: "#000" },
     map: {
         width,
-        height: halfHeight
+        height: mapHeight
     }
 });
 

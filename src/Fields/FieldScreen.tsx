@@ -440,6 +440,7 @@ export default class FieldScreen extends Component<Props, State> {
     }
     FieldStore.field.area = input.nativeEvent.text;
   }
+
   private setLocation(): Region | undefined {
     const { FieldStore } = this.props;
     if (this.state.mapMoveEnabled) {

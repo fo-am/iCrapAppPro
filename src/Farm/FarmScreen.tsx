@@ -12,13 +12,12 @@ import {
   H1,
   H2,
   H3,
-  Header,
   Input,
   Row,
   Text
 } from "native-base";
 import React, { Component } from "react";
-import { FlatList, ScrollView, StatusBar, View } from "react-native";
+import { FlatList, ScrollView, View } from "react-native";
 import MapView, { Marker, PROVIDER_GOOGLE, Region } from "react-native-maps";
 import { NavigationScreenProp } from "react-navigation";
 
@@ -81,11 +80,7 @@ export default class FarmScreen extends Component<Props, State> {
     const { FarmStore, FieldStore } = this.props;
     return (
       <Container>
-        <Content>
-          <Form>
-            <ScrollView>
-              <StatusBar />
-              {/*
+        {/*
 
        // Add farm
        // Add farm things (rainfall, nutrient costs, name, id)
@@ -95,172 +90,170 @@ export default class FarmScreen extends Component<Props, State> {
 
 
         */}
-              <View>
-                <Text>Scroll around and find your Farm.</Text>
-                <MapView
-                  moveOnMarkerPress={false}
-                  style={styles.map}
-                  scrollEnabled={this.state.mapMoveEnabled}
-                  provider={PROVIDER_GOOGLE}
-                  rotateEnabled={false}
-                  showsUserLocation={true}
-                  showsMyLocationButton={true}
-                  toolbarEnabled={true}
-                  mapType={"satellite"}
-                  initialRegion={FarmStore.UpdateLocation()}
-                  region={this.setLocation()}
-                  onPress={e => this.onPress(e)}
-                  onRegionChangeComplete={reg => (this.prevRegion = reg)}
-                >
-                  {FarmStore.farm.farmLocation && (
-                    <Marker coordinate={FarmStore.farm.farmLocation} />
-                  )}
-                </MapView>
-                {!this.state.showSave && (
-                  <Form>
-                    <Button primary onPress={() => this.draw()}>
-                      <Text>Place Pin on Farm</Text>
-                    </Button>
-                  </Form>
-                )}
-                {this.state.showSave && (
-                  <View>
-                    <Button info onPress={() => this.save()}>
-                      <Text>Set Location</Text>
-                    </Button>
-                    <Button warning onPress={() => this.cancel()}>
-                      <Text>Cancel</Text>
-                    </Button>
-                    <Button info onPress={() => this.reset()}>
-                      <Text>Reset</Text>
-                    </Button>
-                  </View>
-                )}
-                <Text>Farm Name</Text>
-                <Input
-                  selectTextOnFocus={true}
-                  style={{ fontSize: 20, fontWeight: "bold" }}
-                  onChangeText={text => (FarmStore.farm.name = text)}
-                >
-                  {FarmStore.farm.name}
-                </Input>
 
-                <View>
-                  <Text>Add Field</Text>
-                  <Button
-                    onPress={() => {
-                      FarmStore.saveFarm().then(() => {
-                        this.props.FieldStore.farm = FarmStore.farm;
-                        this.props.navigation.navigate("Field", {
-                          farmKey: FarmStore.farm.key
-                        });
+        <MapView
+          moveOnMarkerPress={false}
+          style={styles.map}
+          scrollEnabled={this.state.mapMoveEnabled}
+          provider={PROVIDER_GOOGLE}
+          rotateEnabled={false}
+          showsUserLocation={true}
+          showsMyLocationButton={true}
+          toolbarEnabled={true}
+          mapType={"satellite"}
+          initialRegion={FarmStore.UpdateLocation()}
+          region={this.setLocation()}
+          onPress={e => this.onPress(e)}
+          onRegionChangeComplete={reg => (this.prevRegion = reg)}
+        >
+          {FarmStore.farm.farmLocation && (
+            <Marker coordinate={FarmStore.farm.farmLocation} />
+          )}
+        </MapView>
+        <View
+          style={{
+            position: "absolute", // use absolute position to show button on top of the map
+            top: "2%", // for center align
+            alignSelf: "flex-end" // for align to right
+          }}
+        >
+          {!this.state.showSave && (
+            <Form>
+              <Button primary onPress={() => this.draw()}>
+                <Text>Place Pin on Farm</Text>
+              </Button>
+            </Form>
+          )}
+          {this.state.showSave && (
+            <View>
+              <Text>Scroll around and find your Farm.</Text>
+              <Button info onPress={() => this.save()}>
+                <Text>Save Location</Text>
+              </Button>
+              <Button warning onPress={() => this.cancel()}>
+                <Text>Cancel</Text>
+              </Button>
+            </View>
+          )}
+        </View>
+        <Content>
+          <Form>
+            <ScrollView>
+              <Text>Farm Name</Text>
+              <Input
+                selectTextOnFocus={true}
+                style={{ fontSize: 20, fontWeight: "bold" }}
+                onChangeText={text => (FarmStore.farm.name = text)}
+              >
+                {FarmStore.farm.name}
+              </Input>
+
+              <View>
+                <Text>Add Field</Text>
+                <Button
+                  onPress={() => {
+                    FarmStore.saveFarm().then(() => {
+                      this.props.FieldStore.farm = FarmStore.farm;
+                      this.props.navigation.navigate("Field", {
+                        farmKey: FarmStore.farm.key
                       });
-                    }}
-                  >
-                    <Text>Add Field</Text>
-                  </Button>
-                </View>
-                <ScrollView>
-                  <FlatList<Field>
-                    data={FieldStore.fields.slice()}
-                    keyExtractor={item => item.key}
-                    renderItem={({ item }) => (
-                      <Button
-                        onPress={() => {
-                          FarmStore.saveFarm().then(() => {
-                            this.props.FieldStore.farm = FarmStore.farm;
-                            this.props.navigation.navigate("Field", {
-                              fieldKey: item.key
-                            });
-                          });
-                        }}
-                      >
-                        <Text>{item.name}</Text>
-                      </Button>
-                    )}
-                  />
-                </ScrollView>
-                <Form>
-                  <Text>Set Farm Rainfall</Text>
-                  <DropDown
-                    selectedValue={FarmStore.farm.rainfall}
-                    onChange={item => FarmStore.SelectRainfall(item)}
-                    values={this.RainfallTypes}
-                  />
-                  <Grid>
-                    <Row>
-                      <Text
-                        style={{
-                          alignSelf: "center",
-                          alignItems: "center"
-                        }}
-                      >
-                        How much do you pay for your fertiliser? This is used to
-                        calculate your cost savings.
-                      </Text>
-                    </Row>
-                    <Row>
-                      <Col>
-                        <Text>
-                          N(
-                          <DisplayPoundsPerArea />)
-                        </Text>
-                      </Col>
-                      <Col>
-                        <Input
-                          keyboardType="numeric"
-                          onChangeText={item => FarmStore.SetNCost(item)}
-                          value={String(FarmStore.farm.costN)}
-                          selectTextOnFocus={true}
-                        />
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col>
-                        <Text>
-                          P
-                          <Text style={{ fontSize: 15, lineHeight: 37 }}>
-                            2
-                          </Text>
-                          O
-                          <Text style={{ fontSize: 15, lineHeight: 37 }}>
-                            5
-                          </Text>
-                          (
-                          <DisplayPoundsPerArea />)
-                        </Text>
-                      </Col>
-                      <Col>
-                        <Input
-                          keyboardType="numeric"
-                          onChangeText={item => FarmStore.SetPCost(item)}
-                          value={String(FarmStore.farm.costP)}
-                          selectTextOnFocus={true}
-                        />
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col>
-                        <Text>
-                          K
-                          <Text style={{ fontSize: 15, lineHeight: 37 }}>
-                            2
-                          </Text>
-                          O (<DisplayPoundsPerArea />)
-                        </Text>
-                      </Col>
-                      <Col>
-                        <Input
-                          keyboardType="numeric"
-                          onChangeText={item => FarmStore.SetKCost(item)}
-                          value={String(FarmStore.farm.costK)}
-                          selectTextOnFocus={true}
-                        />
-                      </Col>
-                    </Row>
-                  </Grid>
-                </Form>
+                    });
+                  }}
+                >
+                  <Text>Add Field</Text>
+                </Button>
               </View>
+              <ScrollView>
+                <FlatList<Field>
+                  data={FieldStore.fields.slice()}
+                  keyExtractor={item => item.key}
+                  renderItem={({ item }) => (
+                    <Button
+                      onPress={() => {
+                        FarmStore.saveFarm().then(() => {
+                          this.props.FieldStore.farm = FarmStore.farm;
+                          this.props.navigation.navigate("Field", {
+                            fieldKey: item.key
+                          });
+                        });
+                      }}
+                    >
+                      <Text>{item.name}</Text>
+                    </Button>
+                  )}
+                />
+              </ScrollView>
+              <Form>
+                <Text>Set Farm Rainfall</Text>
+                <DropDown
+                  selectedValue={FarmStore.farm.rainfall}
+                  onChange={item => FarmStore.SelectRainfall(item)}
+                  values={this.RainfallTypes}
+                />
+                <Grid>
+                  <Row>
+                    <Text
+                      style={{
+                        alignSelf: "center",
+                        alignItems: "center"
+                      }}
+                    >
+                      How much do you pay for your fertiliser? This is used to
+                      calculate your cost savings.
+                    </Text>
+                  </Row>
+                  <Row>
+                    <Col>
+                      <Text>
+                        N(
+                        <DisplayPoundsPerArea />)
+                      </Text>
+                    </Col>
+                    <Col>
+                      <Input
+                        keyboardType="numeric"
+                        onChangeText={item => FarmStore.SetNCost(item)}
+                        value={String(FarmStore.farm.costN)}
+                        selectTextOnFocus={true}
+                      />
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col>
+                      <Text>
+                        P<Text style={{ fontSize: 15, lineHeight: 37 }}>2</Text>
+                        O<Text style={{ fontSize: 15, lineHeight: 37 }}>5</Text>
+                        (
+                        <DisplayPoundsPerArea />)
+                      </Text>
+                    </Col>
+                    <Col>
+                      <Input
+                        keyboardType="numeric"
+                        onChangeText={item => FarmStore.SetPCost(item)}
+                        value={String(FarmStore.farm.costP)}
+                        selectTextOnFocus={true}
+                      />
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col>
+                      <Text>
+                        K<Text style={{ fontSize: 15, lineHeight: 37 }}>2</Text>
+                        O (<DisplayPoundsPerArea />)
+                      </Text>
+                    </Col>
+                    <Col>
+                      <Input
+                        keyboardType="numeric"
+                        onChangeText={item => FarmStore.SetKCost(item)}
+                        value={String(FarmStore.farm.costK)}
+                        selectTextOnFocus={true}
+                      />
+                    </Col>
+                  </Row>
+                </Grid>
+              </Form>
             </ScrollView>
           </Form>
         </Content>
@@ -311,15 +304,8 @@ export default class FarmScreen extends Component<Props, State> {
   private cancel() {
     const { FarmStore } = this.props;
 
-    FarmStore.farm.farmLocation = undefined;
+    //   FarmStore.farm.farmLocation = undefined;
     this.setState({ mapMoveEnabled: true, showSave: false });
-  }
-
-  private reset() {
-    const { FarmStore } = this.props;
-
-    FarmStore.farm.farmLocation = undefined;
-    this.setState({ mapMoveEnabled: true });
   }
 
   private onPress(e: any) {
