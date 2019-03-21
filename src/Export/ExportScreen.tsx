@@ -101,10 +101,31 @@ export default class ExportScreen extends Component<Props, State> {
     // get data from database and put it into the json format
     // encrypt the json
     // email the json
+    const { CalculatorStore, SettingsStore, FarmStore } = this.props;
 
-    database
-      .getAllData()
-      .then(farms => this.setState({ errorsString: JSON.stringify(farms) }));
+    database.getAllData().then(farms => {
+      const filePath = `${RNFS.DocumentDirectoryPath}/FarmData.json`;
+      RNFS.writeFile(filePath, JSON.stringify(farms)).then(
+        // get handle on file path.
+        Mailer.mail(
+          {
+            subject: "Farm Export",
+            recipients: [SettingsStore.appSettings.email],
+
+            body: "Here is your farm Export.",
+            isHTML: false,
+            attachment: {
+              path: filePath, // The absolute path of the file from which to read data.
+              type: "application/json" // Mime Type: jpg, png, doc, ppt, html, pdf, csv
+            }
+          },
+          (error, event) => {
+            this.setState({ errorsString: error + " " + event });
+            // handle error
+          }
+        )
+      );
+    });
   }
 
   private importJson() {
