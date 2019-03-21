@@ -34,8 +34,10 @@ import {
 import RNFS from "react-native-fs";
 import Mailer from "react-native-mail";
 import { NavigationScreenProp } from "react-navigation";
-
 import { database } from "../database/Database";
+import Farm from "../model/Farm";
+
+import { toJS } from "mobx";
 
 interface Props {
   navigation: NavigationScreenProp<any, any>;
@@ -51,7 +53,6 @@ interface State {
   showSave: boolean;
   showDraw: boolean;
   showHaveProps: boolean;
-  typesOfFolder: string;
   errorsString: string;
 }
 
@@ -60,6 +61,8 @@ interface State {
 export default class ExportScreen extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
+    this.state = { errorsString: "" };
+
     const { CalculatorStore, SettingsStore, FarmStore } = this.props;
     this.requestFileWritePermission();
   }
@@ -85,15 +88,12 @@ export default class ExportScreen extends Component<Props, State> {
             </Button>
           </Form>
           <Form>
-            <Button onPress={this.exportJson}>
-              <Text>
-                Export Farm data to {SettingsStore.appSettings.email}{" "}
-              </Text>
+            <Button onPress={() => this.exportJson()}>
+              <Text>Export Farm data to {SettingsStore.appSettings.email}</Text>
             </Button>
+            <Text>{this.state.errorsString}</Text>
           </Form>
         </Content>
-        <Text>{this.state.typesOfFolder}</Text>
-        <Text>{this.state.errorsString}</Text>
       </Container>
     );
   }
@@ -101,6 +101,10 @@ export default class ExportScreen extends Component<Props, State> {
     // get data from database and put it into the json format
     // encrypt the json
     // email the json
+
+    database
+      .getAllData()
+      .then(farms => this.setState({ errorsString: JSON.stringify(farms) }));
   }
 
   private importJson() {
@@ -114,14 +118,6 @@ export default class ExportScreen extends Component<Props, State> {
     const { CalculatorStore, SettingsStore, FarmStore } = this.props;
 
     this.writeCsvFile().then(arr => {
-      this.setState({
-        typesOfFolder:
-          RNFS.ExternalDirectoryPath +
-          " " +
-          RNFS.TemporaryDirectoryPath +
-          " " +
-          RNFS.DocumentDirectoryPath
-      });
       const filePath = `${RNFS.DocumentDirectoryPath}/FarmData.csv`;
       RNFS.writeFile(filePath, arr.join("\n"), "utf8").then(
         // get handle on file path.

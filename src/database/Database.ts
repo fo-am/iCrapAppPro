@@ -12,6 +12,8 @@ import Field from "../model/field";
 import Manure from "../model/manure";
 import SpreadEvent from "../model/spreadEvent";
 
+import { ExportFarm, ExportField, ExportSpread } from "../Export/exportModel";
+
 import moment, { Moment } from "moment";
 
 import i18n from "../translations/i18n";
@@ -44,6 +46,8 @@ export interface Database {
     saveAppSettings(appSettings: AppSettings): Promise<void>;
 
     getCSVData(): Promise<Array<Array<string>>>;
+
+    getAllData(): Promise<Array<Farm>>;
 
     delete(): Promise<void>;
 }
@@ -962,11 +966,167 @@ class DatabaseImpl implements Database {
                 return results;
             });
     }
+    public async getAllData(): Promise<Array<ExportFarm>> {
+        return this.getDatabase()
+            .then(db =>
+                db.executeSql(`select
+        fa.'Farm-Unique-Id'
+        ,fa.Latitude
+        ,fa.Longitude
+        ,fa.Name as FarmName
+        ,fa.Rainfall
+        ,fa.'Cost-N'
+        ,fa.'Cost-P'
+        ,fa.'Cost-K'
+        ,fi.'Field-Unique-Id'
+        ,fi.FarmKey
+        ,fi.Name as FieldName
+        ,fi.Coordinates
+        ,fi.Soil
+        ,fi.Crop
+        ,fi.'Previous-Crop'
+        ,fi.'Soil-Test-P'
+        ,fi.'Soil-Test-K'
+        ,fi.'Regular-Manure'
+        ,fi.'Recent-Grass'
+        ,fi.Size
+        ,se.'SpreadEvent-Unique-Id'
+        ,se.FieldKey
+        ,se.'Manure-Type'
+        ,se.Date
+        ,se.Quality
+        ,se.Application
+        ,se.Amount
+        ,se.'Nutrients-N'
+        ,se.'Nutrients-P'
+        ,se.'Nutrients-K'
+        ,se.'Require-N'
+        ,se.'Require-P'
+        ,se.'Require-K'
+        ,se.SNS
+
+         from Farm fa
+        left join Field fi on fa.'Farm-Unique-Id' = fi.FarmKey
+        left join SpreadEvent se on se.FieldKey = fi.'Field-Unique-Id'
+        `)
+            )
+            .then(([res]) => {
+                const count = res.rows.length;
+                const farms: Array<ExportFarm> = [];
+                for (let i = 0; i < count; i++) {
+                    const row = res.rows.item(i);
+                    // Does this row have a farm?
+                    if (row["Farm-Unique-Id"]) {
+                        // yes
+                        // // is the farm in the list?
+
+                        const farmIndex = farms.findIndex(
+                            c => c.key === row["Farm-Unique-Id"]
+                        );
+                        if (farmIndex === -1) {
+                            //// no
+                            //// create the farm then go to the next step
+                            const newFarm: ExportFarm = new ExportFarm();
+                            newFarm.key = row["Farm-Unique-Id"];
+                            newFarm.farmLocation.latitude = row.Latitude;
+                            newFarm.farmLocation.longitude = row.Longitude;
+                            newFarm.name = row.FarmName;
+                            newFarm.rainfall = row.Rainfall;
+                            newFarm.costN = row["Cost-N"];
+                            newFarm.costP = row["Cost-P"];
+                            newFarm.costK = row["Cost-K"];
+
+                            this.fillFields(newFarm, row);
+                            farms.push(newFarm);
+                        } else {
+                            //// yes
+                            ////// lets go to the next step
+                            this.fillFields(farms[farmIndex], row);
+                        }
+                    }
+
+                    // no
+                    // we can do nothing here lets continue
+                }
+                return farms;
+            });
+    }
+    private fillFields(farm: ExportFarm, row: any): ExportFarm {
+        // has a field
+        if (row["Field-Unique-Id"]) {
+            // yes
+            // // is the field in the list?
+
+            const fieldIndex = farm.fields.findIndex(
+                c => c.key === row["Field-Unique-Id"]
+            );
+            if (fieldIndex === -1) {
+                //// no
+                //// create the farm then go to the next step
+                const newField: ExportField = new ExportField();
+                newField.key = row["Field-Unique-Id"];
+                newField.farmKey = row.FarmKey;
+                newField.name = row.Name;
+                newField.fieldCoordinates = JSON.parse(row.Coordinates);
+                newField.soilType = row.Soil;
+                newField.cropType = JSON.parse(row.Crop);
+                newField.prevCropType = row["Previous-Crop"];
+                newField.soilTestP = row["Soil-Test-P"];
+                newField.soilTestK = row["Soil-Test-K"];
+                newField.organicManure = row["Regular-Manure"];
+                newField.recentGrass = row["Recent-Grass"];
+                newField.area = row.Size;
+
+                this.fillSpread(newField, row);
+                farm.fields.push(newField);
+                return farm;
+            } else {
+                //// yes
+                ////// lets go to the next step
+                this.fillSpread(farm.fields[fieldIndex], row);
+            }
+        }
+    }
     private safeNumber(possibleNumber: number | undefined): number {
         if (possibleNumber === undefined || Number.isNaN(possibleNumber)) {
             return 0;
         }
         return possibleNumber;
+    }
+    private fillSpread(field: ExportField, row) {
+        // has a spread
+        if (row["SpreadEvent-Unique-Id"]) {
+            // yes
+            // // is the spread in the list?
+
+            const spreadIndex = field.spreadingEvents.findIndex(
+                c => c.key === row["SpreadEvent-Unique-Id"]
+            );
+            if (spreadIndex === -1) {
+                //// no
+                //// create the spread event then go to the next step
+                const newSpreadEvent: ExportSpread = new ExportSpread();
+                newSpreadEvent.key = row["SpreadEvent-Unique-Id"];
+                newSpreadEvent.fieldkey = row.FieldKey;
+                newSpreadEvent.date = moment(row.Date);
+                newSpreadEvent.manureType = row["Manure-Type"];
+                newSpreadEvent.nutrientsN = this.safeNumber(row["Nutrients-N"]);
+                newSpreadEvent.nutrientsP = this.safeNumber(row["Nutrients-P"]);
+                newSpreadEvent.nutrientsK = this.safeNumber(row["Nutrients-K"]);
+                newSpreadEvent.requireN = this.safeNumber(row["Require-N"]);
+                newSpreadEvent.requireP = this.safeNumber(row["Require-P"]);
+                newSpreadEvent.requireK = this.safeNumber(row["Require-K"]);
+                newSpreadEvent.sns = row.SNS;
+                newSpreadEvent.amount = row.Amount;
+                newSpreadEvent.quality = row.Quality;
+                newSpreadEvent.applicationType = row.Application;
+                newSpreadEvent.season = row.Season;
+
+                field.spreadingEvents.push(newSpreadEvent);
+            } else {
+                // no spread nothing to do.
+            }
+        }
     }
 
     private sortCrops(cropString: string): string {
