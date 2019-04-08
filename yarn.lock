@@ -5052,6 +5052,11 @@ react-native-gesture-handler@1.0.15, react-native-gesture-handler@~1.0.14:
     invariant "^2.2.2"
     prop-types "^15.5.10"
 
+react-native-highcharts@1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/react-native-highcharts/-/react-native-highcharts-1.0.2.tgz#cb8269efc5dbd7d550d2d68b3ac008b24bfba6bb"
+  integrity sha512-Oz4nEXENg07S3l9Wo9eZvAr7WIH/Mbhjh1XQaUh19zJFWTPAmEANjlkF50xNoE3kkXXpgg5WjDE6Uge0UKhwQQ==
+
 react-native-iphone-x-helper@^1.0.3:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.2.0.tgz#9f8a376eb00bc712115abff4420318a0063fa796"

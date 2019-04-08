@@ -57,6 +57,8 @@ import styles from "../styles/style";
 
 import Strings from "../assets/Strings";
 
+import ChartView from "react-native-highcharts";
+
 let id = 0;
 
 interface Props {
@@ -115,6 +117,80 @@ export default class FieldScreen extends Component<Props, State> {
   }
   public render() {
     const { FieldStore } = this.props;
+
+    const Highcharts = "Highcharts";
+    const conf = {
+      chart: {
+        type: "spline",
+        animation: Highcharts.svg, // don't animate in old IE
+        marginRight: 10,
+        events: {
+          load() {
+            // set up the updating of the chart each second
+            const series = this.series[0];
+            setInterval(function() {
+              const x = new Date().getTime(), // current time
+                y = Math.random();
+              series.addPoint([x, y], true, true);
+            }, 1000);
+          }
+        }
+      },
+      title: {
+        text: "Live random data"
+      },
+      xAxis: {
+        type: "datetime",
+        tickPixelInterval: 150
+      },
+      yAxis: {
+        title: {
+          text: "Value"
+        },
+        plotLines: [
+          {
+            value: 0,
+            width: 1,
+            color: "#808080"
+          }
+        ]
+      },
+      legend: {
+        enabled: false
+      },
+      exporting: {
+        enabled: false
+      },
+      series: [
+        {
+          name: "Random data",
+          data: (function() {
+            // generate an array of random data
+            const data = [];
+            const time = new Date().getTime();
+
+            for (let i = -19; i <= 0; i += 1) {
+              data.push({
+                x: time + i * 1000,
+                y: Math.random()
+              });
+            }
+            return data;
+          })()
+        }
+      ]
+    };
+
+    const options = {
+      global: {
+        useUTC: false
+      },
+      lang: {
+        decimalPoint: ".",
+        thousandsSep: ","
+      }
+    };
+
     return (
       <Container>
         <Content>
@@ -405,6 +481,12 @@ export default class FieldScreen extends Component<Props, State> {
                   {
                     // https://github.com/TradingPal/react-native-highcharts
                   }
+                  <ChartView
+                    style={{ height: 300 }}
+                    config={conf}
+                    options={options}
+                  />
+
                   <Text>Oh no! Not yet :(</Text>
                 </View>
               </View>
