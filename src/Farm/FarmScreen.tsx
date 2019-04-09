@@ -25,8 +25,11 @@ import DisplayPoundsPerArea from "../components/displayPoundsPerArea";
 import DropDown from "../components/DropDown";
 
 import Field from "../model/field";
+import LatLng from "../model/LatLng";
 
 import styles from "../styles/style";
+
+import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 
 interface Props {
   navigation: NavigationScreenProp<any, any>;
@@ -112,6 +115,65 @@ export default class FarmScreen extends Component<Props, State> {
         </MapView>
         <View
           style={{
+            position: "absolute",
+            top: "2%",
+            alignSelf: "flex-start",
+            width: "50%"
+          }}
+        >
+          <GooglePlacesAutocomplete
+            listViewDisplayed="true"
+            placeholder="Search"
+            minLength={3} // minimum length of text to search
+            autoFocus={false}
+            fetchDetails={true}
+            onPress={(data, details = undefined) => {
+              // 'details' is provided when fetchDetails = true
+              // do a thing
+              if (details != undefined) {
+                const loc: LatLng = new LatLng();
+                loc.latitude = details.geometry.location.lat;
+                loc.longitude = details.geometry.location.lng;
+                FarmStore.farm.farmLocation = loc;
+
+                this.draw();
+              }
+            }}
+            getDefaultValue={() => {
+              return ""; // text input default value
+            }}
+            query={{
+              // available options: https://developers.google.com/places/web-service/autocomplete
+              key: "AIzaSyAVTbzKLIbNe23Ieh1AXxktDHPiC3ze3O4",
+              types: "geocode" // default: 'geocode'
+            }}
+            styles={{
+              container: { backgroundColor: "white" },
+              description: {
+                textAlign: "left"
+              },
+              textInputContainer: {},
+              predefinedPlacesDescription: {
+                color: "#1faadb"
+              }
+            }}
+            currentLocation={true} // Will add a 'Current location' button at the top of the predefined places list
+            currentLocationLabel="Current location"
+            nearbyPlacesAPI="GoogleReverseGeocoding" // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
+            GoogleReverseGeocodingQuery={{
+              // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
+              region: "uk"
+            }}
+            GooglePlacesSearchQuery={{
+              // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
+              rankby: "distance"
+            }}
+            filterReverseGeocodingByTypes={[]} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
+            predefinedPlacesAlwaysVisible={true}
+          />
+        </View>
+        <View
+          style={{
             position: "absolute", // use absolute position to show button on top of the map
             top: "2%", // for center align
             alignSelf: "flex-end" // for align to right
@@ -126,7 +188,6 @@ export default class FarmScreen extends Component<Props, State> {
           )}
           {this.state.showSave && (
             <View>
-              <Text>Scroll around and find your Farm.</Text>
               <Button info onPress={() => this.save()}>
                 <Text>Save Location</Text>
               </Button>
