@@ -93,7 +93,6 @@ export default class FarmScreen extends Component<Props, State> {
 
 
         */}
-
         <MapView
           moveOnMarkerPress={false}
           style={styles.map}
@@ -115,10 +114,36 @@ export default class FarmScreen extends Component<Props, State> {
         </MapView>
         <View
           style={{
+            position: "absolute", // use absolute position to show button on top of the map
+            top: "2%", // for center align
+            alignSelf: "flex-end", // for align to right
+            zIndex: 1
+          }}
+        >
+          {!this.state.showSave && (
+            <Form>
+              <Button primary onPress={() => this.draw()}>
+                <Text>Place Pin on Farm</Text>
+              </Button>
+            </Form>
+          )}
+          {this.state.showSave && (
+            <View>
+              <Button info onPress={() => this.save()}>
+                <Text>Save Location</Text>
+              </Button>
+              <Button warning onPress={() => this.cancel()}>
+                <Text>Cancel</Text>
+              </Button>
+            </View>
+          )}
+        </View>
+        <View
+          style={{
             position: "absolute",
             top: "2%",
             alignSelf: "flex-start",
-            width: "50%"
+            zIndex: 2
           }}
         >
           <GooglePlacesAutocomplete
@@ -152,7 +177,7 @@ export default class FarmScreen extends Component<Props, State> {
               description: {
                 textAlign: "left"
               },
-              textInputContainer: {},
+              textInputContainer: { width: 200 },
               predefinedPlacesDescription: {
                 color: "#1faadb"
               }
@@ -162,7 +187,7 @@ export default class FarmScreen extends Component<Props, State> {
             nearbyPlacesAPI="GoogleReverseGeocoding" // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
             GoogleReverseGeocodingQuery={{
               // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
-              region: "uk"
+              region: "GB"
             }}
             GooglePlacesSearchQuery={{
               // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
@@ -171,31 +196,6 @@ export default class FarmScreen extends Component<Props, State> {
             filterReverseGeocodingByTypes={[]} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
             predefinedPlacesAlwaysVisible={true}
           />
-        </View>
-        <View
-          style={{
-            position: "absolute", // use absolute position to show button on top of the map
-            top: "2%", // for center align
-            alignSelf: "flex-end" // for align to right
-          }}
-        >
-          {!this.state.showSave && (
-            <Form>
-              <Button primary onPress={() => this.draw()}>
-                <Text>Place Pin on Farm</Text>
-              </Button>
-            </Form>
-          )}
-          {this.state.showSave && (
-            <View>
-              <Button info onPress={() => this.save()}>
-                <Text>Save Location</Text>
-              </Button>
-              <Button warning onPress={() => this.cancel()}>
-                <Text>Cancel</Text>
-              </Button>
-            </View>
-          )}
         </View>
         <Content>
           <Form>
