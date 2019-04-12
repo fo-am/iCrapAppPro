@@ -30,8 +30,8 @@ export default class Strings {
         organic: "Organic (10-20% organic matter)",
         mediumshallow: "Medium/Shallow",
         medium: "Medium",
-        deepclay: "Deep clay",
-        deepsilt: "Deep silt"
+        deepclay: "Heavy clay",
+        deepsilt: "Heavy silt"
     };
     public soiltestP = {
         "soil-p-0": "0",
