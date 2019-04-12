@@ -28,6 +28,7 @@ class ExportField {
     public organicManure: string = "no";
     public soilTestP: string = "soil-p-0";
     public soilTestK: string = "soil-k-0";
+    public soilTestMg: string = "soil-m-0";
     public prevCropType: string = "cereals";
     public recentGrass: string = "no";
     public cropType: Array<Array<string>> = [["crop", "maize"]];

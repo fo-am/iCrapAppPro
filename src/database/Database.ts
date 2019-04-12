@@ -290,7 +290,8 @@ class DatabaseImpl implements Database {
             db
                 .executeSql(
                     `SELECT "Field-Unique-Id", "FarmKey", Name, Coordinates, Soil, Crop, "Previous-Crop"
-            , "Soil-Test-P", "Soil-Test-K", "Regular-Manure", "Recent-Grass", Size FROM Field where FarmKey = ?`,
+            , "Soil-Test-P", "Soil-Test-K","Soil-Test-Mg", "Regular-Manure", "Recent-Grass", Size
+             FROM Field where FarmKey = ?`,
                     [farmKey]
                 )
                 .then(([results]) => {
@@ -312,6 +313,7 @@ class DatabaseImpl implements Database {
                         newField.prevCropType = row["Previous-Crop"];
                         newField.soilTestP = row["Soil-Test-P"];
                         newField.soilTestK = row["Soil-Test-K"];
+                        newField.soilTestMg = row["Soil-Test-Mg"];
                         newField.organicManure = row["Regular-Manure"];
                         newField.recentGrass = row["Recent-Grass"];
                         newField.area = row.Size;
@@ -331,7 +333,7 @@ class DatabaseImpl implements Database {
             db
                 .executeSql(
                     `SELECT  "Field-Unique-Id", FarmKey, Name, Coordinates, Soil, Crop, "Previous-Crop"
-                    , "Soil-Test-P", "Soil-Test-K", "Regular-Manure", "Recent-Grass", Size FROM Field
+                    , "Soil-Test-P", "Soil-Test-K", "Soil-Test-Mg", "Regular-Manure", "Recent-Grass", Size FROM Field
                  WHERE "Field-Unique-Id" = ?`,
                     [key]
                 )
@@ -354,6 +356,7 @@ class DatabaseImpl implements Database {
                         field.prevCropType = row["Previous-Crop"];
                         field.soilTestP = row["Soil-Test-P"];
                         field.soilTestK = row["Soil-Test-K"];
+                        field.soilTestMg = row["Soil-Test-Mg"];
                         field.organicManure = row["Regular-Manure"];
                         field.recentGrass = row["Recent-Grass"];
                         field.area = row.Size;
@@ -405,9 +408,10 @@ class DatabaseImpl implements Database {
                         "Previous-Crop"= ?7,
                         "Soil-Test-P"= ?8,
                         "Soil-Test-K"= ?9,
-                        "Regular-Manure"= ?10,
-                        "Recent-Grass"= ?11,
-                        Size= ?12
+                        "Soil-Test-Mg"= ?10,
+                        "Regular-Manure"= ?11,
+                        "Recent-Grass"= ?12,
+                        Size= ?13
                         where "Field-Unique-Id" = ?1;
                         `,
 
@@ -421,6 +425,7 @@ class DatabaseImpl implements Database {
                             field.prevCropType,
                             field.soilTestP,
                             field.soilTestK,
+                            field.soilTestMg,
                             field.organicManure,
                             field.recentGrass,
                             field.area
@@ -451,9 +456,10 @@ class DatabaseImpl implements Database {
                         "Previous-Crop",
                         "Soil-Test-P",
                         "Soil-Test-K",
+                        "Soil-Test-Mg",
                         "Regular-Manure",
                         "Recent-Grass",
-                        Size) values(?1,?2,?3,?4,?5,?6,?7,?8,?9,?10,?11,?12);
+                        Size) values(?1,?2,?3,?4,?5,?6,?7,?8,?9,?10,?11,?12,?13);
                         `,
 
                         [
@@ -466,6 +472,7 @@ class DatabaseImpl implements Database {
                             field.prevCropType,
                             field.soilTestP,
                             field.soilTestK,
+                            field.soilTestMg,
                             field.organicManure,
                             field.recentGrass,
                             field.area
@@ -987,6 +994,7 @@ class DatabaseImpl implements Database {
         ,fi.'Previous-Crop'
         ,fi.'Soil-Test-P'
         ,fi.'Soil-Test-K'
+        ,fi.'Soil-Test-Mg'
         ,fi.'Regular-Manure'
         ,fi.'Recent-Grass'
         ,fi.Size
@@ -1073,6 +1081,7 @@ class DatabaseImpl implements Database {
                 newField.prevCropType = row["Previous-Crop"];
                 newField.soilTestP = row["Soil-Test-P"];
                 newField.soilTestK = row["Soil-Test-K"];
+                newField.soilTestMg = row["Soil-Test-Mg"];
                 newField.organicManure = row["Regular-Manure"];
                 newField.recentGrass = row["Recent-Grass"];
                 newField.area = row.Size;

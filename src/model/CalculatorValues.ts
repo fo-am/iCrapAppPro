@@ -8,8 +8,9 @@ export default class CalculatorValues {
     @observable public cropSelected: number;
     @observable public seasonSelected: number;
     @observable public qualitySelected: string;
-    @observable public soilTestP: number = 0;
-    @observable public soilTestK: number = 0;
+    @observable public soilTestP: string = "soil-k-0";
+    @observable public soilTestK: string = "soil-p-0";
+    @observable public soilTestMg: string = "soil-m-0";
 
     public ToString() {
         return `sliderValue: ${this.sliderValue}
@@ -20,6 +21,7 @@ export default class CalculatorValues {
         seasonSelected:  ${this.seasonSelected}
         qualitySelected:  ${this.qualitySelected}
         soilTestP:   ${this.soilTestP}
-        soilTestK:  ${this.soilTestK}`;
+        soilTestK:   ${this.soilTestK}
+        soilTestMg:  ${this.soilTestMg}`;
     }
 }

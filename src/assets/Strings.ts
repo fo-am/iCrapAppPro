@@ -48,6 +48,19 @@ export default class Strings {
         "soil-k-3": "3"
     };
 
+    public soiltestMg = {
+        "soil-m-0": "0",
+        "soil-m-1": "1",
+        "soil-m-2": "2",
+        "soil-m-3": "3",
+        "soil-m-4": "4",
+        "soil-m-5": "5",
+        "soil-m-6": "6",
+        "soil-m-7": "7",
+        "soil-m-8": "8",
+        "soil-m-9": "9"
+    };
+
     public yesno = {
         no: "No",
         yes: "Yes"

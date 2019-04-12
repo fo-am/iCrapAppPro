@@ -358,10 +358,19 @@ export default class FieldScreen extends Component<Props, State> {
                     values={this.strings.soiltestP}
                   />
                   <Text>K</Text>
+
                   <DropDown
                     selectedValue={FieldStore.field.soilTestK}
                     onChange={item => (FieldStore.field.soilTestK = item)}
                     values={this.strings.soiltestK}
+                  />
+
+                  <Text>Mg</Text>
+
+                  <DropDown
+                    selectedValue={FieldStore.field.soilTestMg}
+                    onChange={item => (FieldStore.field.soilTestMg = item)}
+                    values={this.strings.soiltestMg}
                   />
                   <Grid>
                     <Row>

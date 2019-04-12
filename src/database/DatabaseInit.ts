@@ -85,6 +85,7 @@ export class DatabaseInitialization {
             "Previous-Crop"	TEXT,
             "Soil-Test-P"	TEXT,
             "Soil-Test-K"	TEXT,
+            "Soil-Test-Mg"	TEXT,
             "Regular-Manure"	TEXT,
             "Recent-Grass"	TEXT,
             "Size"	NUMERIC

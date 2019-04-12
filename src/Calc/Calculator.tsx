@@ -107,8 +107,9 @@ export default class Calculator extends Component<Props, State> {
     CalculatorStore.calculatorValues.qualitySelected = Object.keys(
       CalculatorStore.qualityTypes
     )[0];
-    CalculatorStore.calculatorValues.soilTestK = 0;
-    CalculatorStore.calculatorValues.soilTestP = 0;
+    CalculatorStore.calculatorValues.soilTestK = "soil-k-0";
+    CalculatorStore.calculatorValues.soilTestP = "soil-p-0";
+    CalculatorStore.calculatorValues.soilTestMg = "soil-m-0";
   }
 
   public componentDidMount() {

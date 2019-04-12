@@ -14,6 +14,7 @@ export default class Field {
     @observable public organicManure: string = "no";
     @observable public soilTestP: string = "soil-p-0";
     @observable public soilTestK: string = "soil-k-0";
+    @observable public soilTestMg: string = "soil-m-0";
     @observable public prevCropType: string = "cereals";
     @observable public recentGrass: string = "no";
     @observable public cropType: Array<Array<string>> = [["crop", "maize"]];
