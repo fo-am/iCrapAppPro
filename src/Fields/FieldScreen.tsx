@@ -393,6 +393,25 @@ export default class FieldScreen extends Component<Props, State> {
                         value={FieldStore.cropRequirementsResult.nitrogenSupply}
                       />
                     </Row>
+
+                    <Row>
+                      <H3
+                        style={{
+                          alignSelf: "center",
+                          alignItems: "center"
+                        }}
+                      >
+                        Sulpher Risk
+                      </H3>
+                    </Row>
+                    <Row
+                      style={{
+                        alignSelf: "center",
+                        alignItems: "center"
+                      }}
+                    >
+                      <Text>{this.Foo()}</Text>
+                    </Row>
                   </Grid>
 
                   <H2>Crop Details</H2>
@@ -438,7 +457,7 @@ export default class FieldScreen extends Component<Props, State> {
                           O
                           <Text style={{ fontSize: 15, lineHeight: 40 }}>
                             5
-                          </Text>{" "}
+                          </Text>
                           <DisplayAreaUnit />
                         </Text>
                       </Col>
@@ -515,6 +534,37 @@ export default class FieldScreen extends Component<Props, State> {
       </Container>
     );
   }
+  private Foo(): string {
+    const { FieldStore, SettingsStore } = this.props;
+    // rainfall
+    const rain = FieldStore.farm.rainfall;
+    // soil type
+    const soiltype = FieldStore.field.soilType;
+
+    // ;; All light sand and shallow soils = High risk
+    // ;; Medium soils with low rainfall = Low risk
+    // ;; Medium soils with medium or high rainfall = High risk
+    // ;; Deep clay, deep silt, organic and peat soils with low or medium rainfall = Low risk
+    // ;; Deep clay, deep silt, organic and peat soils with high rainfall = High risk
+
+    if (soiltype == "sandyshallow" || soiltype === "mediumshallow") {
+      return "High";
+    }
+
+    if (soiltype === "medium") {
+      if (rain === "rain-low") {
+        return "Low";
+      } else {
+        return "High";
+      }
+    }
+
+    if (rain === "rain-high") {
+      return "High";
+    }
+    return "Low";
+  }
+
   private getAreaValue(): number {
     const { FieldStore, SettingsStore } = this.props;
     if (SettingsStore.appSettings.unit !== "metric") {
