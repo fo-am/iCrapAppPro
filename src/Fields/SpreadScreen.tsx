@@ -291,10 +291,20 @@ export default class SpreadScreen extends Component<Props, State> {
                     {slider.sliderUnit}
                   </Text>
                 </View>
-
-                <Grid>
+                <Grid style={{ alignItems: "center" }}>
                   <Row>
-                    <Text>Crop available nutrients(Total in manure)</Text>
+                    <Col>
+                      <Text>Nutrient</Text>
+                    </Col>
+                    <Col>
+                      <Text>Crop Avalable</Text>
+                    </Col>
+                    <Col>
+                      <Text>Total In Manure</Text>
+                    </Col>
+                    <Col>
+                      <Text>Savings</Text>
+                    </Col>
                   </Row>
                   <Row>
                     <Col>
@@ -303,12 +313,62 @@ export default class SpreadScreen extends Component<Props, State> {
                       </Text>
                     </Col>
                     <Col>
+                      <FormatValue
+                        units={"UnitsAcre"}
+                        value={CalculatorStore.nutrientResults.nitrogenTotal}
+                      />
+                    </Col>
+                    <Col>
+                      <FormatValue
+                        units={"UnitsAcre"}
+                        value={
+                          CalculatorStore.nutrientResults.nitrogenAvailable
+                        }
+                      />
+                    </Col>
+                    <Col>
+                      <CashDisplay
+                        value={
+                          CalculatorStore.nutrientResults.nitrogenAvailable *
+                          FarmStore.farm.costN *
+                          FieldStore.field.area
+                        }
+                      />
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col>
                       <Text style={{ fontSize: 20, lineHeight: 30 }}>
                         P<Text style={{ fontSize: 15, lineHeight: 40 }}>2</Text>
                         O<Text style={{ fontSize: 15, lineHeight: 40 }}>5</Text>{" "}
                         <DisplayAreaUnit />
                       </Text>
                     </Col>
+                    <Col>
+                      <FormatValue
+                        units={"UnitsAcre"}
+                        value={CalculatorStore.nutrientResults.phosphorousTotal}
+                      />
+                    </Col>
+                    <Col>
+                      <FormatValue
+                        units={"UnitsAcre"}
+                        value={
+                          CalculatorStore.nutrientResults.phosphorousAvailable
+                        }
+                      />
+                    </Col>
+                    <Col>
+                      <CashDisplay
+                        value={
+                          CalculatorStore.nutrientResults.phosphorousAvailable *
+                          FarmStore.farm.costP *
+                          FieldStore.field.area
+                        }
+                      />
+                    </Col>
+                  </Row>
+                  <Row>
                     <Col>
                       <Text style={{ fontSize: 20, lineHeight: 30 }}>
                         K
@@ -323,78 +383,17 @@ export default class SpreadScreen extends Component<Props, State> {
                         O <DisplayAreaUnit />
                       </Text>
                     </Col>
-                  </Row>
-                  <Row>
                     <Col>
-                      <Text>
-                        <FormatValue
-                          units={"UnitsAcre"}
-                          value={CalculatorStore.nutrientResults.nitrogenTotal}
-                        />
-                        (
-                        <FormatValue
-                          units={"UnitsAcre"}
-                          value={
-                            CalculatorStore.nutrientResults.nitrogenAvailable
-                          }
-                        />
-                        )
-                      </Text>
-                    </Col>
-                    <Col>
-                      <Text>
-                        <FormatValue
-                          units={"UnitsAcre"}
-                          value={
-                            CalculatorStore.nutrientResults.phosphorousTotal
-                          }
-                        />
-                        (
-                        <FormatValue
-                          units={"UnitsAcre"}
-                          value={
-                            CalculatorStore.nutrientResults.phosphorousAvailable
-                          }
-                        />
-                        )
-                      </Text>
-                    </Col>
-                    <Col>
-                      <Text>
-                        <FormatValue
-                          units={"UnitsAcre"}
-                          value={CalculatorStore.nutrientResults.potassiumTotal}
-                        />
-                        (
-                        <FormatValue
-                          units={"UnitsAcre"}
-                          value={
-                            CalculatorStore.nutrientResults.potassiumAvailable
-                          }
-                        />
-                        )
-                      </Text>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Text>Savings for this field</Text>
-                  </Row>
-                  <Row>
-                    <Col>
-                      <CashDisplay
-                        value={
-                          CalculatorStore.nutrientResults.nitrogenAvailable *
-                          FarmStore.farm.costN *
-                          FieldStore.field.area
-                        }
+                      <FormatValue
+                        units={"UnitsAcre"}
+                        value={CalculatorStore.nutrientResults.potassiumTotal}
                       />
                     </Col>
                     <Col>
-                      <CashDisplay
+                      <FormatValue
+                        units={"UnitsAcre"}
                         value={
-                          CalculatorStore.nutrientResults.phosphorousAvailable *
-                          FarmStore.farm.costP *
-                          FieldStore.field.area
+                          CalculatorStore.nutrientResults.potassiumAvailable
                         }
                       />
                     </Col>
@@ -408,6 +407,62 @@ export default class SpreadScreen extends Component<Props, State> {
                       />
                     </Col>
                   </Row>
+                  <Row>
+                    <Col>
+                      <Text>S</Text>
+                    </Col>
+                    <Col>
+                      <FormatValue
+                        units={"UnitsAcre"}
+                        value={CalculatorStore.nutrientResults.sulpherTotal}
+                      />
+                    </Col>
+                    <Col>
+                      <FormatValue
+                        units={"UnitsAcre"}
+                        value={CalculatorStore.nutrientResults.sulpherAvailable}
+                      />
+                    </Col>
+                    <Col>
+                      <CashDisplay
+                        value={
+                          CalculatorStore.nutrientResults.sulpherAvailable *
+                          FarmStore.farm.costS *
+                          FieldStore.field.area
+                        }
+                      />
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col>
+                      <Text>Mg</Text>
+                    </Col>
+                    <Col>
+                      <FormatValue
+                        units={"UnitsAcre"}
+                        value={CalculatorStore.nutrientResults.magnesiumTotal}
+                      />
+                    </Col>
+                    <Col>
+                      <FormatValue
+                        units={"UnitsAcre"}
+                        value={
+                          CalculatorStore.nutrientResults.magnesiumAvailable
+                        }
+                      />
+                    </Col>
+                    <Col>
+                      <CashDisplay
+                        value={
+                          CalculatorStore.nutrientResults.magnesiumAvailable *
+                          FarmStore.farm.costMg *
+                          FieldStore.field.area
+                        }
+                      />
+                    </Col>
+                  </Row>
+                </Grid>
+                <Grid>
                   <Row>
                     <Text>Crop nutrient requirements</Text>
                   </Row>
