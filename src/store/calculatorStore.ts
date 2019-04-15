@@ -179,7 +179,8 @@ class CalculatorStore {
             this.calculatorValues.soilSelected,
             this.calculatorValues.applicationSelected,
             this.calculatorValues.soilTestP,
-            this.calculatorValues.soilTestK
+            this.calculatorValues.soilTestK,
+            this.calculatorValues.soilTestMg
         ).then(results => {
             // n
             this.nutrientResults.nitrogenTotal = results[1][0];
@@ -190,6 +191,12 @@ class CalculatorStore {
             // k
             this.nutrientResults.potassiumTotal = results[1][2];
             this.nutrientResults.potassiumAvailable = results[0][2];
+            // s
+            this.nutrientResults.sulpherTotal = results[1][3];
+            this.nutrientResults.sulpherAvailable = results[0][3];
+            // mg
+            this.nutrientResults.magnesiumTotal = results[1][4];
+            this.nutrientResults.magnesiumAvailable = results[0][4];
         });
     }
     public async calculateNutrients(
@@ -201,7 +208,8 @@ class CalculatorStore {
         soil,
         application,
         soilTestP,
-        soilTestK
+        soilTestK,
+        soilTestmg
     ): Promise<Array<Array<number>>> {
         if (type === "custom") {
             return database.getManure(quality).then((manure: Manure) => {
@@ -232,7 +240,8 @@ class CalculatorStore {
                 soil,
                 application,
                 soilTestP,
-                soilTestK
+                soilTestK,
+                soilTestmg
             );
         }
     }
@@ -246,7 +255,8 @@ class CalculatorStore {
         soil,
         application,
         soilTestP,
-        soilTestK
+        soilTestK,
+        soilTestMg
     ): Object {
         const params = {
             type,
@@ -281,6 +291,7 @@ class CalculatorStore {
             soilTestK === "soil-k-3"
                 ? "k-total"
                 : "k-avail";
+        const magnesium = soilTestMg;
 
         // Total values
         const totalValues = this.processNutrients(amount, [
@@ -289,7 +300,9 @@ class CalculatorStore {
                 ? this.decision(manureTree, { ...params, nutrient: "n-total" })
                 : total,
             this.decision(manureTree, { ...params, nutrient: "p-total" }),
-            this.decision(manureTree, { ...params, nutrient: "k-total" })
+            this.decision(manureTree, { ...params, nutrient: "k-total" }),
+            this.decision(manureTree, { ...params, nutrient: "s-total" }),
+            this.decision(manureTree, { ...params, nutrient: "m-total" })
         ]);
 
         // Crop available values
@@ -304,7 +317,9 @@ class CalculatorStore {
         const cropAvailValues = this.processNutrients(amount, [
             n2,
             this.decision(manureTree, { ...params, nutrient: phosphorous }),
-            this.decision(manureTree, { ...params, nutrient: potassium })
+            this.decision(manureTree, { ...params, nutrient: potassium }),
+            this.decision(manureTree, { ...params, nutrient: "s-avail" }),
+            this.decision(manureTree, { ...params, nutrient: "m-avail" })
         ]);
 
         return [totalValues, cropAvailValues];

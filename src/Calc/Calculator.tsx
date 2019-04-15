@@ -417,13 +417,23 @@ export default class Calculator extends Component<Props, State> {
                       <Text>S</Text>
                     </Col>
                     <Col>
-                      <Text>Avalable</Text>
+                      <FormatValue
+                        units={"UnitsAcre"}
+                        value={CalculatorStore.nutrientResults.sulpherTotal}
+                      />
                     </Col>
                     <Col>
-                      <Text>In Manure</Text>
+                      <FormatValue
+                        units={"UnitsAcre"}
+                        value={CalculatorStore.nutrientResults.sulpherAvailable}
+                      />
                     </Col>
                     <Col>
-                      <Text>Savings</Text>
+                      <CashDisplay
+                        value={
+                          CalculatorStore.nutrientResults.potassiumTotal * 0
+                        }
+                      />
                     </Col>
                   </Row>
                   <Row>
@@ -431,13 +441,25 @@ export default class Calculator extends Component<Props, State> {
                       <Text>Mg</Text>
                     </Col>
                     <Col>
-                      <Text>Avalable</Text>
+                      <FormatValue
+                        units={"UnitsAcre"}
+                        value={CalculatorStore.nutrientResults.magnesiumTotal}
+                      />
                     </Col>
                     <Col>
-                      <Text>In Manure</Text>
+                      <FormatValue
+                        units={"UnitsAcre"}
+                        value={
+                          CalculatorStore.nutrientResults.magnesiumAvailable
+                        }
+                      />
                     </Col>
                     <Col>
-                      <Text>Savings</Text>
+                      <CashDisplay
+                        value={
+                          CalculatorStore.nutrientResults.magnesiumTotal * 0
+                        }
+                      />
                     </Col>
                   </Row>
                 </Grid>
