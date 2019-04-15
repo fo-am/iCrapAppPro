@@ -305,6 +305,12 @@ export default class SpreadScreen extends Component<Props, State> {
                     <Col>
                       <Text>Savings</Text>
                     </Col>
+                    <Col>
+                      <Text>Crop Requirements</Text>
+                    </Col>
+                    <Col>
+                      <Text>Still needed</Text>
+                    </Col>
                   </Row>
                   <Row>
                     <Col>
@@ -332,6 +338,24 @@ export default class SpreadScreen extends Component<Props, State> {
                           CalculatorStore.nutrientResults.nitrogenAvailable *
                           FarmStore.farm.costN *
                           FieldStore.field.area
+                        }
+                      />
+                    </Col>
+                    <Col>
+                      <FormatValue
+                        units={"UnitsAcre"}
+                        value={
+                          FieldStore.cropRequirementsResult.nitrogenRequirement
+                        }
+                      />
+                    </Col>
+                    <Col>
+                      <FormatValue
+                        units={"UnitsAcre"}
+                        value={
+                          FieldStore.cropRequirementsResult
+                            .nitrogenRequirement -
+                          CalculatorStore.nutrientResults.nitrogenTotal
                         }
                       />
                     </Col>
@@ -364,6 +388,25 @@ export default class SpreadScreen extends Component<Props, State> {
                           CalculatorStore.nutrientResults.phosphorousAvailable *
                           FarmStore.farm.costP *
                           FieldStore.field.area
+                        }
+                      />
+                    </Col>
+                    <Col>
+                      <FormatValue
+                        units={"UnitsAcre"}
+                        value={
+                          FieldStore.cropRequirementsResult
+                            .phosphorousRequirement
+                        }
+                      />
+                    </Col>
+                    <Col>
+                      <FormatValue
+                        units={"UnitsAcre"}
+                        value={
+                          FieldStore.cropRequirementsResult
+                            .phosphorousRequirement -
+                          CalculatorStore.nutrientResults.phosphorousTotal
                         }
                       />
                     </Col>
@@ -406,6 +449,24 @@ export default class SpreadScreen extends Component<Props, State> {
                         }
                       />
                     </Col>
+                    <Col>
+                      <FormatValue
+                        units={"UnitsAcre"}
+                        value={
+                          FieldStore.cropRequirementsResult.potassiumRequirement
+                        }
+                      />
+                    </Col>
+                    <Col>
+                      <FormatValue
+                        units={"UnitsAcre"}
+                        value={
+                          FieldStore.cropRequirementsResult
+                            .phosphorousRequirement -
+                          CalculatorStore.nutrientResults.phosphorousTotal
+                        }
+                      />
+                    </Col>
                   </Row>
                   <Row>
                     <Col>
@@ -431,6 +492,12 @@ export default class SpreadScreen extends Component<Props, State> {
                           FieldStore.field.area
                         }
                       />
+                    </Col>
+                    <Col>
+                      <Text>cropReq</Text>
+                    </Col>
+                    <Col>
+                      <Text>stillN Needed</Text>
                     </Col>
                   </Row>
                   <Row>
@@ -460,83 +527,14 @@ export default class SpreadScreen extends Component<Props, State> {
                         }
                       />
                     </Col>
-                  </Row>
-                </Grid>
-                <Grid>
-                  <Row>
-                    <Text>Crop nutrient requirements</Text>
-                  </Row>
-
-                  <Row>
                     <Col>
-                      <FormatValue
-                        units={"UnitsAcre"}
-                        value={
-                          FieldStore.cropRequirementsResult.nitrogenRequirement
-                        }
-                      />
+                      <Text>cropReq</Text>
                     </Col>
                     <Col>
-                      <FormatValue
-                        units={"UnitsAcre"}
-                        value={
-                          FieldStore.cropRequirementsResult
-                            .phosphorousRequirement
-                        }
-                      />
-                    </Col>
-                    <Col>
-                      <FormatValue
-                        units={"UnitsAcre"}
-                        value={
-                          FieldStore.cropRequirementsResult.potassiumRequirement
-                        }
-                      />
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Text>Nutrients still needed</Text>
-                  </Row>
-                  <Row>
-                    <Col>
-                      <Text>
-                        <FormatValue
-                          units={"UnitsAcre"}
-                          value={
-                            FieldStore.cropRequirementsResult
-                              .nitrogenRequirement -
-                            CalculatorStore.nutrientResults.nitrogenTotal
-                          }
-                        />
-                      </Text>
-                    </Col>
-                    <Col>
-                      <Text>
-                        <FormatValue
-                          units={"UnitsAcre"}
-                          value={
-                            FieldStore.cropRequirementsResult
-                              .phosphorousRequirement -
-                            CalculatorStore.nutrientResults.phosphorousTotal
-                          }
-                        />
-                      </Text>
-                    </Col>
-                    <Col>
-                      <Text>
-                        <FormatValue
-                          units={"UnitsAcre"}
-                          value={
-                            FieldStore.cropRequirementsResult
-                              .phosphorousRequirement -
-                            CalculatorStore.nutrientResults.phosphorousTotal
-                          }
-                        />
-                      </Text>
+                      <Text>stillN Needed</Text>
                     </Col>
                   </Row>
                 </Grid>
-
                 <Image source={CalculatorStore.image} />
               </View>
             </ScrollView>
