@@ -38,26 +38,6 @@ class CalculatorStore {
             delay: 10
         });
     }
-
-    // Calculates the cost of a nutrient
-    public getCostStringFromNutrient(
-        nutrientIndex,
-        amounts,
-        multiplier
-    ): String {
-        if (!isNaN(amounts[nutrientIndex])) {
-            return String(
-                (
-                    amounts[nutrientIndex] *
-                    2 * // this.settingsProvider.costs[nutrientIndex]
-                    multiplier
-                ).toFixed(2)
-            );
-        } else {
-            return "N/A";
-        }
-    }
-
     // Calculate soil nitrogen supply
     public calculateSNS(
         rainfall,
