@@ -313,6 +313,36 @@ export default class FarmScreen extends Component<Props, State> {
                       />
                     </Col>
                   </Row>
+                  <Row>
+                    <Col>
+                      <Text>
+                        S (<DisplayPoundsPerArea />)
+                      </Text>
+                    </Col>
+                    <Col>
+                      <Input
+                        keyboardType="numeric"
+                        onChangeText={item => FarmStore.SetSCost(item)}
+                        value={String(FarmStore.farm.costS)}
+                        selectTextOnFocus={true}
+                      />
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col>
+                      <Text>
+                        Mg (<DisplayPoundsPerArea />)
+                      </Text>
+                    </Col>
+                    <Col>
+                      <Input
+                        keyboardType="numeric"
+                        onChangeText={item => FarmStore.SetMgCost(item)}
+                        value={String(FarmStore.farm.costMg)}
+                        selectTextOnFocus={true}
+                      />
+                    </Col>
+                  </Row>
                 </Grid>
               </Form>
             </ScrollView>

@@ -12,6 +12,8 @@ class ExportFarm {
     public costN: number = 0.79;
     public costP: number = 0.62;
     public costK: number = 0.49;
+    public costS: number = 0;
+    public costMg: number = 0;
     constructor() {
         this.key = Maths.generateUUID();
     }

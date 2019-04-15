@@ -69,7 +69,9 @@ export class DatabaseInitialization {
                 "Rainfall"	TEXT NOT NULL,
                 "Cost-N"	NUMERIC NOT NULL,
                 "Cost-P"	NUMERIC NOT NULL,
-                "Cost-K"	NUMERIC NOT NULL
+                "Cost-K"	NUMERIC NOT NULL,
+                "Cost-S"	NUMERIC NOT NULL,
+                "Cost-Mg"	NUMERIC NOT NULL
             );`
         );
 

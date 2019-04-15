@@ -78,5 +78,17 @@ class FarmStore {
         }
         this.farm.costK = item;
     }
+    public SetSCost(item: string) {
+        if (!item) {
+            item = "0";
+        }
+        this.farm.costS = item;
+    }
+    public SetMgCost(item: string) {
+        if (!item) {
+            item = "0";
+        }
+        this.farm.costMg = item;
+    }
 }
 export default new FarmStore();

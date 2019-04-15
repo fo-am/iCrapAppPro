@@ -113,7 +113,7 @@ class DatabaseImpl implements Database {
             db
                 .executeSql(
                     `SELECT  "Farm-Unique-Id", "Latitude", "Longitude",  "Name",   "Rainfall",
-                    "Cost-N", "Cost-P", "Cost-K"
+                    "Cost-N", "Cost-P", "Cost-K", "Cost-S", "Cost-Mg"
                      FROM Farm`
                 )
                 .then(([results]) => {
@@ -135,6 +135,8 @@ class DatabaseImpl implements Database {
                         farm.costN = row["Cost-N"];
                         farm.costP = row["Cost-P"];
                         farm.costK = row["Cost-K"];
+                        farm.costS = row["Cost-S"];
+                        farm.costMg = row["Cost-Mg"];
 
                         farms.push(farm);
                     }
@@ -150,7 +152,7 @@ class DatabaseImpl implements Database {
             db
                 .executeSql(
                     `SELECT  "Farm-Unique-Id", "Latitude", "Longitude",  "Name",   "Rainfall",
-                    "Cost-N", "Cost-P", "Cost-K"
+                    "Cost-N", "Cost-P", "Cost-K", "Cost-S", "Cost-Mg"
                      FROM Farm
              WHERE "Farm-Unique-Id" = ?`,
                     [key]
@@ -174,6 +176,8 @@ class DatabaseImpl implements Database {
                         farm.costN = row["Cost-N"];
                         farm.costP = row["Cost-P"];
                         farm.costK = row["Cost-K"];
+                        farm.costS = row["Cost-S"];
+                        farm.costMg = row["Cost-Mg"];
                     }
                     return farm;
                 })
@@ -218,7 +222,9 @@ class DatabaseImpl implements Database {
                         Rainfall= ?5,
                         "Cost-N" = ?6,
                         "Cost-P"= ?7,
-                        "Cost-K"= ?8
+                        "Cost-K"= ?8,
+                        "Cost-S"= ?9,
+                        "Cost-Mg"= ?10
                         where "Farm-Unique-Id" = ?1;
                         `,
 
@@ -230,7 +236,9 @@ class DatabaseImpl implements Database {
                             farm.rainfall,
                             farm.costN,
                             farm.costP,
-                            farm.costK
+                            farm.costK,
+                            farm.costS,
+                            farm.costMg
                         ]
                     )
                 )
@@ -256,8 +264,10 @@ class DatabaseImpl implements Database {
                             Rainfall,
                             "Cost-N",
                             "Cost-P",
-                            "Cost-K"
-                           ) values(?1,?2,?3,?4,?5,?6,?7,?8);
+                            "Cost-K",
+                            "Cost-S",
+                            "Cost-Mg"
+                           ) values(?1,?2,?3,?4,?5,?6,?7,?8,?9,?10);
                         `,
 
                         [
@@ -268,7 +278,9 @@ class DatabaseImpl implements Database {
                             farm.rainfall,
                             farm.costN,
                             farm.costP,
-                            farm.costK
+                            farm.costK,
+                            farm.costS,
+                            farm.costMg
                         ]
                     )
                 )
@@ -985,6 +997,8 @@ class DatabaseImpl implements Database {
         ,fa.'Cost-N'
         ,fa.'Cost-P'
         ,fa.'Cost-K'
+        ,fa.'Cost-S'
+        ,fa.'Cost-Mg'
         ,fi.'Field-Unique-Id'
         ,fi.FarmKey
         ,fi.Name as FieldName
@@ -1043,6 +1057,8 @@ class DatabaseImpl implements Database {
                             newFarm.costN = row["Cost-N"];
                             newFarm.costP = row["Cost-P"];
                             newFarm.costK = row["Cost-K"];
+                            newFarm.costS = row["Cost-S"];
+                            newFarm.costMg = row["Cost-Mg"];
 
                             this.fillFields(newFarm, row);
                             farms.push(newFarm);
