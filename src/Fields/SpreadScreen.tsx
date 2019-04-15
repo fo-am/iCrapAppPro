@@ -462,8 +462,8 @@ export default class SpreadScreen extends Component<Props, State> {
                         units={"UnitsAcre"}
                         value={
                           FieldStore.cropRequirementsResult
-                            .phosphorousRequirement -
-                          CalculatorStore.nutrientResults.phosphorousTotal
+                            .potassiumRequirement -
+                          CalculatorStore.nutrientResults.potassiumTotal
                         }
                       />
                     </Col>
