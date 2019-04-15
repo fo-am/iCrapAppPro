@@ -300,17 +300,17 @@ export default class Calculator extends Component<Props, State> {
                   </Item>
                 </View>
                 <Image source={CalculatorStore.image} />
-                <Text>Nu Grid</Text>
+                <Text>Results</Text>
                 <Grid style={{ alignItems: "center" }}>
                   <Row>
                     <Col>
                       <Text>Nutrient</Text>
                     </Col>
                     <Col>
-                      <Text>Avalable</Text>
+                      <Text>Crop Avalable</Text>
                     </Col>
                     <Col>
-                      <Text>In Manure</Text>
+                      <Text>Total In Manure</Text>
                     </Col>
                     <Col>
                       <Text>Savings</Text>
