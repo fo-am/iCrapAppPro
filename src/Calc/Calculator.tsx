@@ -300,9 +300,21 @@ export default class Calculator extends Component<Props, State> {
                   </Item>
                 </View>
                 <Image source={CalculatorStore.image} />
+                <Text>Nu Grid</Text>
                 <Grid style={{ alignItems: "center" }}>
                   <Row>
-                    <Text>Crop available nutrients (Total in manure)</Text>
+                    <Col>
+                      <Text>Nutrient</Text>
+                    </Col>
+                    <Col>
+                      <Text>Avalable</Text>
+                    </Col>
+                    <Col>
+                      <Text>In Manure</Text>
+                    </Col>
+                    <Col>
+                      <Text>Savings</Text>
+                    </Col>
                   </Row>
                   <Row>
                     <Col>
@@ -311,12 +323,59 @@ export default class Calculator extends Component<Props, State> {
                       </Text>
                     </Col>
                     <Col>
+                      <FormatValue
+                        units={"UnitsAcre"}
+                        value={CalculatorStore.nutrientResults.nitrogenTotal}
+                      />
+                    </Col>
+                    <Col>
+                      <FormatValue
+                        units={"UnitsAcre"}
+                        value={
+                          CalculatorStore.nutrientResults.nitrogenAvailable
+                        }
+                      />
+                    </Col>
+                    <Col>
+                      <CashDisplay
+                        value={
+                          CalculatorStore.nutrientResults.nitrogenTotal * 0.79
+                        }
+                      />
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col>
                       <Text style={{ fontSize: 20, lineHeight: 30 }}>
                         P<Text style={{ fontSize: 15, lineHeight: 40 }}>2</Text>
                         O<Text style={{ fontSize: 15, lineHeight: 40 }}>5</Text>{" "}
                         <DisplayAreaUnit />
                       </Text>
                     </Col>
+                    <Col>
+                      <FormatValue
+                        units={"UnitsAcre"}
+                        value={CalculatorStore.nutrientResults.phosphorousTotal}
+                      />
+                    </Col>
+                    <Col>
+                      <FormatValue
+                        units={"UnitsAcre"}
+                        value={
+                          CalculatorStore.nutrientResults.phosphorousAvailable
+                        }
+                      />
+                    </Col>
+                    <Col>
+                      <CashDisplay
+                        value={
+                          CalculatorStore.nutrientResults.phosphorousTotal *
+                          0.62
+                        }
+                      />
+                    </Col>
+                  </Row>
+                  <Row>
                     <Col>
                       <Text style={{ fontSize: 20, lineHeight: 30 }}>
                         K
@@ -331,75 +390,17 @@ export default class Calculator extends Component<Props, State> {
                         O <DisplayAreaUnit />
                       </Text>
                     </Col>
-                  </Row>
-                  <Row>
                     <Col>
-                      <Text>
-                        <FormatValue
-                          units={"UnitsAcre"}
-                          value={CalculatorStore.nutrientResults.nitrogenTotal}
-                        />{" "}
-                        (
-                        <FormatValue
-                          units={"UnitsAcre"}
-                          value={
-                            CalculatorStore.nutrientResults.nitrogenAvailable
-                          }
-                        />
-                        )
-                      </Text>
-                    </Col>
-                    <Col>
-                      <Text>
-                        <FormatValue
-                          units={"UnitsAcre"}
-                          value={
-                            CalculatorStore.nutrientResults.phosphorousTotal
-                          }
-                        />{" "}
-                        (
-                        <FormatValue
-                          units={"UnitsAcre"}
-                          value={
-                            CalculatorStore.nutrientResults.phosphorousAvailable
-                          }
-                        />
-                        )
-                      </Text>
-                    </Col>
-                    <Col>
-                      <Text>
-                        <FormatValue
-                          units={"UnitsAcre"}
-                          value={CalculatorStore.nutrientResults.potassiumTotal}
-                        />{" "}
-                        (
-                        <FormatValue
-                          units={"UnitsAcre"}
-                          value={
-                            CalculatorStore.nutrientResults.potassiumAvailable
-                          }
-                        />
-                        )
-                      </Text>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <H2>Savings</H2>
-                  </Row>
-                  <Row>
-                    <Col>
-                      <CashDisplay
-                        value={
-                          CalculatorStore.nutrientResults.nitrogenTotal * 0.79
-                        }
+                      <FormatValue
+                        units={"UnitsAcre"}
+                        value={CalculatorStore.nutrientResults.potassiumTotal}
                       />
                     </Col>
                     <Col>
-                      <CashDisplay
+                      <FormatValue
+                        units={"UnitsAcre"}
                         value={
-                          CalculatorStore.nutrientResults.phosphorousTotal *
-                          0.62
+                          CalculatorStore.nutrientResults.potassiumAvailable
                         }
                       />
                     </Col>
@@ -409,6 +410,34 @@ export default class Calculator extends Component<Props, State> {
                           CalculatorStore.nutrientResults.potassiumTotal * 0.49
                         }
                       />
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col>
+                      <Text>S</Text>
+                    </Col>
+                    <Col>
+                      <Text>Avalable</Text>
+                    </Col>
+                    <Col>
+                      <Text>In Manure</Text>
+                    </Col>
+                    <Col>
+                      <Text>Savings</Text>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col>
+                      <Text>Mg</Text>
+                    </Col>
+                    <Col>
+                      <Text>Avalable</Text>
+                    </Col>
+                    <Col>
+                      <Text>In Manure</Text>
+                    </Col>
+                    <Col>
+                      <Text>Savings</Text>
                     </Col>
                   </Row>
                 </Grid>
