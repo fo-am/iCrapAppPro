@@ -8,8 +8,8 @@ export default class NutrientResult {
     @observable public phosphorousAvailable: number = 0;
     @observable public phosphorousTotal: number = 0;
 
-    @observable public sulpherAvailable: number = 0;
-    @observable public sulpherTotal: number = 0;
+    @observable public sulphurAvailable: number = 0;
+    @observable public sulphurTotal: number = 0;
 
     @observable public magnesiumAvailable: number = 0;
     @observable public magnesiumTotal: number = 0;

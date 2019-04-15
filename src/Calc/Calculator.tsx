@@ -419,13 +419,13 @@ export default class Calculator extends Component<Props, State> {
                     <Col>
                       <FormatValue
                         units={"UnitsAcre"}
-                        value={CalculatorStore.nutrientResults.sulpherTotal}
+                        value={CalculatorStore.nutrientResults.sulphurTotal}
                       />
                     </Col>
                     <Col>
                       <FormatValue
                         units={"UnitsAcre"}
-                        value={CalculatorStore.nutrientResults.sulpherAvailable}
+                        value={CalculatorStore.nutrientResults.sulphurAvailable}
                       />
                     </Col>
                     <Col>

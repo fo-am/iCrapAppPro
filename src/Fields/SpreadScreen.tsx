@@ -475,29 +475,40 @@ export default class SpreadScreen extends Component<Props, State> {
                     <Col>
                       <FormatValue
                         units={"UnitsAcre"}
-                        value={CalculatorStore.nutrientResults.sulpherTotal}
+                        value={CalculatorStore.nutrientResults.sulphurTotal}
                       />
                     </Col>
                     <Col>
                       <FormatValue
                         units={"UnitsAcre"}
-                        value={CalculatorStore.nutrientResults.sulpherAvailable}
+                        value={CalculatorStore.nutrientResults.sulphurAvailable}
                       />
                     </Col>
                     <Col>
                       <CashDisplay
                         value={
-                          CalculatorStore.nutrientResults.sulpherAvailable *
+                          CalculatorStore.nutrientResults.sulphurAvailable *
                           FarmStore.farm.costS *
                           FieldStore.field.area
                         }
                       />
                     </Col>
                     <Col>
-                      <Text>cropReq</Text>
+                      <FormatValue
+                        units={"UnitsAcre"}
+                        value={
+                          FieldStore.cropRequirementsResult.sulphurRequirement
+                        }
+                      />
                     </Col>
                     <Col>
-                      <Text>stillN Needed</Text>
+                      <FormatValue
+                        units={"UnitsAcre"}
+                        value={
+                          FieldStore.cropRequirementsResult.sulphurRequirement -
+                          CalculatorStore.nutrientResults.sulphurTotal
+                        }
+                      />
                     </Col>
                   </Row>
                   <Row>
@@ -528,10 +539,22 @@ export default class SpreadScreen extends Component<Props, State> {
                       />
                     </Col>
                     <Col>
-                      <Text>cropReq</Text>
+                      <FormatValue
+                        units={"UnitsAcre"}
+                        value={
+                          FieldStore.cropRequirementsResult.magnesiumRequirement
+                        }
+                      />
                     </Col>
                     <Col>
-                      <Text>stillN Needed</Text>
+                      <FormatValue
+                        units={"UnitsAcre"}
+                        value={
+                          FieldStore.cropRequirementsResult
+                            .magnesiumRequirement -
+                          CalculatorStore.nutrientResults.magnesiumTotal
+                        }
+                      />
                     </Col>
                   </Row>
                 </Grid>

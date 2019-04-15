@@ -401,7 +401,7 @@ export default class FieldScreen extends Component<Props, State> {
                           alignItems: "center"
                         }}
                       >
-                        Sulpher Risk
+                        Sulphur Risk
                       </H3>
                     </Row>
                     <Row
@@ -475,6 +475,12 @@ export default class FieldScreen extends Component<Props, State> {
                           O <DisplayAreaUnit />
                         </Text>
                       </Col>
+                      <Col>
+                        <Text>s</Text>
+                      </Col>
+                      <Col>
+                        <Text>mg</Text>
+                      </Col>
                     </Row>
                     <Row>
                       <Col>
@@ -498,6 +504,19 @@ export default class FieldScreen extends Component<Props, State> {
                           {
                             FieldStore.cropRequirementsResult
                               .potassiumRequirement
+                          }
+                        </Text>
+                      </Col>
+                      <Col>
+                        <Text>
+                          {FieldStore.cropRequirementsResult.sulphurRequirement}
+                        </Text>
+                      </Col>
+                      <Col>
+                        <Text>
+                          {
+                            FieldStore.cropRequirementsResult
+                              .magnesiumRequirement
                           }
                         </Text>
                       </Col>

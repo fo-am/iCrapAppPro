@@ -104,6 +104,7 @@ class CalculatorStore {
             field.organicManure,
             field.soilTestP,
             field.soilTestK,
+            field.soilTestMg,
             field.recentGrass
         );
 
@@ -112,6 +113,8 @@ class CalculatorStore {
         values.nitrogenRequirement = temp.nitrogenRequirement;
         values.phosphorousRequirement = temp.phosphorousRequirement;
         values.potassiumRequirement = temp.phosphorousRequirement;
+        values.sulphurRequirement = temp.sulphurRequirement;
+        values.magnesiumRequirement = temp.magnesiumRequirement;
 
         return values;
     }
@@ -124,6 +127,7 @@ class CalculatorStore {
         regularlyManure,
         soilTestP,
         soilTestK,
+        soilTestMg,
         recentlyGrownGrass
     ) {
         const sns = this.calculateSNS(
@@ -140,7 +144,8 @@ class CalculatorStore {
             soil,
             ...crop,
             "p-index": soilTestP,
-            "k-index": soilTestK
+            "k-index": soilTestK,
+            "m-index": soilTestMg
         };
         let nitrogenRequirement = this.decision(
             cropRequirementsNitrogenTree,
@@ -161,10 +166,20 @@ class CalculatorStore {
             cropRequirementsPhosphorousPotassiumTree,
             { nutrient: "potassium", ...choices }
         );
+        const sulphurRequirement = this.decision(
+            cropRequirementsPhosphorousPotassiumTree,
+            { nutrient: "sulphur", ...choices }
+        );
+        const magnesiumRequirement = this.decision(
+            cropRequirementsPhosphorousPotassiumTree,
+            { nutrient: "magnesium", ...choices }
+        );
         return {
             nitrogenRequirement,
             phosphorousRequirement,
             potassiumRequirement,
+            sulphurRequirement,
+            magnesiumRequirement,
             nitrogenSupply: sns
         };
     }
@@ -192,8 +207,8 @@ class CalculatorStore {
             this.nutrientResults.potassiumTotal = results[1][2];
             this.nutrientResults.potassiumAvailable = results[0][2];
             // s
-            this.nutrientResults.sulpherTotal = results[1][3];
-            this.nutrientResults.sulpherAvailable = results[0][3];
+            this.nutrientResults.sulphurTotal = results[1][3];
+            this.nutrientResults.sulphurAvailable = results[0][3];
             // mg
             this.nutrientResults.magnesiumTotal = results[1][4];
             this.nutrientResults.magnesiumAvailable = results[0][4];
