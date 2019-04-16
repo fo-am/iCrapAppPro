@@ -114,7 +114,7 @@ class CalculatorStore {
         values.nitrogenSupply = temp.nitrogenSupply;
         values.nitrogenRequirement = temp.nitrogenRequirement;
         values.phosphorousRequirement = temp.phosphorousRequirement;
-        values.potassiumRequirement = temp.phosphorousRequirement;
+        values.potassiumRequirement = temp.potassiumRequirement;
         values.sulphurRequirement = temp.sulphurRequirement;
         values.magnesiumRequirement = temp.magnesiumRequirement;
 
