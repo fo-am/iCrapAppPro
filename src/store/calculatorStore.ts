@@ -84,7 +84,8 @@ class CalculatorStore {
     }
 
     public getCropRequirementsSupplyFromField(
-        field: Field
+        field: Field,
+        risk: string
     ): CropRequirementsResult {
         // this horror takes an array of array of string and
         // turns it into an object, this is later "spread" to form the params passed to 'decision
@@ -105,7 +106,8 @@ class CalculatorStore {
             field.soilTestP,
             field.soilTestK,
             field.soilTestMg,
-            field.recentGrass
+            field.recentGrass,
+            risk
         );
 
         const values = new CropRequirementsResult();
@@ -128,7 +130,8 @@ class CalculatorStore {
         soilTestP,
         soilTestK,
         soilTestMg,
-        recentlyGrownGrass
+        recentlyGrownGrass,
+        risk
     ) {
         const sns = this.calculateSNS(
             rainfall,
@@ -145,7 +148,8 @@ class CalculatorStore {
             ...crop,
             "p-index": soilTestP,
             "k-index": soilTestK,
-            "m-index": soilTestMg
+            "m-index": soilTestMg,
+            risk
         };
         let nitrogenRequirement = this.decision(
             cropRequirementsNitrogenTree,

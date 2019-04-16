@@ -187,10 +187,39 @@ class FieldStore {
     }
     public CalcCropRequirements() {
         this.cropRequirementsResult = CalculatorStore.getCropRequirementsSupplyFromField(
-            this.field
+            this.field,
+            this.CalculateSulphurRisk()
         );
     }
+    public CalculateSulphurRisk() {
+        // rainfall
+        const rain = this.farm.rainfall;
+        // soil type
+        const soiltype = this.field.soilType;
 
+        // ;; All light sand and shallow soils = High risk
+        // ;; Medium soils with low rainfall = Low risk
+        // ;; Medium soils with medium or high rainfall = High risk
+        // ;; Deep clay, deep silt, organic and peat soils with low or medium rainfall = Low risk
+        // ;; Deep clay, deep silt, organic and peat soils with high rainfall = High risk
+
+        if (soiltype == "sandyshallow" || soiltype === "mediumshallow") {
+            return "high";
+        }
+
+        if (soiltype === "medium") {
+            if (rain === "rain-low") {
+                return "low";
+            } else {
+                return "high";
+            }
+        }
+
+        if (rain === "rain-high") {
+            return "high";
+        }
+        return "low";
+    }
     private getFarm(farmKey: string) {
         database.getFarm(farmKey).then((farm: Farm) => (this.farm = farm));
     }

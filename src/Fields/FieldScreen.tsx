@@ -410,7 +410,7 @@ export default class FieldScreen extends Component<Props, State> {
                         alignItems: "center"
                       }}
                     >
-                      <Text>{this.Foo()}</Text>
+                      <Text>{FieldStore.CalculateSulphurRisk()}</Text>
                     </Row>
                   </Grid>
 
@@ -552,36 +552,6 @@ export default class FieldScreen extends Component<Props, State> {
         </Footer>
       </Container>
     );
-  }
-  private Foo(): string {
-    const { FieldStore, SettingsStore } = this.props;
-    // rainfall
-    const rain = FieldStore.farm.rainfall;
-    // soil type
-    const soiltype = FieldStore.field.soilType;
-
-    // ;; All light sand and shallow soils = High risk
-    // ;; Medium soils with low rainfall = Low risk
-    // ;; Medium soils with medium or high rainfall = High risk
-    // ;; Deep clay, deep silt, organic and peat soils with low or medium rainfall = Low risk
-    // ;; Deep clay, deep silt, organic and peat soils with high rainfall = High risk
-
-    if (soiltype == "sandyshallow" || soiltype === "mediumshallow") {
-      return "High";
-    }
-
-    if (soiltype === "medium") {
-      if (rain === "rain-low") {
-        return "Low";
-      } else {
-        return "High";
-      }
-    }
-
-    if (rain === "rain-high") {
-      return "High";
-    }
-    return "Low";
   }
 
   private getAreaValue(): number {
