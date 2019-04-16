@@ -38,7 +38,7 @@ export default {
   badgePadding: 0,
 
   // Button
-  btnFontFamily: "Roboto",
+  btnFontFamily: "ArimaMadurai-Regular",
   btnDisabledBg: "#b5b5b5",
   buttonPadding: 6,
   get btnPrimaryBg() {
@@ -125,9 +125,9 @@ export default {
   datePickerBg: "transparent",
 
   // Font
-  DefaultFontSize: 16,
-  fontFamily: "Roboto",
-  fontSizeBase: 15,
+  DefaultFontSize: 18,
+  fontFamily: "ArimaMadurai-Regular",
+  fontSizeBase: 17,
   get fontSizeH1() {
     return this.fontSizeBase * 1.8;
   },
@@ -252,7 +252,7 @@ export default {
   },
 
   // Title
-  titleFontfamily: "Roboto",
+  titleFontfamily: "ArimaMadurai-Regular",
   titleFontSize: 19,
   subTitleFontSize: 14,
   subtitleColor: "#FFF",

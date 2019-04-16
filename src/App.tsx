@@ -3,6 +3,7 @@ import { StyleProvider } from "native-base";
 import React from "react";
 import { I18nextProvider, translate } from "react-i18next";
 import getTheme from "../native-base-theme/components";
+import material from "../native-base-theme/variables/material";
 import platform from "../native-base-theme/variables/platform";
 import RootStack from "./navigation/RootStack";
 import CalculatorStore from "./store/calculatorStore";
@@ -26,7 +27,7 @@ export default class App extends React.Component {
   public render() {
     return (
       <I18nextProvider i18n={i18n}>
-        <StyleProvider style={getTheme(platform)}>
+        <StyleProvider style={getTheme(material)}>
           <Provider
             ManureStore={ManureStore}
             SettingsStore={SettingsStore}
