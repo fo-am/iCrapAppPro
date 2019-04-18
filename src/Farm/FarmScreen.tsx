@@ -114,6 +114,7 @@ export default class FarmScreen extends Component<Props, State> {
         </MapView>
         <View
           style={{
+            width: "50%",
             position: "absolute", // use absolute position to show button on top of the map
             top: "2%", // for center align
             alignSelf: "flex-end", // for align to right
@@ -140,6 +141,7 @@ export default class FarmScreen extends Component<Props, State> {
         </View>
         <View
           style={{
+            width: "50%",
             position: "absolute",
             top: "2%",
             alignSelf: "flex-start",
@@ -177,7 +179,8 @@ export default class FarmScreen extends Component<Props, State> {
               description: {
                 textAlign: "left"
               },
-              textInputContainer: { width: 200 },
+              // textInputContainer: { width: "100%" },
+              listView: { width: "200%", backgroundColor: "white" },
               predefinedPlacesDescription: {
                 color: "#1faadb"
               }
