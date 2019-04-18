@@ -8,7 +8,7 @@ export default class Field {
     @observable public key: string;
     @observable public fieldCoordinates: Coords = new Coords();
     @observable public area: number = 0;
-    @observable public name = "New Field";
+    @observable public name = "Your Field";
     @observable public spreadingEvents = Array<Spread>();
     @observable public soilType: string = "sandyshallow";
     @observable public organicManure: string = "no";

@@ -6,7 +6,7 @@ import LatLng from "../model/LatLng";
 class ExportFarm {
     public key: string;
     public farmLocation: LatLng = new LatLng();
-    public name: string = "New Farm";
+    public name: string = "Your Farm";
     public fields: Array<ExportField> = Array<ExportField>();
     public rainfall: string = "rain-low";
     public costN: number = 0.79;
@@ -24,7 +24,7 @@ class ExportField {
     public key: string;
     public fieldCoordinates: Coords = new Coords();
     public area: number = 0;
-    public name = "New Field";
+    public name = "Your Field";
     public spreadingEvents: Array<ExportSpread> = Array<ExportSpread>();
     public soilType: string = "sandyshallow";
     public organicManure: string = "no";

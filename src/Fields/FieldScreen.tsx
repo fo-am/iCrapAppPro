@@ -278,7 +278,7 @@ export default class FieldScreen extends Component<Props, State> {
                     <Input
                       selectTextOnFocus={true}
                       style={{ fontSize: 20, fontWeight: "bold" }}
-                      placeholder="New Field"
+                      placeholder="Your Field"
                       onChangeText={text => (FieldStore.field.name = text)}
                     >
                       {FieldStore.field.name}
