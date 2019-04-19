@@ -15,7 +15,7 @@ import {
 } from "native-base";
 import React, { Component } from "react";
 import { translate } from "react-i18next";
-import { Image } from "react-native";
+import { Image, View } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
 
 interface MyComponentProps {
@@ -41,33 +41,29 @@ export default class SplashScreen extends Component<
       <Container>
         <Header>
           <Left />
-          <Body>
-            <Title>{t("the-farm-crap-app-pro")}</Title>
-          </Body>
+          <Body />
           <Right>
             <Button
+              style={{ marginTop: "5%" }}
               hasText
               transparent
-              onPress={() =>
-                this.props.navigation.navigate("Home", {
-                  fieldKey: undefined
-                })
-              }
+              onPress={() => this.props.navigation.navigate("Home")}
             >
-              <Text>Begin</Text>
+              <Text style={{ fontSize: 20, padding: "5%", fontWeight: "bold" }}>
+                Begin >
+              </Text>
             </Button>
           </Right>
         </Header>
         <Content scrollEnabled={false}>
-          <Form
+          <View
             style={{
               flex: 1,
               justifyContent: "center",
-              alignItems: "center",
-              padding: 15
+              alignItems: "center"
             }}
           >
-            <H1>{t("the-farm-crap-app-pro")}</H1>
+            <H1 style={{ paddingTop: "5%" }}>{t("the-farm-crap-app-pro")}</H1>
             <Text style={{ textAlign: "center" }}>{t("introduction")}</Text>
 
             <Image
@@ -77,7 +73,7 @@ export default class SplashScreen extends Component<
                 height: 500
               }}
             />
-          </Form>
+          </View>
         </Content>
         <Footer />
       </Container>

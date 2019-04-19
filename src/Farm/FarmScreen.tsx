@@ -13,6 +13,7 @@ import {
   H2,
   H3,
   Input,
+  Item,
   Row,
   Text
 } from "native-base";
@@ -204,14 +205,15 @@ export default class FarmScreen extends Component<Props, State> {
           <Form>
             <ScrollView>
               <Text>Farm Name</Text>
-              <Input
-                selectTextOnFocus={true}
-                style={{ fontSize: 20, fontWeight: "bold" }}
-                onChangeText={text => (FarmStore.farm.name = text)}
-              >
-                {FarmStore.farm.name}
-              </Input>
-
+              <Item rounded>
+                <Input
+                  selectTextOnFocus={true}
+                  style={{ fontSize: 20, fontWeight: "bold" }}
+                  onChangeText={text => (FarmStore.farm.name = text)}
+                >
+                  {FarmStore.farm.name}
+                </Input>
+              </Item>
               <View>
                 <Text>Add Field</Text>
                 <Button
@@ -249,11 +251,13 @@ export default class FarmScreen extends Component<Props, State> {
               </ScrollView>
               <Form>
                 <Text>Set Farm Rainfall</Text>
-                <DropDown
-                  selectedValue={FarmStore.farm.rainfall}
-                  onChange={item => FarmStore.SelectRainfall(item)}
-                  values={this.RainfallTypes}
-                />
+                <Item rounded>
+                  <DropDown
+                    selectedValue={FarmStore.farm.rainfall}
+                    onChange={item => FarmStore.SelectRainfall(item)}
+                    values={this.RainfallTypes}
+                  />
+                </Item>
                 <Grid>
                   <Row>
                     <Text

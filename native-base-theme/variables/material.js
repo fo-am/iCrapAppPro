@@ -109,8 +109,8 @@ export default {
   checkboxTickColor: "#fff",
 
   // Color
-  brandPrimary: "#3F51B5",
-  brandInfo: "#62B1F6",
+  brandPrimary: "#89BF89",
+  brandInfo: "#66ff87",
   brandSuccess: "#5cb85c",
   brandDanger: "#d9534f",
   brandWarning: "#f0ad4e",
@@ -140,27 +140,27 @@ export default {
 
   // Footer
   footerHeight: 55,
-  footerDefaultBg: "#3F51B5",
+  footerDefaultBg: "#89BF89",
   footerPaddingBottom: 0,
 
   // FooterTab
   tabBarTextColor: "#bfc6ea",
-  tabBarTextSize: 11,
+  tabBarTextSize: this.fontSizeBase,
   activeTab: "#fff",
   sTabBarActiveTextColor: "#007aff",
   tabBarActiveTextColor: "#fff",
-  tabActiveBgColor: "#3F51B5",
+  tabActiveBgColor: "#89BF89",
 
   // Header
-  toolbarBtnColor: "#fff",
-  toolbarDefaultBg: "#3F51B5",
+  toolbarBtnColor: "#000",
+  toolbarDefaultBg: "#72a072",
   toolbarHeight: 56,
   toolbarSearchIconSize: 23,
   toolbarInputColor: "#fff",
   searchBarHeight: platform === "ios" ? 30 : 40,
   searchBarInputHeight: platform === "ios" ? 40 : 50,
-  toolbarBtnTextColor: "#fff",
-  toolbarDefaultBorder: "#3F51B5",
+  toolbarBtnTextColor: "#000",
+  toolbarDefaultBorder: "#89BF89",
   iosStatusbar: "light-content",
   get statusBarColor() {
     return color(this.toolbarDefaultBg)
@@ -206,7 +206,7 @@ export default {
   listItemPadding: 12,
   listNoteColor: "#808080",
   listNoteSize: 13,
-  listItemSelected: "#3F51B5",
+  listItemSelected: "#89BF89",
 
   // Progress Bar
   defaultProgressColor: "#E4202D",
@@ -214,26 +214,26 @@ export default {
 
   // Radio Button
   radioBtnSize: 23,
-  radioSelectedColorAndroid: "#3F51B5",
+  radioSelectedColorAndroid: "#89BF89",
   radioBtnLineHeight: 24,
   get radioColor() {
     return this.brandPrimary;
   },
 
   // Segment
-  segmentBackgroundColor: "#3F51B5",
+  segmentBackgroundColor: "#89BF89",
   segmentActiveBackgroundColor: "#fff",
   segmentTextColor: "#fff",
-  segmentActiveTextColor: "#3F51B5",
+  segmentActiveTextColor: "#89BF89",
   segmentBorderColor: "#fff",
-  segmentBorderColorMain: "#3F51B5",
+  segmentBorderColorMain: "#89BF89",
 
   // Spinner
   defaultSpinnerColor: "#45D56E",
   inverseSpinnerColor: "#1A191B",
 
   // Tab
-  tabDefaultBg: "#3F51B5",
+  tabDefaultBg: "#89BF89",
   topTabBarTextColor: "#b3c7f9",
   topTabBarActiveTextColor: "#fff",
   topTabBarBorderColor: "#fff",
@@ -245,7 +245,7 @@ export default {
 
   // Text
   textColor: "#000",
-  inverseTextColor: "#fff",
+  inverseTextColor: "#000",
   noteFontSize: 14,
   get defaultTextColor() {
     return this.textColor;
