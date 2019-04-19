@@ -8,7 +8,7 @@
     "tsc": "tsc"
   },
   "rnpm": {
-    "assets": ["assets/fonts"]
+    "assets": ["./src/assets/fonts"]
   },
   "dependencies": {
     "@expo/vector-icons": "9.0.0",
