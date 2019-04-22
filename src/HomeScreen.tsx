@@ -25,7 +25,7 @@ import {
 } from "native-base";
 import React, { Component } from "react";
 import { FlatList, ScrollView, StatusBar, View } from "react-native";
-import { NavigationScreenProp } from "react-navigation";
+import { NavigationScreenProp, SafeAreaView } from "react-navigation";
 import { database } from "./database/Database";
 import Farm from "./model/Farm";
 import Manure from "./model/manure";
@@ -53,85 +53,89 @@ export default class HomeScreen extends Component<
 
   public render() {
     return (
-      <Container>
-        <Content>
-          <Form>
-            <StatusBar />
-            <View style={styles.container}>
-              <Text>Add a farm</Text>
-              <Button
-                onPress={() =>
-                  this.props.navigation.navigate("Farm", {
-                    farmKey: undefined
-                  })
-                }
-              >
-                <Text>Add a Farm</Text>
-              </Button>
-              <ScrollView>
-                <FlatList<Farm>
-                  data={this.props.FarmStore.farms.slice()}
-                  keyExtractor={item => item.key}
-                  renderItem={({ item }) => (
-                    <Button
-                      onPress={() => {
-                        this.props.navigation.navigate("Farm", {
-                          farmKey: item.key
-                        });
-                      }}
-                    >
-                      <Text>{item.name}</Text>
-                    </Button>
-                  )}
-                />
-              </ScrollView>
+      <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
+        <Container>
+          <Content>
+            <Form>
+              <StatusBar />
+              <View style={styles.container}>
+                <Text>Add a farm</Text>
+                <Button
+                  onPress={() =>
+                    this.props.navigation.navigate("Farm", {
+                      farmKey: undefined
+                    })
+                  }
+                >
+                  <Text>Add a Farm</Text>
+                </Button>
+                <ScrollView>
+                  <FlatList<Farm>
+                    data={this.props.FarmStore.farms.slice()}
+                    keyExtractor={item => item.key}
+                    renderItem={({ item }) => (
+                      <Button
+                        onPress={() => {
+                          this.props.navigation.navigate("Farm", {
+                            farmKey: item.key
+                          });
+                        }}
+                      >
+                        <Text>{item.name}</Text>
+                      </Button>
+                    )}
+                  />
+                </ScrollView>
 
-              <Text>Settings</Text>
-              <Button
-                onPress={() => this.props.navigation.navigate("Settings")}
-              >
                 <Text>Settings</Text>
-              </Button>
+                <Button
+                  onPress={() => this.props.navigation.navigate("Settings")}
+                >
+                  <Text>Settings</Text>
+                </Button>
 
-              <Button
-                onPress={() => this.props.navigation.navigate("Calculator")}
-              >
-                <Text>Calculator</Text>
-              </Button>
+                <Button
+                  onPress={() => this.props.navigation.navigate("Calculator")}
+                >
+                  <Text>Calculator</Text>
+                </Button>
 
-              <Text>Manure</Text>
-              <Button
-                onPress={() => this.props.navigation.navigate("CustomManure")}
-              >
-                <Text>Add a new manure</Text>
-              </Button>
-              <ScrollView>
-                <FlatList<Manure>
-                  data={this.props.ManureStore.manures.slice()}
-                  keyExtractor={item => item.key}
-                  renderItem={({ item }) => (
-                    <Button
-                      onPress={() => {
-                        this.props.navigation.navigate("CustomManure", {
-                          manure: item
-                        });
-                      }}
-                    >
-                      <Text>{item.name}</Text>
-                    </Button>
-                  )}
-                />
-              </ScrollView>
-              <Button onPress={() => this.props.navigation.navigate("Export")}>
-                <Text>Export Data</Text>
-              </Button>
-              <Button onPress={() => this.clearStore()}>
-                <Text>clear store</Text>
-              </Button>
-            </View>
-          </Form>
-        </Content>
-      </Container>
+                <Text>Manure</Text>
+                <Button
+                  onPress={() => this.props.navigation.navigate("CustomManure")}
+                >
+                  <Text>Add a new manure</Text>
+                </Button>
+                <ScrollView>
+                  <FlatList<Manure>
+                    data={this.props.ManureStore.manures.slice()}
+                    keyExtractor={item => item.key}
+                    renderItem={({ item }) => (
+                      <Button
+                        onPress={() => {
+                          this.props.navigation.navigate("CustomManure", {
+                            manure: item
+                          });
+                        }}
+                      >
+                        <Text>{item.name}</Text>
+                      </Button>
+                    )}
+                  />
+                </ScrollView>
+                <Button
+                  onPress={() => this.props.navigation.navigate("Export")}
+                >
+                  <Text>Export Data</Text>
+                </Button>
+                <Button onPress={() => this.clearStore()}>
+                  <Text>clear store</Text>
+                </Button>
+              </View>
+            </Form>
+          </Content>
+        </Container>
+      </SafeAreaView>
     );
   }
   private clearStore = () => {

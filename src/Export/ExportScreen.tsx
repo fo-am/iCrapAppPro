@@ -33,7 +33,7 @@ import {
 
 import RNFS from "react-native-fs";
 import Mailer from "react-native-mail";
-import { NavigationScreenProp } from "react-navigation";
+import { NavigationScreenProp, SafeAreaView } from "react-navigation";
 import { database } from "../database/Database";
 import Farm from "../model/Farm";
 
@@ -80,21 +80,25 @@ export default class ExportScreen extends Component<Props, State> {
     } = this.props;
 
     return (
-      <Container>
-        <Content>
-          <Form>
-            <Button onPress={this.handleEmail}>
-              <Text>Send csv data to {SettingsStore.appSettings.email}</Text>
-            </Button>
-          </Form>
-          <Form>
-            <Button onPress={() => this.exportJson()}>
-              <Text>Export Farm data to {SettingsStore.appSettings.email}</Text>
-            </Button>
-            <Text>{this.state.errorsString}</Text>
-          </Form>
-        </Content>
-      </Container>
+      <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
+        <Container>
+          <Content>
+            <Form>
+              <Button onPress={this.handleEmail}>
+                <Text>Send csv data to {SettingsStore.appSettings.email}</Text>
+              </Button>
+            </Form>
+            <Form>
+              <Button onPress={() => this.exportJson()}>
+                <Text>
+                  Export Farm data to {SettingsStore.appSettings.email}
+                </Text>
+              </Button>
+              <Text>{this.state.errorsString}</Text>
+            </Form>
+          </Content>
+        </Container>
+      </SafeAreaView>
     );
   }
   private exportJson() {

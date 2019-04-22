@@ -11,6 +11,13 @@ const styles = StyleSheet.create({
 
         marginTop: "2%"
     },
+    box: {
+        backgroundColor: "#d6d6d6",
+        justifyContent: "space-between",
+        padding: "2%",
+
+        marginTop: "2%"
+    },
     text: { color: "#000" },
     map: {
         width,

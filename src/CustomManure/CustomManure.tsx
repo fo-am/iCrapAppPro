@@ -2,7 +2,7 @@ import { inject, observer } from "mobx-react/native";
 import { Button, Container, Content, Form, Input, Text } from "native-base";
 import React, { Component } from "react";
 import { StatusBar, View } from "react-native";
-import { NavigationScreenProp } from "react-navigation";
+import { NavigationScreenProp, SafeAreaView } from "react-navigation";
 
 import Manure from "./../model/manure";
 import styles from "./../styles/style";
@@ -38,80 +38,82 @@ export default class CustomManure extends Component<
 
   public render() {
     return (
-      <Container>
-        <Content>
-          <Form>
-            <StatusBar />
-            <View style={styles.container}>
-              <Text>Manure Name</Text>
+      <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
+        <Container>
+          <Content>
+            <Form>
+              <StatusBar />
+              <View style={styles.container}>
+                <Text>Manure Name</Text>
 
-              <Input
-                autoFocus={true}
-                selectTextOnFocus={true}
-                style={{ fontSize: 20, fontWeight: "bold" }}
-                keyboardType="default"
-                placeholder="New Manure"
-                onChangeText={text =>
-                  (this.props.ManureStore.manure.name = text)
-                }
-              >
-                {this.props.ManureStore.manure.name}
-              </Input>
+                <Input
+                  autoFocus={true}
+                  selectTextOnFocus={true}
+                  style={{ fontSize: 20, fontWeight: "bold" }}
+                  keyboardType="default"
+                  placeholder="New Manure"
+                  onChangeText={text =>
+                    (this.props.ManureStore.manure.name = text)
+                  }
+                >
+                  {this.props.ManureStore.manure.name}
+                </Input>
 
-              <Text>N kg/t content (elemental)</Text>
+                <Text>N kg/t content (elemental)</Text>
 
-              <Input
-                selectTextOnFocus={true}
-                style={{ fontSize: 20, fontWeight: "bold" }}
-                keyboardType="numeric"
-                placeholder="0"
-                onChangeText={text =>
-                  (this.props.ManureStore.manure.N = parseFloat(text))
-                }
-              >
-                {this.toString(this.props.ManureStore.manure.N)}
-              </Input>
+                <Input
+                  selectTextOnFocus={true}
+                  style={{ fontSize: 20, fontWeight: "bold" }}
+                  keyboardType="numeric"
+                  placeholder="0"
+                  onChangeText={text =>
+                    (this.props.ManureStore.manure.N = parseFloat(text))
+                  }
+                >
+                  {this.toString(this.props.ManureStore.manure.N)}
+                </Input>
 
-              <Text>P kg/t content (elemental)</Text>
-              <Input
-                selectTextOnFocus={true}
-                style={{ fontSize: 20, fontWeight: "bold" }}
-                keyboardType="numeric"
-                placeholder="0"
-                onChangeText={text =>
-                  (this.props.ManureStore.manure.P = parseFloat(text))
-                }
-              >
-                {this.toString(this.props.ManureStore.manure.P)}
-              </Input>
+                <Text>P kg/t content (elemental)</Text>
+                <Input
+                  selectTextOnFocus={true}
+                  style={{ fontSize: 20, fontWeight: "bold" }}
+                  keyboardType="numeric"
+                  placeholder="0"
+                  onChangeText={text =>
+                    (this.props.ManureStore.manure.P = parseFloat(text))
+                  }
+                >
+                  {this.toString(this.props.ManureStore.manure.P)}
+                </Input>
 
-              <Text>K kg/t content (elemental)</Text>
+                <Text>K kg/t content (elemental)</Text>
 
-              <Input
-                selectTextOnFocus={true}
-                style={{ fontSize: 20, fontWeight: "bold" }}
-                keyboardType="numeric"
-                placeholder="0"
-                onChangeText={text =>
-                  (this.props.ManureStore.manure.K = parseFloat(text))
-                }
-              >
-                {this.toString(this.props.ManureStore.manure.K)}
-              </Input>
+                <Input
+                  selectTextOnFocus={true}
+                  style={{ fontSize: 20, fontWeight: "bold" }}
+                  keyboardType="numeric"
+                  placeholder="0"
+                  onChangeText={text =>
+                    (this.props.ManureStore.manure.K = parseFloat(text))
+                  }
+                >
+                  {this.toString(this.props.ManureStore.manure.K)}
+                </Input>
 
-              <Button onPress={this.cancel}>
-                <Text>Cancel</Text>
-              </Button>
-              <Button onPress={this.saveManure}>
-                <Text>Save Manure</Text>
-              </Button>
-              <Button onPress={this.deleteManure}>
-                <Text>Remove manure</Text>
-              </Button>
-            </View>
-          </Form>
-        </Content>
-      </Container>
+                <Button onPress={this.cancel}>
+                  <Text>Cancel</Text>
+                </Button>
+                <Button onPress={this.saveManure}>
+                  <Text>Save Manure</Text>
+                </Button>
+                <Button onPress={this.deleteManure}>
+                  <Text>Remove manure</Text>
+                </Button>
+              </View>
+            </Form>
+          </Content>
+        </Container>
+      </SafeAreaView>
     );
   }
 

@@ -33,7 +33,7 @@ import {
   TouchableOpacity,
   View
 } from "react-native";
-import { NavigationScreenProp } from "react-navigation";
+import { NavigationScreenProp, SafeAreaView } from "react-navigation";
 
 import moment from "moment";
 import Images from "../assets/imageData";
@@ -211,369 +211,386 @@ export default class SpreadScreen extends Component<Props, State> {
       FarmStore
     } = this.props;
     return (
-      <Container key={FieldStore.newSpreadEvent.key}>
-        <Content>
-          <Form>
-            <ScrollView>
-              <StatusBar />
-              <View style={styles.container}>
-                <H1>{FieldStore.field.name}</H1>
-                <Text>Enter new crap spreading event</Text>
-                <Text>Manure type</Text>
-                <DropDown
-                  selectedValue={
-                    CalculatorStore.calculatorValues.manureSelected
-                  }
-                  onChange={item => this.InitialiseDropdowns(item)}
-                  values={this.strings.manureTypes}
-                />
-                <Text>Date</Text>
-                <DatePicker
-                  style={{ width: 200 }}
-                  date={FieldStore.newSpreadEvent.date}
-                  mode="date"
-                  //  format="DD-MM-YYYY"
-                  confirmBtnText="Confirm"
-                  cancelBtnText="Cancel"
-                  customStyles={{
-                    dateIcon: {
-                      position: "absolute",
-                      left: 0,
-                      top: 4,
-                      marginLeft: 0
-                    },
-                    dateInput: {
-                      marginLeft: 36
+      <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
+        <Container key={FieldStore.newSpreadEvent.key}>
+          <Content>
+            <Form>
+              <ScrollView>
+                <StatusBar />
+                <View style={styles.container}>
+                  <H1>{FieldStore.field.name}</H1>
+                  <Text>Enter new crap spreading event</Text>
+                  <Text>Manure type</Text>
+                  <DropDown
+                    selectedValue={
+                      CalculatorStore.calculatorValues.manureSelected
                     }
-                  }}
-                  onDateChange={date => {
-                    //    FieldStore.newSpreadEvent.date = moment(date, "DD-MM-YYYY");
-                    this.dateToSeason(moment(date));
-                  }}
-                />
-                <Text>Quality</Text>
-                <DropDown
-                  selectedValue={
-                    CalculatorStore.calculatorValues.qualitySelected
-                  }
-                  onChange={item =>
-                    (CalculatorStore.calculatorValues.qualitySelected = item)
-                  }
-                  values={CalculatorStore.qualityTypes}
-                />
-                <Text>Application type</Text>
-                <DropDown
-                  selectedValue={
-                    CalculatorStore.calculatorValues.applicationSelected
-                  }
-                  onChange={item =>
-                    (CalculatorStore.calculatorValues.applicationSelected = item)
-                  }
-                  values={CalculatorStore.applicationTypes}
-                />
-
-                <View>
-                  <Slider
-                    step={0.1}
-                    value={slider.sliderStartValue}
-                    onValueChange={val => this.SliderValueChanged(val)}
-                    maximumValue={slider.sliderMaxValue}
-                    thumbTintColor="rgb(252, 228, 149)"
-                    minimumTrackTintColor="#FF0000"
-                    maximumTrackTintColor="#206F98"
+                    onChange={item => this.InitialiseDropdowns(item)}
+                    values={this.strings.manureTypes}
                   />
-                  <Text>
-                    Value:{" "}
-                    <FormatValue
-                      units={slider.sliderUnit}
-                      value={CalculatorStore.calculatorValues.sliderValue}
-                    />{" "}
-                    {slider.sliderUnit}
-                  </Text>
-                </View>
-                <Grid style={{ alignItems: "center" }}>
-                  <Row>
-                    <Col>
-                      <Text>Nutrient</Text>
-                    </Col>
-                    <Col>
-                      <Text>Crop Avalable</Text>
-                    </Col>
-                    <Col>
-                      <Text>Total In Manure</Text>
-                    </Col>
-                    <Col>
-                      <Text>Savings</Text>
-                    </Col>
-                    <Col>
-                      <Text>Crop Requirements</Text>
-                    </Col>
-                    <Col>
-                      <Text>Still needed</Text>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col>
-                      <Text style={{ fontSize: 20, lineHeight: 30 }}>
-                        N <DisplayAreaUnit />
-                      </Text>
-                    </Col>
-                    <Col>
+                  <Text>Date</Text>
+                  <DatePicker
+                    style={{ width: 200 }}
+                    date={FieldStore.newSpreadEvent.date}
+                    mode="date"
+                    //  format="DD-MM-YYYY"
+                    confirmBtnText="Confirm"
+                    cancelBtnText="Cancel"
+                    customStyles={{
+                      dateIcon: {
+                        position: "absolute",
+                        left: 0,
+                        top: 4,
+                        marginLeft: 0
+                      },
+                      dateInput: {
+                        marginLeft: 36
+                      }
+                    }}
+                    onDateChange={date => {
+                      //    FieldStore.newSpreadEvent.date = moment(date, "DD-MM-YYYY");
+                      this.dateToSeason(moment(date));
+                    }}
+                  />
+                  <Text>Quality</Text>
+                  <DropDown
+                    selectedValue={
+                      CalculatorStore.calculatorValues.qualitySelected
+                    }
+                    onChange={item =>
+                      (CalculatorStore.calculatorValues.qualitySelected = item)
+                    }
+                    values={CalculatorStore.qualityTypes}
+                  />
+                  <Text>Application type</Text>
+                  <DropDown
+                    selectedValue={
+                      CalculatorStore.calculatorValues.applicationSelected
+                    }
+                    onChange={item =>
+                      (CalculatorStore.calculatorValues.applicationSelected = item)
+                    }
+                    values={CalculatorStore.applicationTypes}
+                  />
+
+                  <View>
+                    <Slider
+                      step={0.1}
+                      value={slider.sliderStartValue}
+                      onValueChange={val => this.SliderValueChanged(val)}
+                      maximumValue={slider.sliderMaxValue}
+                      thumbTintColor="rgb(252, 228, 149)"
+                      minimumTrackTintColor="#FF0000"
+                      maximumTrackTintColor="#206F98"
+                    />
+                    <Text>
+                      Value:{" "}
                       <FormatValue
-                        units={"UnitsAcre"}
-                        value={CalculatorStore.nutrientResults.nitrogenTotal}
-                      />
-                    </Col>
-                    <Col>
-                      <FormatValue
-                        units={"UnitsAcre"}
-                        value={
-                          CalculatorStore.nutrientResults.nitrogenAvailable
-                        }
-                      />
-                    </Col>
-                    <Col>
-                      <CashDisplay
-                        value={
-                          CalculatorStore.nutrientResults.nitrogenAvailable *
-                          FarmStore.farm.costN *
-                          FieldStore.field.area
-                        }
-                      />
-                    </Col>
-                    <Col>
-                      <FormatValue
-                        units={"UnitsAcre"}
-                        value={
-                          FieldStore.cropRequirementsResult.nitrogenRequirement
-                        }
-                      />
-                    </Col>
-                    <Col>
-                      <FormatValue
-                        units={"UnitsAcre"}
-                        value={
-                          FieldStore.cropRequirementsResult
-                            .nitrogenRequirement -
-                          CalculatorStore.nutrientResults.nitrogenTotal
-                        }
-                      />
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col>
-                      <Text style={{ fontSize: 20, lineHeight: 30 }}>
-                        P<Text style={{ fontSize: 15, lineHeight: 40 }}>2</Text>
-                        O<Text style={{ fontSize: 15, lineHeight: 40 }}>5</Text>{" "}
-                        <DisplayAreaUnit />
-                      </Text>
-                    </Col>
-                    <Col>
-                      <FormatValue
-                        units={"UnitsAcre"}
-                        value={CalculatorStore.nutrientResults.phosphorousTotal}
-                      />
-                    </Col>
-                    <Col>
-                      <FormatValue
-                        units={"UnitsAcre"}
-                        value={
-                          CalculatorStore.nutrientResults.phosphorousAvailable
-                        }
-                      />
-                    </Col>
-                    <Col>
-                      <CashDisplay
-                        value={
-                          CalculatorStore.nutrientResults.phosphorousAvailable *
-                          FarmStore.farm.costP *
-                          FieldStore.field.area
-                        }
-                      />
-                    </Col>
-                    <Col>
-                      <FormatValue
-                        units={"UnitsAcre"}
-                        value={
-                          FieldStore.cropRequirementsResult
-                            .phosphorousRequirement
-                        }
-                      />
-                    </Col>
-                    <Col>
-                      <FormatValue
-                        units={"UnitsAcre"}
-                        value={
-                          FieldStore.cropRequirementsResult
-                            .phosphorousRequirement -
-                          CalculatorStore.nutrientResults.phosphorousTotal
-                        }
-                      />
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col>
-                      <Text style={{ fontSize: 20, lineHeight: 30 }}>
-                        K
-                        <Text
-                          style={{
-                            fontSize: 15,
-                            lineHeight: 40
-                          }}
-                        >
-                          2
+                        units={slider.sliderUnit}
+                        value={CalculatorStore.calculatorValues.sliderValue}
+                      />{" "}
+                      {slider.sliderUnit}
+                    </Text>
+                  </View>
+                  <Grid style={{ alignItems: "center" }}>
+                    <Row>
+                      <Col>
+                        <Text>Nutrient</Text>
+                      </Col>
+                      <Col>
+                        <Text>Crop Avalable</Text>
+                      </Col>
+                      <Col>
+                        <Text>Total In Manure</Text>
+                      </Col>
+                      <Col>
+                        <Text>Savings</Text>
+                      </Col>
+                      <Col>
+                        <Text>Crop Requirements</Text>
+                      </Col>
+                      <Col>
+                        <Text>Still needed</Text>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <Text style={{ fontSize: 20, lineHeight: 30 }}>
+                          N <DisplayAreaUnit />
                         </Text>
-                        O <DisplayAreaUnit />
-                      </Text>
-                    </Col>
-                    <Col>
-                      <FormatValue
-                        units={"UnitsAcre"}
-                        value={CalculatorStore.nutrientResults.potassiumTotal}
-                      />
-                    </Col>
-                    <Col>
-                      <FormatValue
-                        units={"UnitsAcre"}
-                        value={
-                          CalculatorStore.nutrientResults.potassiumAvailable
-                        }
-                      />
-                    </Col>
-                    <Col>
-                      <CashDisplay
-                        value={
-                          CalculatorStore.nutrientResults.potassiumAvailable *
-                          FarmStore.farm.costK *
-                          FieldStore.field.area
-                        }
-                      />
-                    </Col>
-                    <Col>
-                      <FormatValue
-                        units={"UnitsAcre"}
-                        value={
-                          FieldStore.cropRequirementsResult.potassiumRequirement
-                        }
-                      />
-                    </Col>
-                    <Col>
-                      <FormatValue
-                        units={"UnitsAcre"}
-                        value={
-                          FieldStore.cropRequirementsResult
-                            .potassiumRequirement -
-                          CalculatorStore.nutrientResults.potassiumTotal
-                        }
-                      />
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col>
-                      <Text>S</Text>
-                    </Col>
-                    <Col>
-                      <FormatValue
-                        units={"UnitsAcre"}
-                        value={CalculatorStore.nutrientResults.sulphurTotal}
-                      />
-                    </Col>
-                    <Col>
-                      <FormatValue
-                        units={"UnitsAcre"}
-                        value={CalculatorStore.nutrientResults.sulphurAvailable}
-                      />
-                    </Col>
-                    <Col>
-                      <CashDisplay
-                        value={
-                          CalculatorStore.nutrientResults.sulphurAvailable *
-                          FarmStore.farm.costS *
-                          FieldStore.field.area
-                        }
-                      />
-                    </Col>
-                    <Col>
-                      <FormatValue
-                        units={"UnitsAcre"}
-                        value={
-                          FieldStore.cropRequirementsResult.sulphurRequirement
-                        }
-                      />
-                    </Col>
-                    <Col>
-                      <FormatValue
-                        units={"UnitsAcre"}
-                        value={
-                          FieldStore.cropRequirementsResult.sulphurRequirement -
-                          CalculatorStore.nutrientResults.sulphurTotal
-                        }
-                      />
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col>
-                      <Text>Mg</Text>
-                    </Col>
-                    <Col>
-                      <FormatValue
-                        units={"UnitsAcre"}
-                        value={CalculatorStore.nutrientResults.magnesiumTotal}
-                      />
-                    </Col>
-                    <Col>
-                      <FormatValue
-                        units={"UnitsAcre"}
-                        value={
-                          CalculatorStore.nutrientResults.magnesiumAvailable
-                        }
-                      />
-                    </Col>
-                    <Col>
-                      <CashDisplay
-                        value={
-                          CalculatorStore.nutrientResults.magnesiumAvailable *
-                          FarmStore.farm.costMg *
-                          FieldStore.field.area
-                        }
-                      />
-                    </Col>
-                    <Col>
-                      <FormatValue
-                        units={"UnitsAcre"}
-                        value={
-                          FieldStore.cropRequirementsResult.magnesiumRequirement
-                        }
-                      />
-                    </Col>
-                    <Col>
-                      <FormatValue
-                        units={"UnitsAcre"}
-                        value={
-                          FieldStore.cropRequirementsResult
-                            .magnesiumRequirement -
-                          CalculatorStore.nutrientResults.magnesiumTotal
-                        }
-                      />
-                    </Col>
-                  </Row>
-                </Grid>
-                <Image source={CalculatorStore.image} />
-              </View>
-            </ScrollView>
-          </Form>
-        </Content>
-        <Footer>
-          <FooterTab>
-            <Button rounded onPress={() => this.save()}>
-              <Text>Save Spread</Text>
-            </Button>
-            <Button rounded onPress={() => this.props.navigation.pop()}>
-              <Text>Cancel</Text>
-            </Button>
-          </FooterTab>
-        </Footer>
-      </Container>
+                      </Col>
+                      <Col>
+                        <FormatValue
+                          units={"UnitsAcre"}
+                          value={CalculatorStore.nutrientResults.nitrogenTotal}
+                        />
+                      </Col>
+                      <Col>
+                        <FormatValue
+                          units={"UnitsAcre"}
+                          value={
+                            CalculatorStore.nutrientResults.nitrogenAvailable
+                          }
+                        />
+                      </Col>
+                      <Col>
+                        <CashDisplay
+                          value={
+                            CalculatorStore.nutrientResults.nitrogenAvailable *
+                            FarmStore.farm.costN *
+                            FieldStore.field.area
+                          }
+                        />
+                      </Col>
+                      <Col>
+                        <FormatValue
+                          units={"UnitsAcre"}
+                          value={
+                            FieldStore.cropRequirementsResult
+                              .nitrogenRequirement
+                          }
+                        />
+                      </Col>
+                      <Col>
+                        <FormatValue
+                          units={"UnitsAcre"}
+                          value={
+                            FieldStore.cropRequirementsResult
+                              .nitrogenRequirement -
+                            CalculatorStore.nutrientResults.nitrogenTotal
+                          }
+                        />
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <Text style={{ fontSize: 20, lineHeight: 30 }}>
+                          P
+                          <Text style={{ fontSize: 15, lineHeight: 40 }}>
+                            2
+                          </Text>
+                          O
+                          <Text style={{ fontSize: 15, lineHeight: 40 }}>
+                            5
+                          </Text>{" "}
+                          <DisplayAreaUnit />
+                        </Text>
+                      </Col>
+                      <Col>
+                        <FormatValue
+                          units={"UnitsAcre"}
+                          value={
+                            CalculatorStore.nutrientResults.phosphorousTotal
+                          }
+                        />
+                      </Col>
+                      <Col>
+                        <FormatValue
+                          units={"UnitsAcre"}
+                          value={
+                            CalculatorStore.nutrientResults.phosphorousAvailable
+                          }
+                        />
+                      </Col>
+                      <Col>
+                        <CashDisplay
+                          value={
+                            CalculatorStore.nutrientResults
+                              .phosphorousAvailable *
+                            FarmStore.farm.costP *
+                            FieldStore.field.area
+                          }
+                        />
+                      </Col>
+                      <Col>
+                        <FormatValue
+                          units={"UnitsAcre"}
+                          value={
+                            FieldStore.cropRequirementsResult
+                              .phosphorousRequirement
+                          }
+                        />
+                      </Col>
+                      <Col>
+                        <FormatValue
+                          units={"UnitsAcre"}
+                          value={
+                            FieldStore.cropRequirementsResult
+                              .phosphorousRequirement -
+                            CalculatorStore.nutrientResults.phosphorousTotal
+                          }
+                        />
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <Text style={{ fontSize: 20, lineHeight: 30 }}>
+                          K
+                          <Text
+                            style={{
+                              fontSize: 15,
+                              lineHeight: 40
+                            }}
+                          >
+                            2
+                          </Text>
+                          O <DisplayAreaUnit />
+                        </Text>
+                      </Col>
+                      <Col>
+                        <FormatValue
+                          units={"UnitsAcre"}
+                          value={CalculatorStore.nutrientResults.potassiumTotal}
+                        />
+                      </Col>
+                      <Col>
+                        <FormatValue
+                          units={"UnitsAcre"}
+                          value={
+                            CalculatorStore.nutrientResults.potassiumAvailable
+                          }
+                        />
+                      </Col>
+                      <Col>
+                        <CashDisplay
+                          value={
+                            CalculatorStore.nutrientResults.potassiumAvailable *
+                            FarmStore.farm.costK *
+                            FieldStore.field.area
+                          }
+                        />
+                      </Col>
+                      <Col>
+                        <FormatValue
+                          units={"UnitsAcre"}
+                          value={
+                            FieldStore.cropRequirementsResult
+                              .potassiumRequirement
+                          }
+                        />
+                      </Col>
+                      <Col>
+                        <FormatValue
+                          units={"UnitsAcre"}
+                          value={
+                            FieldStore.cropRequirementsResult
+                              .potassiumRequirement -
+                            CalculatorStore.nutrientResults.potassiumTotal
+                          }
+                        />
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <Text>S</Text>
+                      </Col>
+                      <Col>
+                        <FormatValue
+                          units={"UnitsAcre"}
+                          value={CalculatorStore.nutrientResults.sulphurTotal}
+                        />
+                      </Col>
+                      <Col>
+                        <FormatValue
+                          units={"UnitsAcre"}
+                          value={
+                            CalculatorStore.nutrientResults.sulphurAvailable
+                          }
+                        />
+                      </Col>
+                      <Col>
+                        <CashDisplay
+                          value={
+                            CalculatorStore.nutrientResults.sulphurAvailable *
+                            FarmStore.farm.costS *
+                            FieldStore.field.area
+                          }
+                        />
+                      </Col>
+                      <Col>
+                        <FormatValue
+                          units={"UnitsAcre"}
+                          value={
+                            FieldStore.cropRequirementsResult.sulphurRequirement
+                          }
+                        />
+                      </Col>
+                      <Col>
+                        <FormatValue
+                          units={"UnitsAcre"}
+                          value={
+                            FieldStore.cropRequirementsResult
+                              .sulphurRequirement -
+                            CalculatorStore.nutrientResults.sulphurTotal
+                          }
+                        />
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <Text>Mg</Text>
+                      </Col>
+                      <Col>
+                        <FormatValue
+                          units={"UnitsAcre"}
+                          value={CalculatorStore.nutrientResults.magnesiumTotal}
+                        />
+                      </Col>
+                      <Col>
+                        <FormatValue
+                          units={"UnitsAcre"}
+                          value={
+                            CalculatorStore.nutrientResults.magnesiumAvailable
+                          }
+                        />
+                      </Col>
+                      <Col>
+                        <CashDisplay
+                          value={
+                            CalculatorStore.nutrientResults.magnesiumAvailable *
+                            FarmStore.farm.costMg *
+                            FieldStore.field.area
+                          }
+                        />
+                      </Col>
+                      <Col>
+                        <FormatValue
+                          units={"UnitsAcre"}
+                          value={
+                            FieldStore.cropRequirementsResult
+                              .magnesiumRequirement
+                          }
+                        />
+                      </Col>
+                      <Col>
+                        <FormatValue
+                          units={"UnitsAcre"}
+                          value={
+                            FieldStore.cropRequirementsResult
+                              .magnesiumRequirement -
+                            CalculatorStore.nutrientResults.magnesiumTotal
+                          }
+                        />
+                      </Col>
+                    </Row>
+                  </Grid>
+                  <Image source={CalculatorStore.image} />
+                </View>
+              </ScrollView>
+            </Form>
+          </Content>
+          <Footer>
+            <FooterTab>
+              <Button rounded onPress={() => this.save()}>
+                <Text>Save Spread</Text>
+              </Button>
+              <Button rounded onPress={() => this.props.navigation.pop()}>
+                <Text>Cancel</Text>
+              </Button>
+            </FooterTab>
+          </Footer>
+        </Container>
+      </SafeAreaView>
     );
   }
   private save() {
