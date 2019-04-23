@@ -22,6 +22,18 @@ const styles = StyleSheet.create({
     map: {
         width,
         height: mapHeight
+    },
+    button: {
+        backgroundColor: "#89BF89",
+        margin: 5,
+        borderWidth: 3,
+        borderColor: "black",
+        borderRadius: 20
+    },
+    buttonText: {
+        fontFamily: "ArimaMadurai-Regular",
+        color: "black",
+        fontSize: 20
     }
 });
 

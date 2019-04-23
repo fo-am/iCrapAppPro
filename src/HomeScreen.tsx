@@ -1,30 +1,7 @@
 import { inject, observer } from "mobx-react/native";
-import {
-  Body,
-  Button,
-  CardItem,
-  Col,
-  Container,
-  Content,
-  Footer,
-  FooterTab,
-  Form,
-  Grid,
-  H1,
-  H2,
-  H3,
-  Header,
-  Input,
-  Item,
-  Label,
-  Left,
-  Right,
-  Row,
-  Text,
-  Title
-} from "native-base";
 import React, { Component } from "react";
-import { FlatList, ScrollView, StatusBar, View } from "react-native";
+import { FlatList, ScrollView, Text, View } from "react-native";
+import { Button } from "react-native-elements";
 import { NavigationScreenProp, SafeAreaView } from "react-navigation";
 import { database } from "./database/Database";
 import Farm from "./model/Farm";
@@ -54,87 +31,88 @@ export default class HomeScreen extends Component<
   public render() {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
-        <Container>
-          <Content>
-            <Form>
-              <StatusBar />
-              <View style={styles.container}>
-                <Text>Add a farm</Text>
+        <View style={styles.container}>
+          <Text>Add a farm</Text>
+          <Button
+            buttonStyle={styles.button}
+            titleStyle={styles.buttonText}
+            onPress={() =>
+              this.props.navigation.navigate("Farm", {
+                farmKey: undefined
+              })
+            }
+            title="Add a Farm"
+          />
+          <ScrollView>
+            <FlatList<Farm>
+              data={this.props.FarmStore.farms.slice()}
+              keyExtractor={item => item.key}
+              renderItem={({ item }) => (
                 <Button
-                  onPress={() =>
+                  style={styles.button}
+                  onPress={() => {
                     this.props.navigation.navigate("Farm", {
-                      farmKey: undefined
-                    })
-                  }
-                >
-                  <Text>Add a Farm</Text>
-                </Button>
-                <ScrollView>
-                  <FlatList<Farm>
-                    data={this.props.FarmStore.farms.slice()}
-                    keyExtractor={item => item.key}
-                    renderItem={({ item }) => (
-                      <Button
-                        onPress={() => {
-                          this.props.navigation.navigate("Farm", {
-                            farmKey: item.key
-                          });
-                        }}
-                      >
-                        <Text>{item.name}</Text>
-                      </Button>
-                    )}
-                  />
-                </ScrollView>
+                      farmKey: item.key
+                    });
+                  }}
+                  title={item.name}
+                />
+              )}
+            />
+          </ScrollView>
 
-                <Text>Settings</Text>
-                <Button
-                  onPress={() => this.props.navigation.navigate("Settings")}
-                >
-                  <Text>Settings</Text>
-                </Button>
+          <Text>Settings</Text>
+          <Button
+            buttonStyle={styles.button}
+            titleStyle={styles.buttonText}
+            onPress={() => this.props.navigation.navigate("Settings")}
+            title="Settings"
+          />
 
-                <Button
-                  onPress={() => this.props.navigation.navigate("Calculator")}
-                >
-                  <Text>Calculator</Text>
-                </Button>
+          <Button
+            buttonStyle={styles.button}
+            titleStyle={styles.buttonText}
+            onPress={() => this.props.navigation.navigate("Calculator")}
+            title="Calculator"
+          />
 
-                <Text>Manure</Text>
+          <Text>Manure</Text>
+          <Button
+            buttonStyle={styles.button}
+            titleStyle={styles.buttonText}
+            onPress={() => this.props.navigation.navigate("CustomManure")}
+            title="Add a new manure"
+          />
+          <ScrollView>
+            <FlatList<Manure>
+              data={this.props.ManureStore.manures.slice()}
+              keyExtractor={item => item.key}
+              renderItem={({ item }) => (
                 <Button
-                  onPress={() => this.props.navigation.navigate("CustomManure")}
-                >
-                  <Text>Add a new manure</Text>
-                </Button>
-                <ScrollView>
-                  <FlatList<Manure>
-                    data={this.props.ManureStore.manures.slice()}
-                    keyExtractor={item => item.key}
-                    renderItem={({ item }) => (
-                      <Button
-                        onPress={() => {
-                          this.props.navigation.navigate("CustomManure", {
-                            manure: item
-                          });
-                        }}
-                      >
-                        <Text>{item.name}</Text>
-                      </Button>
-                    )}
-                  />
-                </ScrollView>
-                <Button
-                  onPress={() => this.props.navigation.navigate("Export")}
-                >
-                  <Text>Export Data</Text>
-                </Button>
-                <Button onPress={() => this.clearStore()}>
-                  <Text>clear store</Text>
-                </Button>
-              </View>
-            </Form>
-          </Content>
-        </Container>
+                  style={styles.button}
+                  onPress={() => {
+                    this.props.navigation.navigate("CustomManure", {
+                      manure: item
+                    });
+                  }}
+                  title={item.name}
+                />
+              )}
+            />
+          </ScrollView>
+          <Button
+            buttonStyle={styles.button}
+            titleStyle={styles.buttonText}
+            onPress={() => this.props.navigation.navigate("Export")}
+            title="Export Data"
+          />
+          <Button
+            buttonStyle={styles.button}
+            titleStyle={styles.buttonText}
+            onPress={() => this.clearStore()}
+            title="Clear Store"
+          />
+        </View>
       </SafeAreaView>
     );
   }

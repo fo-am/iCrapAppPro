@@ -1,12 +1,14 @@
 import { inject, observer } from "mobx-react/native";
-import { Button, Container, Content, Form, Input, Text } from "native-base";
+import {} from "native-base";
 import React, { Component } from "react";
-import { ScrollView, StatusBar, View } from "react-native";
+import { ScrollView, StatusBar, Text, View } from "react-native";
 import { NavigationScreenProp, SafeAreaView } from "react-navigation";
 
 import styles from "../styles/style";
 
 import DropDown from "../components/DropDown";
+
+import { Button, Input } from "react-native-elements";
 
 interface Props {
   SettingsStore: SettingsStore;
@@ -31,37 +33,36 @@ export default class SettingScreen extends Component<Props, State> {
     const { SettingsStore } = this.props;
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
-        <Container>
-          <Content>
-            <Form>
-              <StatusBar />
-              <ScrollView>
-                <View style={styles.container}>
-                  <Text>Choose Unit type</Text>
-                  <DropDown
-                    selectedValue={SettingsStore.appSettings.unit}
-                    onChange={item => SettingsStore.SelectUnit(item)}
-                    values={this.Units}
-                  />
-                  <Text>Email address</Text>
-                  <Input
-                    selectTextOnFocus={true}
-                    style={{ fontSize: 20, fontWeight: "bold" }}
-                    placeholder="your@email.com"
-                    onChangeText={email =>
-                      (SettingsStore.appSettings.email = email)
-                    }
-                  >
-                    {SettingsStore.appSettings.email}
-                  </Input>
-                </View>
-                <Button onPress={() => this.Save()}>
-                  <Text>Save</Text>
-                </Button>
-              </ScrollView>
-            </Form>
-          </Content>
-        </Container>
+        <View>
+          <StatusBar />
+
+          <View style={styles.box}>
+            <Text>Choose Unit type</Text>
+            <DropDown
+              selectedValue={SettingsStore.appSettings.unit}
+              onChange={item => SettingsStore.SelectUnit(item)}
+              values={this.Units}
+            />
+          </View>
+          <View style={styles.box}>
+            <Text>Email address</Text>
+
+            <Input
+              selectTextOnFocus={true}
+              inputStyle={{ fontSize: 20, fontWeight: "bold" }}
+              placeholder="Email"
+              onChangeText={email => (SettingsStore.appSettings.email = email)}
+            >
+              {SettingsStore.appSettings.email}
+            </Input>
+          </View>
+          <Button
+            buttonStyle={styles.button}
+            titleStyle={styles.buttonText}
+            onPress={() => this.Save()}
+            title="Save"
+          />
+        </View>
       </SafeAreaView>
     );
   }
