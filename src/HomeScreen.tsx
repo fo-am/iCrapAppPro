@@ -97,7 +97,12 @@ export default class HomeScreen extends Component<
                 keyExtractor={item => item.key}
                 renderItem={({ item }) => (
                   <Button
-                    style={styles.roundButton}
+                    titleStyle={styles.buttonText}
+                    buttonStyle={[
+                      styles.roundButton,
+                      styles.bgColourBlue,
+                      { marginLeft: "5%", marginRight: "5%" }
+                    ]}
                     onPress={() => {
                       this.props.navigation.navigate("CustomManure", {
                         manure: item
