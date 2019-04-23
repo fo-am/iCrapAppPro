@@ -1,27 +1,9 @@
 import { inject, observer } from "mobx-react/native";
-import {
-  Body,
-  Button,
-  Col,
-  Container,
-  Content,
-  Footer,
-  Form,
-  Grid,
-  H1,
-  H2,
-  H3,
-  Header,
-  Input,
-  Left,
-  Right,
-  Row,
-  Text,
-  Title
-} from "native-base";
+import { Button } from "react-native-elements";
 import React, { Component } from "react";
 import {
   Dimensions,
+  Text,
   FlatList,
   PermissionsAndroid,
   Platform,
@@ -35,9 +17,7 @@ import RNFS from "react-native-fs";
 import Mailer from "react-native-mail";
 import { NavigationScreenProp, SafeAreaView } from "react-navigation";
 import { database } from "../database/Database";
-import Farm from "../model/Farm";
-
-import { toJS } from "mobx";
+import styles from "../styles/style";
 
 interface Props {
   navigation: NavigationScreenProp<any, any>;
@@ -81,25 +61,23 @@ export default class ExportScreen extends Component<Props, State> {
 
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
-        <Container>
-          <Content>
-            <Form>
-              <Button onPress={this.handleEmail}>
-                <Text style={styles.text}>
-                  Send csv data to {SettingsStore.appSettings.email}
-                </Text>
-              </Button>
-            </Form>
-            <Form>
-              <Button onPress={() => this.exportJson()}>
-                <Text style={styles.text}>
-                  Export Farm data to {SettingsStore.appSettings.email}
-                </Text>
-              </Button>
-              <Text style={styles.text}>{this.state.errorsString}</Text>
-            </Form>
-          </Content>
-        </Container>
+        <View>
+          <Button
+            buttonStyle={styles.roundButton}
+            titleStyle={styles.buttonText}
+            onPress={this.handleEmail}
+            title={"Send csv data to " + SettingsStore.appSettings.email}
+          />
+
+          <Button
+            buttonStyle={styles.roundButton}
+            titleStyle={styles.buttonText}
+            onPress={() => this.exportJson()}
+            title={" Export Farm data to " + SettingsStore.appSettings.email}
+          />
+
+          <Text style={styles.text}>{this.state.errorsString}</Text>
+        </View>
       </SafeAreaView>
     );
   }
