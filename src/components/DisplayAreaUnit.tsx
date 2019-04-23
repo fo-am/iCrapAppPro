@@ -1,6 +1,7 @@
 import { inject, observer } from "mobx-react/native";
 import { Text } from "native-base";
 import React, { Component } from "react";
+import styles from "../styles/style";
 
 interface Props {}
 
@@ -12,6 +13,10 @@ export default class DisplayAreaUnit extends Component<Props, State> {
   public render() {
     const { SettingsStore } = this.props;
 
-    return SettingsStore.appSettings.unit === "metric" ? "Kg/ha" : "units/acre";
+    return SettingsStore.appSettings.unit === "metric" ? (
+      <Text style={styles.text}>Kg/ha</Text>
+    ) : (
+      <Text style={styles.text}>units/acre</Text>
+    );
   }
 }

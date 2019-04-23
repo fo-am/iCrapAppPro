@@ -309,39 +309,60 @@ export default class FieldScreen extends Component<Props, State> {
               onChange={item => (FieldStore.field.soilType = item)}
               values={this.strings.soilType}
             />
+
             <Text style={styles.H3}>Do you regularly add organic manures?</Text>
+
             <DropDown
               style={styles.outline}
               selectedValue={FieldStore.field.organicManure}
               onChange={item => (FieldStore.field.organicManure = item)}
               values={this.strings.yesno}
             />
+
             <Text style={styles.H3}>Result of soil tests (if available)</Text>
-            <Text style={styles.text}>P</Text>
 
-            <DropDown
-              style={styles.outline}
-              selectedValue={FieldStore.field.soilTestP}
-              onChange={item => (FieldStore.field.soilTestP = item)}
-              values={this.strings.soiltestP}
-            />
-            <Text style={styles.text}>K</Text>
+            <View style={{ flexDirection: "row" }}>
+              <View style={{ flex: 0.3 }}>
+                <Text style={styles.H3}>P</Text>
+              </View>
+              <View style={{ flex: 1 }}>
+                <DropDown
+                  style={styles.outline}
+                  selectedValue={FieldStore.field.soilTestP}
+                  onChange={item => (FieldStore.field.soilTestP = item)}
+                  values={this.strings.soiltestP}
+                />
+              </View>
+            </View>
 
-            <DropDown
-              style={styles.outline}
-              selectedValue={FieldStore.field.soilTestK}
-              onChange={item => (FieldStore.field.soilTestK = item)}
-              values={this.strings.soiltestK}
-            />
+            <View style={{ flexDirection: "row" }}>
+              <View style={{ flex: 0.3 }}>
+                <Text style={styles.H3}>K</Text>
+              </View>
+              <View style={{ flex: 1 }}>
+                <DropDown
+                  style={styles.outline}
+                  selectedValue={FieldStore.field.soilTestK}
+                  onChange={item => (FieldStore.field.soilTestK = item)}
+                  values={this.strings.soiltestK}
+                />
+              </View>
+            </View>
 
-            <Text style={styles.text}>Mg</Text>
+            <View style={{ flexDirection: "row" }}>
+              <View style={{ flex: 0.3 }}>
+                <Text style={styles.H3}>Mg</Text>
+              </View>
+              <View style={{ flex: 1 }}>
+                <DropDown
+                  style={styles.outline}
+                  selectedValue={FieldStore.field.soilTestMg}
+                  onChange={item => (FieldStore.field.soilTestMg = item)}
+                  values={this.strings.soiltestMg}
+                />
+              </View>
+            </View>
 
-            <DropDown
-              style={styles.outline}
-              selectedValue={FieldStore.field.soilTestMg}
-              onChange={item => (FieldStore.field.soilTestMg = item)}
-              values={this.strings.soiltestMg}
-            />
             <Grid style={{ alignItems: "center" }}>
               <Row>
                 <Col>
@@ -363,13 +384,20 @@ export default class FieldScreen extends Component<Props, State> {
               </Row>
               <Row>
                 <Col>
-                  <Text style={styles.text}>
+                  <Text style={styles.H2}>
                     {FieldStore.CalculateSulphurRisk()}
                   </Text>
                 </Col>
               </Row>
             </Grid>
-
+            <View
+              style={{
+                borderBottomColor: "black",
+                borderBottomWidth: 0.5,
+                width: "80%",
+                alignItems: "center"
+              }}
+            />
             <Text style={styles.H2}>Crop Details</Text>
             <Text style={styles.H3}>Previous crop type</Text>
 
@@ -403,19 +431,40 @@ export default class FieldScreen extends Component<Props, State> {
                 <Text style={styles.H2}>Crop Nutrient requirements</Text>
               </Row>
               <Row>
-                <Col>
+                <Col
+                  style={{
+                    borderRightWidth: 1,
+                    borderColor: "black",
+                    backgroundColor: "white",
+                    padding: 1
+                  }}
+                >
                   <Text style={{ fontSize: 20, lineHeight: 30 }}>
                     N <DisplayAreaUnit />
                   </Text>
                 </Col>
-                <Col>
+                <Col
+                  style={{
+                    borderRightWidth: 1,
+                    borderColor: "black",
+                    backgroundColor: "white",
+                    padding: 1
+                  }}
+                >
                   <Text style={{ fontSize: 20, lineHeight: 30 }}>
                     P<Text style={{ fontSize: 15, lineHeight: 40 }}>2</Text>O
                     <Text style={{ fontSize: 15, lineHeight: 40 }}>5</Text>
                     <DisplayAreaUnit />
                   </Text>
                 </Col>
-                <Col>
+                <Col
+                  style={{
+                    borderRightWidth: 1,
+                    borderColor: "black",
+                    backgroundColor: "white",
+                    padding: 1
+                  }}
+                >
                   <Text style={{ fontSize: 20, lineHeight: 30 }}>
                     K
                     <Text
@@ -429,36 +478,83 @@ export default class FieldScreen extends Component<Props, State> {
                     O <DisplayAreaUnit />
                   </Text>
                 </Col>
-                <Col>
-                  <Text style={styles.text}>s</Text>
+                <Col
+                  style={{
+                    borderRightWidth: 1,
+                    borderColor: "black",
+                    backgroundColor: "white",
+                    padding: 1
+                  }}
+                >
+                  <Text style={{ fontSize: 20, lineHeight: 30 }}>S</Text>
+                  <DisplayAreaUnit />
                 </Col>
-                <Col>
-                  <Text style={styles.text}>mg</Text>
+                <Col
+                  style={{
+                    backgroundColor: "white",
+                    padding: 1
+                  }}
+                >
+                  <Text style={{ fontSize: 20, lineHeight: 30 }}>Mg</Text>
+                  <DisplayAreaUnit />
                 </Col>
               </Row>
               <Row>
-                <Col>
-                  <Text style={styles.text}>
+                <Col
+                  style={{
+                    borderRightWidth: 1,
+                    borderColor: "black",
+                    backgroundColor: "white",
+                    padding: 1
+                  }}
+                >
+                  <Text style={styles.H3}>
                     {FieldStore.cropRequirementsResult.nitrogenRequirement}
                   </Text>
                 </Col>
-                <Col>
-                  <Text style={styles.text}>
+                <Col
+                  style={{
+                    borderRightWidth: 1,
+                    borderColor: "black",
+                    backgroundColor: "white",
+                    padding: 1
+                  }}
+                >
+                  <Text style={styles.H3}>
                     {FieldStore.cropRequirementsResult.phosphorousRequirement}
                   </Text>
                 </Col>
-                <Col>
-                  <Text style={styles.text}>
+                <Col
+                  style={{
+                    borderRightWidth: 1,
+                    borderColor: "black",
+                    backgroundColor: "white",
+                    padding: 1
+                  }}
+                >
+                  <Text style={styles.H3}>
                     {FieldStore.cropRequirementsResult.potassiumRequirement}
                   </Text>
                 </Col>
-                <Col>
-                  <Text style={styles.text}>
+                <Col
+                  style={{
+                    borderRightWidth: 1,
+                    borderColor: "black",
+                    backgroundColor: "white",
+                    padding: 1
+                  }}
+                >
+                  <Text style={styles.H3}>
                     {FieldStore.cropRequirementsResult.sulphurRequirement}
                   </Text>
                 </Col>
-                <Col>
-                  <Text style={styles.text}>
+                <Col
+                  style={{
+                    backgroundColor: "white",
+                    padding: 1
+                  }}
+                >
+                  <Text style={styles.H3}>
                     {FieldStore.cropRequirementsResult.magnesiumRequirement}
                   </Text>
                 </Col>
