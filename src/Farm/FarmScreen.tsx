@@ -116,7 +116,7 @@ export default class FarmScreen extends Component<Props, State> {
           {!this.state.showSave && (
             <Form>
               <Button
-                buttonStyle={styles.roundButton}
+                buttonStyle={[styles.roundButton, { margin: 0 }]}
                 titleStyle={styles.buttonText}
                 onPress={() => this.draw()}
                 title="Place Pin on Farm"
@@ -236,6 +236,12 @@ export default class FarmScreen extends Component<Props, State> {
                 keyExtractor={item => item.key}
                 renderItem={({ item }) => (
                   <Button
+                    titleStyle={styles.buttonText}
+                    buttonStyle={[
+                      styles.roundButton,
+                      styles.bgColourBlue,
+                      { marginLeft: "5%", marginRight: "5%" }
+                    ]}
                     onPress={() => {
                       FarmStore.saveFarm().then(() => {
                         this.props.FieldStore.farm = FarmStore.farm;

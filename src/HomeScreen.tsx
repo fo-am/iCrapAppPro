@@ -49,6 +49,7 @@ export default class HomeScreen extends Component<
               keyExtractor={item => item.key}
               renderItem={({ item }) => (
                 <Button
+                  titleStyle={styles.buttonText}
                   buttonStyle={[
                     styles.roundButton,
                     styles.bgColourBlue,
