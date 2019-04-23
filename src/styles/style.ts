@@ -20,6 +20,8 @@ const styles = StyleSheet.create({
     },
     text: { fontFamily: "ArimaMadurai-Regular", color: "#000" },
     H1: { fontFamily: "ArimaMadurai-Regular", fontSize: defatFontSize * 1.8 },
+    H2: { fontFamily: "ArimaMadurai-Regular", fontSize: defatFontSize * 1.6 },
+    H3: { fontFamily: "ArimaMadurai-Regular", fontSize: defatFontSize * 1.4 },
     map: {
         width,
         height: mapHeight
