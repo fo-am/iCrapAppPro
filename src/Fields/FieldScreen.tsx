@@ -285,7 +285,11 @@ export default class FieldScreen extends Component<Props, State> {
               keyExtractor={item => item.key}
               renderItem={({ item }) => (
                 <Button
-                  buttonStyle={[styles.roundButton, styles.bgColourBlue]}
+                  buttonStyle={[
+                    styles.roundButton,
+                    styles.bgColourBlue,
+                    { marginLeft: "5%", marginRight: "5%" }
+                  ]}
                   titleStyle={styles.buttonText}
                   onPress={() => {
                     FieldStore.Save().then(() => {

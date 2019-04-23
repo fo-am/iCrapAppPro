@@ -2,6 +2,7 @@ import { inject, observer } from "mobx-react/native";
 import { Text } from "native-base";
 import React, { Component } from "react";
 import { Maths } from "../assets/Math";
+import styles from "../styles/style";
 
 interface Props {
   value: number;
