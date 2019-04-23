@@ -10,7 +10,7 @@ import {
   Text
 } from "native-base";
 import React, { Component } from "react";
-import { FlatList, ScrollView, View } from "react-native";
+import { Dimensions, FlatList, ScrollView, View } from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import MapView, { Marker, PROVIDER_GOOGLE, Region } from "react-native-maps";
 import { NavigationScreenProp, SafeAreaView } from "react-navigation";
@@ -204,16 +204,14 @@ export default class FarmScreen extends Component<Props, State> {
         <ScrollView>
           <View style={{ margin: 20, backgroundColor: "#d6d6d6" }}>
             <Text style={styles.text}>Farm Name</Text>
-            <Item rounded>
-              <Input
-                selectTextOnFocus={true}
-                inputStyle={{ fontSize: 20, fontWeight: "bold" }}
-                inputContainerStyle={styles.outline}
-                onChangeText={text => (FarmStore.farm.name = text)}
-              >
-                {FarmStore.farm.name}
-              </Input>
-            </Item>
+            <Input
+              selectTextOnFocus={true}
+              inputStyle={{ fontSize: 20, fontWeight: "bold" }}
+              inputContainerStyle={styles.outline}
+              onChangeText={text => (FarmStore.farm.name = text)}
+            >
+              {FarmStore.farm.name}
+            </Input>
             <View>
               <Text style={styles.text}>Add Field</Text>
               <Button
@@ -230,7 +228,9 @@ export default class FarmScreen extends Component<Props, State> {
                 title="Add Field"
               />
             </View>
-            <ScrollView>
+            <View
+              style={{ flex: 1, height: Dimensions.get("window").height * 0.5 }}
+            >
               <FlatList<Field>
                 data={FieldStore.fields.slice()}
                 keyExtractor={item => item.key}
@@ -254,7 +254,7 @@ export default class FarmScreen extends Component<Props, State> {
                   />
                 )}
               />
-            </ScrollView>
+            </View>
             <Text style={styles.text}>Set Farm Rainfall</Text>
             <DropDown
               style={styles.outline}
