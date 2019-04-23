@@ -219,8 +219,10 @@ export default class SpreadScreen extends Component<Props, State> {
                 <StatusBar />
                 <View style={styles.container}>
                   <H1>{FieldStore.field.name}</H1>
-                   <Text style={styles.text}>Enter new crap spreading event</Text>
-                   <Text style={styles.text}>Manure type</Text>
+                  <Text style={styles.text}>
+                    Enter new crap spreading event
+                  </Text>
+                  <Text style={styles.text}>Manure type</Text>
                   <DropDown
                     selectedValue={
                       CalculatorStore.calculatorValues.manureSelected
@@ -228,7 +230,7 @@ export default class SpreadScreen extends Component<Props, State> {
                     onChange={item => this.InitialiseDropdowns(item)}
                     values={this.strings.manureTypes}
                   />
-                   <Text style={styles.text}>Date</Text>
+                  <Text style={styles.text}>Date</Text>
                   <DatePicker
                     style={{ width: 200 }}
                     date={FieldStore.newSpreadEvent.date}
@@ -252,7 +254,7 @@ export default class SpreadScreen extends Component<Props, State> {
                       this.dateToSeason(moment(date));
                     }}
                   />
-                   <Text style={styles.text}>Quality</Text>
+                  <Text style={styles.text}>Quality</Text>
                   <DropDown
                     selectedValue={
                       CalculatorStore.calculatorValues.qualitySelected
@@ -262,7 +264,7 @@ export default class SpreadScreen extends Component<Props, State> {
                     }
                     values={CalculatorStore.qualityTypes}
                   />
-                   <Text style={styles.text}>Application type</Text>
+                  <Text style={styles.text}>Application type</Text>
                   <DropDown
                     selectedValue={
                       CalculatorStore.calculatorValues.applicationSelected
@@ -283,7 +285,7 @@ export default class SpreadScreen extends Component<Props, State> {
                       minimumTrackTintColor="#FF0000"
                       maximumTrackTintColor="#206F98"
                     />
-                     <Text style={styles.text}>
+                    <Text style={styles.text}>
                       Value:{" "}
                       <FormatValue
                         units={slider.sliderUnit}
@@ -295,22 +297,22 @@ export default class SpreadScreen extends Component<Props, State> {
                   <Grid style={{ alignItems: "center" }}>
                     <Row>
                       <Col>
-                         <Text style={styles.text}>Nutrient</Text>
+                        <Text style={styles.text}>Nutrient</Text>
                       </Col>
                       <Col>
-                         <Text style={styles.text}>Crop Avalable</Text>
+                        <Text style={styles.text}>Crop Avalable</Text>
                       </Col>
                       <Col>
-                         <Text style={styles.text}>Total In Manure</Text>
+                        <Text style={styles.text}>Total In Manure</Text>
                       </Col>
                       <Col>
-                         <Text style={styles.text}>Savings</Text>
+                        <Text style={styles.text}>Savings</Text>
                       </Col>
                       <Col>
-                         <Text style={styles.text}>Crop Requirements</Text>
+                        <Text style={styles.text}>Crop Requirements</Text>
                       </Col>
                       <Col>
-                         <Text style={styles.text}>Still needed</Text>
+                        <Text style={styles.text}>Still needed</Text>
                       </Col>
                     </Row>
                     <Row>
@@ -482,7 +484,7 @@ export default class SpreadScreen extends Component<Props, State> {
                     </Row>
                     <Row>
                       <Col>
-                         <Text style={styles.text}>S</Text>
+                        <Text style={styles.text}>S</Text>
                       </Col>
                       <Col>
                         <FormatValue
@@ -528,7 +530,7 @@ export default class SpreadScreen extends Component<Props, State> {
                     </Row>
                     <Row>
                       <Col>
-                         <Text style={styles.text}>Mg</Text>
+                        <Text style={styles.text}>Mg</Text>
                       </Col>
                       <Col>
                         <FormatValue
@@ -582,10 +584,10 @@ export default class SpreadScreen extends Component<Props, State> {
           <Footer>
             <FooterTab>
               <Button rounded onPress={() => this.save()}>
-                 <Text style={styles.text}>Save Spread</Text>
+                <Text style={styles.text}>Save Spread</Text>
               </Button>
               <Button rounded onPress={() => this.props.navigation.pop()}>
-                 <Text style={styles.text}>Cancel</Text>
+                <Text style={styles.text}>Cancel</Text>
               </Button>
             </FooterTab>
           </Footer>

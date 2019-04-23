@@ -1,9 +1,9 @@
 import { inject, observer } from "mobx-react/native";
-import { Button, Container, Content, Form, H1, Text } from "native-base";
 import React, { Component } from "react";
 import { translate } from "react-i18next";
-import { FlatList, ScrollView, StatusBar, View } from "react-native";
-import { NavigationScreenProp } from "react-navigation";
+import { FlatList, ScrollView, Text, View } from "react-native";
+import { Button } from "react-native-elements";
+import { NavigationScreenProp, SafeAreaView } from "react-navigation";
 import data from "../assets/data/crop-menu.json";
 import styles from "../styles/style";
 
@@ -35,58 +35,50 @@ export default class CropSelector extends Component<Props, State> {
   public render() {
     const { t, i18n } = this.props;
     return (
-      <Container>
-        <Content>
-          <Form>
-            <StatusBar />
-            <ScrollView>
-              <H1>Expert crop select</H1>
-              <FlatList
-                keyExtractor={(item, index) => "key" + index}
-                data={this.state.data}
-                renderItem={({ item }) => (
-                  <Button
-                    style={{ width: "75%" }}
-                    onPress={() => this.buttonPress(item)}
-                  >
-                    <Text style={styles.text}>{t(item.name) || t(item)}</Text>
-                  </Button>
-                )}
+      <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
+        <ScrollView>
+          <Text style={styles.H1}>Expert crop select</Text>
+          <FlatList
+            keyExtractor={(item, index) => "key" + index}
+            data={this.state.data}
+            renderItem={({ item }) => (
+              <Button
+                buttonStyle={[styles.roundButton]}
+                titleStyle={styles.buttonText}
+                onPress={() => this.buttonPress(item)}
+                title={t(item.name) || t(item)}
               />
-              <View
-                style={{
-                  flex: 1,
-                  flexDirection: "row",
-                  justifyContent: "space-between"
-                }}
-              >
-                <Button
-                  block
-                  info
-                  style={{ width: "50%" }}
-                  onPress={() => this.props.navigation.goBack()}
-                >
-                  <Text style={styles.text}>Cancel</Text>
-                </Button>
-                <Button
-                  block
-                  success
-                  style={{ width: "50%" }}
-                  onPress={() => {
-                    this.setState({
-                      data: data.options,
-                      category: data.category,
-                      result: []
-                    });
-                  }}
-                >
-                  <Text style={styles.text}>Back</Text>
-                </Button>
-              </View>
-            </ScrollView>
-          </Form>
-        </Content>
-      </Container>
+            )}
+          />
+          <View
+            style={{
+              flex: 1,
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "stretch"
+            }}
+          >
+            <Button
+              buttonStyle={[styles.footerButton, styles.bgColourRed]}
+              titleStyle={styles.buttonText}
+              onPress={() => this.props.navigation.goBack()}
+              title="Cancel"
+            />
+            <Button
+              buttonStyle={[styles.footerButton, styles.bgColourBlue]}
+              titleStyle={styles.buttonText}
+              onPress={() => {
+                this.setState({
+                  data: data.options,
+                  category: data.category,
+                  result: []
+                });
+              }}
+              title="Back"
+            />
+          </View>
+        </ScrollView>
+      </SafeAreaView>
     );
   }
   private buttonPress(item) {

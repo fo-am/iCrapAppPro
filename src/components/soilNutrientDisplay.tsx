@@ -1,7 +1,8 @@
 import { inject, observer } from "mobx-react/native";
-import { H1 } from "native-base";
 import React, { Component } from "react";
+import { Text } from "react-native";
 import { Maths } from "../assets/Math";
+import styles from "../styles/style";
 
 interface Props {
   value: string;
@@ -40,9 +41,17 @@ export default class SoilNutrientDisplay extends Component<Props, State> {
   public render() {
     const { SettingsStore } = this.props;
     if (SettingsStore.appSettings.unit !== "metric") {
-      return <H1>{this.soilNutrientCodeToTextImperial[this.props.value]}</H1>;
+      return (
+        <Text style={styles.H1}>
+          {this.soilNutrientCodeToTextImperial[this.props.value]}
+        </Text>
+      );
     }
-    return <H1>{this.soilNutrientCodeToTextMetric[this.props.value]}</H1>;
+    return (
+      <Text style={styles.H1}>
+        {this.soilNutrientCodeToTextMetric[this.props.value]}
+      </Text>
+    );
   }
 
   private FormattedValue(value: number): string {
