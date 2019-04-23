@@ -6,6 +6,8 @@ export default class Manure {
     public N: number | undefined;
     public P: number | undefined;
     public K: number | undefined;
+    public S: number | undefined;
+    public Mg: number | undefined;
 
     constructor() {
         this.key = Maths.generateUUID();

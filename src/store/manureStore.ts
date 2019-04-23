@@ -26,6 +26,12 @@ class ManureStore {
         if (!newManure.K) {
             newManure.K = 0;
         }
+        if (!newManure.S) {
+            newManure.S = 0;
+        }
+        if (!newManure.Mg) {
+            newManure.Mg = 0;
+        }
         database.saveManure(newManure).then(() => this.updateManuresList());
     }
 
