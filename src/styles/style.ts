@@ -23,7 +23,11 @@ const styles = StyleSheet.create({
         paddingLeft: "2%",
         paddingRight: "2%"
     },
-    text: { fontFamily: "ArimaMadurai-Regular", color: "#000" },
+    text: {
+        fontFamily: "ArimaMadurai-Regular",
+        color: "#000",
+        fontSize: defaultFontSize
+    },
     H1: { fontFamily: "ArimaMadurai-Regular", fontSize: defaultFontSize * 1.8 },
     H2: { fontFamily: "ArimaMadurai-Regular", fontSize: defaultFontSize * 1.6 },
     H3: { fontFamily: "ArimaMadurai-Regular", fontSize: defaultFontSize * 1.4 },
