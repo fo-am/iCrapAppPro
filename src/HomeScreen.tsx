@@ -32,7 +32,7 @@ export default class HomeScreen extends Component<
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
         <View style={styles.container}>
-          <Text>Add a farm</Text>
+          <Text style={styles.text}>Add a farm</Text>
           <Button
             buttonStyle={styles.roundButton}
             titleStyle={styles.buttonText}
@@ -49,7 +49,11 @@ export default class HomeScreen extends Component<
               keyExtractor={item => item.key}
               renderItem={({ item }) => (
                 <Button
-                  style={styles.roundButton}
+                  buttonStyle={[
+                    styles.roundButton,
+                    styles.bgColourBlue,
+                    { marginLeft: "5%", marginRight: "5%" }
+                  ]}
                   onPress={() => {
                     this.props.navigation.navigate("Farm", {
                       farmKey: item.key
@@ -61,7 +65,7 @@ export default class HomeScreen extends Component<
             />
           </ScrollView>
 
-          <Text>Settings</Text>
+          <Text style={styles.text}>Settings</Text>
           <Button
             buttonStyle={styles.roundButton}
             titleStyle={styles.buttonText}
@@ -76,7 +80,7 @@ export default class HomeScreen extends Component<
             title="Calculator"
           />
 
-          <Text>Manure</Text>
+          <Text style={styles.text}>Manure</Text>
           <Button
             buttonStyle={styles.roundButton}
             titleStyle={styles.buttonText}
