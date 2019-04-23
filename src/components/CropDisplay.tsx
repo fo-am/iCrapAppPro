@@ -2,6 +2,7 @@ import { Form, Text } from "native-base";
 import React, { Component } from "react";
 import { translate } from "react-i18next";
 import { FlatList } from "react-native";
+import styles from "../styles/style";
 
 interface Props {
   cropArray: Array<Array<string>>;
