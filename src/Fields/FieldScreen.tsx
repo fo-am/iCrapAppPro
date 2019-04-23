@@ -1,33 +1,12 @@
 import { inject, observer } from "mobx-react/native";
-import {
-  Body,
-  Button,
-  Col,
-  Container,
-  Content,
-  Footer,
-  FooterTab,
-  Form,
-  Grid,
-  H1,
-  H2,
-  H3,
-  Header,
-  Input,
-  Item,
-  Label,
-  Left,
-  Right,
-  Row,
-  Text,
-  Title
-} from "native-base";
+import { Col, Footer, FooterTab, Grid, Row } from "native-base";
 import React, { Component } from "react";
 import {
   Dimensions,
   FlatList,
   ScrollView,
   StatusBar,
+  Text,
   TextInput,
   TouchableOpacity,
   View
@@ -48,11 +27,7 @@ import SphericalUtil from "../geoUtils";
 
 import SpreadEvent from "../model/spreadEvent";
 
-import FormatValue from "../components/displayNumber";
-
-import moment from "moment";
-
-// import SettingsStore from "../store/settingsStore";
+import { Button, Input } from "react-native-elements";
 import styles from "../styles/style";
 
 import Strings from "../assets/Strings";
@@ -193,12 +168,9 @@ export default class FieldScreen extends Component<Props, State> {
 
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
-        <Container>
-          <Content>
-            <Form>
-              <ScrollView>
-                <StatusBar />
-                {/*
+        <ScrollView>
+          <StatusBar />
+          {/*
         // get current fields from data
         // show all fields on the map
         // on map show field name and area
@@ -206,359 +178,327 @@ export default class FieldScreen extends Component<Props, State> {
         // zoom map to that place
 
         */}
-                <View>
-                  <H1>{FieldStore.farm.name}</H1>
-                  <MapView
-                    style={styles.map}
-                    scrollEnabled={this.state.mapMoveEnabled}
-                    provider={PROVIDER_GOOGLE}
-                    rotateEnabled={false}
-                    showsUserLocation={true}
-                    showsMyLocationButton={true}
-                    toolbarEnabled={true}
-                    mapType={"satellite"}
-                    initialRegion={FieldStore.UpdateLocation()}
-                    region={this.setLocation()}
-                    onPress={e => this.onPress(e)}
-                    onRegionChangeComplete={reg => (this.prevRegion = reg)}
-                  >
-                    {FieldStore.DataSource.length > 0 && (
-                      <Polygon
-                        geodesic={true}
-                        key={FieldStore.field.fieldCoordinates.id}
-                        coordinates={FieldStore.DataSource}
-                        strokeColor="rgba(8,190,45,1)"
-                        fillColor="rgba(8,190,45,0.5)"
-                        strokeWidth={1}
-                        tappable={false}
-                      />
-                    )}
+          <Text style={[styles.H1, { textAlign: "center" }]}>
+            {FieldStore.farm.name}
+          </Text>
+          <MapView
+            style={styles.map}
+            scrollEnabled={this.state.mapMoveEnabled}
+            provider={PROVIDER_GOOGLE}
+            rotateEnabled={false}
+            showsUserLocation={true}
+            showsMyLocationButton={true}
+            toolbarEnabled={true}
+            mapType={"satellite"}
+            initialRegion={FieldStore.UpdateLocation()}
+            region={this.setLocation()}
+            onPress={e => this.onPress(e)}
+            onRegionChangeComplete={reg => (this.prevRegion = reg)}
+          >
+            {FieldStore.DataSource.length > 0 && (
+              <Polygon
+                geodesic={true}
+                key={FieldStore.field.fieldCoordinates.id}
+                coordinates={FieldStore.DataSource}
+                strokeColor="rgba(8,190,45,1)"
+                fillColor="rgba(8,190,45,0.5)"
+                strokeWidth={1}
+                tappable={false}
+              />
+            )}
 
-                    {FieldStore.newField.coordinates.length > 0 && (
-                      <Polygon
-                        geodesic={true}
-                        key={FieldStore.newField.id}
-                        coordinates={FieldStore.newField.coordinates.slice()}
-                        strokeColor="#000"
-                        fillColor="rgba(255,0,0,0.5)"
-                        strokeWidth={1}
-                        tappable={false}
-                      />
-                    )}
-                    {this.state.marker && (
-                      <Marker coordinate={this.state.marker.coordinate} />
-                    )}
-                  </MapView>
-                   <Text style={styles.text}>Scroll the map to locate your farm. </Text>
-                   <Text style={styles.text}>
-                    When ready to mark a field press the `Draw Field` button.
-                  </Text>
-                  {!this.state.showSave && (
-                    <Form>
-                      <Button onPress={() => this.draw()}>
-                         <Text style={styles.text}>Draw Field</Text>
-                      </Button>
-                    </Form>
-                  )}
-                  {this.state.showSave && (
-                    <View>
-                      <Button info onPress={() => this.save()}>
-                         <Text style={styles.text}>Save</Text>
-                      </Button>
-                      <Button warning onPress={() => this.cancel()}>
-                         <Text style={styles.text}>Cancel</Text>
-                      </Button>
-                      <Button info onPress={() => this.reset()}>
-                         <Text style={styles.text}>Reset</Text>
-                      </Button>
-                    </View>
-                  )}
-                  <Form style={{ paddingTop: "5%" }}>
-                    <Label style={{ paddingLeft: "2%" }}>Field Name</Label>
-                    <Item rounded>
-                      <Input
-                        selectTextOnFocus={true}
-                        style={{ fontSize: 20, fontWeight: "bold" }}
-                        placeholder="Your Field"
-                        onChangeText={text => (FieldStore.field.name = text)}
-                      >
-                        {FieldStore.field.name}
-                      </Input>
-                    </Item>
-                    <Label style={{ paddingLeft: "2%" }}>
-                      Field Size ({this.areaUnits})
-                    </Label>
-                    <Item rounded>
-                      <Input
-                        selectTextOnFocus={true}
-                        style={{ fontSize: 20, fontWeight: "bold" }}
-                        keyboardType="numeric"
-                        placeholder="0"
-                        onEndEditing={text => {
-                          this.ensureAreaValue(text);
-                        }}
-                      >
-                        {this.getAreaValue()}
-                      </Input>
-                    </Item>
-                  </Form>
-                  <View style={{ paddingTop: "5%" }}>
-                    <Button
-                      onPress={() => {
-                        FieldStore.Save().then(() => {
-                          this.props.navigation.navigate("Spread", {
-                            fieldKey: FieldStore.field.key
+            {FieldStore.newField.coordinates.length > 0 && (
+              <Polygon
+                geodesic={true}
+                key={FieldStore.newField.id}
+                coordinates={FieldStore.newField.coordinates.slice()}
+                strokeColor="#000"
+                fillColor="rgba(255,0,0,0.5)"
+                strokeWidth={1}
+                tappable={false}
+              />
+            )}
+            {this.state.marker && (
+              <Marker coordinate={this.state.marker.coordinate} />
+            )}
+          </MapView>
+          <Text style={styles.text}>
+            To mark a field press the `Draw Field` button.
+          </Text>
+          {!this.state.showSave && (
+            <Button
+              buttonStyle={[styles.roundButton]}
+              titleStyle={styles.buttonText}
+              onPress={() => this.draw()}
+              title="Draw Field"
+            />
+          )}
+          {this.state.showSave && (
+            <View>
+              <Button
+                buttonStyle={[styles.roundButton, styles.bgColourBlue]}
+                titleStyle={styles.buttonText}
+                onPress={() => this.save()}
+                title="Save"
+              />
+
+              <Button
+                buttonStyle={[styles.roundButton, styles.bgColourRed]}
+                titleStyle={styles.buttonText}
+                onPress={() => this.cancel()}
+                title="Cancel"
+              />
+            </View>
+          )}
+          <View>
+            <Input
+              label="Field Name"
+              selectTextOnFocus={true}
+              style={{ fontSize: 20, fontWeight: "bold" }}
+              placeholder="Your Field"
+              onChangeText={text => (FieldStore.field.name = text)}
+            >
+              {FieldStore.field.name}
+            </Input>
+
+            <Input
+              label={"Field Size (" + this.areaUnits + ")"}
+              selectTextOnFocus={true}
+              style={{ fontSize: 20, fontWeight: "bold" }}
+              keyboardType="numeric"
+              placeholder="0"
+              onEndEditing={text => {
+                this.ensureAreaValue(text);
+              }}
+            >
+              {this.getAreaValue()}
+            </Input>
+
+            <View style={{ paddingTop: "5%" }}>
+              <Button
+                onPress={() => {
+                  FieldStore.Save().then(() => {
+                    this.props.navigation.navigate("Spread", {
+                      fieldKey: FieldStore.field.key
+                    });
+                  });
+                }}
+              >
+                <Text style={styles.text}>Add Spreading Event</Text>
+              </Button>
+              <View>
+                <ScrollView>
+                  <FlatList<SpreadEvent>
+                    data={this.props.FieldStore.spreadEvents.slice()}
+                    keyExtractor={item => item.key}
+                    renderItem={({ item }) => (
+                      <Button
+                        onPress={() => {
+                          FieldStore.Save().then(() => {
+                            this.props.navigation.navigate("Spread", {
+                              spreadKey: item.key
+                            });
                           });
-                        });
-                      }}
-                    >
-                       <Text style={styles.text}>Add Spreading Event</Text>
-                    </Button>
-                    <View>
-                      <ScrollView>
-                        <FlatList<SpreadEvent>
-                          data={this.props.FieldStore.spreadEvents.slice()}
-                          keyExtractor={item => item.key}
-                          renderItem={({ item }) => (
-                            <Button
-                              onPress={() => {
-                                FieldStore.Save().then(() => {
-                                  this.props.navigation.navigate("Spread", {
-                                    spreadKey: item.key
-                                  });
-                                });
-                              }}
-                            >
-                               <Text style={styles.text}>{item.date.format("DD-MM-YYYY")}</Text>
-                            </Button>
-                          )}
-                        />
-                      </ScrollView>
-                    </View>
-                  </View>
-                  <View style={{ paddingTop: "5%" }}>
-                    <H2>Soil Details</H2>
-                    <H3>Soil Type</H3>
-                    <DropDown
-                      selectedValue={FieldStore.field.soilType}
-                      onChange={item => (FieldStore.field.soilType = item)}
-                      values={this.strings.soilType}
-                    />
-                    <H3>Do you regularly add organic manures?</H3>
-                    <DropDown
-                      selectedValue={FieldStore.field.organicManure}
-                      onChange={item => (FieldStore.field.organicManure = item)}
-                      values={this.strings.yesno}
-                    />
-                    <H3>Result of soil tests (if available)</H3>
-                     <Text style={styles.text}>P</Text>
-
-                    <DropDown
-                      selectedValue={FieldStore.field.soilTestP}
-                      onChange={item => (FieldStore.field.soilTestP = item)}
-                      values={this.strings.soiltestP}
-                    />
-                     <Text style={styles.text}>K</Text>
-
-                    <DropDown
-                      selectedValue={FieldStore.field.soilTestK}
-                      onChange={item => (FieldStore.field.soilTestK = item)}
-                      values={this.strings.soiltestK}
-                    />
-
-                     <Text style={styles.text}>Mg</Text>
-
-                    <DropDown
-                      selectedValue={FieldStore.field.soilTestMg}
-                      onChange={item => (FieldStore.field.soilTestMg = item)}
-                      values={this.strings.soiltestMg}
-                    />
-                    <Grid>
-                      <Row>
-                        <H3
-                          style={{
-                            alignSelf: "center",
-                            alignItems: "center"
-                          }}
-                        >
-                          Nitrogen Supply
-                        </H3>
-                      </Row>
-                      <Row
-                        style={{
-                          alignSelf: "center",
-                          alignItems: "center"
                         }}
                       >
-                        <SoilNutrientDisplay
-                          value={
-                            FieldStore.cropRequirementsResult.nitrogenSupply
-                          }
-                        />
-                      </Row>
+                        <Text style={styles.text}>
+                          {item.date.format("DD-MM-YYYY")}
+                        </Text>
+                      </Button>
+                    )}
+                  />
+                </ScrollView>
+              </View>
+            </View>
+            <View style={{ paddingTop: "5%" }}>
+              <Text style={styles.H2}>Soil Details</Text>
+              <Text style={styles.H3}>Soil Type</Text>
+              <DropDown
+                selectedValue={FieldStore.field.soilType}
+                onChange={item => (FieldStore.field.soilType = item)}
+                values={this.strings.soilType}
+              />
+              <Text style={styles.H3}>
+                Do you regularly add organic manures?
+              </Text>
+              <DropDown
+                selectedValue={FieldStore.field.organicManure}
+                onChange={item => (FieldStore.field.organicManure = item)}
+                values={this.strings.yesno}
+              />
+              <Text style={styles.H3}>Result of soil tests (if available)</Text>
+              <Text style={styles.text}>P</Text>
 
-                      <Row>
-                        <H3
-                          style={{
-                            alignSelf: "center",
-                            alignItems: "center"
-                          }}
-                        >
-                          Sulphur Risk
-                        </H3>
-                      </Row>
-                      <Row
+              <DropDown
+                selectedValue={FieldStore.field.soilTestP}
+                onChange={item => (FieldStore.field.soilTestP = item)}
+                values={this.strings.soiltestP}
+              />
+              <Text style={styles.text}>K</Text>
+
+              <DropDown
+                selectedValue={FieldStore.field.soilTestK}
+                onChange={item => (FieldStore.field.soilTestK = item)}
+                values={this.strings.soiltestK}
+              />
+
+              <Text style={styles.text}>Mg</Text>
+
+              <DropDown
+                selectedValue={FieldStore.field.soilTestMg}
+                onChange={item => (FieldStore.field.soilTestMg = item)}
+                values={this.strings.soiltestMg}
+              />
+              <Grid style={{ alignItems: "center" }}>
+                <Row>
+                  <Text style={styles.H3}>Nitrogen Supply</Text>
+                </Row>
+                <Row
+                  style={{
+                    alignSelf: "center",
+                    alignItems: "center"
+                  }}
+                >
+                  <SoilNutrientDisplay
+                    value={FieldStore.cropRequirementsResult.nitrogenSupply}
+                  />
+                </Row>
+
+                <Row>
+                  <Text style={styles.H3}>Sulphur Risk</Text>
+                </Row>
+                <Row
+                  style={{
+                    alignSelf: "center",
+                    alignItems: "center"
+                  }}
+                >
+                  <Text style={styles.text}>
+                    {FieldStore.CalculateSulphurRisk()}
+                  </Text>
+                </Row>
+              </Grid>
+
+              <Text style={styles.H2}>Crop Details</Text>
+              <Text style={styles.H3}>Previous crop type</Text>
+
+              <DropDown
+                selectedValue={FieldStore.field.prevCropType}
+                onChange={item => (FieldStore.field.prevCropType = item)}
+                values={this.strings.prevCrop}
+              />
+              <Text style={styles.H3}>
+                Have you grown grass in the last 3 years
+              </Text>
+              <DropDown
+                selectedValue={FieldStore.field.recentGrass}
+                onChange={item => (FieldStore.field.recentGrass = item)}
+                values={this.strings.yesno}
+              />
+              <Text style={styles.H3}>Crop type</Text>
+              <CropDisplay cropArray={FieldStore.field.cropType.slice()} />
+              <Button
+                onPress={() => this.props.navigation.navigate("CropSelector")}
+              >
+                <Text style={styles.text}>Crop Selector</Text>
+              </Button>
+
+              <Grid>
+                <Row>
+                  <Text style={styles.H2}>Crop Nutrient requirements</Text>
+                </Row>
+                <Row>
+                  <Col>
+                    <Text style={{ fontSize: 20, lineHeight: 30 }}>
+                      N <DisplayAreaUnit />
+                    </Text>
+                  </Col>
+                  <Col>
+                    <Text style={{ fontSize: 20, lineHeight: 30 }}>
+                      P<Text style={{ fontSize: 15, lineHeight: 40 }}>2</Text>O
+                      <Text style={{ fontSize: 15, lineHeight: 40 }}>5</Text>
+                      <DisplayAreaUnit />
+                    </Text>
+                  </Col>
+                  <Col>
+                    <Text style={{ fontSize: 20, lineHeight: 30 }}>
+                      K
+                      <Text
                         style={{
-                          alignSelf: "center",
-                          alignItems: "center"
+                          fontSize: 15,
+                          lineHeight: 40
                         }}
                       >
-                         <Text style={styles.text}>{FieldStore.CalculateSulphurRisk()}</Text>
-                      </Row>
-                    </Grid>
-
-                    <H2>Crop Details</H2>
-                    <H3>Previous crop type</H3>
-
-                    <DropDown
-                      selectedValue={FieldStore.field.prevCropType}
-                      onChange={item => (FieldStore.field.prevCropType = item)}
-                      values={this.strings.prevCrop}
-                    />
-                    <H3>Have you grown grass in the last 3 years</H3>
-                    <DropDown
-                      selectedValue={FieldStore.field.recentGrass}
-                      onChange={item => (FieldStore.field.recentGrass = item)}
-                      values={this.strings.yesno}
-                    />
-                    <H3>Crop type</H3>
-                    <CropDisplay
-                      cropArray={FieldStore.field.cropType.slice()}
-                    />
-                    <Button
-                      onPress={() =>
-                        this.props.navigation.navigate("CropSelector")
-                      }
-                    >
-                       <Text style={styles.text}>Crop Selector</Text>
-                    </Button>
-
-                    <Grid>
-                      <Row>
-                        <H2>Crop Nutrient requirements</H2>
-                      </Row>
-                      <Row>
-                        <Col>
-                          <Text style={{ fontSize: 20, lineHeight: 30 }}>
-                            N <DisplayAreaUnit />
-                          </Text>
-                        </Col>
-                        <Col>
-                          <Text style={{ fontSize: 20, lineHeight: 30 }}>
-                            P
-                            <Text style={{ fontSize: 15, lineHeight: 40 }}>
-                              2
-                            </Text>
-                            O
-                            <Text style={{ fontSize: 15, lineHeight: 40 }}>
-                              5
-                            </Text>
-                            <DisplayAreaUnit />
-                          </Text>
-                        </Col>
-                        <Col>
-                          <Text style={{ fontSize: 20, lineHeight: 30 }}>
-                            K
-                            <Text
-                              style={{
-                                fontSize: 15,
-                                lineHeight: 40
-                              }}
-                            >
-                              2
-                            </Text>
-                            O <DisplayAreaUnit />
-                          </Text>
-                        </Col>
-                        <Col>
-                           <Text style={styles.text}>s</Text>
-                        </Col>
-                        <Col>
-                           <Text style={styles.text}>mg</Text>
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col>
-                           <Text style={styles.text}>
-                            {
-                              FieldStore.cropRequirementsResult
-                                .nitrogenRequirement
-                            }
-                          </Text>
-                        </Col>
-                        <Col>
-                           <Text style={styles.text}>
-                            {
-                              FieldStore.cropRequirementsResult
-                                .phosphorousRequirement
-                            }
-                          </Text>
-                        </Col>
-                        <Col>
-                           <Text style={styles.text}>
-                            {
-                              FieldStore.cropRequirementsResult
-                                .potassiumRequirement
-                            }
-                          </Text>
-                        </Col>
-                        <Col>
-                           <Text style={styles.text}>
-                            {
-                              FieldStore.cropRequirementsResult
-                                .sulphurRequirement
-                            }
-                          </Text>
-                        </Col>
-                        <Col>
-                           <Text style={styles.text}>
-                            {
-                              FieldStore.cropRequirementsResult
-                                .magnesiumRequirement
-                            }
-                          </Text>
-                        </Col>
-                      </Row>
-                    </Grid>
-                  </View>
-                  <View>
-                    <H2>Graph</H2>
-                    {
-                      // https://github.com/TradingPal/react-native-highcharts
-                    }
-                    <ChartView
-                      style={{ height: 300 }}
-                      config={conf}
-                      options={options}
-                    />
-
-                     <Text style={styles.text}>Oh no! Not yet :(</Text>
-                  </View>
-                </View>
-              </ScrollView>
-            </Form>
-          </Content>
+                        2
+                      </Text>
+                      O <DisplayAreaUnit />
+                    </Text>
+                  </Col>
+                  <Col>
+                    <Text style={styles.text}>s</Text>
+                  </Col>
+                  <Col>
+                    <Text style={styles.text}>mg</Text>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <Text style={styles.text}>
+                      {FieldStore.cropRequirementsResult.nitrogenRequirement}
+                    </Text>
+                  </Col>
+                  <Col>
+                    <Text style={styles.text}>
+                      {FieldStore.cropRequirementsResult.phosphorousRequirement}
+                    </Text>
+                  </Col>
+                  <Col>
+                    <Text style={styles.text}>
+                      {FieldStore.cropRequirementsResult.potassiumRequirement}
+                    </Text>
+                  </Col>
+                  <Col>
+                    <Text style={styles.text}>
+                      {FieldStore.cropRequirementsResult.sulphurRequirement}
+                    </Text>
+                  </Col>
+                  <Col>
+                    <Text style={styles.text}>
+                      {FieldStore.cropRequirementsResult.magnesiumRequirement}
+                    </Text>
+                  </Col>
+                </Row>
+              </Grid>
+            </View>
+            <View>
+              <Text style={styles.H2}>Graph</Text>
+              {
+                // https://github.com/TradingPal/react-native-highcharts
+              }
+              <ChartView
+                style={{ height: 300 }}
+                config={conf}
+                options={options}
+              />
+            </View>
+          </View>
           <Footer>
             <FooterTab>
-              <Button rounded onPress={this.saveField}>
-                 <Text style={styles.text}>Save Field</Text>
-              </Button>
-              <Button rounded onPress={() => this.props.navigation.goBack()}>
-                 <Text style={styles.text}>Cancel</Text>
-              </Button>
+              <Button
+                buttonStyle={[styles.footerButton]}
+                titleStyle={styles.buttonText}
+                onPress={this.saveField}
+                title="Save Field"
+              />
+              <Button
+                buttonStyle={[styles.footerButton]}
+                titleStyle={styles.buttonText}
+                onPress={() => this.props.navigation.goBack()}
+                title="Cancel"
+              />
             </FooterTab>
           </Footer>
-        </Container>
+        </ScrollView>
       </SafeAreaView>
     );
   }

@@ -2,7 +2,7 @@ import { Dimensions, Platform, StatusBar, StyleSheet } from "react-native";
 
 const { width, height } = Dimensions.get("window");
 const mapHeight = height / 2.5;
-const defatFontSize = 20;
+const defaultFontSize = 20;
 
 const styles = StyleSheet.create({
     container: {
@@ -18,10 +18,15 @@ const styles = StyleSheet.create({
         padding: "2%",
         marginTop: "2%"
     },
+    narrow: {
+        backgroundColor: "#d6d6d6",
+        paddingLeft: "2%",
+        paddingRight: "2%"
+    },
     text: { fontFamily: "ArimaMadurai-Regular", color: "#000" },
-    H1: { fontFamily: "ArimaMadurai-Regular", fontSize: defatFontSize * 1.8 },
-    H2: { fontFamily: "ArimaMadurai-Regular", fontSize: defatFontSize * 1.6 },
-    H3: { fontFamily: "ArimaMadurai-Regular", fontSize: defatFontSize * 1.4 },
+    H1: { fontFamily: "ArimaMadurai-Regular", fontSize: defaultFontSize * 1.8 },
+    H2: { fontFamily: "ArimaMadurai-Regular", fontSize: defaultFontSize * 1.6 },
+    H3: { fontFamily: "ArimaMadurai-Regular", fontSize: defaultFontSize * 1.4 },
     map: {
         width,
         height: mapHeight
@@ -46,7 +51,7 @@ const styles = StyleSheet.create({
     buttonText: {
         fontFamily: "ArimaMadurai-Regular",
         color: "black",
-        fontSize: defatFontSize
+        fontSize: defaultFontSize
     },
     outline: {
         borderWidth: 1,
