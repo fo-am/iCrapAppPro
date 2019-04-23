@@ -193,8 +193,8 @@ export default class FarmScreen extends Component<Props, State> {
           />
         </View>
         <ScrollView>
-          <View style={{ margin: 20, backgroundColor: "#d6d6d6" }}>
-            <Text style={styles.text}>Farm Name</Text>
+          <View style={styles.narrow}>
+            <Text style={styles.H2}>Farm Name</Text>
             <Input
               selectTextOnFocus={true}
               inputStyle={{ fontSize: 20, fontWeight: "bold" }}
@@ -204,7 +204,7 @@ export default class FarmScreen extends Component<Props, State> {
               {FarmStore.farm.name}
             </Input>
             <View>
-              <Text style={styles.text}>Add Field</Text>
+              <Text style={styles.H2}>Add Field</Text>
               <Button
                 buttonStyle={styles.roundButton}
                 titleStyle={styles.buttonText}
@@ -246,7 +246,7 @@ export default class FarmScreen extends Component<Props, State> {
                 )}
               />
             </View>
-            <Text style={styles.text}>Set Farm Rainfall</Text>
+            <Text style={styles.H2}>Set Farm Rainfall</Text>
             <DropDown
               style={styles.outline}
               selectedValue={FarmStore.farm.rainfall}
@@ -257,18 +257,18 @@ export default class FarmScreen extends Component<Props, State> {
               <Grid style={{ alignItems: "center" }}>
                 <Row>
                   <Col>
-                    <Text style={styles.text}>
+                    <Text style={styles.H3}>
                       How much do you pay for your fertiliser?
                     </Text>
-                    <Text style={styles.text}>
+                    <Text style={styles.H3}>
                       This is used to calculate your cost savings.
                     </Text>
                   </Col>
                 </Row>
                 <Row>
                   <Col>
-                    <Text style={styles.text}>
-                      N(
+                    <Text>
+                      N (
                       <DisplayPoundsPerArea />)
                     </Text>
                   </Col>
@@ -284,7 +284,7 @@ export default class FarmScreen extends Component<Props, State> {
                 </Row>
                 <Row>
                   <Col>
-                    <Text style={styles.text}>
+                    <Text>
                       P<Text style={{ fontSize: 15, lineHeight: 37 }}>2</Text>O
                       <Text style={{ fontSize: 15, lineHeight: 37 }}>5</Text>
                       (
@@ -303,7 +303,7 @@ export default class FarmScreen extends Component<Props, State> {
                 </Row>
                 <Row>
                   <Col>
-                    <Text style={styles.text}>
+                    <Text>
                       K<Text style={{ fontSize: 15, lineHeight: 37 }}>2</Text>
                       O (<DisplayPoundsPerArea />)
                     </Text>
@@ -320,7 +320,7 @@ export default class FarmScreen extends Component<Props, State> {
                 </Row>
                 <Row>
                   <Col>
-                    <Text style={styles.text}>
+                    <Text>
                       S (<DisplayPoundsPerArea />)
                     </Text>
                   </Col>
@@ -336,7 +336,7 @@ export default class FarmScreen extends Component<Props, State> {
                 </Row>
                 <Row>
                   <Col>
-                    <Text style={styles.text}>
+                    <Text>
                       Mg (<DisplayPoundsPerArea />)
                     </Text>
                   </Col>
