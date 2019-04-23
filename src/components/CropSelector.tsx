@@ -5,6 +5,7 @@ import { translate } from "react-i18next";
 import { FlatList, ScrollView, StatusBar, View } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
 import data from "../assets/data/crop-menu.json";
+import styles from "../styles/style";
 
 interface Props {
   navigation: NavigationScreenProp<any, any>;
