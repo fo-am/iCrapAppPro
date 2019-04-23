@@ -34,7 +34,7 @@ export default class HomeScreen extends Component<
         <View style={styles.container}>
           <Text>Add a farm</Text>
           <Button
-            buttonStyle={styles.button}
+            buttonStyle={styles.roundButton}
             titleStyle={styles.buttonText}
             onPress={() =>
               this.props.navigation.navigate("Farm", {
@@ -49,7 +49,7 @@ export default class HomeScreen extends Component<
               keyExtractor={item => item.key}
               renderItem={({ item }) => (
                 <Button
-                  style={styles.button}
+                  style={styles.roundButton}
                   onPress={() => {
                     this.props.navigation.navigate("Farm", {
                       farmKey: item.key
@@ -63,14 +63,14 @@ export default class HomeScreen extends Component<
 
           <Text>Settings</Text>
           <Button
-            buttonStyle={styles.button}
+            buttonStyle={styles.roundButton}
             titleStyle={styles.buttonText}
             onPress={() => this.props.navigation.navigate("Settings")}
             title="Settings"
           />
 
           <Button
-            buttonStyle={styles.button}
+            buttonStyle={styles.roundButton}
             titleStyle={styles.buttonText}
             onPress={() => this.props.navigation.navigate("Calculator")}
             title="Calculator"
@@ -78,7 +78,7 @@ export default class HomeScreen extends Component<
 
           <Text>Manure</Text>
           <Button
-            buttonStyle={styles.button}
+            buttonStyle={styles.roundButton}
             titleStyle={styles.buttonText}
             onPress={() => this.props.navigation.navigate("CustomManure")}
             title="Add a new manure"
@@ -89,7 +89,7 @@ export default class HomeScreen extends Component<
               keyExtractor={item => item.key}
               renderItem={({ item }) => (
                 <Button
-                  style={styles.button}
+                  style={styles.roundButton}
                   onPress={() => {
                     this.props.navigation.navigate("CustomManure", {
                       manure: item
@@ -101,13 +101,13 @@ export default class HomeScreen extends Component<
             />
           </ScrollView>
           <Button
-            buttonStyle={styles.button}
+            buttonStyle={styles.roundButton}
             titleStyle={styles.buttonText}
             onPress={() => this.props.navigation.navigate("Export")}
             title="Export Data"
           />
           <Button
-            buttonStyle={styles.button}
+            buttonStyle={styles.roundButton}
             titleStyle={styles.buttonText}
             onPress={() => this.clearStore()}
             title="Clear Store"

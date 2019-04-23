@@ -60,7 +60,7 @@ export default class SettingScreen extends Component<Props, State> {
             </Input>
           </View>
           <Button
-            buttonStyle={styles.button}
+            buttonStyle={styles.roundButton}
             titleStyle={styles.buttonText}
             onPress={() => this.Save()}
             title="Save"
