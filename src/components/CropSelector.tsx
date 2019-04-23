@@ -48,7 +48,7 @@ export default class CropSelector extends Component<Props, State> {
                     style={{ width: "75%" }}
                     onPress={() => this.buttonPress(item)}
                   >
-                    <Text>{t(item.name) || t(item)}</Text>
+                    <Text style={styles.text}>{t(item.name) || t(item)}</Text>
                   </Button>
                 )}
               />
@@ -65,7 +65,7 @@ export default class CropSelector extends Component<Props, State> {
                   style={{ width: "50%" }}
                   onPress={() => this.props.navigation.goBack()}
                 >
-                  <Text>Cancel</Text>
+                  <Text style={styles.text}>Cancel</Text>
                 </Button>
                 <Button
                   block
@@ -79,7 +79,7 @@ export default class CropSelector extends Component<Props, State> {
                     });
                   }}
                 >
-                  <Text>Back</Text>
+                  <Text style={styles.text}>Back</Text>
                 </Button>
               </View>
             </ScrollView>

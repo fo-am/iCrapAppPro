@@ -184,14 +184,14 @@ export default class Calculator extends Component<Props, State> {
         <StatusBar />
         <ScrollView contentContainerStyle={styles.box}>
           <Text style={styles.H1}>Calculator for crap calculations.</Text>
-          <Text>Manure Type</Text>
+          <Text style={styles.text}>Manure Type</Text>
           <DropDown
             style={styles.outline}
             selectedValue={CalculatorStore.calculatorValues.manureSelected}
             onChange={item => this.SelectManure(item)}
             values={this.strings.manureTypes}
           />
-          <Text>Application Type</Text>
+          <Text style={styles.text}>Application Type</Text>
           <DropDown
             style={styles.outline}
             selectedValue={CalculatorStore.calculatorValues.applicationSelected}
@@ -200,7 +200,7 @@ export default class Calculator extends Component<Props, State> {
             }
             values={CalculatorStore.applicationTypes}
           />
-          <Text>Soil Type</Text>
+          <Text style={styles.text}>Soil Type</Text>
           <DropDown
             style={styles.outline}
             selectedValue={CalculatorStore.calculatorValues.soilSelected}
@@ -209,7 +209,7 @@ export default class Calculator extends Component<Props, State> {
             }
             values={this.strings.soilType}
           />
-          <Text>Crop Type</Text>
+          <Text style={styles.text}>Crop Type</Text>
           <DropDown
             style={styles.outline}
             selectedValue={CalculatorStore.calculatorValues.cropSelected}
@@ -218,7 +218,7 @@ export default class Calculator extends Component<Props, State> {
             }
             values={this.strings.calcCropType}
           />
-          <Text>Season</Text>
+          <Text style={styles.text}>Season</Text>
           <DropDown
             style={styles.outline}
             selectedValue={CalculatorStore.calculatorValues.seasonSelected}
@@ -227,7 +227,7 @@ export default class Calculator extends Component<Props, State> {
             }
             values={this.strings.season}
           />
-          <Text>Quality</Text>
+          <Text style={styles.text}>Quality</Text>
           <DropDown
             style={styles.outline}
             selectedValue={CalculatorStore.calculatorValues.qualitySelected}
@@ -247,7 +247,7 @@ export default class Calculator extends Component<Props, State> {
             maximumTrackTintColor="#206F98"
           />
 
-          <Text>
+          <Text style={styles.text}>
             Amount:{" "}
             <FormatValue
               units={slider.sliderUnit}
@@ -279,16 +279,16 @@ export default class Calculator extends Component<Props, State> {
           <Grid style={{ alignItems: "center" }}>
             <Row style={styles.bottomBorder}>
               <Col>
-                <Text>Nutrient</Text>
+                <Text style={styles.text}>Nutrient</Text>
               </Col>
               <Col>
-                <Text>Crop Avalable</Text>
+                <Text style={styles.text}>Crop Avalable</Text>
               </Col>
               <Col>
-                <Text>Total In Manure</Text>
+                <Text style={styles.text}>Total In Manure</Text>
               </Col>
               <Col>
-                <Text>Savings</Text>
+                <Text style={styles.text}>Savings</Text>
               </Col>
             </Row>
             <Row style={styles.bottomBorder}>
@@ -378,7 +378,7 @@ export default class Calculator extends Component<Props, State> {
             </Row>
             <Row style={styles.bottomBorder}>
               <Col>
-                <Text>S</Text>
+                <Text style={styles.text}>S</Text>
               </Col>
               <Col>
                 <FormatValue
@@ -400,7 +400,7 @@ export default class Calculator extends Component<Props, State> {
             </Row>
             <Row style={styles.bottomBorder}>
               <Col>
-                <Text>Mg</Text>
+                <Text style={styles.text}>Mg</Text>
               </Col>
               <Col>
                 <FormatValue

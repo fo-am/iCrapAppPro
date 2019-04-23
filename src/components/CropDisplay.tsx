@@ -15,12 +15,12 @@ export default class CropDisplay extends Component<Props, State> {
     const { t, i18n } = this.props;
     return (
       <Form>
-        <Text>Crop: {this.getCrop()}</Text>
+        <Text style={styles.text}>Crop: {this.getCrop()}</Text>
         <FlatList
           keyExtractor={item => item[0]}
           data={this.props.cropArray.filter(item => item[0] !== "crop")}
           renderItem={({ item }) => (
-            <Text>
+            <Text style={styles.text}>
               {t(item[0])}: {t(item[1])}
             </Text>
           )}

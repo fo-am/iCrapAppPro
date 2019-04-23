@@ -85,16 +85,18 @@ export default class ExportScreen extends Component<Props, State> {
           <Content>
             <Form>
               <Button onPress={this.handleEmail}>
-                <Text>Send csv data to {SettingsStore.appSettings.email}</Text>
+                <Text style={styles.text}>
+                  Send csv data to {SettingsStore.appSettings.email}
+                </Text>
               </Button>
             </Form>
             <Form>
               <Button onPress={() => this.exportJson()}>
-                <Text>
+                <Text style={styles.text}>
                   Export Farm data to {SettingsStore.appSettings.email}
                 </Text>
               </Button>
-              <Text>{this.state.errorsString}</Text>
+              <Text style={styles.text}>{this.state.errorsString}</Text>
             </Form>
           </Content>
         </Container>

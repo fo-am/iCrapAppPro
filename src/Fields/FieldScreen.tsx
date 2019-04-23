@@ -249,27 +249,27 @@ export default class FieldScreen extends Component<Props, State> {
                       <Marker coordinate={this.state.marker.coordinate} />
                     )}
                   </MapView>
-                  <Text>Scroll the map to locate your farm. </Text>
-                  <Text>
+                   <Text style={styles.text}>Scroll the map to locate your farm. </Text>
+                   <Text style={styles.text}>
                     When ready to mark a field press the `Draw Field` button.
                   </Text>
                   {!this.state.showSave && (
                     <Form>
                       <Button onPress={() => this.draw()}>
-                        <Text>Draw Field</Text>
+                         <Text style={styles.text}>Draw Field</Text>
                       </Button>
                     </Form>
                   )}
                   {this.state.showSave && (
                     <View>
                       <Button info onPress={() => this.save()}>
-                        <Text>Save</Text>
+                         <Text style={styles.text}>Save</Text>
                       </Button>
                       <Button warning onPress={() => this.cancel()}>
-                        <Text>Cancel</Text>
+                         <Text style={styles.text}>Cancel</Text>
                       </Button>
                       <Button info onPress={() => this.reset()}>
-                        <Text>Reset</Text>
+                         <Text style={styles.text}>Reset</Text>
                       </Button>
                     </View>
                   )}
@@ -312,7 +312,7 @@ export default class FieldScreen extends Component<Props, State> {
                         });
                       }}
                     >
-                      <Text>Add Spreading Event</Text>
+                       <Text style={styles.text}>Add Spreading Event</Text>
                     </Button>
                     <View>
                       <ScrollView>
@@ -329,7 +329,7 @@ export default class FieldScreen extends Component<Props, State> {
                                 });
                               }}
                             >
-                              <Text>{item.date.format("DD-MM-YYYY")}</Text>
+                               <Text style={styles.text}>{item.date.format("DD-MM-YYYY")}</Text>
                             </Button>
                           )}
                         />
@@ -351,14 +351,14 @@ export default class FieldScreen extends Component<Props, State> {
                       values={this.strings.yesno}
                     />
                     <H3>Result of soil tests (if available)</H3>
-                    <Text>P</Text>
+                     <Text style={styles.text}>P</Text>
 
                     <DropDown
                       selectedValue={FieldStore.field.soilTestP}
                       onChange={item => (FieldStore.field.soilTestP = item)}
                       values={this.strings.soiltestP}
                     />
-                    <Text>K</Text>
+                     <Text style={styles.text}>K</Text>
 
                     <DropDown
                       selectedValue={FieldStore.field.soilTestK}
@@ -366,7 +366,7 @@ export default class FieldScreen extends Component<Props, State> {
                       values={this.strings.soiltestK}
                     />
 
-                    <Text>Mg</Text>
+                     <Text style={styles.text}>Mg</Text>
 
                     <DropDown
                       selectedValue={FieldStore.field.soilTestMg}
@@ -413,7 +413,7 @@ export default class FieldScreen extends Component<Props, State> {
                           alignItems: "center"
                         }}
                       >
-                        <Text>{FieldStore.CalculateSulphurRisk()}</Text>
+                         <Text style={styles.text}>{FieldStore.CalculateSulphurRisk()}</Text>
                       </Row>
                     </Grid>
 
@@ -440,7 +440,7 @@ export default class FieldScreen extends Component<Props, State> {
                         this.props.navigation.navigate("CropSelector")
                       }
                     >
-                      <Text>Crop Selector</Text>
+                       <Text style={styles.text}>Crop Selector</Text>
                     </Button>
 
                     <Grid>
@@ -481,15 +481,15 @@ export default class FieldScreen extends Component<Props, State> {
                           </Text>
                         </Col>
                         <Col>
-                          <Text>s</Text>
+                           <Text style={styles.text}>s</Text>
                         </Col>
                         <Col>
-                          <Text>mg</Text>
+                           <Text style={styles.text}>mg</Text>
                         </Col>
                       </Row>
                       <Row>
                         <Col>
-                          <Text>
+                           <Text style={styles.text}>
                             {
                               FieldStore.cropRequirementsResult
                                 .nitrogenRequirement
@@ -497,7 +497,7 @@ export default class FieldScreen extends Component<Props, State> {
                           </Text>
                         </Col>
                         <Col>
-                          <Text>
+                           <Text style={styles.text}>
                             {
                               FieldStore.cropRequirementsResult
                                 .phosphorousRequirement
@@ -505,7 +505,7 @@ export default class FieldScreen extends Component<Props, State> {
                           </Text>
                         </Col>
                         <Col>
-                          <Text>
+                           <Text style={styles.text}>
                             {
                               FieldStore.cropRequirementsResult
                                 .potassiumRequirement
@@ -513,7 +513,7 @@ export default class FieldScreen extends Component<Props, State> {
                           </Text>
                         </Col>
                         <Col>
-                          <Text>
+                           <Text style={styles.text}>
                             {
                               FieldStore.cropRequirementsResult
                                 .sulphurRequirement
@@ -521,7 +521,7 @@ export default class FieldScreen extends Component<Props, State> {
                           </Text>
                         </Col>
                         <Col>
-                          <Text>
+                           <Text style={styles.text}>
                             {
                               FieldStore.cropRequirementsResult
                                 .magnesiumRequirement
@@ -542,7 +542,7 @@ export default class FieldScreen extends Component<Props, State> {
                       options={options}
                     />
 
-                    <Text>Oh no! Not yet :(</Text>
+                     <Text style={styles.text}>Oh no! Not yet :(</Text>
                   </View>
                 </View>
               </ScrollView>
@@ -551,10 +551,10 @@ export default class FieldScreen extends Component<Props, State> {
           <Footer>
             <FooterTab>
               <Button rounded onPress={this.saveField}>
-                <Text>Save Field</Text>
+                 <Text style={styles.text}>Save Field</Text>
               </Button>
               <Button rounded onPress={() => this.props.navigation.goBack()}>
-                <Text>Cancel</Text>
+                 <Text style={styles.text}>Cancel</Text>
               </Button>
             </FooterTab>
           </Footer>

@@ -44,7 +44,7 @@ export default class CustomManure extends Component<
             <Form>
               <StatusBar />
               <View style={styles.container}>
-                <Text>Manure Name</Text>
+                <Text style={styles.text}>Manure Name</Text>
 
                 <Input
                   autoFocus={true}
@@ -59,7 +59,7 @@ export default class CustomManure extends Component<
                   {this.props.ManureStore.manure.name}
                 </Input>
 
-                <Text>N kg/t content (elemental)</Text>
+                <Text style={styles.text}>N kg/t content (elemental)</Text>
 
                 <Input
                   selectTextOnFocus={true}
@@ -73,7 +73,7 @@ export default class CustomManure extends Component<
                   {this.toString(this.props.ManureStore.manure.N)}
                 </Input>
 
-                <Text>P kg/t content (elemental)</Text>
+                <Text style={styles.text}>P kg/t content (elemental)</Text>
                 <Input
                   selectTextOnFocus={true}
                   style={{ fontSize: 20, fontWeight: "bold" }}
@@ -86,7 +86,7 @@ export default class CustomManure extends Component<
                   {this.toString(this.props.ManureStore.manure.P)}
                 </Input>
 
-                <Text>K kg/t content (elemental)</Text>
+                <Text style={styles.text}>K kg/t content (elemental)</Text>
 
                 <Input
                   selectTextOnFocus={true}
@@ -101,13 +101,13 @@ export default class CustomManure extends Component<
                 </Input>
 
                 <Button onPress={this.cancel}>
-                  <Text>Cancel</Text>
+                  <Text style={styles.text}>Cancel</Text>
                 </Button>
                 <Button onPress={this.saveManure}>
-                  <Text>Save Manure</Text>
+                  <Text style={styles.text}>Save Manure</Text>
                 </Button>
                 <Button onPress={this.deleteManure}>
-                  <Text>Remove manure</Text>
+                  <Text style={styles.text}>Remove manure</Text>
                 </Button>
               </View>
             </Form>

@@ -9,7 +9,9 @@ interface State {}
 
 export default class CashDisplay extends Component<Props, State> {
   public render() {
-    return <Text>£{this.FormattedValue(this.props.value)}</Text>;
+    return (
+      <Text style={styles.text}>£{this.FormattedValue(this.props.value)}</Text>
+    );
   }
   private FormattedValue(value: number): string {
     if (isNaN(value)) {

@@ -37,7 +37,7 @@ export default class SettingScreen extends Component<Props, State> {
           <StatusBar />
 
           <View style={[styles.box, styles.bottomSpacing]}>
-            <Text>Choose Unit type</Text>
+            <Text style={styles.text}>Choose Unit type</Text>
             <DropDown
               style={styles.outline}
               selectedValue={SettingsStore.appSettings.unit}
@@ -46,7 +46,7 @@ export default class SettingScreen extends Component<Props, State> {
             />
           </View>
           <View style={styles.box}>
-            <Text>Email address</Text>
+            <Text style={styles.text}>Email address</Text>
 
             <Input
               selectTextOnFocus={true}
