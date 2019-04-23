@@ -851,11 +851,21 @@ class DatabaseImpl implements Database {
                         Name = ?2,
                         N = ?3,
                         P = ?4,
-                        K = ?5
+                        K = ?5,
+                        S = ?6,
+                        Mg = ?7
                         WHERE "Manure-Unique-Id" = ?1;
                         `,
 
-                        [manure.key, manure.name, manure.N, manure.P, manure.K]
+                        [
+                            manure.key,
+                            manure.name,
+                            manure.N,
+                            manure.P,
+                            manure.K,
+                            manure.S,
+                            manure.Mg
+                        ]
                     )
                 )
                 .then(([results]) =>
@@ -869,12 +879,20 @@ class DatabaseImpl implements Database {
                 .then(db =>
                     db.executeSql(
                         `
-                        Insert into Manure ("Manure-Unique-Id", Name, N, P, K)
+                        Insert into Manure ("Manure-Unique-Id", Name, N, P, K, S, Mg)
                         VALUES
-                        (?1, ?2, ?3, ?4, ?5);
+                        (?1, ?2, ?3, ?4, ?5, ?6, ?7);
                         `,
 
-                        [manure.key, manure.name, manure.N, manure.P, manure.K]
+                        [
+                            manure.key,
+                            manure.name,
+                            manure.N,
+                            manure.P,
+                            manure.K,
+                            manure.S,
+                            manure.Mg
+                        ]
                     )
                 )
                 .then(([results]) =>

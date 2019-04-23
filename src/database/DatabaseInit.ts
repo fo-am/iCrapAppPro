@@ -123,7 +123,9 @@ export class DatabaseInitialization {
             "Name" TEXT NOT NULL,
             "N"	NUMERIC NOT NULL,
             "P"	NUMERIC NOT NULL,
-            "K"	NUMERIC NOT NULL
+            "K"	NUMERIC NOT NULL,
+            "S"	NUMERIC NOT NULL,
+            "Mg" NUMERIC NOT NULL
              );`
         );
 
