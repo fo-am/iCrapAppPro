@@ -18,8 +18,8 @@ const styles = StyleSheet.create({
         padding: "2%",
         marginTop: "2%"
     },
-    text: { color: "#000" },
-    H1: { fontSize: defatFontSize * 1.8 },
+    text: { fontFamily: "ArimaMadurai-Regular", color: "#000" },
+    H1: { fontFamily: "ArimaMadurai-Regular", fontSize: defatFontSize * 1.8 },
     map: {
         width,
         height: mapHeight
@@ -30,6 +30,12 @@ const styles = StyleSheet.create({
         borderWidth: 3,
         borderColor: "black",
         borderRadius: 20
+    },
+    bgColourBlue: {
+        backgroundColor: "#89b4bf"
+    },
+    bgColourRed: {
+        backgroundColor: "#bf8989"
     },
     footerButton: {
         backgroundColor: "#89BF89",
