@@ -35,7 +35,12 @@ const styles = StyleSheet.create({
         color: "black",
         fontSize: 20
     },
-    outline: { borderWidth: 1, borderColor: "black", borderRadius: 20 },
+    outline: {
+        borderWidth: 1,
+        borderColor: "black",
+        borderRadius: 20,
+        backgroundColor: "white"
+    },
     bottomSpacing: { paddingBottom: 10 }
 });
 
