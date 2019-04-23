@@ -51,7 +51,12 @@ export default class SplashScreen extends Component<
                 onPress={() => this.props.navigation.navigate("Home")}
               >
                 <Text
-                  style={{ fontSize: 20, padding: "5%", fontWeight: "bold" }}
+                  style={{
+                    fontFamily: "ArimaMadurai-Regular",
+                    fontSize: 20,
+                    padding: "5%",
+                    fontWeight: "bold"
+                  }}
                 >
                   Begin >
                 </Text>
@@ -66,8 +71,19 @@ export default class SplashScreen extends Component<
                 alignItems: "center"
               }}
             >
-              <H1 style={{ paddingTop: "5%" }}>{t("the-farm-crap-app-pro")}</H1>
-              <Text style={{ textAlign: "center" }}>{t("introduction")}</Text>
+              <H1
+                style={{ paddingTop: "5%", fontFamily: "ArimaMadurai-Regular" }}
+              >
+                {t("the-farm-crap-app-pro")}
+              </H1>
+              <Text
+                style={{
+                  textAlign: "center",
+                  fontFamily: "ArimaMadurai-Regular"
+                }}
+              >
+                {t("introduction")}
+              </Text>
 
               <Image
                 source={require("../../resources/splash.png")}
