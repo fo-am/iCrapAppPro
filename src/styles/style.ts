@@ -34,7 +34,9 @@ const styles = StyleSheet.create({
         fontFamily: "ArimaMadurai-Regular",
         color: "black",
         fontSize: 20
-    }
+    },
+    outline: { borderWidth: 1, borderColor: "black", borderRadius: 20 },
+    bottomSpacing: { paddingBottom: 10 }
 });
 
 export default styles;
