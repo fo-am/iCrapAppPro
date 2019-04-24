@@ -1,6 +1,13 @@
 import { inject, observer } from "mobx-react/native";
 import React, { Component } from "react";
-import { Dimensions, FlatList, ScrollView, Text, View } from "react-native";
+import {
+  Dimensions,
+  FlatList,
+  ScrollView,
+  Text,
+  View,
+  StatusBar
+} from "react-native";
 import { Button } from "react-native-elements";
 import { NavigationScreenProp, SafeAreaView } from "react-navigation";
 import { database } from "./database/Database";
@@ -33,6 +40,7 @@ export default class HomeScreen extends Component<
       <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
         <View style={styles.container}>
           <ScrollView>
+            <StatusBar barStyle="dark-content" />
             <Text style={styles.text}>Add a farm</Text>
             <Button
               buttonStyle={styles.roundButton}

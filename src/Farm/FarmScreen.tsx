@@ -73,8 +73,9 @@ export default class FarmScreen extends Component<Props, State> {
     const { FarmStore, FieldStore } = this.props;
     return (
       <SafeAreaView style={{ flex: 1 }}>
-        <StatusBar barStyle="dark-content" />
-        {/*
+        <ScrollView>
+          <StatusBar barStyle="dark-content" />
+          {/*
 
        // Add farm
        // Add farm things (rainfall, nutrient costs, name, id)
@@ -84,123 +85,122 @@ export default class FarmScreen extends Component<Props, State> {
 
 
         */}
-        <MapView
-          moveOnMarkerPress={false}
-          style={styles.map}
-          scrollEnabled={this.state.mapMoveEnabled}
-          provider={PROVIDER_GOOGLE}
-          rotateEnabled={false}
-          showsUserLocation={true}
-          showsMyLocationButton={true}
-          toolbarEnabled={true}
-          mapType={"satellite"}
-          initialRegion={FarmStore.UpdateLocation()}
-          region={this.setLocation()}
-          onPress={e => this.onPress(e)}
-          onRegionChangeComplete={reg => (this.prevRegion = reg)}
-        >
-          {FarmStore.farm.farmLocation && (
-            <Marker coordinate={FarmStore.farm.farmLocation} />
-          )}
-        </MapView>
-        <View
-          style={{
-            width: "50%",
-            position: "absolute", // use absolute position to show button on top of the map
-            top: "2%", // for center align
-            alignSelf: "flex-end", // for align to right
-            zIndex: 1
-          }}
-        >
-          {!this.state.showSave && (
-            <Form>
-              <Button
-                buttonStyle={[styles.roundButton, { margin: 0 }]}
-                titleStyle={styles.buttonText}
-                onPress={() => this.draw()}
-                title="Place Pin on Farm"
-              />
-            </Form>
-          )}
-          {this.state.showSave && (
-            <View>
-              <Button
-                buttonStyle={[styles.roundButton, styles.bgColourBlue]}
-                titleStyle={styles.buttonText}
-                onPress={() => this.save()}
-                title="Save Location"
-              />
-              <Button
-                buttonStyle={[styles.roundButton, styles.bgColourRed]}
-                titleStyle={styles.buttonText}
-                onPress={() => this.cancel()}
-                title="Cancel"
-              />
-            </View>
-          )}
-        </View>
-        <View
-          style={{
-            width: "50%",
-            position: "absolute",
-            top: "2%",
-            alignSelf: "flex-start",
-            zIndex: 2
-          }}
-        >
-          <GooglePlacesAutocomplete
-            listViewDisplayed="true"
-            placeholder="Search"
-            minLength={3} // minimum length of text to search
-            autoFocus={false}
-            fetchDetails={true}
-            onPress={(data, details = undefined) => {
-              // 'details' is provided when fetchDetails = true
-              // do a thing
-              if (details != undefined) {
-                const loc: LatLng = new LatLng();
-                loc.latitude = details.geometry.location.lat;
-                loc.longitude = details.geometry.location.lng;
-                FarmStore.farm.farmLocation = loc;
+          <MapView
+            moveOnMarkerPress={false}
+            style={styles.map}
+            scrollEnabled={this.state.mapMoveEnabled}
+            provider={PROVIDER_GOOGLE}
+            rotateEnabled={false}
+            showsUserLocation={true}
+            showsMyLocationButton={true}
+            toolbarEnabled={true}
+            mapType={"satellite"}
+            initialRegion={FarmStore.UpdateLocation()}
+            region={this.setLocation()}
+            onPress={e => this.onPress(e)}
+            onRegionChangeComplete={reg => (this.prevRegion = reg)}
+          >
+            {FarmStore.farm.farmLocation && (
+              <Marker coordinate={FarmStore.farm.farmLocation} />
+            )}
+          </MapView>
+          <View
+            style={{
+              width: "50%",
+              position: "absolute", // use absolute position to show button on top of the map
 
-                this.draw();
-              }
+              alignSelf: "flex-end", // for align to right
+              zIndex: 1
             }}
-            getDefaultValue={() => {
-              return ""; // text input default value
+          >
+            {!this.state.showSave && (
+              <Form>
+                <Button
+                  buttonStyle={[styles.roundButton, { margin: 0 }]}
+                  titleStyle={styles.buttonText}
+                  onPress={() => this.draw()}
+                  title="Place Pin on Farm"
+                />
+              </Form>
+            )}
+            {this.state.showSave && (
+              <View>
+                <Button
+                  buttonStyle={[styles.roundButton, styles.bgColourBlue]}
+                  titleStyle={styles.buttonText}
+                  onPress={() => this.save()}
+                  title="Save Location"
+                />
+                <Button
+                  buttonStyle={[styles.roundButton, styles.bgColourRed]}
+                  titleStyle={styles.buttonText}
+                  onPress={() => this.cancel()}
+                  title="Cancel"
+                />
+              </View>
+            )}
+          </View>
+          <View
+            style={{
+              width: "50%",
+              position: "absolute",
+
+              alignSelf: "flex-start",
+              zIndex: 2
             }}
-            query={{
-              // available options: https://developers.google.com/places/web-service/autocomplete
-              key: "AIzaSyAVTbzKLIbNe23Ieh1AXxktDHPiC3ze3O4",
-              types: "geocode" // default: 'geocode'
-            }}
-            styles={{
-              container: { backgroundColor: "white" },
-              description: {
-                textAlign: "left"
-              },
-              // textInputContainer: { width: "100%" },
-              listView: { width: "200%", backgroundColor: "white" },
-              predefinedPlacesDescription: {
-                color: "#1faadb"
-              }
-            }}
-            currentLocation={true} // Will add a 'Current location' button at the top of the predefined places list
-            currentLocationLabel="Current location"
-            nearbyPlacesAPI="GoogleReverseGeocoding" // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
-            GoogleReverseGeocodingQuery={{
-              // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
-              region: "GB"
-            }}
-            GooglePlacesSearchQuery={{
-              // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
-              rankby: "distance"
-            }}
-            filterReverseGeocodingByTypes={[]} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
-            predefinedPlacesAlwaysVisible={true}
-          />
-        </View>
-        <ScrollView>
+          >
+            <GooglePlacesAutocomplete
+              listViewDisplayed="true"
+              placeholder="Search"
+              minLength={3} // minimum length of text to search
+              autoFocus={false}
+              fetchDetails={true}
+              onPress={(data, details = undefined) => {
+                // 'details' is provided when fetchDetails = true
+                // do a thing
+                if (details != undefined) {
+                  const loc: LatLng = new LatLng();
+                  loc.latitude = details.geometry.location.lat;
+                  loc.longitude = details.geometry.location.lng;
+                  FarmStore.farm.farmLocation = loc;
+
+                  this.draw();
+                }
+              }}
+              getDefaultValue={() => {
+                return ""; // text input default value
+              }}
+              query={{
+                // available options: https://developers.google.com/places/web-service/autocomplete
+                key: "AIzaSyAVTbzKLIbNe23Ieh1AXxktDHPiC3ze3O4",
+                types: "geocode" // default: 'geocode'
+              }}
+              styles={{
+                container: { backgroundColor: "white" },
+                description: {
+                  textAlign: "left"
+                },
+                // textInputContainer: { width: "100%" },
+                listView: { width: "200%", backgroundColor: "white" },
+                predefinedPlacesDescription: {
+                  color: "#1faadb"
+                }
+              }}
+              currentLocation={true} // Will add a 'Current location' button at the top of the predefined places list
+              currentLocationLabel="Current location"
+              nearbyPlacesAPI="GoogleReverseGeocoding" // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
+              GoogleReverseGeocodingQuery={{
+                // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
+                region: "GB"
+              }}
+              GooglePlacesSearchQuery={{
+                // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
+                rankby: "distance"
+              }}
+              filterReverseGeocodingByTypes={[]} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
+              predefinedPlacesAlwaysVisible={true}
+            />
+          </View>
           <View style={styles.narrow}>
             <Text style={styles.H2}>Farm Name</Text>
             <Input
