@@ -39,8 +39,8 @@ export default class SplashScreen extends Component<
     const { t, i18n, navigation } = this.props;
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
-        <StatusBar barStyle="dark-content" />
         <Container>
+          <StatusBar barStyle="dark-content" />
           <Header>
             <Left />
             <Body />
