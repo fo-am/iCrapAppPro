@@ -1,7 +1,14 @@
 import { inject, observer } from "mobx-react/native";
 import { Col, Footer, FooterTab, Form, Grid, Item, Row } from "native-base";
 import React, { Component } from "react";
-import { Dimensions, FlatList, ScrollView, Text, View } from "react-native";
+import {
+  Dimensions,
+  FlatList,
+  ScrollView,
+  StatusBar,
+  Text,
+  View
+} from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import MapView, { Marker, PROVIDER_GOOGLE, Region } from "react-native-maps";
 import { NavigationScreenProp, SafeAreaView } from "react-navigation";
@@ -66,6 +73,7 @@ export default class FarmScreen extends Component<Props, State> {
     const { FarmStore, FieldStore } = this.props;
     return (
       <SafeAreaView style={{ flex: 1 }}>
+        <StatusBar barStyle="dark-content" />
         {/*
 
        // Add farm

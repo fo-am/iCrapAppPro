@@ -38,7 +38,7 @@ export default class CustomManure extends Component<
   public render() {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
-        <StatusBar />
+        <StatusBar barStyle="dark-content" />
 
         <View style={styles.container}>
           <ScrollView>

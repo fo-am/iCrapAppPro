@@ -181,7 +181,7 @@ export default class Calculator extends Component<Props, State> {
     const { SettingsStore, CalculatorStore } = this.props;
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
-        <StatusBar />
+        <StatusBar barStyle="dark-content" />
         <ScrollView contentContainerStyle={styles.box}>
           <Text style={styles.H1}>Calculator for crap calculations.</Text>
           <Text style={styles.text}>Manure Type</Text>

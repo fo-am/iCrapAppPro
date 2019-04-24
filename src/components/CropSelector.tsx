@@ -1,7 +1,7 @@
 import { inject, observer } from "mobx-react/native";
 import React, { Component } from "react";
 import { translate } from "react-i18next";
-import { FlatList, ScrollView, Text, View } from "react-native";
+import { FlatList, ScrollView, StatusBar, Text, View } from "react-native";
 import { Button } from "react-native-elements";
 import { NavigationScreenProp, SafeAreaView } from "react-navigation";
 import data from "../assets/data/crop-menu.json";
@@ -36,6 +36,7 @@ export default class CropSelector extends Component<Props, State> {
     const { t, i18n } = this.props;
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
+        <StatusBar barStyle="dark-content" />
         <ScrollView>
           <Text style={styles.H1}>Expert crop select</Text>
           <FlatList

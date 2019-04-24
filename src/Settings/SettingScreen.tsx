@@ -34,8 +34,7 @@ export default class SettingScreen extends Component<Props, State> {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
         <View>
-          <StatusBar />
-
+          <StatusBar barStyle="dark-content" />
           <View style={[styles.box, styles.bottomSpacing]}>
             <Text style={styles.text}>Choose Unit type</Text>
             <DropDown

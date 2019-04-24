@@ -160,7 +160,7 @@ export default class FieldScreen extends Component<Props, State> {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
         <ScrollView>
-          <StatusBar />
+          <StatusBar barStyle="dark-content" />
           {/*
         // get current fields from data
         // show all fields on the map

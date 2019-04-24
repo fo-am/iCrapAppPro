@@ -182,7 +182,7 @@ export default class SpreadScreen extends Component<Props, State> {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
         <ScrollView>
-          <StatusBar />
+          <StatusBar barStyle="dark-content" />
           <View style={styles.narrow}>
             <Text style={styles.H1}>{FieldStore.field.name}</Text>
             <Text style={styles.text}>Enter new crap spreading event</Text>
@@ -511,7 +511,6 @@ export default class SpreadScreen extends Component<Props, State> {
             </Grid>
             <Image source={CalculatorStore.image} />
           </View>
-
           <Footer>
             <FooterTab>
               <Button
