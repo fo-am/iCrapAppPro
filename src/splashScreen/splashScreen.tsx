@@ -15,7 +15,7 @@ import {
 } from "native-base";
 import React, { Component } from "react";
 import { translate } from "react-i18next";
-import { Image, View } from "react-native";
+import { Image, View, StatusBar, Dimensions } from "react-native";
 import { NavigationScreenProp, SafeAreaView } from "react-navigation";
 
 interface MyComponentProps {
@@ -39,22 +39,23 @@ export default class SplashScreen extends Component<
     const { t, i18n, navigation } = this.props;
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
+        <StatusBar barStyle="dark-content" />
         <Container>
           <Header>
             <Left />
             <Body />
             <Right>
               <Button
-                style={{ marginTop: "5%" }}
-                hasText
                 transparent
                 onPress={() => this.props.navigation.navigate("Home")}
               >
                 <Text
                   style={{
                     fontFamily: "ArimaMadurai-Regular",
-                    fontSize: 20,
-                    padding: "5%",
+                    fontSize: 30,
+                    paddingBottom: 20,
+                    paddingRight: 20,
+                    margin: -10,
                     fontWeight: "bold"
                   }}
                 >
@@ -88,8 +89,8 @@ export default class SplashScreen extends Component<
               <Image
                 source={require("../../resources/splash.png")}
                 style={{
-                  width: 500,
-                  height: 500
+                  width: Dimensions.get("window").height * 0.6,
+                  height: Dimensions.get("window").height * 0.6
                 }}
               />
             </View>
