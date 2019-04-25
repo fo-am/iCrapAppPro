@@ -1,61 +1,69 @@
 {
-  "decision": "type",
-  "choices": [
-    {
-      "choice": "cattle",
-      "value": {
-        "decision": "quality",
-        "choices": [
-          {
-            "choice": "DM2",
-            "value": 1.5
-          },
-          {
-            "choice": "DM6",
-            "value": 2.6
-          },
-          {
-            "choice": "DM10",
-            "value": 3.6
-          }
-        ]
-      }
-    },
-    {
-      "choice": "pig",
-      "value": {
-        "decision": "quality",
-        "choices": [
-          {
-            "choice": "DM2",
-            "value": 3.0
-          },
-          {
-            "choice": "DM4",
-            "value": 3.6
-          },
-          {
-            "choice": "DM6",
-            "value": 4.7
-          }
-        ]
-      }
-    },
-    {
-      "choice": "poultry",
-      "value": {
-        "decision": "quality",
-        "choices": [
-          {
-            "choice": "layer",
-            "value": 19
-          },
-          {
-            "choice": "broiler",
-            "value": 28
-          }
-        ]
-      }
-    }
-  ]
+    "decision": "type",
+    "choices": [
+        {
+            "choice": "cattle",
+            "value": {
+                "decision": "quality",
+                "choices": [
+                    {
+                        "choice": "dm2",
+                        "value": 1.5
+                    },
+                    {
+                        "choice": "dm6",
+                        "value": 2.6
+                    },
+                    {
+                        "choice": "dm10",
+                        "value": 3.6
+                    }
+                ]
+            }
+        },
+        {
+            "choice": "pig",
+            "value": {
+                "decision": "quality",
+                "choices": [
+                    {
+                        "choice": "dm2",
+                        "value": 3.0
+                    },
+                    {
+                        "choice": "dm4",
+                        "value": 3.6
+                    },
+                    {
+                        "choice": "dm6",
+                        "value": 4.7
+                    }
+                ]
+            }
+        },
+        {
+            "choice": "poultry",
+            "value": {
+                "decision": "quality",
+                "choices": [
+                    {
+                        "choice": "dm20",
+                        "value": 9.4
+                    },
+                    {
+                        "choice": "dm40",
+                        "value": 19.0
+                    },
+                    {
+                        "choice": "dm60",
+                        "value": 28.0
+                    },
+                    {
+                        "choice": "dm80",
+                        "value": 37.0
+                    }
+                ]
+            }
+        }
+    ]
 }
