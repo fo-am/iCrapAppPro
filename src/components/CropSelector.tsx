@@ -38,7 +38,10 @@ export default class CropSelector extends Component<Props, State> {
       <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
         <StatusBar barStyle="dark-content" />
         <ScrollView>
-          <Text style={styles.H1}>Expert crop select</Text>
+          <Text style={[styles.H1, { textAlign: "center" }]}>Crop Select</Text>
+          <Text style={[styles.H2, { textAlign: "center" }]}>
+            {this.state.category}
+          </Text>
           <FlatList
             keyExtractor={(item, index) => "key" + index}
             data={this.state.data}
