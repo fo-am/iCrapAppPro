@@ -1,5 +1,5 @@
 import { inject, observer } from "mobx-react/native";
-import { Col, Container, Content, Form, Grid, Row } from "native-base";
+import { Col, Grid, Row } from "native-base";
 import React, { Component } from "react";
 import { Image, ScrollView, Slider, StatusBar, Text, View } from "react-native";
 import { Button, Input } from "react-native-elements";
@@ -19,6 +19,7 @@ import Strings from "../assets/Strings";
 import { NavigationScreenProp, SafeAreaView } from "react-navigation";
 
 interface Props {
+  navigation: NavigationScreenProp<any, any>;
   ManureStore: ManureStore;
   CalculatorStore: CalculatorStore;
   SettingsStore: SettingsStore;
@@ -237,6 +238,8 @@ export default class Calculator extends Component<Props, State> {
             values={CalculatorStore.qualityTypes}
           />
 
+          <Image source={CalculatorStore.image} />
+
           <Slider
             step={0.1}
             value={slider.sliderStartValue}
@@ -271,9 +274,6 @@ export default class Calculator extends Component<Props, State> {
               value={CalculatorStore.calculatorValues.sliderValue}
             />
           </Input>
-
-          <Image source={CalculatorStore.image} />
-
           <Text style={styles.H1}>Results</Text>
 
           <Grid style={{ alignItems: "center" }}>
@@ -421,6 +421,12 @@ export default class Calculator extends Component<Props, State> {
               </Col>
             </Row>
           </Grid>
+          <Button
+            buttonStyle={[styles.roundButton]}
+            titleStyle={styles.buttonText}
+            onPress={() => this.props.navigation.navigate("Home")}
+            title="Done"
+          />
         </ScrollView>
       </SafeAreaView>
     );
