@@ -13,9 +13,9 @@
                 "shallow-injected": "Shallow injected"
             },
             "quality": {
-                "DM2": "2% DM (Thin soup)",
-                "DM6": "6% DM (Thick soup)",
-                "DM10": "10% DM (Porridge)"
+                "dm2": "2% dm (Thin soup)",
+                "dm6": "6% dm (Thick soup)",
+                "dm10": "10% dm (Porridge)"
             }
         }
     },
@@ -56,9 +56,9 @@
                 "shallow-injected": "Shallow injected"
             },
             "quality": {
-                "DM2": "2% DM (Thin soup)",
-                "DM4": "4% DM (Thick soup)",
-                "DM6": "6% DM (Thick soup)"
+                "dm2": "2% dm (Thin soup)",
+                "dm4": "4% dm (Thick soup)",
+                "dm6": "6% dm (Thick soup)"
             }
         }
     },
@@ -74,10 +74,10 @@
                 "ploughed": "Ploughed"
             },
             "quality": {
-                "DM20": "20% DM",
-                "DM40": "40% DM",
-                "DM60": "60% DM",
-                "DM80": "80% DM"
+                "dm20": "20% dm",
+                "dm40": "40% dm",
+                "dm60": "60% dm",
+                "dm80": "80% dm"
             }
         }
     },
