@@ -77,7 +77,7 @@ export default class Strings {
         "food-industry-waste": "Food industry waste",
         "digestate-food": "Digestate food",
         "digestate-farm": "Digestate farm",
-        biosolid: "Spent mushroom",
+        biosolid: "Biosolid",
         custom: "Custom"
     };
     public season = {
