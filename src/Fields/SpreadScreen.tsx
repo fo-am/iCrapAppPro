@@ -77,6 +77,7 @@ export default class SpreadScreen extends Component<Props, State> {
 
     CalculatorStore.calculatorValues.soilTestK = FieldStore.field.soilTestK;
     CalculatorStore.calculatorValues.soilTestP = FieldStore.field.soilTestP;
+    CalculatorStore.calculatorValues.soilTestMg = FieldStore.field.soilTestMg;
   }
 
   public componentWillMount() {}
