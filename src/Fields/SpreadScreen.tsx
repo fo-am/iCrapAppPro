@@ -238,6 +238,7 @@ export default class SpreadScreen extends Component<Props, State> {
               values={CalculatorStore.applicationTypes}
             />
 
+            <Image source={CalculatorStore.image} />
             <View style={{ marginVertical: 20 }}>
               <Slider
                 step={0.1}
@@ -509,7 +510,6 @@ export default class SpreadScreen extends Component<Props, State> {
                 </Col>
               </Row>
             </Grid>
-            <Image source={CalculatorStore.image} />
           </View>
           <Footer>
             <FooterTab>
