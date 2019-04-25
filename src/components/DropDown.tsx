@@ -2,6 +2,8 @@ import { Picker } from "native-base";
 import React, { Component } from "react";
 import { View } from "react-native";
 
+import styles from "../styles/style";
+
 interface Props {
   selectedValue: number | string;
   onChange: any;
@@ -26,6 +28,7 @@ export default class DropDown extends Component<Props, State> {
           selectedValue={this.props.selectedValue}
           style={{ height: 50, width: "100%" }}
           onValueChange={this.props.onChange}
+          itemTextStyle={styles.text}
         >
           {Object.keys(this.props.values || []).map(key => {
             return (
