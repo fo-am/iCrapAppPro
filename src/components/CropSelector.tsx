@@ -40,11 +40,35 @@ export default class CropSelector extends Component<Props, State> {
         <ScrollView>
           <Text style={[styles.H1, { textAlign: "center" }]}>Crop Select</Text>
           <Text style={[styles.H2, { textAlign: "center" }]}>
-            {this.state.category}
+            {t(this.state.category)}
           </Text>
           <FlatList
             keyExtractor={(item, index) => "key" + index}
-            data={this.state.data}
+            data={this.state.data.sort((a, b) => {
+              if (this.state.category === "crop") {
+                let nameA;
+                let nameB;
+                if (a.name) {
+                  nameA = a.name.toLowerCase();
+                } else {
+                  nameA = a.toLowerCase();
+                }
+                if (b.name) {
+                  nameB = b.name.toLowerCase();
+                } else {
+                  nameB = b.toLowerCase();
+                }
+
+                if (nameA < nameB) {
+                  // sort string ascending
+                  return -1;
+                }
+                if (nameA > nameB) {
+                  return 1;
+                }
+                return 0; // default return value (no sorting)
+              }
+            })}
             renderItem={({ item }) => (
               <Button
                 buttonStyle={[styles.roundButton]}
