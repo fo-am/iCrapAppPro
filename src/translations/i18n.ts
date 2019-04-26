@@ -87,30 +87,6 @@ i18n.init({
                 "grass-cut": "Grass cut", // (yield 6-8k, conc 1.5, stock med)
                 "grass-grazed": "Grass grazed", // (yield 6-8k, conc 1.5, stock med)
 
-                // previous crop types
-                cereals: "Cereals",
-                oilseed: "Oilseed rape",
-                potatoes: "Potatoes",
-                sugarbeet: "Sugar beet",
-                peas: "Peas",
-                beans: "Beans",
-                "low-n-veg": "Low N veg",
-                "medium-n-veg": "Medium N veg",
-                forage: "Forage crops (cut)",
-                uncropped: "Uncropped land",
-                "grass-low-n": "Grass (low N/1 or more cuts)",
-                "grass-high-n": "Grass (3-5yr, high N, grazed)",
-                "grass-other": "Any other grass",
-
-                // soil types
-                sandyshallow: "Sandy/Shallow",
-                peat: "Peat",
-                organic: "Organic (10-20% organic matter)",
-                mediumshallow: "Medium/Shallow",
-                medium: "Medium",
-                deepclay: "Deep clay",
-                deepsilt: "Deep silt",
-
                 // application types
                 surface: "Surface",
                 ploughed: "Ploughed",
