@@ -1,7 +1,14 @@
 import { inject, observer } from "mobx-react/native";
 import { Col, Footer, FooterTab, Grid, Row } from "native-base";
 import React, { Component } from "react";
-import { FlatList, ScrollView, StatusBar, Text, View } from "react-native";
+import {
+  Dimensions,
+  FlatList,
+  ScrollView,
+  StatusBar,
+  Text,
+  View
+} from "react-native";
 import MapView, {
   Marker,
   Polygon,
@@ -39,7 +46,6 @@ interface State {
   marker: any;
 
   area: any;
-  mapMoveEnabled: boolean;
   showSave: boolean;
   showDraw: boolean;
   showHaveProps: boolean;
@@ -51,6 +57,7 @@ export default class FieldScreen extends Component<Props, State> {
   private strings: Strings;
   private prevRegion: Region | undefined = undefined;
   private areaUnits: string;
+  private mapRef: MapView | null;
 
   constructor(props: Props) {
     super(props);
@@ -62,7 +69,7 @@ export default class FieldScreen extends Component<Props, State> {
       marker: undefined,
 
       area: undefined,
-      mapMoveEnabled: true,
+
       showSave: false,
       showDraw: true,
       showHaveProps: false
@@ -81,6 +88,7 @@ export default class FieldScreen extends Component<Props, State> {
       FieldStore.reset(farmKey);
     }
   }
+
   public render() {
     const { FieldStore } = this.props;
 
@@ -159,7 +167,7 @@ export default class FieldScreen extends Component<Props, State> {
 
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
-        <ScrollView>
+        <ScrollView scrollEnabled={!this.state.showSave}>
           <StatusBar barStyle="dark-content" />
           {/*
         // get current fields from data
@@ -169,12 +177,11 @@ export default class FieldScreen extends Component<Props, State> {
         // zoom map to that place
 
         */}
-          <Text style={[styles.H1, { textAlign: "center" }]}>
-            {FieldStore.farm.name}
-          </Text>
+
           <MapView
-            style={styles.map}
-            scrollEnabled={this.state.mapMoveEnabled}
+            ref={ref => (this.mapRef = ref)}
+            onLayout={() => this.recenterOnLayoutChange()}
+            style={[styles.map, this.fullSizeMap()]}
             provider={PROVIDER_GOOGLE}
             rotateEnabled={false}
             showsUserLocation={true}
@@ -183,7 +190,7 @@ export default class FieldScreen extends Component<Props, State> {
             mapType={"satellite"}
             initialRegion={FieldStore.UpdateLocation()}
             region={this.setLocation()}
-            onPress={e => this.onPress(e)}
+            onPress={e => this.mapPress(e)}
             onRegionChangeComplete={reg => (this.prevRegion = reg)}
           >
             {FieldStore.DataSource.length > 0 && (
@@ -213,34 +220,43 @@ export default class FieldScreen extends Component<Props, State> {
               <Marker coordinate={this.state.marker.coordinate} />
             )}
           </MapView>
-          <Text style={styles.text}>
-            To mark a field press the `Draw Field` button.
-          </Text>
-          {!this.state.showSave && (
-            <Button
-              buttonStyle={[styles.roundButton]}
-              titleStyle={styles.buttonText}
-              onPress={() => this.draw()}
-              title="Draw Field"
-            />
-          )}
-          {this.state.showSave && (
-            <View>
+          <View
+            style={{
+              width: "50%",
+              position: "absolute", // use absolute position to show button on top of the map
+              alignSelf: "flex-end", // for align to right
+              zIndex: 1
+            }}
+          >
+            {!this.state.showSave && (
               <Button
-                buttonStyle={[styles.roundButton, styles.bgColourBlue]}
+                buttonStyle={[styles.roundButton]}
                 titleStyle={styles.buttonText}
-                onPress={() => this.save()}
-                title="Save"
+                onPress={() => this.draw()}
+                title="Press To Draw Field"
               />
+            )}
+            {this.state.showSave && (
+              <View>
+                <Button
+                  buttonStyle={[styles.roundButton, styles.bgColourBlue]}
+                  titleStyle={styles.buttonText}
+                  onPress={() => this.save()}
+                  title="Save"
+                />
 
-              <Button
-                buttonStyle={[styles.roundButton, styles.bgColourRed]}
-                titleStyle={styles.buttonText}
-                onPress={() => this.cancel()}
-                title="Cancel"
-              />
-            </View>
-          )}
+                <Button
+                  buttonStyle={[styles.roundButton, styles.bgColourRed]}
+                  titleStyle={styles.buttonText}
+                  onPress={() => this.cancel()}
+                  title="Cancel"
+                />
+              </View>
+            )}
+          </View>
+          <Text style={[styles.H1, { textAlign: "center" }]}>
+            {FieldStore.farm.name}
+          </Text>
           <View style={styles.narrow}>
             <Input
               label="Field Name"
@@ -602,7 +618,25 @@ export default class FieldScreen extends Component<Props, State> {
       </SafeAreaView>
     );
   }
+  public recenterOnLayoutChange(): any {
+    const { FieldStore } = this.props;
 
+    const points = FieldStore.DataSource;
+
+    if (points.length) {
+      this.mapRef.fitToCoordinates(points, {
+        animated: false
+      });
+    }
+  }
+  private fullSizeMap() {
+    if (this.state.showSave) {
+      return {
+        width: Dimensions.get("screen").width,
+        height: Dimensions.get("screen").height
+      };
+    }
+  }
   private getAreaValue(): number {
     const { FieldStore, SettingsStore } = this.props;
     if (SettingsStore.appSettings.unit !== "metric") {
@@ -622,7 +656,7 @@ export default class FieldScreen extends Component<Props, State> {
 
   private setLocation(): Region | undefined {
     const { FieldStore } = this.props;
-    if (this.state.mapMoveEnabled) {
+    if (!this.state.showSave) {
       this.prevRegion = FieldStore.UpdateLocation();
       return this.prevRegion;
     } else {
@@ -638,8 +672,7 @@ export default class FieldScreen extends Component<Props, State> {
 
   private draw() {
     this.setState({
-      showSave: true,
-      mapMoveEnabled: false
+      showSave: true
     });
   }
   private save() {
@@ -658,39 +691,27 @@ export default class FieldScreen extends Component<Props, State> {
 
     this.setState({
       marker: undefined,
-      showSave: false,
-      mapMoveEnabled: true
+      showSave: false
     });
-    // save to file
   }
+
   private cancel() {
     const { FieldStore } = this.props;
     FieldStore.newField.coordinates.length = 0;
     this.setState({
       marker: undefined,
-      mapMoveEnabled: true,
       showSave: false
     });
   }
-  private reset() {
-    const { FieldStore } = this.props;
-    FieldStore.newField.coordinates.id = "delete";
-    FieldStore.newField.coordinates.length = 0;
-    this.setState({
-      marker: undefined,
-      mapMoveEnabled: true
-    });
-  }
 
-  private onPress(e: any) {
+  private mapPress(e: any) {
     const { FieldStore } = this.props;
     if (this.state.showSave) {
       this.setState({
         marker: {
           coordinate: e.nativeEvent.coordinate,
           key: id++
-        },
-        mapMoveEnabled: false
+        }
       });
       FieldStore.newField.id = "newField" + Date.now();
       FieldStore.newField.coordinates.push(e.nativeEvent.coordinate);
