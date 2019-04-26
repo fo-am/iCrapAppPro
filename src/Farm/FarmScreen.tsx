@@ -31,7 +31,6 @@ interface Props {
 
 interface State {
   area: any;
-  mapMoveEnabled: boolean;
   showSave: boolean;
   showDraw: boolean;
   showHaveProps: boolean;
@@ -51,14 +50,12 @@ export default class FarmScreen extends Component<Props, State> {
     const { CalculatorStore, FarmStore } = this.props;
     this.state = {
       area: undefined,
-      mapMoveEnabled: true,
       showSave: false,
       showDraw: true,
       showHaveProps: false
     };
     CalculatorStore.rainfall = FarmStore.farm.rainfall;
   }
-
   public componentWillMount() {
     const { navigation, FarmStore, FieldStore } = this.props;
     const item = navigation.getParam("farmKey", undefined);
@@ -73,7 +70,7 @@ export default class FarmScreen extends Component<Props, State> {
     const { FarmStore, FieldStore } = this.props;
     return (
       <SafeAreaView style={{ flex: 1 }}>
-        <ScrollView>
+        <ScrollView scrollEnabled={!this.state.showSave}>
           <StatusBar barStyle="dark-content" />
           {/*
 
@@ -87,8 +84,7 @@ export default class FarmScreen extends Component<Props, State> {
         */}
           <MapView
             moveOnMarkerPress={false}
-            style={styles.map}
-            scrollEnabled={this.state.mapMoveEnabled}
+            style={[styles.map, this.fullSizeMap()]}
             provider={PROVIDER_GOOGLE}
             rotateEnabled={false}
             showsUserLocation={true}
@@ -97,7 +93,7 @@ export default class FarmScreen extends Component<Props, State> {
             mapType={"satellite"}
             initialRegion={FarmStore.UpdateLocation()}
             region={this.setLocation()}
-            onPress={e => this.onPress(e)}
+            onPress={e => this.mapPress(e)}
             onRegionChangeComplete={reg => (this.prevRegion = reg)}
           >
             {FarmStore.farm.farmLocation && (
@@ -108,33 +104,30 @@ export default class FarmScreen extends Component<Props, State> {
             style={{
               width: "50%",
               position: "absolute", // use absolute position to show button on top of the map
-
               alignSelf: "flex-end", // for align to right
               zIndex: 1
             }}
           >
             {!this.state.showSave && (
-              <Form>
-                <Button
-                  buttonStyle={[styles.roundButton, { margin: 0 }]}
-                  titleStyle={styles.buttonText}
-                  onPress={() => this.draw()}
-                  title="Place Pin on Farm"
-                />
-              </Form>
+              <Button
+                buttonStyle={[styles.roundButton, { margin: 0 }]}
+                titleStyle={styles.buttonText}
+                onPress={() => this.enablePinPlacement()}
+                title="Place Pin on Farm"
+              />
             )}
             {this.state.showSave && (
               <View>
                 <Button
                   buttonStyle={[styles.roundButton, styles.bgColourBlue]}
                   titleStyle={styles.buttonText}
-                  onPress={() => this.save()}
+                  onPress={() => this.savePinPlacement()}
                   title="Save Location"
                 />
                 <Button
                   buttonStyle={[styles.roundButton, styles.bgColourRed]}
                   titleStyle={styles.buttonText}
-                  onPress={() => this.cancel()}
+                  onPress={() => this.cancelPinPlacement()}
                   title="Cancel"
                 />
               </View>
@@ -164,7 +157,7 @@ export default class FarmScreen extends Component<Props, State> {
                   loc.longitude = details.geometry.location.lng;
                   FarmStore.farm.farmLocation = loc;
 
-                  this.draw();
+                  this.enablePinPlacement();
                 }
               }}
               getDefaultValue={() => {
@@ -381,9 +374,18 @@ export default class FarmScreen extends Component<Props, State> {
       </SafeAreaView>
     );
   }
+
+  private fullSizeMap() {
+    if (this.state.showSave) {
+      return {
+        width: Dimensions.get("screen").width,
+        height: Dimensions.get("screen").height
+      };
+    }
+  }
   private setLocation(): Region | undefined {
     const { FarmStore } = this.props;
-    if (this.state.mapMoveEnabled) {
+    if (!this.state.showSave) {
       this.prevRegion = FarmStore.UpdateLocation();
       return this.prevRegion;
     } else {
@@ -400,32 +402,28 @@ export default class FarmScreen extends Component<Props, State> {
     this.props.navigation.navigate("Home");
   }
 
-  private draw() {
+  private enablePinPlacement() {
     this.setState({
-      showSave: true,
-      mapMoveEnabled: false
+      showSave: true
     });
   }
-  private save() {
+  private savePinPlacement() {
     this.setState({
-      showSave: false,
-      mapMoveEnabled: true
+      showSave: false
     });
   }
-  private cancel() {
+  private cancelPinPlacement() {
     const { FarmStore } = this.props;
 
     //   FarmStore.farm.farmLocation = undefined;
-    this.setState({ mapMoveEnabled: true, showSave: false });
+    this.setState({ showSave: false });
   }
 
-  private onPress(e: any) {
+  private mapPress(e: any) {
     const { FarmStore } = this.props;
     if (this.state.showSave) {
       FarmStore.farm.farmLocation = e.nativeEvent.coordinate;
-      this.setState({
-        mapMoveEnabled: false
-      });
+      this.setState({});
     }
   }
 }
