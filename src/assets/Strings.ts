@@ -4,11 +4,6 @@ export default class Strings {
         "grass-oilseed": "Grass/Oilseed"
     };
 
-    public cropType = {
-        normal: "Normal",
-        "grass-oilseed": "Grass/Oilseed"
-    };
-
     public prevCrop = {
         cereals: "Cereals",
         oilseed: "Oilseed rape",
@@ -26,13 +21,14 @@ export default class Strings {
     };
     public soilType = {
         sandyshallow: "Sandy/Shallow",
-        peat: "Peat",
-        organic: "Organic (10-20% organic matter)",
         mediumshallow: "Medium/Shallow",
         medium: "Medium",
         deepclay: "Heavy clay",
-        deepsilt: "Heavy silt"
+        deepsilt: "Heavy silt",
+        organic: "Organic (10-20% organic matter)",
+        peat: "Peat"
     };
+
     public soiltestP = {
         "soil-p-0": "0",
         "soil-p-1": "1",
