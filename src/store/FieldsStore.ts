@@ -142,13 +142,16 @@ class FieldStore {
 
     public UpdateLocation(): Region {
         // calculate rect
+
         if (this.field.fieldCoordinates) {
             if (this.field.fieldCoordinates.coordinates.length > 0) {
-                const a = this.field.fieldCoordinates.coordinates[0];
-                let minX: number = a.latitude,
-                    maxX: number = a.latitude,
-                    minY: number = a.longitude,
-                    maxY: number = a.longitude;
+                const firstPoint = this.field.fieldCoordinates.coordinates[0];
+
+                let minX: number = firstPoint.latitude,
+                    maxX: number = firstPoint.latitude,
+                    minY: number = firstPoint.longitude,
+                    maxY: number = firstPoint.longitude;
+
                 this.field.fieldCoordinates.coordinates.slice().map(point => {
                     minX = Math.min(minX, point.latitude);
                     maxX = Math.max(maxX, point.latitude);
@@ -158,8 +161,8 @@ class FieldStore {
 
                 const midX = (minX + maxX) / 2;
                 const midY = (minY + maxY) / 2;
-                const deltaX = (maxX - minX) * 1.2;
-                const deltaY = (maxY - minY) * 1.2;
+                const deltaX = (maxX - minX) * 1.4;
+                const deltaY = (maxY - minY) * 1.4;
                 if (minX) {
                     return {
                         latitude: midX,
