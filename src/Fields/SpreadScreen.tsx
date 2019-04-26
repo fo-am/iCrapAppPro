@@ -199,7 +199,7 @@ export default class SpreadScreen extends Component<Props, State> {
               style={[styles.outline, { width: 200 }]}
               date={FieldStore.newSpreadEvent.date}
               mode="date"
-              //  format="DD-MM-YYYY"
+              format="DD-MM-YYYY"
               confirmBtnText="Confirm"
               cancelBtnText="Cancel"
               customStyles={{
@@ -213,7 +213,7 @@ export default class SpreadScreen extends Component<Props, State> {
                   marginLeft: 36
                 }
               }}
-              onDateChange={date => {
+              onDateChange={(datestr, date) => {
                 //    FieldStore.newSpreadEvent.date = moment(date, "DD-MM-YYYY");
                 this.dateToSeason(moment(date));
               }}
