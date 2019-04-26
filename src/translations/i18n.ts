@@ -33,9 +33,9 @@ i18n.init({
                 "crap-calculator": "Crap Calculator",
                 season: "Season",
                 quality: "Quality",
-                "total-availible": "Total in manure",
-                "crop-availible": "Crop available nutrients (Total in manure)",
-                "crop-availible-event": "Crop available nutrients",
+                "total-available": "Total in manure",
+                "crop-available": "Crop available nutrients (Total in manure)",
+                "crop-available-event": "Crop available nutrients",
                 "nutrient-n-metric": "N Kg/ha",
                 "nutrient-p-metric":
                     "P<sub><small>2</small></sub>O<sub><small>5</small></sub> Kg/ha",
@@ -222,7 +222,7 @@ i18n.init({
 
                 "soil-info": "Soil details",
                 "crop-info": "Crop details",
-                "soil-test": "Results of soil tests (if availible)",
+                "soil-test": "Results of soil tests (if available)",
                 "soil-supply": "Soil N supply",
                 "crop-requirements": "Crop nutrient requirements",
 
