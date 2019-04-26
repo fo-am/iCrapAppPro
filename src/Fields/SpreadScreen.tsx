@@ -196,7 +196,7 @@ export default class SpreadScreen extends Component<Props, State> {
             />
             <Text style={styles.text}>Date</Text>
             <DatePicker
-              style={[styles.outline, { width: 200 }]}
+              style={{ width: "100%" }}
               date={FieldStore.newSpreadEvent.date}
               mode="date"
               format="DD-MM-YYYY"
@@ -205,13 +205,14 @@ export default class SpreadScreen extends Component<Props, State> {
               customStyles={{
                 dateIcon: {
                   position: "absolute",
-                  left: 0,
-                  top: 4,
-                  marginLeft: 0
+                  left: 0
                 },
-                dateInput: {
-                  marginLeft: 36
-                }
+                placeholderText: styles.text,
+                dateText: styles.text,
+                btnTextCancel: styles.text,
+                btnTextConfirm: styles.text,
+                dateTouchBody: [styles.outline, { height: 50 }],
+                dateInput: { borderWidth: 0 }
               }}
               onDateChange={(datestr, date) => {
                 //    FieldStore.newSpreadEvent.date = moment(date, "DD-MM-YYYY");
