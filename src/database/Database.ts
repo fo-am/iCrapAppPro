@@ -517,7 +517,7 @@ class DatabaseImpl implements Database {
                      "Nutrients-K", "Require-N", "Require-P",
                      "Require-K", "SNS", "Soil", "Size", "Amount",
                       "Quality", "Application", "Season", "Crop"
-                     FROM SpreadEvent where FieldKey = ?`,
+                     FROM SpreadEvent where FieldKey = ?  ORDER BY "Date" DESC`,
                     [fieldKey]
                 )
                 .then(([results]) => {
