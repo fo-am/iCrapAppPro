@@ -10,6 +10,7 @@ import {
   View
 } from "react-native";
 import MapView, {
+  MapEvent,
   Marker,
   Polygon,
   PROVIDER_GOOGLE,
@@ -217,7 +218,16 @@ export default class FieldScreen extends Component<Props, State> {
               />
             )}
             {this.state.marker && (
-              <Marker coordinate={this.state.marker.coordinate} />
+              <Marker
+                coordinate={this.state.marker.coordinate}
+                draggable={true}
+                onDragEnd={(loc: MapEvent) => {
+                  FieldStore.newField.coordinates.pop();
+                  FieldStore.newField.coordinates.push(
+                    loc.nativeEvent.coordinate
+                  );
+                }}
+              />
             )}
           </MapView>
           <View
@@ -250,6 +260,16 @@ export default class FieldScreen extends Component<Props, State> {
                   titleStyle={styles.buttonText}
                   onPress={() => this.cancel()}
                   title="Cancel"
+                />
+
+                <Button
+                  buttonStyle={[
+                    styles.roundButton,
+                    { backgroundColor: "green" }
+                  ]}
+                  titleStyle={styles.buttonText}
+                  onPress={() => this.undo()}
+                  title="Undo"
                 />
               </View>
             )}
@@ -626,6 +646,21 @@ export default class FieldScreen extends Component<Props, State> {
     if (points.length) {
       this.mapRef.fitToCoordinates(points, {
         animated: false
+      });
+    }
+  }
+  private undo() {
+    const { FieldStore } = this.props;
+    if (FieldStore.newField.coordinates) {
+      FieldStore.newField.coordinates.pop();
+      this.setState({
+        marker: {
+          coordinate:
+            FieldStore.newField.coordinates[
+              FieldStore.newField.coordinates.length - 1
+            ],
+          key: id++
+        }
       });
     }
   }
