@@ -10,7 +10,12 @@ import {
   View
 } from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
-import MapView, { Marker, PROVIDER_GOOGLE, Region } from "react-native-maps";
+import MapView, {
+  Marker,
+  Polygon,
+  PROVIDER_GOOGLE,
+  Region
+} from "react-native-maps";
 import { NavigationScreenProp, SafeAreaView } from "react-navigation";
 import DisplayPoundsPerArea from "../components/displayPoundsPerArea";
 import DropDown from "../components/DropDown";
@@ -19,6 +24,7 @@ import Field from "../model/field";
 import LatLng from "../model/LatLng";
 
 import { Button, Input } from "react-native-elements";
+import FieldsStore from "../store/FieldsStore";
 import styles from "../styles/style";
 
 interface Props {
@@ -96,6 +102,21 @@ export default class FarmScreen extends Component<Props, State> {
             onPress={e => this.mapPress(e)}
             onRegionChangeComplete={reg => (this.prevRegion = reg)}
           >
+            {FieldsStore.fields.map((field: Field) => (
+              <View key={field.key}>
+                <Polygon
+                  coordinates={field.fieldCoordinates.coordinates.slice()}
+                  strokeColor="rgba(8,190,45,1)"
+                  fillColor="rgba(8,190,45,0.5)"
+                  strokeWidth={1}
+                />
+                <Marker coordinate={field.centre()}>
+                  <Text style={[styles.text, { color: "white" }]}>
+                    {field.name}
+                  </Text>
+                </Marker>
+              </View>
+            ))}
             {FarmStore.farm.farmLocation && (
               <Marker coordinate={FarmStore.farm.farmLocation} />
             )}
