@@ -20,7 +20,7 @@ export default class SpreadEvent {
     @observable public soil: string = "";
     @observable public size: number = 0;
     @observable public season: string = "";
-    @observable public crop: string = "";
+    @observable public crop: string[][] = [];
 
     // copy numbers from field and fix calculated values.
     constructor() {
