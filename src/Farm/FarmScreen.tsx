@@ -24,7 +24,7 @@ import Field from "../model/field";
 import LatLng from "../model/LatLng";
 
 import { Button, Input } from "react-native-elements";
-import FieldsStore from "../store/FieldsStore";
+import FieldStore from "../store/FieldsStore";
 import styles from "../styles/style";
 
 interface Props {
@@ -102,9 +102,11 @@ export default class FarmScreen extends Component<Props, State> {
             onPress={e => this.mapPress(e)}
             onRegionChangeComplete={reg => (this.prevRegion = reg)}
           >
-            {FieldsStore.fields.map((field: Field) => (
+            {FieldStore.fields.map((field: Field) => (
               <View key={field.key}>
                 <Polygon
+                  geodesic={true}
+                  tappable={false}
                   coordinates={field.fieldCoordinates.coordinates.slice()}
                   strokeColor="rgba(8,190,45,1)"
                   fillColor="rgba(8,190,45,0.5)"

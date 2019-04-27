@@ -29,9 +29,9 @@ import SpreadEvent from "../model/spreadEvent";
 import { Button, Input } from "react-native-elements";
 import styles from "../styles/style";
 
-import Strings from "../assets/Strings";
-
 import ChartView from "react-native-highcharts";
+import Strings from "../assets/Strings";
+import Field from "../model/field";
 
 let id = 0;
 
@@ -194,6 +194,17 @@ export default class FieldScreen extends Component<Props, State> {
             onPress={e => this.mapPress(e)}
             onRegionChangeComplete={reg => (this.prevRegion = reg)}
           >
+            {FieldStore.fields.map((field: Field) => (
+              <Polygon
+                key={field.key}
+                geodesic={true}
+                coordinates={field.fieldCoordinates.coordinates.slice()}
+                strokeColor="rgba(8,190,45,0.5)"
+                fillColor="rgba(8,190,45,0.25)"
+                strokeWidth={1}
+                tappable={false}
+              />
+            ))}
             {FieldStore.DataSource.length > 0 && (
               <Polygon
                 geodesic={true}
@@ -205,7 +216,6 @@ export default class FieldScreen extends Component<Props, State> {
                 tappable={false}
               />
             )}
-
             {FieldStore.newField.coordinates.length > 0 && (
               <Polygon
                 geodesic={true}
@@ -641,10 +651,8 @@ export default class FieldScreen extends Component<Props, State> {
   public recenterOnLayoutChange(): any {
     const { FieldStore } = this.props;
 
-    const points = FieldStore.DataSource;
-
-    if (points.length) {
-      this.mapRef.fitToCoordinates(points, {
+    if (FieldStore.DataSource.length) {
+      this.mapRef.fitToCoordinates(FieldStore.DataSource, {
         animated: false
       });
     }
