@@ -1,7 +1,9 @@
 import { Dimensions, Platform, StatusBar, StyleSheet } from "react-native";
 
 const { width, height } = Dimensions.get("window");
-const mapHeight = height / 2.5;
+
+const mapHeight = Math.max(width, height) / 2.5;
+
 const defaultFontSize = 20;
 
 const styles = StyleSheet.create({
@@ -32,7 +34,7 @@ const styles = StyleSheet.create({
     H2: { fontFamily: "ArimaMadurai-Regular", fontSize: defaultFontSize * 1.6 },
     H3: { fontFamily: "ArimaMadurai-Regular", fontSize: defaultFontSize * 1.4 },
     map: {
-        width,
+        width: "100%",
         height: mapHeight
     },
     roundButton: {
