@@ -144,7 +144,7 @@ i18n.init({
                 "manure-type": "Manure type",
 
                 cattle: "Cattle Slurry",
-                FYM: "Farmyard Manure",
+                fym: "Farmyard Manure",
                 pig: "Pig Slurry",
                 poultry: "Poultry Litter",
                 compost: "Compost",

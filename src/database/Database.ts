@@ -981,7 +981,7 @@ class DatabaseImpl implements Database {
                     // need to translate these!
                     rowArray.push(row.farmName);
                     rowArray.push(row.fieldName);
-                    rowArray.push(i18n.t(row["Manure-Type"]));
+                    rowArray.push(row["Manure-Type"]);
                     rowArray.push(row.Date);
                     rowArray.push(this.safeNumber(row["Nutrients-N"]));
                     rowArray.push(this.safeNumber(row["Nutrients-P"]));
@@ -990,12 +990,12 @@ class DatabaseImpl implements Database {
                     rowArray.push(this.safeNumber(row["Require-P"]));
                     rowArray.push(this.safeNumber(row["Require-K"]));
                     rowArray.push(row.SNS);
-                    rowArray.push(i18n.t(row.Soil));
+                    rowArray.push(row.Soil);
                     rowArray.push(row.Size);
                     rowArray.push(row.Amount);
-                    rowArray.push(i18n.t(row.Quality));
-                    rowArray.push(i18n.t(row.Application));
-                    rowArray.push(i18n.t(row.Season));
+                    rowArray.push(row.Quality);
+                    rowArray.push(row.Application);
+                    rowArray.push(row.Season);
                     rowArray.push(this.sortCrops(row.Crop));
 
                     results.push(rowArray);
@@ -1178,7 +1178,7 @@ class DatabaseImpl implements Database {
 
         const crop = JSON.parse(cropString);
         crop.forEach(f => {
-            cropPart = `${i18n.t(f[0])}: ${i18n.t(f[1])}`;
+            cropPart = `${f[0]}: ${f[1]}`;
 
             fullList += `${cropPart} `;
         });

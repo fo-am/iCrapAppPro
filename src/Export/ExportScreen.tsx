@@ -1,23 +1,25 @@
 import { inject, observer } from "mobx-react/native";
-import { Button } from "react-native-elements";
 import React, { Component } from "react";
 import {
   Dimensions,
-  Text,
   FlatList,
   PermissionsAndroid,
   Platform,
   ScrollView,
   StatusBar,
+  Text,
   TouchableOpacity,
   View
 } from "react-native";
+import { Button } from "react-native-elements";
 
 import RNFS from "react-native-fs";
 import Mailer from "react-native-mail";
 import { NavigationScreenProp, SafeAreaView } from "react-navigation";
 import { database } from "../database/Database";
 import styles from "../styles/style";
+
+import { translate } from "react-i18next";
 
 interface Props {
   navigation: NavigationScreenProp<any, any>;
@@ -35,7 +37,7 @@ interface State {
   showHaveProps: boolean;
   resultString: string;
 }
-
+@translate(["common"], { wait: true })
 @inject("FieldStore", "CalculatorStore", "SettingsStore", "FarmStore")
 @observer
 export default class ExportScreen extends Component<Props, State> {
@@ -136,7 +138,8 @@ export default class ExportScreen extends Component<Props, State> {
             isHTML: false,
             attachment: {
               path: filePath, // The absolute path of the file from which to read data.
-              type: "csv" // Mime Type: jpg, png, doc, ppt, html, pdf, csv
+              type: "csv", // Mime Type: jpg, png, doc, ppt, html, pdf, csv
+              name: "FarmData.csv"
             }
           },
           (error, event) => {
@@ -151,6 +154,7 @@ export default class ExportScreen extends Component<Props, State> {
   };
 
   private writeCsvFile(): Promise<Array<Array<string>>> {
+    const { t, i18n } = this.props;
     const csv: Array<Array<string>> = [];
     // Add headings
     csv.push([
@@ -174,7 +178,12 @@ export default class ExportScreen extends Component<Props, State> {
       '"Crop"'
     ]);
     return database.getCSVData().then(res => {
-      csv.push(...res);
+      const translatedArray = res.map(nested =>
+        // tslint:disable-next-line: no-unnecessary-callback-wrapper
+        nested.map(element => t(element))
+      );
+
+      csv.push(...translatedArray);
       return csv;
     });
   }
