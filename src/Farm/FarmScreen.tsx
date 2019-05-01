@@ -102,23 +102,10 @@ export default class FarmScreen extends Component<Props, State> {
             onPress={e => this.mapPress(e)}
             onRegionChangeComplete={reg => (this.prevRegion = reg)}
           >
-            {FieldStore.fields.map((field: Field) => (
-              <View key={field.key}>
-                <Polygon
-                  geodesic={true}
-                  tappable={false}
-                  coordinates={field.fieldCoordinates.coordinates.slice()}
-                  strokeColor="rgba(8,190,45,1)"
-                  fillColor="rgba(8,190,45,0.5)"
-                  strokeWidth={1}
-                />
-                <Marker coordinate={field.centre()}>
-                  <Text style={[styles.text, { color: "white" }]}>
-                    {field.name}
-                  </Text>
-                </Marker>
-              </View>
-            ))}
+            {FieldStore.fields.map((field: Field) =>
+              this.DrawFieldBoundry(field)
+            )}
+
             {FarmStore.farm.farmLocation && (
               <Marker coordinate={FarmStore.farm.farmLocation} />
             )}
@@ -401,6 +388,25 @@ export default class FarmScreen extends Component<Props, State> {
         </ScrollView>
       </SafeAreaView>
     );
+  }
+  private DrawFieldBoundry(field: Field) {
+    if (field.fieldCoordinates.coordinates.slice().length > 0) {
+      return (
+        <View key={field.key}>
+          <Polygon
+            geodesic={true}
+            tappable={false}
+            coordinates={field.fieldCoordinates.coordinates.slice()}
+            strokeColor="rgba(8,190,45,1)"
+            fillColor="rgba(8,190,45,0.5)"
+            strokeWidth={1}
+          />
+          <Marker coordinate={field.centre()}>
+            <Text style={[styles.text, { color: "white" }]}>{field.name}</Text>
+          </Marker>
+        </View>
+      );
+    }
   }
 
   private fullSizeMap() {

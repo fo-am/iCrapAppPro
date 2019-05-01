@@ -194,17 +194,9 @@ export default class FieldScreen extends Component<Props, State> {
             onPress={e => this.mapPress(e)}
             onRegionChangeComplete={reg => (this.prevRegion = reg)}
           >
-            {FieldStore.fields.map((field: Field) => (
-              <Polygon
-                key={field.key}
-                geodesic={true}
-                coordinates={field.fieldCoordinates.coordinates.slice()}
-                strokeColor="rgba(8,190,45,0.5)"
-                fillColor="rgba(8,190,45,0.25)"
-                strokeWidth={1}
-                tappable={false}
-              />
-            ))}
+            {FieldStore.fields.map((field: Field) =>
+              this.DrawFieldBoundry(field)
+            )}
             {FieldStore.DataSource.length > 0 && (
               <Polygon
                 geodesic={true}
@@ -648,6 +640,7 @@ export default class FieldScreen extends Component<Props, State> {
       </SafeAreaView>
     );
   }
+
   public recenterOnLayoutChange(): any {
     const { FieldStore } = this.props;
 
@@ -655,6 +648,21 @@ export default class FieldScreen extends Component<Props, State> {
       this.mapRef.fitToCoordinates(FieldStore.DataSource, {
         animated: false
       });
+    }
+  }
+  private DrawFieldBoundry(field: Field) {
+    if (field.fieldCoordinates.coordinates.slice().length > 0) {
+      return (
+        <Polygon
+          key={field.key}
+          geodesic={true}
+          coordinates={field.fieldCoordinates.coordinates.slice()}
+          strokeColor="rgba(8,190,45,0.5)"
+          fillColor="rgba(8,190,45,0.25)"
+          strokeWidth={1}
+          tappable={false}
+        />
+      );
     }
   }
   private undo() {
