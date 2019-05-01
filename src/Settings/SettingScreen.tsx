@@ -49,7 +49,7 @@ export default class SettingScreen extends Component<Props, State> {
 
             <Input
               selectTextOnFocus={true}
-              inputStyle={{ fontSize: 20, fontWeight: "bold" }}
+              inputStyle={styles.TextInputBold}
               inputContainerStyle={styles.outline}
               containerStyle={styles.bottomSpacing}
               placeholder="Email"

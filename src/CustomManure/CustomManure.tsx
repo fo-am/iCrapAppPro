@@ -46,7 +46,7 @@ export default class CustomManure extends Component<
             <Input
               autoFocus={true}
               selectTextOnFocus={true}
-              inputStyle={{ fontSize: 20, fontWeight: "bold" }}
+              inputStyle={styles.TextInputBold}
               inputContainerStyle={styles.outline}
               keyboardType="default"
               placeholder="New Manure"
@@ -57,7 +57,7 @@ export default class CustomManure extends Component<
             <Text style={styles.text}>N kg/t content (elemental)</Text>
             <Input
               selectTextOnFocus={true}
-              inputStyle={{ fontSize: 20, fontWeight: "bold" }}
+              inputStyle={styles.TextInputBold}
               inputContainerStyle={styles.outline}
               keyboardType="numeric"
               placeholder="0"
@@ -70,7 +70,7 @@ export default class CustomManure extends Component<
             <Text style={styles.text}>P kg/t content (elemental)</Text>
             <Input
               selectTextOnFocus={true}
-              inputStyle={{ fontSize: 20, fontWeight: "bold" }}
+              inputStyle={styles.TextInputBold}
               inputContainerStyle={styles.outline}
               keyboardType="numeric"
               placeholder="0"
@@ -83,7 +83,7 @@ export default class CustomManure extends Component<
             <Text style={styles.text}>K kg/t content (elemental)</Text>
             <Input
               selectTextOnFocus={true}
-              inputStyle={{ fontSize: 20, fontWeight: "bold" }}
+              inputStyle={styles.TextInputBold}
               inputContainerStyle={styles.outline}
               keyboardType="numeric"
               placeholder="0"
@@ -96,7 +96,7 @@ export default class CustomManure extends Component<
             <Text style={styles.text}>S kg/t content (elemental)</Text>
             <Input
               selectTextOnFocus={true}
-              inputStyle={{ fontSize: 20, fontWeight: "bold" }}
+              inputStyle={styles.TextInputBold}
               inputContainerStyle={styles.outline}
               keyboardType="numeric"
               placeholder="0"
@@ -109,7 +109,7 @@ export default class CustomManure extends Component<
             <Text style={styles.text}>Mg kg/t content (elemental)</Text>
             <Input
               selectTextOnFocus={true}
-              inputStyle={{ fontSize: 20, fontWeight: "bold" }}
+              inputStyle={styles.TextInputBold}
               inputContainerStyle={styles.outline}
               keyboardType="numeric"
               placeholder="0"

@@ -291,7 +291,7 @@ export default class FieldScreen extends Component<Props, State> {
             <Input
               label="Field Name"
               selectTextOnFocus={true}
-              inputStyle={{ fontSize: 20, fontWeight: "bold" }}
+              inputStyle={styles.TextInputBold}
               inputContainerStyle={styles.outline}
               placeholder="Your Field"
               onChangeText={text => (FieldStore.field.name = text)}
@@ -302,7 +302,7 @@ export default class FieldScreen extends Component<Props, State> {
             <Input
               label={"Field Size (" + this.areaUnits + ")"}
               selectTextOnFocus={true}
-              inputStyle={{ fontSize: 20, fontWeight: "bold" }}
+              inputStyle={styles.TextInputBold}
               inputContainerStyle={styles.outline}
               keyboardType="numeric"
               placeholder="0"

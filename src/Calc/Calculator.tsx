@@ -261,7 +261,7 @@ export default class Calculator extends Component<Props, State> {
 
           <Input
             selectTextOnFocus={true}
-            style={{ fontSize: 20, fontWeight: "bold" }}
+            style={styles.TextInputBold}
             keyboardType="number-pad"
             placeholder="50"
             onChangeText={text => {

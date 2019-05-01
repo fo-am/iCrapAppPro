@@ -78,7 +78,13 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         padding: 1
     },
-    bottomSpacing: { paddingBottom: 10 }
+    bottomSpacing: { paddingBottom: 10 },
+    TextInputBold: {
+        marginLeft: 20,
+        fontSize: defaultFontSize,
+        fontWeight: "bold"
+    },
+    TextInput: { marginLeft: 20, fontSize: defaultFontSize }
 });
 
 export default styles;

@@ -221,7 +221,7 @@ export default class FarmScreen extends Component<Props, State> {
             <Text style={styles.H2}>Farm Name</Text>
             <Input
               selectTextOnFocus={true}
-              inputStyle={{ fontSize: 20, fontWeight: "bold" }}
+              inputStyle={styles.TextInputBold}
               inputContainerStyle={styles.outline}
               onChangeText={text => (FarmStore.farm.name = text)}
             >
@@ -299,6 +299,7 @@ export default class FarmScreen extends Component<Props, State> {
                   <Col>
                     <Input
                       keyboardType="numeric"
+                      inputStyle={styles.TextInput}
                       inputContainerStyle={styles.outline}
                       onChangeText={item => FarmStore.SetNCost(item)}
                       value={String(FarmStore.farm.costN)}
@@ -318,6 +319,7 @@ export default class FarmScreen extends Component<Props, State> {
                   <Col>
                     <Input
                       keyboardType="numeric"
+                      inputStyle={styles.TextInput}
                       inputContainerStyle={styles.outline}
                       onChangeText={item => FarmStore.SetPCost(item)}
                       value={String(FarmStore.farm.costP)}
@@ -335,6 +337,7 @@ export default class FarmScreen extends Component<Props, State> {
                   <Col>
                     <Input
                       keyboardType="numeric"
+                      inputStyle={styles.TextInput}
                       inputContainerStyle={styles.outline}
                       onChangeText={item => FarmStore.SetKCost(item)}
                       value={String(FarmStore.farm.costK)}
@@ -351,6 +354,7 @@ export default class FarmScreen extends Component<Props, State> {
                   <Col>
                     <Input
                       keyboardType="numeric"
+                      inputStyle={styles.TextInput}
                       inputContainerStyle={styles.outline}
                       onChangeText={item => FarmStore.SetSCost(item)}
                       value={String(FarmStore.farm.costS)}
@@ -367,6 +371,7 @@ export default class FarmScreen extends Component<Props, State> {
                   <Col>
                     <Input
                       keyboardType="numeric"
+                      inputStyle={styles.TextInput}
                       inputContainerStyle={styles.outline}
                       onChangeText={item => FarmStore.SetMgCost(item)}
                       value={String(FarmStore.farm.costMg)}
