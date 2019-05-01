@@ -136,5 +136,7 @@
 		</dict>
 	</array>
 	<!-- custom file end -->
+	  <key>LSSupportsOpeningDocumentsInPlace</key>
+    <false/>
 </dict>
 </plist>
