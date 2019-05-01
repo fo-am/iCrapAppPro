@@ -33,7 +33,7 @@ interface State {
   showSave: boolean;
   showDraw: boolean;
   showHaveProps: boolean;
-  errorsString: string;
+  resultString: string;
 }
 
 @inject("FieldStore", "CalculatorStore", "SettingsStore", "FarmStore")
@@ -41,7 +41,7 @@ interface State {
 export default class ExportScreen extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = { errorsString: "" };
+    this.state = { resultString: "" };
 
     const { CalculatorStore, SettingsStore, FarmStore } = this.props;
     this.requestFileWritePermission();
@@ -76,7 +76,7 @@ export default class ExportScreen extends Component<Props, State> {
             title={" Export Farm data to " + SettingsStore.appSettings.email}
           />
 
-          <Text style={styles.text}>{this.state.errorsString}</Text>
+          <Text style={styles.text}>{this.state.resultString}</Text>
         </View>
       </SafeAreaView>
     );
@@ -88,7 +88,7 @@ export default class ExportScreen extends Component<Props, State> {
     const { CalculatorStore, SettingsStore, FarmStore } = this.props;
 
     database.getAllData().then(farms => {
-      const filePath = `${RNFS.DocumentDirectoryPath}/FarmData.json`;
+      const filePath = `${RNFS.LibraryDirectoryPath}/FarmsData.json.enc`;
       RNFS.writeFile(filePath, JSON.stringify(farms)).then(
         // get handle on file path.
         Mailer.mail(
@@ -96,15 +96,16 @@ export default class ExportScreen extends Component<Props, State> {
             subject: "Farm Export",
             recipients: [SettingsStore.appSettings.email],
 
-            body: "Here is your farm Export.",
+            body: "Here is your farm export.",
             isHTML: false,
             attachment: {
               path: filePath, // The absolute path of the file from which to read data.
-              type: "application/json" // Mime Type: jpg, png, doc, ppt, html, pdf, csv
+              type: "text", // Mime Type: jpg, png, doc, ppt, html, pdf, csv
+              name: "FarmsData.json.enc"
             }
           },
           (error, event) => {
-            this.setState({ errorsString: error + " " + event });
+            this.setState({ resultString: event });
             // handle error
           }
         )
@@ -123,7 +124,7 @@ export default class ExportScreen extends Component<Props, State> {
     const { CalculatorStore, SettingsStore, FarmStore } = this.props;
 
     this.writeCsvFile().then(arr => {
-      const filePath = `${RNFS.DocumentDirectoryPath}/FarmData.csv`;
+      const filePath = `${RNFS.LibraryDirectoryPath}/FarmData.csv`;
       RNFS.writeFile(filePath, arr.join("\n"), "utf8").then(
         // get handle on file path.
         Mailer.mail(
@@ -135,11 +136,11 @@ export default class ExportScreen extends Component<Props, State> {
             isHTML: false,
             attachment: {
               path: filePath, // The absolute path of the file from which to read data.
-              type: "text/csv" // Mime Type: jpg, png, doc, ppt, html, pdf, csv
+              type: "csv" // Mime Type: jpg, png, doc, ppt, html, pdf, csv
             }
           },
           (error, event) => {
-            this.setState({ errorsString: error + " " + event });
+            this.setState({ resultString: event });
             // handle error
           }
         )
