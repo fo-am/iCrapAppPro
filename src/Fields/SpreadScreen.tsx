@@ -283,7 +283,7 @@ export default class SpreadScreen extends Component<Props, State> {
               </Row>
               <Row style={styles.bottomBorder}>
                 <Col>
-                  <Text style={{ fontSize: 20, lineHeight: 30 }}>
+                  <Text style={styles.text}>
                     N <DisplayAreaUnit />
                   </Text>
                 </Col>
@@ -328,10 +328,9 @@ export default class SpreadScreen extends Component<Props, State> {
               </Row>
               <Row style={styles.bottomBorder}>
                 <Col>
-                  <Text style={{ fontSize: 20, lineHeight: 30 }}>
-                    P<Text style={{ fontSize: 15, lineHeight: 40 }}>2</Text>O
-                    <Text style={{ fontSize: 15, lineHeight: 40 }}>5</Text>{" "}
-                    <DisplayAreaUnit />
+                  <Text style={styles.text}>
+                    P<Text style={styles.sub}>2</Text>O
+                    <Text style={styles.sub}>5</Text> <DisplayAreaUnit />
                   </Text>
                 </Col>
                 <Col>
@@ -375,16 +374,8 @@ export default class SpreadScreen extends Component<Props, State> {
               </Row>
               <Row style={styles.bottomBorder}>
                 <Col>
-                  <Text style={{ fontSize: 20, lineHeight: 30 }}>
-                    K
-                    <Text
-                      style={{
-                        fontSize: 15,
-                        lineHeight: 40
-                      }}
-                    >
-                      2
-                    </Text>
+                  <Text style={styles.text}>
+                    K<Text style={styles.sub}>2</Text>
                     O <DisplayAreaUnit />
                   </Text>
                 </Col>

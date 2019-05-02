@@ -278,7 +278,7 @@ export default class FarmScreen extends Component<Props, State> {
                 </Row>
                 <Row>
                   <Col>
-                    <Text>
+                    <Text style={styles.text}>
                       N (
                       <DisplayPoundsPerArea />)
                     </Text>
@@ -296,10 +296,9 @@ export default class FarmScreen extends Component<Props, State> {
                 </Row>
                 <Row>
                   <Col>
-                    <Text>
-                      P<Text style={{ fontSize: 15, lineHeight: 37 }}>2</Text>O
-                      <Text style={{ fontSize: 15, lineHeight: 37 }}>5</Text>
-                      (
+                    <Text style={styles.text}>
+                      P<Text style={styles.sub}>2</Text>O
+                      <Text style={styles.sub}>5</Text> (
                       <DisplayPoundsPerArea />)
                     </Text>
                   </Col>
@@ -316,8 +315,8 @@ export default class FarmScreen extends Component<Props, State> {
                 </Row>
                 <Row>
                   <Col>
-                    <Text>
-                      K<Text style={{ fontSize: 15, lineHeight: 37 }}>2</Text>
+                    <Text style={styles.text}>
+                      K<Text style={styles.sub}>2</Text>
                       O (<DisplayPoundsPerArea />)
                     </Text>
                   </Col>
@@ -334,7 +333,7 @@ export default class FarmScreen extends Component<Props, State> {
                 </Row>
                 <Row>
                   <Col>
-                    <Text>
+                    <Text style={styles.text}>
                       S (<DisplayPoundsPerArea />)
                     </Text>
                   </Col>
@@ -351,7 +350,7 @@ export default class FarmScreen extends Component<Props, State> {
                 </Row>
                 <Row>
                   <Col>
-                    <Text>
+                    <Text style={styles.text}>
                       Mg (<DisplayPoundsPerArea />)
                     </Text>
                   </Col>

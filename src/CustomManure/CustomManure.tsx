@@ -48,7 +48,6 @@ export default class CustomManure extends Component<
           <ScrollView>
             <Text style={styles.text}>Manure Name</Text>
             <Input
-              autoFocus={true}
               selectTextOnFocus={true}
               inputStyle={styles.TextInputBold}
               inputContainerStyle={styles.outline}
@@ -67,7 +66,7 @@ export default class CustomManure extends Component<
               placeholder="0"
               onChangeText={text => (ManureStore.manure.N = parseFloat(text))}
             >
-              <Text>{ManureStore.manure.N}</Text>
+              <Text style={styles.text}>{ManureStore.manure.N}</Text>
             </Input>
             <Text style={styles.text}>P kg/t content (elemental)</Text>
             <Input
@@ -78,7 +77,7 @@ export default class CustomManure extends Component<
               placeholder="0"
               onChangeText={text => (ManureStore.manure.P = parseFloat(text))}
             >
-              <Text>{ManureStore.manure.P}</Text>
+              <Text style={styles.text}>{ManureStore.manure.P}</Text>
             </Input>
             <Text style={styles.text}>K kg/t content (elemental)</Text>
             <Input
@@ -89,7 +88,7 @@ export default class CustomManure extends Component<
               placeholder="0"
               onChangeText={text => (ManureStore.manure.K = parseFloat(text))}
             >
-              <Text>{ManureStore.manure.K}</Text>
+              <Text style={styles.text}>{ManureStore.manure.K}</Text>
             </Input>
             <Text style={styles.text}>S kg/t content (elemental)</Text>
             <Input
@@ -100,7 +99,7 @@ export default class CustomManure extends Component<
               placeholder="0"
               onChangeText={text => (ManureStore.manure.S = parseFloat(text))}
             >
-              <Text>{ManureStore.manure.S}</Text>
+              <Text style={styles.text}>{ManureStore.manure.S}</Text>
             </Input>
             <Text style={styles.text}>Mg kg/t content (elemental)</Text>
             <Input
@@ -111,7 +110,7 @@ export default class CustomManure extends Component<
               placeholder="0"
               onChangeText={text => (ManureStore.manure.Mg = parseFloat(text))}
             >
-              <Text>{ManureStore.manure.Mg}</Text>
+              <Text style={styles.text}>{ManureStore.manure.Mg}</Text>
             </Input>
             <Text style={styles.text}>Custom manure type</Text>
             <DropDown

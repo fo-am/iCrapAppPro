@@ -30,6 +30,12 @@ const styles = StyleSheet.create({
         color: "#000",
         fontSize: defaultFontSize
     },
+    sub: {
+        fontFamily: "ArimaMadurai-Regular",
+        color: "#000",
+        fontSize: defaultFontSize * 0.55,
+        lineHeight: 37
+    },
     H1: { fontFamily: "ArimaMadurai-Regular", fontSize: defaultFontSize * 1.8 },
     H2: { fontFamily: "ArimaMadurai-Regular", fontSize: defaultFontSize * 1.6 },
     H3: { fontFamily: "ArimaMadurai-Regular", fontSize: defaultFontSize * 1.4 },
