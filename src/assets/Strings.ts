@@ -82,4 +82,11 @@ export default class Strings {
         spring: "Spring",
         summer: "Summer"
     };
+    public customManureTypes = {
+        "custom-slurry-dm2": "Slurry (DM 2%)",
+        "custom-slurry-dm6": "Slurry (DM 6%)",
+        "custom-slurry-dm10": "Slurry (DM 10%)",
+        "custom-fym-incorporated": "Farmyard Manure (Incorporated)",
+        "custom-fym-removed": "Farmyard Manure (Removed)"
+    };
 }

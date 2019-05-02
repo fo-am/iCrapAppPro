@@ -794,7 +794,7 @@ class DatabaseImpl implements Database {
         return this.getDatabase().then(db =>
             db
                 .executeSql(
-                    `Select "Manure-Unique-Id", Name, N, P, K
+                    `Select "Manure-Unique-Id", Name, N, P, K, S, Mg, Type
                      from Manure Where  "Manure-Unique-Id" = ? `,
                     [key]
                 )
@@ -810,6 +810,9 @@ class DatabaseImpl implements Database {
                         newManure.N = row.N;
                         newManure.P = row.P;
                         newManure.K = row.K;
+                        newManure.S = row.S;
+                        newManure.Mg = row.Mg;
+                        newManure.Type = row.Type;
                     }
                     return newManure;
                 })
@@ -853,7 +856,8 @@ class DatabaseImpl implements Database {
                         P = ?4,
                         K = ?5,
                         S = ?6,
-                        Mg = ?7
+                        Mg = ?7,
+                        Type = ?8
                         WHERE "Manure-Unique-Id" = ?1;
                         `,
 
@@ -864,7 +868,8 @@ class DatabaseImpl implements Database {
                             manure.P,
                             manure.K,
                             manure.S,
-                            manure.Mg
+                            manure.Mg,
+                            manure.Type
                         ]
                     )
                 )
@@ -879,9 +884,9 @@ class DatabaseImpl implements Database {
                 .then(db =>
                     db.executeSql(
                         `
-                        Insert into Manure ("Manure-Unique-Id", Name, N, P, K, S, Mg)
+                        Insert into Manure ("Manure-Unique-Id", Name, N, P, K, S, Mg, Type)
                         VALUES
-                        (?1, ?2, ?3, ?4, ?5, ?6, ?7);
+                        (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8);
                         `,
 
                         [
@@ -891,7 +896,8 @@ class DatabaseImpl implements Database {
                             manure.P,
                             manure.K,
                             manure.S,
-                            manure.Mg
+                            manure.Mg,
+                            manure.Type
                         ]
                     )
                 )
