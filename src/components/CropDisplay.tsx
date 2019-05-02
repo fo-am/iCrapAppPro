@@ -1,7 +1,6 @@
-import { Form, Text } from "native-base";
 import React, { Component } from "react";
 import { translate } from "react-i18next";
-import { FlatList } from "react-native";
+import { FlatList, Text, View } from "react-native";
 import styles from "../styles/style";
 
 interface Props {
@@ -15,9 +14,17 @@ export default class CropDisplay extends Component<Props, State> {
   public render() {
     const { t, i18n } = this.props;
     return (
-      <Form>
-        <Text style={styles.text}>Crop: {t(this.getCrop())}</Text>
+      <View
+        style={[
+          { flex: 1, alignItems: "center", justifyContent: "center" },
+          styles.outline
+        ]}
+      >
+        <Text style={styles.H3}>Crop: {t(this.getCrop())}</Text>
         <FlatList
+          contentContainerStyle={[
+            { flex: 1, alignItems: "center", justifyContent: "center" }
+          ]}
           keyExtractor={item => item[0]}
           data={this.props.cropArray.filter(item => item[0] !== "crop")}
           renderItem={({ item }) => (
@@ -26,7 +33,7 @@ export default class CropDisplay extends Component<Props, State> {
             </Text>
           )}
         />
-      </Form>
+      </View>
     );
   }
 

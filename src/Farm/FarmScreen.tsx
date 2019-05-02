@@ -257,21 +257,24 @@ export default class FarmScreen extends Component<Props, State> {
                 )}
               />
             </View>
-            <Text style={styles.H2}>Set Farm Rainfall</Text>
+
+            <Text style={[styles.H2, { textAlign: "center" }]}>
+              Set Farm Rainfall
+            </Text>
             <DropDown
               style={styles.outline}
               selectedValue={FarmStore.farm.rainfall}
               onChange={item => FarmStore.SelectRainfall(item)}
               values={this.RainfallTypes}
             />
-            <View style={{ margin: 20, backgroundColor: "#d6d6d6" }}>
+            <View style={styles.narrow}>
               <Grid style={{ alignItems: "center" }}>
                 <Row>
                   <Col>
                     <Text style={styles.H3}>
                       How much do you pay for your fertiliser?
                     </Text>
-                    <Text style={styles.H3}>
+                    <Text style={styles.text}>
                       This is used to calculate your cost savings.
                     </Text>
                   </Col>

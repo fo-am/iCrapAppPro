@@ -42,13 +42,13 @@ export default class SoilNutrientDisplay extends Component<Props, State> {
     const { SettingsStore } = this.props;
     if (SettingsStore.appSettings.unit !== "metric") {
       return (
-        <Text style={styles.H2}>
+        <Text style={[styles.H2, styles.outline, { textAlign: "center" }]}>
           {this.soilNutrientCodeToTextImperial[this.props.value]}
         </Text>
       );
     }
     return (
-      <Text style={styles.H2}>
+      <Text style={[styles.H2, styles.outline, { textAlign: "center" }]}>
         {this.soilNutrientCodeToTextMetric[this.props.value]}
       </Text>
     );

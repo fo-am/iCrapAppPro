@@ -178,7 +178,6 @@ export default class FieldScreen extends Component<Props, State> {
         // zoom map to that place
 
         */}
-
           <MapView
             ref={ref => (this.mapRef = ref)}
             onLayout={() => this.recenterOnLayoutChange()}
@@ -276,10 +275,11 @@ export default class FieldScreen extends Component<Props, State> {
               </View>
             )}
           </View>
-          <Text style={[styles.H1, { textAlign: "center" }]}>
-            {FieldStore.farm.name}
-          </Text>
           <View style={styles.narrow}>
+            <Text style={[styles.H1, { textAlign: "center" }]}>
+              {FieldStore.farm.name}
+            </Text>
+
             <Input
               label="Field Name"
               selectTextOnFocus={true}
@@ -317,30 +317,31 @@ export default class FieldScreen extends Component<Props, State> {
               }}
               title="Add Spreading Event"
             />
-
-            <FlatList<SpreadEvent>
-              data={this.props.FieldStore.spreadEvents.slice()}
-              keyExtractor={item => item.key}
-              renderItem={({ item }) => (
-                <Button
-                  buttonStyle={[
-                    styles.roundButton,
-                    styles.bgColourBlue,
-                    { marginLeft: "5%", marginRight: "5%" }
-                  ]}
-                  titleStyle={styles.buttonText}
-                  onPress={() => {
-                    FieldStore.Save().then(() => {
-                      this.props.navigation.navigate("Spread", {
-                        spreadKey: item.key
-                      });
+          </View>
+          <FlatList<SpreadEvent>
+            style={styles.narrow}
+            data={this.props.FieldStore.spreadEvents.slice()}
+            keyExtractor={item => item.key}
+            renderItem={({ item }) => (
+              <Button
+                buttonStyle={[
+                  styles.roundButton,
+                  styles.bgColourBlue,
+                  { marginLeft: "5%", marginRight: "5%" }
+                ]}
+                titleStyle={styles.buttonText}
+                onPress={() => {
+                  FieldStore.Save().then(() => {
+                    this.props.navigation.navigate("Spread", {
+                      spreadKey: item.key
                     });
-                  }}
-                  title={item.date.format("DD-MM-YYYY")}
-                />
-              )}
-            />
-
+                  });
+                }}
+                title={item.date.format("DD-MM-YYYY")}
+              />
+            )}
+          />
+          <View style={styles.narrow}>
             <Text style={[styles.H2, { textAlign: "center" }]}>
               Soil Details
             </Text>
@@ -408,7 +409,9 @@ export default class FieldScreen extends Component<Props, State> {
             <Grid style={{ alignItems: "center" }}>
               <Row>
                 <Col>
-                  <Text style={styles.H3}>Nitrogen Supply</Text>
+                  <Text style={[styles.H3, { textAlign: "center" }]}>
+                    Nitrogen Supply
+                  </Text>
                 </Col>
               </Row>
               <Row>
@@ -418,29 +421,27 @@ export default class FieldScreen extends Component<Props, State> {
                   />
                 </Col>
               </Row>
-
               <Row>
                 <Col>
-                  <Text style={styles.H3}>Sulphur Risk</Text>
+                  <Text style={[styles.H3, { textAlign: "center" }]}>
+                    Sulphur Risk
+                  </Text>
                 </Col>
               </Row>
               <Row>
                 <Col>
-                  <Text style={styles.H2}>
+                  <Text
+                    style={[styles.H2, styles.outline, { textAlign: "center" }]}
+                  >
                     {FieldStore.CalculateSulphurRisk()}
                   </Text>
                 </Col>
               </Row>
             </Grid>
-            <View
-              style={{
-                borderBottomColor: "black",
-                borderBottomWidth: 0.5,
-                width: "80%",
-                alignItems: "center"
-              }}
-            />
-            <Text style={styles.H2}>Crop Details</Text>
+
+            <Text style={[styles.H2, { textAlign: "center", marginTop: 20 }]}>
+              Crop Details
+            </Text>
             <Text style={styles.H3}>Previous crop type</Text>
 
             <DropDown
@@ -470,7 +471,7 @@ export default class FieldScreen extends Component<Props, State> {
               buttonStyle={styles.roundButton}
               titleStyle={styles.buttonText}
               onPress={() => this.props.navigation.navigate("CropSelector")}
-              title="Crop Selector"
+              title="Select Field Crop"
             />
 
             <Grid>
@@ -525,8 +526,7 @@ export default class FieldScreen extends Component<Props, State> {
                   }}
                 >
                   <Text style={styles.text}>
-                    S
-                    <DisplayAreaUnit />
+                    S <DisplayAreaUnit />
                   </Text>
                 </Col>
                 <Col
@@ -536,8 +536,7 @@ export default class FieldScreen extends Component<Props, State> {
                   }}
                 >
                   <Text style={styles.text}>
-                    Mg
-                    <DisplayAreaUnit />
+                    Mg <DisplayAreaUnit />
                   </Text>
                 </Col>
               </Row>
@@ -604,7 +603,7 @@ export default class FieldScreen extends Component<Props, State> {
             </Grid>
 
             <View>
-              <Text style={styles.H2}>Graph</Text>
+              <Text style={[styles.H2, { textAlign: "center" }]}>Graph</Text>
               {
                 // https://github.com/TradingPal/react-native-highcharts
               }
@@ -683,11 +682,14 @@ export default class FieldScreen extends Component<Props, State> {
       };
     }
   }
+  private round(input: number): number {
+    return Math.round(input * 100) / 100;
+  }
   private getAreaValue(): number {
     const { FieldStore, SettingsStore } = this.props;
     if (SettingsStore.appSettings.unit !== "metric") {
       // ha to acres
-      return FieldStore.field.area * 2.4710538146717;
+      return this.round(FieldStore.field.area * 2.4710538146717);
     }
     return FieldStore.field.area;
   }
