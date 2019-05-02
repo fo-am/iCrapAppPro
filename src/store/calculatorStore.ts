@@ -12,6 +12,7 @@ import cropRequirementsNitrogenTree from "../assets/data/crop-requirements-n.jso
 import cropRequirementsPhosphorousPotassiumTree from "../assets/data/crop-requirements-pk.json";
 import previousGrassSoilNitrogenSupplyTree from "../assets/data/previous-grass-soil-nitrogen-supply.json";
 
+import customPercent from "../assets/data/custom-manure-percent-tree.json";
 import manureTree from "../assets/data/manure.json";
 import nitrogenTotalTree from "../assets/data/n-total.json";
 import soilNitrogenSupplyTree from "../assets/data/soil-nitrogen-supply.json";
@@ -233,21 +234,43 @@ class CalculatorStore {
         if (type === "custom") {
             return database.getManure(quality).then((manure: Manure) => {
                 if (manure.N) {
-                    const nutrients = this.processNutrients(amount, [
+                    // convert to manure type
+                    /*  (define p-oxide-conv 2.241)
+                        (define k-oxide-conv 1.205)
+                        (define s-oxide-conv 2.5) */
+
+                    manure.P = manure.P * 2.241;
+                    manure.K = manure.K * 1.205;
+                    manure.S = manure.S * 2.5;
+
+                    const totalNutrients = this.processNutrients(amount, [
                         manure.N,
                         manure.P,
-                        manure.K
+                        manure.K,
+                        manure.S,
+                        manure.Mg
                     ]);
-                    if (nutrients) {
+                    const availNutrients = this.processAvailNutrients(
+                        amount,
+                        manure,
+                        type,
+                        quality,
+                        season,
+                        crop,
+                        soil,
+                        application,
+                        totalNutrients
+                    );
+                    if (totalNutrients) {
                         return [
                             // total
-                            nutrients,
-                            // avail (duplicate)
-                            nutrients
+                            totalNutrients,
+                            // avail
+                            availNutrients
                         ];
                     }
                 }
-                return [[0, 0, 0], [0, 0, 0]];
+                return [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0]];
             });
         } else {
             return this.getNutrients(
@@ -263,6 +286,76 @@ class CalculatorStore {
                 soilTestmg
             );
         }
+    }
+    private processAvailNutrients(
+        amount: any,
+        manure: Manure,
+        type: any,
+        quality: any,
+        season: any,
+        crop: any,
+        soil: any,
+        application: any,
+        totalNutrients: any
+    ): number[] {
+        // List up the params
+        // set the type
+        if (type === "custom-slurry-dm2") {
+            type = "cattle";
+            quality = "DM2";
+        } else if (type === "custom-slurry-dm6") {
+            type = "cattle";
+            quality = "DM6";
+        } else if (type === "custom-slurry-dm10") {
+            type = "cattle";
+            quality = "DM10";
+        } else if (type === "custom-fym-incorporated") {
+            type = "fym";
+            application = "straight-ploughed";
+        } else {
+            type = "fym";
+            application = "straight-surface";
+        }
+        /*    (list 'soil (cond
+            ((eq? soil-type 'sandyshallow) 'sandyshallow)
+            ((eq? soil-type 'mediumshallow) 'sandyshallow)
+            (else 'mediumheavy))))))) */
+
+        switch (soil) {
+            case "sandyshallow":
+                soil = "sandyshallow";
+                break;
+            case "mediumshallow":
+                soil = "sandyshallow";
+                break;
+            default:
+                soil = "mediumheavy";
+        }
+
+        const params = { type, quality, season, crop, soil, application };
+
+        return  [
+            this.percentageCalc(
+                totalNutrients[0],
+                this.decision(customPercent, { ...params, nutrient: "n-avail" })
+            ),
+            this.percentageCalc(
+                totalNutrients[1],
+                this.decision(customPercent, { ...params, nutrient: "p-avail" })
+            ),
+            this.percentageCalc(
+                totalNutrients[2],
+                this.decision(customPercent, { ...params, nutrient: "k-avail" })
+            ),
+            this.percentageCalc(
+                totalNutrients[3],
+                this.decision(customPercent, { ...params, nutrient: "s-avail" })
+            ),
+            this.percentageCalc(
+                totalNutrients[4],
+                this.decision(customPercent, { ...params, nutrient: "m-avail" })
+            )
+        ];
     }
 
     private getNutrients(
@@ -353,6 +446,7 @@ class CalculatorStore {
         }
         return nutrientsArray;
     }
+
     private percentageCalc(value: number, percentage: number) {
         return (value / 100) * percentage;
     }
