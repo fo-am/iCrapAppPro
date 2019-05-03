@@ -117,6 +117,14 @@ i18n.init({
                 "fym-horse": "Horse",
                 "fym-goat": "Goat",
 
+                sandyshallow: "Sandy/Shallow",
+                mediumshallow: "Medium/Shallow",
+                medium: "Medium",
+                deepclay: "Heavy clay",
+                deepsilt: "Heavy silt",
+                organic: "Organic (10-20% organic matter)",
+                peat: "Peat",
+
                 layer: "Layer manure",
                 broiler: "Broiler litter",
                 metric: "Metric",

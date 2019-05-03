@@ -165,9 +165,13 @@ export default class ExportScreen extends Component<Props, State> {
       '"Crop avail N"',
       '"Crop avail P"',
       '"Crop avail K"',
+      '"Crop avail S"',
+      '"Crop avail Mg"',
       '"Crop req N"',
       '"Crop req P"',
       '"Crop req K"',
+      '"Crop req S"',
+      '"Crop req Mg"',
       '"SNS"',
       '"Soil"',
       '"Field size"',
@@ -177,17 +181,37 @@ export default class ExportScreen extends Component<Props, State> {
       '"Season"',
       '"Crop"'
     ]);
-    return database.getCSVData().then(res => {
-      const translatedArray = res.map(nested =>
-        // tslint:disable-next-line: no-unnecessary-callback-wrapper
-        nested.map(element => t(element))
-      );
+    return database.getCSVData().then(csvData => {
+      // Read thru each row and each element and translate each one.
+      // then go back to the last element of each row and sort out the crop array into human readable things.
 
-      csv.push(...translatedArray);
+      for (let row = 0; row < csvData.length; row++) {
+        for (let item = 0; item < csvData[row].length; item++) {
+          csvData[row][item] = t(csvData[row][item]);
+        }
+        csvData[row][csvData[row].length - 1] = this.sortCrops(
+          csvData[row][csvData[row].length - 1]
+        );
+      }
+
+      csv.push(...csvData);
       return csv;
     });
   }
 
+  private sortCrops(cropString: string): string {
+    const { t, i18n } = this.props;
+    let cropPart: string = "";
+    let fullList: string = "";
+
+    const crop = JSON.parse(cropString);
+    crop.forEach(f => {
+      cropPart = `${t(f[0])}: ${t(f[1])}`;
+
+      fullList += `${cropPart} `;
+    });
+    return fullList;
+  }
   private async requestFileWritePermission() {
     if (Platform.OS !== "ios") {
       try {

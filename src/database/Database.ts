@@ -1044,7 +1044,7 @@ class DatabaseImpl implements Database {
                     rowArray.push(row.Quality);
                     rowArray.push(row.Application);
                     rowArray.push(row.Season);
-                    rowArray.push(this.sortCrops(row.Crop));
+                    rowArray.push(row.Crop);
 
                     results.push(rowArray);
                 }
@@ -1228,19 +1228,6 @@ class DatabaseImpl implements Database {
                 // no spread nothing to do.
             }
         }
-    }
-
-    private sortCrops(cropString: string): string {
-        let cropPart: string = "";
-        let fullList: string = "";
-
-        const crop = JSON.parse(cropString);
-        crop.forEach(f => {
-            cropPart = `${f[0]}: ${f[1]}`;
-
-            fullList += `${cropPart} `;
-        });
-        return fullList;
     }
 
     private async getDatabase(): Promise<SQLite.SQLiteDatabase> {
