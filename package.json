@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@expo/vector-icons": "9.0.0",
-    "@react-native-community/slider": "https://github.com/react-native-community/react-native-slider.git",
+    "@react-native-community/slider": "https://github.com/react-native-community/react-native-slider.git#ede6b7378c06b6ff607d3f51d7d4454b314119e3",
     "global": "4.3.2",
     "i18next": "15.0.4",
     "mobx": "4.5.0",
