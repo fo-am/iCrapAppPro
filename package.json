@@ -8,12 +8,11 @@
     "tsc": "tsc"
   },
   "rnpm": {
-    "assets": [
-      "./src/assets/fonts"
-    ]
+    "assets": ["./src/assets/fonts"]
   },
   "dependencies": {
     "@expo/vector-icons": "9.0.0",
+    "@react-native-community/slider": "https://github.com/react-native-community/react-native-slider.git",
     "global": "4.3.2",
     "i18next": "15.0.4",
     "mobx": "4.5.0",
