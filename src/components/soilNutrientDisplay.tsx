@@ -1,6 +1,6 @@
 import { inject, observer } from "mobx-react/native";
 import React, { Component } from "react";
-import { Text } from "react-native";
+import { Text, View } from "react-native";
 import { Maths } from "../assets/Math";
 import styles from "../styles/style";
 
@@ -42,15 +42,19 @@ export default class SoilNutrientDisplay extends Component<Props, State> {
     const { SettingsStore } = this.props;
     if (SettingsStore.appSettings.unit !== "metric") {
       return (
-        <Text style={[styles.H2, styles.outline, { textAlign: "center" }]}>
-          {this.soilNutrientCodeToTextImperial[this.props.value]}
-        </Text>
+        <View style={styles.outline}>
+          <Text style={[styles.H2, { textAlign: "center" }]}>
+            {this.soilNutrientCodeToTextImperial[this.props.value]}
+          </Text>
+        </View>
       );
     }
     return (
-      <Text style={[styles.H2, styles.outline, { textAlign: "center" }]}>
-        {this.soilNutrientCodeToTextMetric[this.props.value]}
-      </Text>
+      <View style={styles.outline}>
+        <Text style={[styles.H2, { textAlign: "center" }]}>
+          {this.soilNutrientCodeToTextMetric[this.props.value]}
+        </Text>
+      </View>
     );
   }
 

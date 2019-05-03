@@ -412,11 +412,11 @@ export default class FieldScreen extends Component<Props, State> {
               </Row>
               <Row>
                 <Col>
-                  <Text
-                    style={[styles.H2, styles.outline, { textAlign: "center" }]}
-                  >
-                    {FieldStore.CalculateSulphurRisk()}
-                  </Text>
+                  <View style={styles.outline}>
+                    <Text style={[styles.H2, { textAlign: "center" }]}>
+                      {FieldStore.CalculateSulphurRisk()}
+                    </Text>
+                  </View>
                 </Col>
               </Row>
             </Grid>
@@ -450,7 +450,7 @@ export default class FieldScreen extends Component<Props, State> {
             <CropDisplay cropArray={FieldStore.field.cropType.slice()} />
 
             <Button
-              buttonStyle={styles.roundButton}
+              buttonStyle={[styles.roundButton, { marginTop: 20 }]}
               titleStyle={styles.buttonText}
               onPress={() => this.props.navigation.navigate("CropSelector")}
               title="Select Field Crop"
