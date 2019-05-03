@@ -46,9 +46,13 @@ class ExportSpread {
     public nutrientsN: number = 0;
     public nutrientsP: number = 0;
     public nutrientsK: number = 0;
+    public nutrientsS: number = 0;
+    public nutrientsMg: number = 0;
     public requireN: number = 0;
     public requireP: number = 0;
     public requireK: number = 0;
+    public requireS: number = 0;
+    public requireMg: number = 0;
     public sns: number = 0;
     public soil: string = "";
     public size: number = 0;

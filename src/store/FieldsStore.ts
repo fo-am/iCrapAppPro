@@ -99,9 +99,15 @@ class FieldStore {
             CalculatorStore.nutrientResults.phosphorousAvailable;
         this.newSpreadEvent.nutrientsK =
             CalculatorStore.nutrientResults.potassiumAvailable;
+        this.newSpreadEvent.nutrientsS =
+            CalculatorStore.nutrientResults.sulphurAvailable;
+        this.newSpreadEvent.nutrientsMg =
+            CalculatorStore.nutrientResults.magnesiumAvailable;
         this.newSpreadEvent.requireN = this.cropRequirementsResult.nitrogenRequirement;
         this.newSpreadEvent.requireP = this.cropRequirementsResult.phosphorousRequirement;
         this.newSpreadEvent.requireK = this.cropRequirementsResult.potassiumRequirement;
+        this.newSpreadEvent.requireS = this.cropRequirementsResult.sulphurRequirement;
+        this.newSpreadEvent.requireMg = this.cropRequirementsResult.magnesiumRequirement;
         this.newSpreadEvent.sns = this.cropRequirementsResult.nitrogenSupply;
         this.newSpreadEvent.soil = this.field.soilType;
         this.newSpreadEvent.size = this.field.area;
@@ -131,10 +137,17 @@ class FieldStore {
                     res.nutrientsP;
                 CalculatorStore.nutrientResults.potassiumAvailable =
                     res.nutrientsK;
+                CalculatorStore.nutrientResults.sulphurAvailable =
+                    res.nutrientsS;
+                CalculatorStore.nutrientResults.magnesiumAvailable =
+                    res.nutrientsMg;
                 this.cropRequirementsResult.nitrogenRequirement = res.requireN;
                 this.cropRequirementsResult.phosphorousRequirement =
                     res.requireP;
                 this.cropRequirementsResult.potassiumRequirement = res.requireK;
+                this.cropRequirementsResult.sulphurRequirement = res.requireS;
+                this.cropRequirementsResult.magnesiumRequirement =
+                    res.requireMg;
                 this.cropRequirementsResult.nitrogenSupply = res.sns;
             })
             .then(() => this.getSpreadEvents(this.newSpreadEvent.fieldkey));

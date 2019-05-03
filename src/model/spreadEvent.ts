@@ -13,9 +13,13 @@ export default class SpreadEvent {
     @observable public nutrientsN: number = 0;
     @observable public nutrientsP: number = 0;
     @observable public nutrientsK: number = 0;
+    @observable public nutrientsS: number = 0;
+    @observable public nutrientsMg: number = 0;
     @observable public requireN: number = 0;
     @observable public requireP: number = 0;
     @observable public requireK: number = 0;
+    @observable public requireS: number = 0;
+    @observable public requireMg: number = 0;
     @observable public sns: number = 0;
     @observable public soil: string = "";
     @observable public size: number = 0;

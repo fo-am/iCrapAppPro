@@ -96,20 +96,9 @@ export default class FieldScreen extends Component<Props, State> {
     const Highcharts = "Highcharts";
     const conf = {
       chart: {
-        type: "spline",
+        type: "column",
         animation: Highcharts.svg, // don't animate in old IE
-        marginRight: 10,
-        events: {
-          load() {
-            // set up the updating of the chart each second
-            const series = this.series[0];
-            setInterval(function() {
-              const x = new Date().getTime(), // current time
-                y = Math.random();
-              series.addPoint([x, y], true, true);
-            }, 1000);
-          }
-        }
+        marginRight: 10
       },
       title: {
         text: "Live random data"
@@ -138,18 +127,11 @@ export default class FieldScreen extends Component<Props, State> {
       },
       series: [
         {
-          name: "Random data",
+          name: "Crop available nutrients added to field",
           data: (function() {
             // generate an array of random data
-            const data = [];
-            const time = new Date().getTime();
+            const data = [[5, 2], [6, 3], [8, 2]];
 
-            for (let i = -19; i <= 0; i += 1) {
-              data.push({
-                x: time + i * 1000,
-                y: Math.random()
-              });
-            }
             return data;
           })()
         }
@@ -766,7 +748,3 @@ export default class FieldScreen extends Component<Props, State> {
     }
   }
 }
-// https://github.com/mobxjs/mobx-react/issues/256#issuecomment-341419935
-// https://medium.com/teachable/getting-started-with-react-typescript-mobx-and-webpack-4-8c680517c030
-// https://mobx.js.org/best/pitfalls.html
-//

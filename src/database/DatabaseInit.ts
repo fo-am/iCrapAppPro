@@ -31,9 +31,7 @@ export class DatabaseInitialization {
                 // This is included as an example of how you make database schema changes once the app has been shipped
                 if (dbVersion < 1) {
                     // Uncomment the next line, and the referenced function below, to enable this
-                    return database.transaction(t =>
-                        this.preVersion1Inserts(t)
-                    );
+                    return database.transaction(this.preVersion1Inserts);
                 }
                 // otherwise,
                 return;
@@ -41,7 +39,7 @@ export class DatabaseInitialization {
             .then(() => {
                 if (dbVersion < 2) {
                     // Uncomment the next line, and the referenced function below, to enable this
-                    // return database.transaction(this.preVersion2Inserts);
+                    return database.transaction(this.preVersion2Inserts);
                 }
                 // otherwise,
                 return;
@@ -186,15 +184,27 @@ export class DatabaseInitialization {
         // Lastly, update the database version
         transaction.executeSql("INSERT INTO Version (version) VALUES (1);");
     }
-    /*
-      // This function should be called when the version of the db is < 2
+
+    // This function should be called when the version of the db is < 2
     private preVersion2Inserts(transaction: SQLite.Transaction) {
         console.log("Running pre-version 2 DB inserts");
 
         // Make schema changes
-        transaction.executeSql("ALTER TABLE ...");
+
+        transaction.executeSql(
+            `ALTER TABLE SpreadEvent ADD COLUMN "Nutrients-S"	NUMERIC NOT NULL Default 0;`
+        );
+        transaction.executeSql(
+            `ALTER TABLE SpreadEvent ADD COLUMN "Nutrients-Mg"	NUMERIC NOT NULL Default 0;`
+        );
+        transaction.executeSql(
+            `ALTER TABLE SpreadEvent ADD COLUMN "Require-S"	NUMERIC NOT NULL Default 0;`
+        );
+        transaction.executeSql(
+            `ALTER TABLE SpreadEvent ADD COLUMN "Require-Mg"	NUMERIC NOT NULL Default 0;`
+        );
+
         // Lastly, update the database version
         transaction.executeSql("INSERT INTO Version (version) VALUES (2);");
     }
-    */
 }

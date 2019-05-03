@@ -14,9 +14,7 @@ import SpreadEvent from "../model/spreadEvent";
 
 import { ExportFarm, ExportField, ExportSpread } from "../Export/exportModel";
 
-import moment, { Moment } from "moment";
-
-import i18n from "../translations/i18n";
+import moment from "moment";
 
 export interface Database {
     open(): Promise<SQLite.SQLiteDatabase>;
@@ -514,8 +512,8 @@ class DatabaseImpl implements Database {
                     `SELECT
                       "SpreadEvent-Unique-Id", FieldKey,
                       "Date", "Manure-Type", "Nutrients-N", "Nutrients-P",
-                     "Nutrients-K", "Require-N", "Require-P",
-                     "Require-K", "SNS", "Soil", "Size", "Amount",
+                     "Nutrients-K","Nutrients-S","Nutrients-Mg" "Require-N", "Require-P",
+                     "Require-K", "Require-S", "Require-Mg", "SNS", "Soil", "Size", "Amount",
                       "Quality", "Application", "Season", "Crop"
                      FROM SpreadEvent where FieldKey = ?  ORDER BY "Date" DESC`,
                     [fieldKey]
@@ -544,6 +542,12 @@ class DatabaseImpl implements Database {
                         newSpreadEvent.nutrientsK = this.safeNumber(
                             row["Nutrients-K"]
                         );
+                        newSpreadEvent.nutrientsS = this.safeNumber(
+                            row["Nutrients-S"]
+                        );
+                        newSpreadEvent.nutrientsMg = this.safeNumber(
+                            row["Nutrients-Mg"]
+                        );
                         newSpreadEvent.requireN = this.safeNumber(
                             row["Require-N"]
                         );
@@ -552,6 +556,12 @@ class DatabaseImpl implements Database {
                         );
                         newSpreadEvent.requireK = this.safeNumber(
                             row["Require-K"]
+                        );
+                        newSpreadEvent.requireS = this.safeNumber(
+                            row["Require-S"]
+                        );
+                        newSpreadEvent.requireMg = this.safeNumber(
+                            row["Require-Mg"]
                         );
                         newSpreadEvent.sns = row.SNS;
                         newSpreadEvent.soil = row.Soil;
@@ -578,8 +588,8 @@ class DatabaseImpl implements Database {
                     `SELECT
                   "SpreadEvent-Unique-Id", FieldKey,
                   "Date", "Manure-Type", "Nutrients-N", "Nutrients-P",
-                 "Nutrients-K", "Require-N", "Require-P",
-                 "Require-K", "SNS", "Soil", "Size", "Amount",
+                 "Nutrients-K", "Nutrients-S", "Nutrients-Mg", "Require-N", "Require-P",
+                 "Require-K", "Require-S", "Require-Mg", "SNS", "Soil", "Size", "Amount",
                   "Quality", "Application", "Season", "Crop"
                  FROM SpreadEvent where "SpreadEvent-Unique-Id" = ?`,
                     [spreadKey]
@@ -606,6 +616,12 @@ class DatabaseImpl implements Database {
                         newSpreadEvent.nutrientsK = this.safeNumber(
                             row["Nutrients-K"]
                         );
+                        newSpreadEvent.nutrientsS = this.safeNumber(
+                            row["Nutrients-S"]
+                        );
+                        newSpreadEvent.nutrientsMg = this.safeNumber(
+                            row["Nutrients-Mg"]
+                        );
                         newSpreadEvent.requireN = this.safeNumber(
                             row["Require-N"]
                         );
@@ -614,6 +630,12 @@ class DatabaseImpl implements Database {
                         );
                         newSpreadEvent.requireK = this.safeNumber(
                             row["Require-K"]
+                        );
+                        newSpreadEvent.requireS = this.safeNumber(
+                            row["Require-S"]
+                        );
+                        newSpreadEvent.requireMg = this.safeNumber(
+                            row["Require-Mg"]
                         );
                         newSpreadEvent.sns = row.SNS;
                         newSpreadEvent.soil = row.Soil;
@@ -665,14 +687,18 @@ class DatabaseImpl implements Database {
                         "Nutrients-N"= ?8,
                         "Nutrients-P"= ?9,
                         "Nutrients-K"= ?10,
-                        "Require-N"= ?11,
-                        "Require-P"= ?12,
-                        "Require-K"= ?13,
-                        "SNS"= ?14,
-                        "Soil"= ?15,
-                        "Size"= ?16,
-                         "Season"= ?17,
-                        "Crop"= ?18
+                        "Nutrients-S"= ?11,
+                        "Nutrients-Mg"= ?12,
+                        "Require-N"= ?13,
+                        "Require-P"= ?14,
+                        "Require-K"= ?15,
+                        "Require-S"= ?16,
+                        "Require-Mg"= ?17,
+                        "SNS"= ?18,
+                        "Soil"= ?19,
+                        "Size"= ?20,
+                        "Season"= ?21,
+                        "Crop"= ?22
                          WHERE  "SpreadEvent-Unique-Id" = ?1;`,
                         [
                             spreadEvent.key,
@@ -685,9 +711,13 @@ class DatabaseImpl implements Database {
                             this.safeNumber(spreadEvent.nutrientsN),
                             this.safeNumber(spreadEvent.nutrientsP),
                             this.safeNumber(spreadEvent.nutrientsK),
+                            this.safeNumber(spreadEvent.nutrientsS),
+                            this.safeNumber(spreadEvent.nutrientsMg),
                             this.safeNumber(spreadEvent.requireN),
                             this.safeNumber(spreadEvent.requireP),
                             this.safeNumber(spreadEvent.requireK),
+                            this.safeNumber(spreadEvent.requireS),
+                            this.safeNumber(spreadEvent.requireMg),
                             spreadEvent.sns,
                             spreadEvent.soil,
                             spreadEvent.size,
@@ -719,16 +749,20 @@ class DatabaseImpl implements Database {
                         "Nutrients-N",
                         "Nutrients-P",
                         "Nutrients-K",
+                        "Nutrients-S",
+                        "Nutrients-Mg",
                         "Require-N",
                         "Require-P",
                         "Require-K",
+                        "Require-S",
+                        "Require-Mg",
                         "SNS",
                         "Soil",
                         "Size",
                          "Season",
                         "Crop")
                          VALUES
-                         (?1,?2,?3,?4,?5,?6,?7,?8,?9,?10,?11,?12,?13,?14,?15,?16,?17,?18);`,
+                         (?1,?2,?3,?4,?5,?6,?7,?8,?9,?10,?11,?12,?13,?14,?15,?16,?17,?18,?19,?20,?21,?22);`,
                         [
                             spreadEvent.key,
                             spreadEvent.fieldkey,
@@ -740,9 +774,13 @@ class DatabaseImpl implements Database {
                             this.safeNumber(spreadEvent.nutrientsN),
                             this.safeNumber(spreadEvent.nutrientsP),
                             this.safeNumber(spreadEvent.nutrientsK),
+                            this.safeNumber(spreadEvent.nutrientsS),
+                            this.safeNumber(spreadEvent.nutrientsMg),
                             this.safeNumber(spreadEvent.requireN),
                             this.safeNumber(spreadEvent.requireP),
                             this.safeNumber(spreadEvent.requireK),
+                            this.safeNumber(spreadEvent.requireS),
+                            this.safeNumber(spreadEvent.requireMg),
                             spreadEvent.sns,
                             spreadEvent.soil,
                             spreadEvent.size,
@@ -965,8 +1003,8 @@ class DatabaseImpl implements Database {
             .then(db =>
                 db.executeSql(`
             select fa.name as farmName, fi.name as fieldName, s."Manure-Type" ,s.date,
-             s."Nutrients-N", s."Nutrients-P", s."Nutrients-K\",
-            s.\`Require-N\`,s.\`Require-P\`,s.\`Require-K\`,
+             s."Nutrients-N", s."Nutrients-P", s."Nutrients-K\", s."Nutrients-S\",s."Nutrients-Mg\",
+            s.\`Require-N\`,s.\`Require-P\`,s.\`Require-K\`, s.\`Require-S\`, s.\`Require-Mg\`,
             s.SNS,s.Soil,s.Size, s.Amount ,s.Quality,s.Application,
             s.Season,s.Crop
             from SpreadEvent  s
@@ -992,9 +1030,13 @@ class DatabaseImpl implements Database {
                     rowArray.push(this.safeNumber(row["Nutrients-N"]));
                     rowArray.push(this.safeNumber(row["Nutrients-P"]));
                     rowArray.push(this.safeNumber(row["Nutrients-K"]));
+                    rowArray.push(this.safeNumber(row["Nutrients-S"]));
+                    rowArray.push(this.safeNumber(row["Nutrients-Mg"]));
                     rowArray.push(this.safeNumber(row["Require-N"]));
                     rowArray.push(this.safeNumber(row["Require-P"]));
                     rowArray.push(this.safeNumber(row["Require-K"]));
+                    rowArray.push(this.safeNumber(row["Require-S"]));
+                    rowArray.push(this.safeNumber(row["Require-Mg"]));
                     rowArray.push(row.SNS);
                     rowArray.push(row.Soil);
                     rowArray.push(row.Size);
@@ -1046,9 +1088,13 @@ class DatabaseImpl implements Database {
         ,se.'Nutrients-N'
         ,se.'Nutrients-P'
         ,se.'Nutrients-K'
+        ,se.'Nutrients-S'
+        ,se.'Nutrients-Mg'
         ,se.'Require-N'
         ,se.'Require-P'
         ,se.'Require-K'
+        ,se.'Require-S'
+        ,se.'Require-Mg'
         ,se.SNS
 
          from Farm fa
@@ -1162,9 +1208,15 @@ class DatabaseImpl implements Database {
                 newSpreadEvent.nutrientsN = this.safeNumber(row["Nutrients-N"]);
                 newSpreadEvent.nutrientsP = this.safeNumber(row["Nutrients-P"]);
                 newSpreadEvent.nutrientsK = this.safeNumber(row["Nutrients-K"]);
+                newSpreadEvent.nutrientsS = this.safeNumber(row["Nutrients-S"]);
+                newSpreadEvent.nutrientsMg = this.safeNumber(
+                    row["Nutrients-Mg"]
+                );
                 newSpreadEvent.requireN = this.safeNumber(row["Require-N"]);
                 newSpreadEvent.requireP = this.safeNumber(row["Require-P"]);
                 newSpreadEvent.requireK = this.safeNumber(row["Require-K"]);
+                newSpreadEvent.requireS = this.safeNumber(row["Require-S"]);
+                newSpreadEvent.requireMg = this.safeNumber(row["Require-Mg"]);
                 newSpreadEvent.sns = row.SNS;
                 newSpreadEvent.amount = row.Amount;
                 newSpreadEvent.quality = row.Quality;
