@@ -189,7 +189,7 @@ export default class ExportScreen extends Component<Props, State> {
         for (let item = 0; item < csvData[row].length; item++) {
           csvData[row][item] = t(csvData[row][item]);
         }
-        csvData[row][csvData[row].length - 1] = this.sortCrops(
+        csvData[row][csvData[row].length - 1] = this.makeCropsNice(
           csvData[row][csvData[row].length - 1]
         );
       }
@@ -199,18 +199,18 @@ export default class ExportScreen extends Component<Props, State> {
     });
   }
 
-  private sortCrops(cropString: string): string {
+  private makeCropsNice(cropString: string): string {
     const { t, i18n } = this.props;
     let cropPart: string = "";
-    let fullList: string = "";
+    const fullList: Array<string> = [];
 
     const crop = JSON.parse(cropString);
     crop.forEach(f => {
       cropPart = `${t(f[0])}: ${t(f[1])}`;
 
-      fullList += `${cropPart} `;
+      fullList.push(cropPart);
     });
-    return fullList;
+    return fullList.join(" ");
   }
   private async requestFileWritePermission() {
     if (Platform.OS !== "ios") {
