@@ -43,7 +43,8 @@ export class DatabaseInitialization {
                 }
                 // otherwise,
                 return;
-            });
+            })
+            .catch(error => console.log("error " + error));
     }
 
     // Perform initial setup of the database tables
@@ -177,9 +178,11 @@ export class DatabaseInitialization {
     private preVersion1Inserts(transaction: SQLite.Transaction) {
         console.log("Running pre-version 1 DB inserts");
         // Make schema changes
-        transaction.executeSql(
-            `ALTER TABLE Manure ADD COLUMN "Type" TEXT NOT NULL DEFAULT "custom-slurry-dm2";`
-        );
+        transaction
+            .executeSql(
+                `ALTER TABLE Manure ADD COLUMN "Type" TEXT NOT NULL DEFAULT "custom-slurry-dm2";`
+            )
+            .catch(error => console.log("error " + error));
 
         // Lastly, update the database version
         transaction.executeSql("INSERT INTO Version (version) VALUES (1);");
@@ -191,18 +194,26 @@ export class DatabaseInitialization {
 
         // Make schema changes
 
-        transaction.executeSql(
-            `ALTER TABLE SpreadEvent ADD COLUMN "Nutrients-S"	NUMERIC NOT NULL Default 0;`
-        );
-        transaction.executeSql(
-            `ALTER TABLE SpreadEvent ADD COLUMN "Nutrients-Mg"	NUMERIC NOT NULL Default 0;`
-        );
-        transaction.executeSql(
-            `ALTER TABLE SpreadEvent ADD COLUMN "Require-S"	NUMERIC NOT NULL Default 0;`
-        );
-        transaction.executeSql(
-            `ALTER TABLE SpreadEvent ADD COLUMN "Require-Mg"	NUMERIC NOT NULL Default 0;`
-        );
+        transaction
+            .executeSql(
+                `ALTER TABLE SpreadEvent ADD COLUMN "Nutrients-S"	NUMERIC NOT NULL Default 0;`
+            )
+            .catch(error => console.log("error " + error));
+        transaction
+            .executeSql(
+                `ALTER TABLE SpreadEvent ADD COLUMN "Nutrients-Mg"	NUMERIC NOT NULL Default 0;`
+            )
+            .catch(error => console.log("error " + error));
+        transaction
+            .executeSql(
+                `ALTER TABLE SpreadEvent ADD COLUMN "Require-S"	NUMERIC NOT NULL Default 0;`
+            )
+            .catch(error => console.log("error " + error));
+        transaction
+            .executeSql(
+                `ALTER TABLE SpreadEvent ADD COLUMN "Require-Mg"	NUMERIC NOT NULL Default 0;`
+            )
+            .catch(error => console.log("error " + error));
 
         // Lastly, update the database version
         transaction.executeSql("INSERT INTO Version (version) VALUES (2);");
