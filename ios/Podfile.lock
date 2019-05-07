@@ -37,6 +37,8 @@ PODS:
     - React
   - react-native-maps (0.22.1):
     - React
+  - react-native-slider (1.1.1):
+    - React
   - react-native-sqlite-storage (3.3.9):
     - React
   - React/Core (0.57.7):
@@ -101,6 +103,7 @@ DEPENDENCIES:
   - react-native-google-maps (from `../node_modules/react-native-maps`)
   - react-native-mail (from `../node_modules/react-native-mail`)
   - react-native-maps (from `../node_modules/react-native-maps`)
+  - "react-native-slider (from `../node_modules/@react-native-community/slider`)"
   - react-native-sqlite-storage (from `../node_modules/react-native-sqlite-storage`)
   - React/Core (from `../node_modules/react-native`)
   - React/CxxBridge (from `../node_modules/react-native`)
@@ -141,6 +144,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-mail"
   react-native-maps:
     :path: "../node_modules/react-native-maps"
+  react-native-slider:
+    :path: "../node_modules/@react-native-community/slider"
   react-native-sqlite-storage:
     :path: "../node_modules/react-native-sqlite-storage"
   RNFS:
@@ -163,12 +168,13 @@ SPEC CHECKSUMS:
   react-native-google-maps: b946d62e25dc66097921ed82520e45b0b081768a
   react-native-mail: ff4aba592530d80ac96eea6c1ca03114b84d630a
   react-native-maps: 066c2afcc89e18726377bcc685315f989ca22449
+  react-native-slider: 743940825f1fa1b37e8396ffd8cebe41f4967e1f
   react-native-sqlite-storage: 848fb96c0b6d17b3f70e169ac41f84434cdad94c
   RNFS: bbb1a64eb245763daf34aea86f97c97c4e85f74c
   RNGestureHandler: afde2addc517e85cc97a25bfe119acbee779a7ce
   RNVectorIcons: 8c52e1e8da1153613fdef44748e865c25556cb9c
   yoga: b1ce48b6cf950b98deae82838f5173ea7cf89e85
 
-PODFILE CHECKSUM: fd20dfa111529e135253471b74613ea37e34bb59
+PODFILE CHECKSUM: b36beacd34f9d8ea931c2d3d449a21f63198e240
 
 COCOAPODS: 1.5.3
