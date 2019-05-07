@@ -679,6 +679,10 @@
     lodash "^4.17.4"
     react-native-vector-icons "6.0.0"
 
+"@react-native-community/slider@https://github.com/react-native-community/react-native-slider.git#ede6b7378c06b6ff607d3f51d7d4454b314119e3":
+  version "1.0.4"
+  resolved "https://github.com/react-native-community/react-native-slider.git#ede6b7378c06b6ff607d3f51d7d4454b314119e3"
+
 "@react-navigation/core@3.1.0":
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/@react-navigation/core/-/core-3.1.0.tgz#2ab34a8d913564d4454dbdf5d68b6b4c70302099"

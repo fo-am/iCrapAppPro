@@ -3,6 +3,7 @@ package com.farm_crap_app;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.reactnativecommunity.slider.ReactSliderPackage;
 import com.rnfs.RNFSPackage;
 import com.chirag.RNMail.RNMail;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
@@ -30,6 +31,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new ReactSliderPackage(),
             new RNFSPackage(),
             new RNMail(),
             new RNGestureHandlerPackage(),

@@ -1,11 +1,13 @@
+import Slider from "@react-native-community/slider";
 import { inject, observer } from "mobx-react/native";
 import { Col, Footer, FooterTab, Grid, H1, Row } from "native-base";
 import React, { Component } from "react";
-import { Image, ScrollView, Slider, StatusBar, Text, View } from "react-native";
+import { Image, ScrollView, StatusBar, Text, View } from "react-native";
 import { Button } from "react-native-elements";
 import { NavigationScreenProp, SafeAreaView } from "react-navigation";
 
 import moment from "moment";
+
 import Images from "../assets/imageData";
 
 import DatePicker from "react-native-datepicker";
@@ -33,7 +35,9 @@ interface Props {
   SettingsStore: SettingsStore;
 }
 
-interface State {}
+interface State {
+  internalSliderValue: number;
+}
 
 const slider = new SliderValues();
 
@@ -50,6 +54,7 @@ export default class SpreadScreen extends Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
+    this.state = { internalSliderValue: 50 };
     const { navigation, FieldStore, CalculatorStore, ManureStore } = this.props;
     const fieldKey = navigation.getParam("fieldKey", undefined);
     const spreadKey = navigation.getParam("spreadKey", undefined);
@@ -81,97 +86,6 @@ export default class SpreadScreen extends Component<Props, State> {
   }
 
   public componentWillMount() {}
-  public setDropDowns(itemValue) {
-    // use this if we are setting up a known spread event with the right values
-    // drop down values are set in the FieldStore.SetSpread method
-
-    const { CalculatorStore, SettingsStore } = this.props;
-
-    if (itemValue === "custom") {
-      slider.sliderStartValue = CalculatorStore.calculatorValues.sliderValue;
-      slider.sliderMaxValue = 100;
-      slider.sliderUnit =
-        SettingsStore.appSettings.unit === "metric" ? "m3/ha" : "tons/acre";
-
-      CalculatorStore.applicationTypes = [];
-      CalculatorStore.qualityTypes = CalculatorStore.customQualityTypes;
-
-      this.SliderValueChanged(CalculatorStore.calculatorValues.sliderValue);
-    } else {
-      slider.sliderStartValue = CalculatorStore.calculatorValues.sliderValue;
-
-      slider.sliderMaxValue = dropDownData[itemValue].slider.maxValue;
-      slider.sliderUnit = dropDownData[itemValue].slider.metricUnit;
-
-      CalculatorStore.applicationTypes =
-        dropDownData[itemValue].dropDowns.application;
-      CalculatorStore.qualityTypes = dropDownData[itemValue].dropDowns.quality;
-
-      this.SliderValueChanged(CalculatorStore.calculatorValues.sliderValue);
-    }
-  }
-
-  public InitialiseDropdowns(itemValue) {
-    // initialise other dropdowns when we select new manure type
-    const { CalculatorStore, SettingsStore } = this.props;
-    CalculatorStore.calculatorValues.manureSelected = itemValue;
-
-    if (itemValue === "custom") {
-      slider.sliderStartValue = 50;
-      CalculatorStore.calculatorValues.sliderValue = 50;
-      slider.sliderMaxValue = 100;
-      slider.sliderUnit =
-        SettingsStore.appSettings.unit === "metric" ? "m3/ha" : "tons/acre";
-
-      CalculatorStore.applicationTypes = [];
-      CalculatorStore.qualityTypes = CalculatorStore.customQualityTypes;
-
-      this.SliderValueChanged(CalculatorStore.calculatorValues.sliderValue);
-    } else {
-      slider.sliderStartValue = dropDownData[itemValue].slider.maxValue / 2;
-      CalculatorStore.calculatorValues.sliderValue =
-        dropDownData[itemValue].slider.maxValue / 2;
-      slider.sliderMaxValue = dropDownData[itemValue].slider.maxValue;
-      slider.sliderUnit = dropDownData[itemValue].slider.metricUnit;
-
-      CalculatorStore.applicationTypes =
-        dropDownData[itemValue].dropDowns.application;
-      CalculatorStore.qualityTypes = dropDownData[itemValue].dropDowns.quality;
-
-      this.SliderValueChanged(CalculatorStore.calculatorValues.sliderValue);
-    }
-    if (CalculatorStore.qualityTypes) {
-      CalculatorStore.calculatorValues.qualitySelected = Object.keys(
-        CalculatorStore.qualityTypes
-      )[0];
-    }
-    if (CalculatorStore.applicationTypes) {
-      CalculatorStore.calculatorValues.applicationSelected = Object.keys(
-        CalculatorStore.applicationTypes
-      )[0];
-    }
-  }
-
-  public SliderValueChanged(value) {
-    const { CalculatorStore } = this.props;
-
-    CalculatorStore.calculatorValues.sliderValue = value;
-
-    let selectedManure = CalculatorStore.calculatorValues.manureSelected;
-
-    if (!Images[selectedManure]) {
-      selectedManure = "fym";
-    }
-
-    const keys = [] as number[];
-    for (const k in Images[selectedManure]) {
-      keys.push(Number(k));
-    }
-
-    const closestValue = this.closest(value, keys);
-
-    CalculatorStore.image = Images[selectedManure][closestValue];
-  }
 
   public render() {
     const {
@@ -239,13 +153,31 @@ export default class SpreadScreen extends Component<Props, State> {
               }
               values={CalculatorStore.applicationTypes}
             />
+            <Text style={styles.text}>
+              Use the slider below the image to adjust spread amount.
+            </Text>
 
-            <Image source={CalculatorStore.image} />
-            <View style={{ marginVertical: 20 }}>
+            <Image
+              style={{ aspectRatio: 1, width: "100%", height: undefined }}
+              source={CalculatorStore.image}
+            />
+
+            <View
+              style={{
+                marginVertical: 20,
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center"
+              }}
+            >
               <Slider
-                step={0.1}
+                step={1}
+                style={{ width: "90%" }}
                 value={slider.sliderStartValue}
                 onValueChange={val => this.SliderValueChanged(val)}
+                onSlidingComplete={val =>
+                  (CalculatorStore.calculatorValues.sliderValue = val)
+                }
                 maximumValue={slider.sliderMaxValue}
                 thumbTintColor="rgb(252, 228, 149)"
                 minimumTrackTintColor="#FF0000"
@@ -255,7 +187,7 @@ export default class SpreadScreen extends Component<Props, State> {
                 Value:{" "}
                 <FormatValue
                   units={slider.sliderUnit}
-                  value={CalculatorStore.calculatorValues.sliderValue}
+                  value={this.state.internalSliderValue}
                 />{" "}
                 {slider.sliderUnit}
               </Text>
@@ -525,6 +457,100 @@ export default class SpreadScreen extends Component<Props, State> {
       </SafeAreaView>
     );
   }
+  private setDropDowns(itemValue) {
+    // use this if we are setting up a known spread event with the right values
+    // drop down values are set in the FieldStore.SetSpread method
+
+    const { CalculatorStore, SettingsStore } = this.props;
+
+    if (itemValue === "custom") {
+      slider.sliderStartValue = CalculatorStore.calculatorValues.sliderValue;
+      slider.sliderMaxValue = 100;
+      slider.sliderUnit =
+        SettingsStore.appSettings.unit === "metric" ? "m3/ha" : "tons/acre";
+
+      CalculatorStore.applicationTypes = [];
+      CalculatorStore.qualityTypes = CalculatorStore.customQualityTypes;
+
+      this.SliderValueChanged(CalculatorStore.calculatorValues.sliderValue);
+    } else {
+      slider.sliderStartValue = CalculatorStore.calculatorValues.sliderValue;
+
+      slider.sliderMaxValue = dropDownData[itemValue].slider.maxValue;
+      slider.sliderUnit = dropDownData[itemValue].slider.metricUnit;
+
+      CalculatorStore.applicationTypes =
+        dropDownData[itemValue].dropDowns.application;
+      CalculatorStore.qualityTypes = dropDownData[itemValue].dropDowns.quality;
+
+      this.SliderValueChanged(CalculatorStore.calculatorValues.sliderValue);
+    }
+  }
+
+  private InitialiseDropdowns(itemValue) {
+    // initialise other dropdowns when we select new manure type
+    const { CalculatorStore, SettingsStore } = this.props;
+    CalculatorStore.calculatorValues.manureSelected = itemValue;
+
+    if (itemValue === "custom") {
+      slider.sliderStartValue = 50;
+      CalculatorStore.calculatorValues.sliderValue = 50;
+      slider.sliderMaxValue = 100;
+      slider.sliderUnit =
+        SettingsStore.appSettings.unit === "metric" ? "m3/ha" : "tons/acre";
+
+      CalculatorStore.applicationTypes = [];
+      CalculatorStore.qualityTypes = CalculatorStore.customQualityTypes;
+
+      this.SliderValueChanged(CalculatorStore.calculatorValues.sliderValue);
+    } else {
+      slider.sliderStartValue = dropDownData[itemValue].slider.maxValue / 2;
+      CalculatorStore.calculatorValues.sliderValue =
+        dropDownData[itemValue].slider.maxValue / 2;
+      slider.sliderMaxValue = dropDownData[itemValue].slider.maxValue;
+      slider.sliderUnit = dropDownData[itemValue].slider.metricUnit;
+
+      CalculatorStore.applicationTypes =
+        dropDownData[itemValue].dropDowns.application;
+      CalculatorStore.qualityTypes = dropDownData[itemValue].dropDowns.quality;
+
+      this.SliderValueChanged(CalculatorStore.calculatorValues.sliderValue);
+    }
+    if (CalculatorStore.qualityTypes) {
+      CalculatorStore.calculatorValues.qualitySelected = Object.keys(
+        CalculatorStore.qualityTypes
+      )[0];
+    }
+    if (CalculatorStore.applicationTypes) {
+      CalculatorStore.calculatorValues.applicationSelected = Object.keys(
+        CalculatorStore.applicationTypes
+      )[0];
+    }
+  }
+
+  private SliderValueChanged(value) {
+    const { CalculatorStore } = this.props;
+
+    //  CalculatorStore.calculatorValues.sliderValue = value;
+
+    this.setState({ internalSliderValue: value });
+
+    let selectedManure = CalculatorStore.calculatorValues.manureSelected;
+
+    if (!Images[selectedManure]) {
+      selectedManure = "fym";
+    }
+
+    const keys = [] as number[];
+    for (const k in Images[selectedManure]) {
+      keys.push(Number(k));
+    }
+
+    const closestValue = this.closest(value, keys);
+
+    CalculatorStore.image = Images[selectedManure][closestValue];
+  }
+
   private save() {
     const { FieldStore } = this.props;
 
