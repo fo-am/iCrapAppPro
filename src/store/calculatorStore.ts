@@ -359,7 +359,7 @@ class CalculatorStore {
     }
 
     private getNutrients(
-        type,
+        manureType,
         amount,
         quality,
         season,
@@ -371,7 +371,7 @@ class CalculatorStore {
         soilTestMg
     ): Object {
         const params = {
-            type,
+            type: manureType,
             quality,
             season,
             // IMPORTANT: we have to convert crop from the field types to send to manure
@@ -389,7 +389,9 @@ class CalculatorStore {
         // get the total for pig or cattle slurry or poultry, then we apply the
         // percent value later to get the crop available
         const total =
-            type === "pig" || type === "cattle" || type === "poultry"
+            manureType === "pig" ||
+            manureType === "cattle" ||
+            manureType === "poultry"
                 ? this.decision(nitrogenTotalTree, params)
                 : 0;
         // high soil test means we're adding total
@@ -440,7 +442,7 @@ class CalculatorStore {
                 "paper-crumble",
                 "water-treatment-cake",
                 "food-industry-waste"
-            ].includes(type)
+            ].includes(manureType)
         ) {
             // For types in above array we have no crop available information.
             return [totalValues, totalValues];
