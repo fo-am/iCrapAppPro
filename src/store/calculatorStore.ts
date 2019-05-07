@@ -334,7 +334,7 @@ class CalculatorStore {
 
         const params = { type, quality, season, crop, soil, application };
 
-        return  [
+        return [
             this.percentageCalc(
                 totalNutrients[0],
                 this.decision(customPercent, { ...params, nutrient: "n-avail" })
@@ -434,7 +434,19 @@ class CalculatorStore {
             this.decision(manureTree, { ...params, nutrient: "m-avail" })
         ]);
 
-        return [totalValues, cropAvailValues];
+        if (
+            [
+                "spent-mushroom",
+                "paper-crumble",
+                "water-treatment-cake",
+                "food-industry-waste"
+            ].includes(type)
+        ) {
+            // For types in above array we have no crop available information.
+            return [totalValues, totalValues];
+        } else {
+            return [totalValues, cropAvailValues];
+        }
     }
 
     private processNutrients(amount, nutrients) {
