@@ -80,9 +80,6 @@ class CalculatorStore {
             );
         }
     }
-    public CalculateCropRequirements(): string {
-        return "";
-    }
 
     public getCropRequirementsSupplyFromField(
         field: Field,
@@ -526,10 +523,12 @@ class CalculatorStore {
     }
 
     private isCropArable(crop) {
-        if (crop === "grass-cut" || crop === "grass-grazed") {
-            return false;
-        } else {
+        // arable means everything that is not grass except grass/rye
+
+        if (crop.crop !== "grass" || crop.subtype === "rye") {
             return true;
+        } else {
+            return false;
         }
     }
 
