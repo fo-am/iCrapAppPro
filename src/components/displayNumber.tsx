@@ -47,7 +47,11 @@ export default class FormatValue extends Component<Props, State> {
   }
 
   private Round(value: number): string {
-    return String(Maths.Round(value, 2));
+    if (isNaN(value)) {
+      return "N/A";
+    } else {
+      return String(Maths.Round(value, 2));
+    }
   }
 
   private metricTonToImperialTon(metricTon) {
