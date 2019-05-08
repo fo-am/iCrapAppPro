@@ -4,17 +4,15 @@ import {
   Dimensions,
   FlatList,
   ScrollView,
+  StatusBar,
   Text,
-  View,
-  StatusBar
+  View
 } from "react-native";
 import { Button } from "react-native-elements";
 import { NavigationScreenProp, SafeAreaView } from "react-navigation";
 import { database } from "./database/Database";
 import Farm from "./model/Farm";
 import Manure from "./model/manure";
-import FarmStore from "./store/FarmStore";
-import ManureStore from "./store/manureStore";
 import styles from "./styles/style";
 
 interface MyComponentProps {

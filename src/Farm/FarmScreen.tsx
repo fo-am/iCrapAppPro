@@ -24,7 +24,7 @@ import Field from "../model/field";
 import LatLng from "../model/LatLng";
 
 import { Button, Input } from "react-native-elements";
-import FieldStore from "../store/FieldsStore";
+
 import styles from "../styles/style";
 
 interface Props {
