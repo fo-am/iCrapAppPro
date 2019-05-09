@@ -35,9 +35,7 @@ interface Props {
   SettingsStore: SettingsStore;
 }
 
-interface State {
-  internalSliderValue: number;
-}
+interface State {}
 
 const slider = new SliderValues();
 
@@ -54,7 +52,7 @@ export default class SpreadScreen extends Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
-    this.state = { internalSliderValue: 50 };
+
     const { navigation, FieldStore, CalculatorStore, ManureStore } = this.props;
     const fieldKey = navigation.getParam("fieldKey", undefined);
     const spreadKey = navigation.getParam("spreadKey", undefined);
@@ -174,10 +172,7 @@ export default class SpreadScreen extends Component<Props, State> {
                 step={1}
                 style={{ width: "90%" }}
                 value={slider.sliderStartValue}
-                onValueChange={val => this.SliderValueChanged(val)}
-                onSlidingComplete={val =>
-                  (CalculatorStore.calculatorValues.sliderValue = val)
-                }
+                onSlidingComplete={val => this.SliderValueChanged(val)}
                 maximumValue={slider.sliderMaxValue}
                 thumbTintColor="rgb(252, 228, 149)"
                 minimumTrackTintColor="#FF0000"
@@ -187,7 +182,7 @@ export default class SpreadScreen extends Component<Props, State> {
                 Value:{" "}
                 <FormatValue
                   units={slider.sliderUnit}
-                  value={this.state.internalSliderValue}
+                  value={CalculatorStore.calculatorValues.sliderValue}
                 />{" "}
                 {slider.sliderUnit}
               </Text>
@@ -531,9 +526,7 @@ export default class SpreadScreen extends Component<Props, State> {
   private SliderValueChanged(value) {
     const { CalculatorStore } = this.props;
 
-    //  CalculatorStore.calculatorValues.sliderValue = value;
-
-    this.setState({ internalSliderValue: value });
+    CalculatorStore.calculatorValues.sliderValue = value;
 
     let selectedManure = CalculatorStore.calculatorValues.manureSelected;
 

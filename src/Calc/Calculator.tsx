@@ -184,7 +184,7 @@ export default class Calculator extends Component<Props, State> {
       <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
         <StatusBar barStyle="dark-content" />
         <ScrollView contentContainerStyle={styles.box}>
-          <Text style={styles.H1}>Calculator for crap calculations.</Text>
+          <Text style={styles.H2}>Calculator for crap calculations.</Text>
           <Text style={styles.text}>Manure Type</Text>
           <DropDown
             style={styles.outline}
@@ -238,12 +238,16 @@ export default class Calculator extends Component<Props, State> {
             values={CalculatorStore.qualityTypes}
           />
 
-          <Image source={CalculatorStore.image} />
+          <Image
+            style={{ marginVertical: 20 }}
+            source={CalculatorStore.image}
+          />
 
           <Slider
-            step={0.1}
+            step={1}
+            style={{ width: "90%" }}
             value={slider.sliderStartValue}
-            onValueChange={val => this.SliderValueChanged(val)}
+            onSlidingComplete={val => this.SliderValueChanged(val)}
             maximumValue={slider.sliderMaxValue}
             thumbTintColor="rgb(252, 228, 149)"
             minimumTrackTintColor="#FF0000"
@@ -259,21 +263,6 @@ export default class Calculator extends Component<Props, State> {
             {slider.sliderUnit}
           </Text>
 
-          <Input
-            selectTextOnFocus={true}
-            style={styles.TextInputBold}
-            keyboardType="number-pad"
-            placeholder="50"
-            onChangeText={text => {
-              slider.sliderStartValue = +text;
-              this.SliderValueChanged(text);
-            }}
-          >
-            <FormatValue
-              units={slider.sliderUnit}
-              value={CalculatorStore.calculatorValues.sliderValue}
-            />
-          </Input>
           <Text style={styles.H1}>Results</Text>
 
           <Grid style={{ alignItems: "center" }}>
