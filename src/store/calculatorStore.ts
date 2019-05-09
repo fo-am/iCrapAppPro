@@ -385,7 +385,7 @@ class CalculatorStore {
         };
         // get the total for pig or cattle slurry or poultry, then we apply the
         // percent value later to get the crop available
-        const total =
+        const nTotalPercent =
             manureType === "pig" ||
             manureType === "cattle" ||
             manureType === "poultry"
@@ -407,9 +407,9 @@ class CalculatorStore {
         // Total values
         const totalValues = this.processNutrients(amount, [
             // if pig or cattle slurry, then this is the percent value
-            total === 0
+            nTotalPercent === 0
                 ? this.decision(manureTree, { ...params, nutrient: "n-total" })
-                : total,
+                : nTotalPercent,
             this.decision(manureTree, { ...params, nutrient: "p-total" }),
             this.decision(manureTree, { ...params, nutrient: "k-total" }),
             this.decision(manureTree, { ...params, nutrient: "s-total" }),
@@ -421,8 +421,8 @@ class CalculatorStore {
         // N/A value
         if (n2 !== "na") {
             // Apply percent or return straight value
-            if (total !== 0) {
-                n2 = this.percentageCalc(total, n2);
+            if (nTotalPercent !== 0) {
+                n2 = this.percentageCalc(nTotalPercent, n2);
             }
         }
         const cropAvailValues = this.processNutrients(amount, [
