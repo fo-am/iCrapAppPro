@@ -59,12 +59,10 @@ const images = {
         30: require("./calcImages/pig_fym_30t.jpg")
     },
     "fym-sheep": {
-        5: require("./calcImages/pig_fym_5t.jpg"),
-        10: require("./calcImages/pig_fym_10t.jpg"),
-        15: require("./calcImages/pig_fym_15t.jpg"),
-        20: require("./calcImages/pig_fym_20t.jpg"),
-        25: require("./calcImages/pig_fym_25t.jpg"),
-        30: require("./calcImages/pig_fym_30t.jpg")
+        10: require("./calcImages/cattle_fym_10t.jpg"),
+        15: require("./calcImages/cattle_fym_15t.jpg"),
+        30: require("./calcImages/cattle_fym_30t.jpg"),
+        75: require("./calcImages/cattle_fym_75t.jpg")
     },
     "fym-duck": {
         2: require("./calcImages/broiler_fym_2t.jpg"),
@@ -74,20 +72,16 @@ const images = {
         15: require("./calcImages/broiler_fym_15t.jpg")
     },
     "fym-horse": {
-        5: require("./calcImages/pig_fym_5t.jpg"),
-        10: require("./calcImages/pig_fym_10t.jpg"),
-        15: require("./calcImages/pig_fym_15t.jpg"),
-        20: require("./calcImages/pig_fym_20t.jpg"),
-        25: require("./calcImages/pig_fym_25t.jpg"),
-        30: require("./calcImages/pig_fym_30t.jpg")
+        10: require("./calcImages/cattle_fym_10t.jpg"),
+        15: require("./calcImages/cattle_fym_15t.jpg"),
+        30: require("./calcImages/cattle_fym_30t.jpg"),
+        75: require("./calcImages/cattle_fym_75t.jpg")
     },
     "fym-goat": {
-        5: require("./calcImages/pig_fym_5t.jpg"),
-        10: require("./calcImages/pig_fym_10t.jpg"),
-        15: require("./calcImages/pig_fym_15t.jpg"),
-        20: require("./calcImages/pig_fym_20t.jpg"),
-        25: require("./calcImages/pig_fym_25t.jpg"),
-        30: require("./calcImages/pig_fym_30t.jpg")
+        10: require("./calcImages/cattle_fym_10t.jpg"),
+        15: require("./calcImages/cattle_fym_15t.jpg"),
+        30: require("./calcImages/cattle_fym_30t.jpg"),
+        75: require("./calcImages/cattle_fym_75t.jpg")
     }
 };
 
