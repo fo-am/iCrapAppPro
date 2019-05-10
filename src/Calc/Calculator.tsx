@@ -145,10 +145,12 @@ export default class Calculator extends Component<Props, State> {
 
     let selectedManure = CalculatorStore.calculatorValues.manureSelected;
 
-    if (!images[selectedManure]) {
-      selectedManure = "fym";
+    if (selectedManure === "fym") {
+      selectedManure = CalculatorStore.calculatorValues.qualitySelected;
     }
-
+    if (!images[selectedManure]) {
+      selectedManure = "fym-cattle";
+    }
     const keys = [] as number[];
     for (const k in images[selectedManure]) {
       keys.push(Number(k));
@@ -232,9 +234,12 @@ export default class Calculator extends Component<Props, State> {
           <DropDown
             style={styles.outline}
             selectedValue={CalculatorStore.calculatorValues.qualitySelected}
-            onChange={item =>
-              (CalculatorStore.calculatorValues.qualitySelected = item)
-            }
+            onChange={item => {
+              CalculatorStore.calculatorValues.qualitySelected = item;
+              this.SliderValueChanged(
+                CalculatorStore.calculatorValues.sliderValue
+              );
+            }}
             values={CalculatorStore.qualityTypes}
           />
 

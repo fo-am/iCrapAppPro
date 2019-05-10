@@ -135,9 +135,12 @@ export default class SpreadScreen extends Component<Props, State> {
             <DropDown
               style={styles.outline}
               selectedValue={CalculatorStore.calculatorValues.qualitySelected}
-              onChange={item =>
-                (CalculatorStore.calculatorValues.qualitySelected = item)
-              }
+              onChange={item => {
+                CalculatorStore.calculatorValues.qualitySelected = item;
+                this.SliderValueChanged(
+                  CalculatorStore.calculatorValues.sliderValue
+                );
+              }}
               values={CalculatorStore.qualityTypes}
             />
             <Text style={styles.text}>Application type</Text>
@@ -529,9 +532,11 @@ export default class SpreadScreen extends Component<Props, State> {
     CalculatorStore.calculatorValues.sliderValue = value;
 
     let selectedManure = CalculatorStore.calculatorValues.manureSelected;
-
+    if (selectedManure === "fym") {
+      selectedManure = CalculatorStore.calculatorValues.qualitySelected;
+    }
     if (!Images[selectedManure]) {
-      selectedManure = "fym";
+      selectedManure = "fym-cattle";
     }
 
     const keys = [] as number[];
