@@ -64,7 +64,7 @@
     },
     "poultry": {
         "slider": {
-            "maxValue": 7.5,
+            "maxValue": 15,
             "metricUnit": "tons/ha",
             "imperialUnit": "tons/acre"
         },
