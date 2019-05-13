@@ -54,6 +54,8 @@ target 'farm_crap_app' do
 
   pod 'react-native-slider', :path => '../node_modules/@react-native-community/slider'
 
+  pod 'react-native-aes', :path => '../node_modules/react-native-aes-crypto'
+
 end
 
 post_install do |installer|

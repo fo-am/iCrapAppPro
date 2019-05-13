@@ -8,7 +8,9 @@
     "tsc": "tsc"
   },
   "rnpm": {
-    "assets": ["./src/assets/fonts"]
+    "assets": [
+      "./src/assets/fonts"
+    ]
   },
   "dependencies": {
     "@expo/vector-icons": "9.0.0",
@@ -22,6 +24,7 @@
     "react": "16.6.1",
     "react-i18next": "9.0.10",
     "react-native": "0.57.7",
+    "react-native-aes-crypto": "https://github.com/aidanw/react-native-aes.git",
     "react-native-datepicker": "1.7.2",
     "react-native-elements": "1.1.0",
     "react-native-fs": "2.13.3",
@@ -30,6 +33,7 @@
     "react-native-highcharts": "1.0.2",
     "react-native-mail": "3.0.7",
     "react-native-maps": "https://github.com/react-community/react-native-maps.git",
+    "react-native-securerandom": "^0.3.0",
     "react-native-sqlite-storage": "3.3.9",
     "react-navigation": "3.2.0"
   },
