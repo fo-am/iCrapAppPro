@@ -37,6 +37,8 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+    <string>We use the camera to allow you to take images of your spread.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Location is required to find your farm.</string>
 	<key>NSLocationAlwaysUsageDescription</key>

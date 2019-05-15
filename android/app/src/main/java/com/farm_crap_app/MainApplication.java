@@ -3,6 +3,7 @@ package com.farm_crap_app;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import org.reactnative.camera.RNCameraPackage;
 import net.rhogan.rnsecurerandom.RNSecureRandomPackage;
 import com.tectiv3.aes.RCTAesPackage;
 import com.reactnativecommunity.slider.ReactSliderPackage;
@@ -33,6 +34,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNCameraPackage(),
             new RNSecureRandomPackage(),
             new RCTAesPackage(),
             new ReactSliderPackage(),
