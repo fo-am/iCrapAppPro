@@ -51,6 +51,8 @@ export default class FarmScreen extends Component<Props, State> {
     "rain-low": "Low (< 600mm)"
   };
   private prevRegion: Region | undefined = undefined;
+  private mapRef: MapView | null;
+
   constructor(props: Props) {
     super(props);
     const { CalculatorStore, FarmStore } = this.props;
@@ -89,6 +91,7 @@ export default class FarmScreen extends Component<Props, State> {
 
         */}
           <MapView
+            ref={ref => (this.mapRef = ref)}
             moveOnMarkerPress={false}
             style={[styles.map, this.fullSizeMap()]}
             provider={PROVIDER_GOOGLE}
@@ -221,6 +224,7 @@ export default class FarmScreen extends Component<Props, State> {
                 titleStyle={styles.buttonText}
                 onPress={() => {
                   FarmStore.saveFarm().then(() => {
+                    this.setFarmLocation();
                     this.props.FieldStore.farm = FarmStore.farm;
                     this.props.navigation.navigate("Field", {
                       farmKey: FarmStore.farm.key
@@ -430,10 +434,26 @@ export default class FarmScreen extends Component<Props, State> {
   }
   private saveFarm() {
     const { FarmStore } = this.props;
+
+    this.setFarmLocation();
+
     FarmStore.saveFarm();
     this.props.FieldStore.farm = FarmStore.farm;
     this.props.navigation.navigate("Home");
   }
+  private setFarmLocation() {
+    const { FarmStore } = this.props;
+    if (FarmStore.farm.farmLocation.latitude === 0) {
+      this.mapRef.getMapBoundaries().then(loc => {
+        const center = new LatLng();
+        center.latitude = (loc.northEast.latitude + loc.southWest.latitude) / 2;
+        center.longitude =
+          (loc.northEast.longitude + loc.southWest.longitude) / 2;
+        FarmStore.farm.farmLocation = center;
+      });
+    }
+  }
+
   private cancelScreen() {
     this.props.navigation.navigate("Home");
   }
