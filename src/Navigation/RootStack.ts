@@ -9,11 +9,17 @@ import SpreadScreen from "../Fields/SpreadScreen";
 import HomeScreen from "../HomeScreen";
 import SettingScreen from "../Settings/SettingScreen";
 import SplashScreen from "../splashScreen/splashScreen";
+import Camera from "../Camera/camera";
+
 const appNav = createStackNavigator(
     {
         Calculator: {
             screen: Calculator,
             navigationOptions: { title: "Calculator" }
+        },
+        Camera: {
+            screen: Camera,
+            navigationOptions: { header: null }
         },
         CustomManure: {
             screen: CustomManure,

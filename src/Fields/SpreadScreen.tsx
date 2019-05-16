@@ -157,12 +157,10 @@ export default class SpreadScreen extends Component<Props, State> {
             <Text style={styles.text}>
               Use the slider below the image to adjust spread amount.
             </Text>
-
             <Image
               style={{ aspectRatio: 1, width: "100%", height: undefined }}
               source={CalculatorStore.image}
             />
-
             <View
               style={{
                 marginVertical: 20,
@@ -433,6 +431,16 @@ export default class SpreadScreen extends Component<Props, State> {
                 </Col>
               </Row>
             </Grid>
+            <Button
+              buttonStyle={styles.footerButton}
+              titleStyle={styles.buttonText}
+              onPress={() => this.props.navigation.navigate("Camera")}
+              title="Take an image of your spread"
+            />
+            <Image
+              source={{ uri: FieldStore.newSpreadEvent.imagePath }}
+              style={{ width: 200, height: 200 }}
+            />
           </View>
           <Footer>
             <FooterTab>

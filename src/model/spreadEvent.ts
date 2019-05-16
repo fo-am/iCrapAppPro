@@ -25,6 +25,7 @@ export default class SpreadEvent {
     @observable public size: number = 0;
     @observable public season: string = "";
     @observable public crop: string[][] = [];
+    @observable public imagePath: string = "";
 
     // copy numbers from field and fix calculated values.
     constructor() {
