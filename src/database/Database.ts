@@ -514,7 +514,7 @@ class DatabaseImpl implements Database {
                       "Date", "Manure-Type", "Nutrients-N", "Nutrients-P",
                      "Nutrients-K","Nutrients-S","Nutrients-Mg" "Require-N", "Require-P",
                      "Require-K", "Require-S", "Require-Mg", "SNS", "Soil", "Size", "Amount",
-                      "Quality", "Application", "Season", "Crop"
+                      "Quality", "Application", "Season", "Crop", "ImageUri"
                      FROM SpreadEvent where FieldKey = ?  ORDER BY "Date" DESC`,
                     [fieldKey]
                 )
@@ -571,6 +571,7 @@ class DatabaseImpl implements Database {
                         newSpreadEvent.applicationType = row.Application;
                         newSpreadEvent.season = row.Season;
                         newSpreadEvent.crop = JSON.parse(row.Crop);
+                        newSpreadEvent.imagePath = row.ImageUri;
 
                         spreadEvents.push(newSpreadEvent);
                     }
@@ -590,7 +591,7 @@ class DatabaseImpl implements Database {
                   "Date", "Manure-Type", "Nutrients-N", "Nutrients-P",
                  "Nutrients-K", "Nutrients-S", "Nutrients-Mg", "Require-N", "Require-P",
                  "Require-K", "Require-S", "Require-Mg", "SNS", "Soil", "Size", "Amount",
-                  "Quality", "Application", "Season", "Crop"
+                  "Quality", "Application", "Season", "Crop", "ImageUri"
                  FROM SpreadEvent where "SpreadEvent-Unique-Id" = ?`,
                     [spreadKey]
                 )
@@ -645,6 +646,7 @@ class DatabaseImpl implements Database {
                         newSpreadEvent.applicationType = row.Application;
                         newSpreadEvent.season = row.Season;
                         newSpreadEvent.crop = JSON.parse(row.Crop);
+                        newSpreadEvent.imagePath = row.ImageUri;
                     }
                     return newSpreadEvent;
                 })
@@ -698,7 +700,8 @@ class DatabaseImpl implements Database {
                         "Soil"= ?19,
                         "Size"= ?20,
                         "Season"= ?21,
-                        "Crop"= ?22
+                        "Crop"= ?22,
+                        "ImageUri" = ?23
                          WHERE  "SpreadEvent-Unique-Id" = ?1;`,
                         [
                             spreadEvent.key,
@@ -722,7 +725,8 @@ class DatabaseImpl implements Database {
                             spreadEvent.soil,
                             spreadEvent.size,
                             spreadEvent.season,
-                            JSON.stringify(spreadEvent.crop)
+                            JSON.stringify(spreadEvent.crop),
+                            spreadEvent.imagePath
                         ]
                     )
                 )
@@ -760,9 +764,10 @@ class DatabaseImpl implements Database {
                         "Soil",
                         "Size",
                          "Season",
-                        "Crop")
+                        "Crop",
+                        "ImageUri")
                          VALUES
-                         (?1,?2,?3,?4,?5,?6,?7,?8,?9,?10,?11,?12,?13,?14,?15,?16,?17,?18,?19,?20,?21,?22);`,
+                         (?1,?2,?3,?4,?5,?6,?7,?8,?9,?10,?11,?12,?13,?14,?15,?16,?17,?18,?19,?20,?21,?22,?23);`,
                         [
                             spreadEvent.key,
                             spreadEvent.fieldkey,
@@ -785,7 +790,8 @@ class DatabaseImpl implements Database {
                             spreadEvent.soil,
                             spreadEvent.size,
                             spreadEvent.season,
-                            JSON.stringify(spreadEvent.crop)
+                            JSON.stringify(spreadEvent.crop),
+                            spreadEvent.imagePath
                         ]
                     )
                 )

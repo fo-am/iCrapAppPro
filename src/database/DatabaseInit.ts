@@ -30,7 +30,6 @@ export class DatabaseInitialization {
 
                 // This is included as an example of how you make database schema changes once the app has been shipped
                 if (dbVersion < 1) {
-                    // Uncomment the next line, and the referenced function below, to enable this
                     return database.transaction(this.preVersion1Inserts);
                 }
                 // otherwise,
@@ -38,8 +37,14 @@ export class DatabaseInitialization {
             })
             .then(() => {
                 if (dbVersion < 2) {
-                    // Uncomment the next line, and the referenced function below, to enable this
                     return database.transaction(this.preVersion2Inserts);
+                }
+                // otherwise,
+                return;
+            })
+            .then(() => {
+                if (dbVersion < 3) {
+                    return database.transaction(this.preVersion3Inserts);
                 }
                 // otherwise,
                 return;
@@ -217,5 +222,19 @@ export class DatabaseInitialization {
 
         // Lastly, update the database version
         transaction.executeSql("INSERT INTO Version (version) VALUES (2);");
+    }
+
+    // This function should be called when the version of the db is < 3
+    private preVersion3Inserts(transaction: SQLite.Transaction) {
+        console.log("Running pre-version 3 DB inserts");
+
+        // Make schema changes
+
+        transaction
+            .executeSql(`ALTER TABLE SpreadEvent ADD COLUMN "ImageUri" TEXT;`)
+            .catch(error => console.log("error " + error));
+
+        // Lastly, update the database version
+        transaction.executeSql("INSERT INTO Version (version) VALUES (3);");
     }
 }
