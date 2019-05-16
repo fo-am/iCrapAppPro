@@ -22,10 +22,10 @@ PODS:
     - GoogleMaps
   - Google-Maps-iOS-Utils/QuadTree (2.1.0):
     - GoogleMaps
-  - GoogleMaps (2.5.0):
-    - GoogleMaps/Maps (= 2.5.0)
-  - GoogleMaps/Base (2.5.0)
-  - GoogleMaps/Maps (2.5.0):
+  - GoogleMaps (3.0.3):
+    - GoogleMaps/Maps (= 3.0.3)
+  - GoogleMaps/Base (3.0.3)
+  - GoogleMaps/Maps (3.0.3):
     - GoogleMaps/Base
   - React (0.57.7):
     - React/Core (= 0.57.7)
@@ -39,13 +39,13 @@ PODS:
     - React
   - react-native-camera/RN (2.8.0):
     - React
-  - react-native-google-maps (0.22.1):
+  - react-native-google-maps (0.24.0):
     - Google-Maps-iOS-Utils (= 2.1.0)
-    - GoogleMaps (= 2.5.0)
+    - GoogleMaps (= 3.0.3)
     - React
   - react-native-mail (3.0.7):
     - React
-  - react-native-maps (0.22.1):
+  - react-native-maps (0.24.0):
     - React
   - react-native-slider (1.1.1):
     - React
@@ -179,13 +179,13 @@ SPEC CHECKSUMS:
   Folly: c89ac2d5c6ab169cd7397ef27485c44f35f742c7
   glog: e8acf0ebbf99759d3ff18c86c292a5898282dcde
   Google-Maps-iOS-Utils: c32891ff472eaaa1fca032beedafa1a013af7875
-  GoogleMaps: c087b8e5dfe87ca6ebf59adb9b4894a4146bec4f
+  GoogleMaps: fd5c9fa58871781b9fb94d4936f19c69fe60ce32
   React: 1fe0eb13d90b625d94c3b117c274dcfd2e760e11
   react-native-aes: 4691f75729a77c637a4ef93c7fa32fe8cbe44fd7
   react-native-camera: 9c50d7def800895e7991ccda6203929553ceec9c
-  react-native-google-maps: b946d62e25dc66097921ed82520e45b0b081768a
+  react-native-google-maps: 9343f45ca76faa84238635133ea2fe2bc2cc5c70
   react-native-mail: ff4aba592530d80ac96eea6c1ca03114b84d630a
-  react-native-maps: 066c2afcc89e18726377bcc685315f989ca22449
+  react-native-maps: bb480348a3fe1e5a811fed1ba3387b329161c5cc
   react-native-slider: 743940825f1fa1b37e8396ffd8cebe41f4967e1f
   react-native-sqlite-storage: 848fb96c0b6d17b3f70e169ac41f84434cdad94c
   RNFS: bbb1a64eb245763daf34aea86f97c97c4e85f74c
