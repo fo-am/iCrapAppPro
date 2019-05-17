@@ -6,6 +6,21 @@
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
 	<string>Farm Crap App Pro</string>
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeName</key>
+			<string>Custom File</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSHandlerRank</key>
+			<string>Owner</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>fo.am.crapapp.files</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -21,9 +36,11 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>36</string>
+	<string>37</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<false/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
@@ -38,10 +55,10 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-    <string>We use the camera to allow you to take images of your spread.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Location is required to find your farm.</string>
+	<string>We use the camera to allow you to take images of your spread.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Location is required to find your farm.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Location is required to find your farm.</string>
 	<key>NSMainNibFile</key>
 	<string>LaunchScreen</string>
@@ -118,22 +135,5 @@
 			</dict>
 		</dict>
 	</array>
-	<key>CFBundleDocumentTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleTypeName</key>
-			<string>Custom File</string>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>LSHandlerRank</key>
-			<string>Owner</string>
-			<key>LSItemContentTypes</key>
-			<array>
-				<string>fo.am.crapapp.files</string>
-			</array>
-		</dict>
-	</array>
-	<key>LSSupportsOpeningDocumentsInPlace</key>
-	<false/>
 </dict>
 </plist>

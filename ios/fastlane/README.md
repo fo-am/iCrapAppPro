@@ -31,6 +31,11 @@ fastlane ios clean
 fastlane ios images
 ```
 
+### ios deploy
+```
+fastlane ios deploy
+```
+
 
 ----
 
