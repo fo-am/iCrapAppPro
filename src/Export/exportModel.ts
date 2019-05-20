@@ -62,7 +62,7 @@ export interface Event {
     quality: string;
     application: string;
     season: string;
-    crop: string[][];
+    crop: Array<Array<string>>;
     nutrients_s?: number | undefined;
     nutrients_m?: number | undefined;
     total_nutrients_s?: number | undefined;

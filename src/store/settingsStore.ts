@@ -1,11 +1,9 @@
 import { observable } from "mobx";
 import { database } from "../database/Database";
-import appSettings from "../model/appSettings";
+import AppSettings from "../model/appSettings";
 
 class SettingsStore {
-    @observable public appSettings: appSettings = new appSettings();
-
-    @observable public rainfall: string = "rain-medium";
+    @observable public appSettings: AppSettings = new AppSettings();
 
     constructor() {
         this.getSettings();

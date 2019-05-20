@@ -27,12 +27,16 @@ import { Button, Input } from "react-native-elements";
 
 import styles from "../styles/style";
 
+import RNFS from "react-native-fs";
+import Mailer from "react-native-mail";
+import { database } from "../database/Database";
+
 interface Props {
   navigation: NavigationScreenProp<any, any>;
   FieldStore: FieldStore;
   FarmStore: FarmStore;
   CalculatorStore: CalculatorStore;
-  // SettingsStore: SettingsStore;
+  SettingsStore: SettingsStore;
 }
 
 interface State {
@@ -374,6 +378,14 @@ export default class FarmScreen extends Component<Props, State> {
                 </Row>
               </Grid>
             </View>
+            <Button
+              buttonStyle={styles.roundButton}
+              titleStyle={styles.buttonText}
+              onPress={() => {
+                this.exportField(FarmStore.farm.key);
+              }}
+              title="Export Field."
+            />
           </View>
           <Footer>
             <FooterTab>
@@ -395,6 +407,38 @@ export default class FarmScreen extends Component<Props, State> {
       </SafeAreaView>
     );
   }
+  private exportField(farmKey: string) {
+    // get data from database and put it into the json format
+    // encrypt the json
+    // email the json
+    const { CalculatorStore, SettingsStore, FarmStore } = this.props;
+
+    database.exportFarm(farmKey).then(farm => {
+      const filePath = `${RNFS.LibraryDirectoryPath}/FarmsData.json.enc`;
+      RNFS.writeFile(filePath, JSON.stringify(farm)).then(
+        // get handle on file path.
+        Mailer.mail(
+          {
+            subject: "Farm Export",
+            recipients: [SettingsStore.appSettings.email],
+
+            body: "Here is your farm export.",
+            isHTML: false,
+            attachment: {
+              path: filePath, // The absolute path of the file from which to read data.
+              type: "text", // Mime Type: jpg, png, doc, ppt, html, pdf, csv
+              name: "FarmsData.json.enc"
+            }
+          },
+          (error, event) => {
+            // this.setState({ resultString: event });
+            // handle error
+          }
+        )
+      );
+    });
+  }
+
   private DrawFieldBoundry(field: Field) {
     if (field.fieldCoordinates.coordinates.slice().length > 0) {
       return (

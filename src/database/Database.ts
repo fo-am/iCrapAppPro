@@ -23,6 +23,7 @@ import {
 } from "../Export/exportModel";
 
 import moment from "moment";
+// import settingsStore from "../store/settingsStore";
 
 export interface Database {
     open(): Promise<SQLite.SQLiteDatabase>;
@@ -53,7 +54,7 @@ export interface Database {
 
     getCSVData(): Promise<Array<Array<string>>>;
 
-    getAllData(): Promise<Array<ExportFarm>>;
+    exportFarm(farmKey: string): Promise<CrapAppExport>;
 
     importFarm(importedFarm: CrapAppExport): Promise<Array<string>>;
 
@@ -1231,57 +1232,62 @@ class DatabaseImpl implements Database {
             }
         }
     }
-
-    public async getAllData(): Promise<Array<ExportFarm>> {
+    public async exportFarm(farmKey: string): Promise<CrapAppExport> {
         return this.getDatabase()
             .then(db =>
                 db.executeSql(`select
-        fa.'Farm-Unique-Id'
-        ,fa.Latitude
-        ,fa.Longitude
-        ,fa.Name as FarmName
-        ,fa.Rainfall
-        ,fa.'Cost-N'
-        ,fa.'Cost-P'
-        ,fa.'Cost-K'
-        ,fa.'Cost-S'
-        ,fa.'Cost-Mg'
-        ,fi.'Field-Unique-Id'
-        ,fi.FarmKey
-        ,fi.Name as FieldName
-        ,fi.Coordinates
-        ,fi.Soil
-        ,fi.Crop
-        ,fi.'Previous-Crop'
-        ,fi.'Soil-Test-P'
-        ,fi.'Soil-Test-K'
-        ,fi.'Soil-Test-Mg'
-        ,fi.'Regular-Manure'
-        ,fi.'Recent-Grass'
-        ,fi.Size
-        ,se.'SpreadEvent-Unique-Id'
-        ,se.FieldKey
-        ,se.'Manure-Type'
-        ,se.Date
-        ,se.Quality
-        ,se.Application
-        ,se.Amount
-        ,se.'Nutrients-N'
-        ,se.'Nutrients-P'
-        ,se.'Nutrients-K'
-        ,se.'Nutrients-S'
-        ,se.'Nutrients-Mg'
-        ,se.'Require-N'
-        ,se.'Require-P'
-        ,se.'Require-K'
-        ,se.'Require-S'
-        ,se.'Require-Mg'
-        ,se.SNS
+    fa.'Farm-Unique-Id'
+    ,fa.Latitude
+    ,fa.Longitude
+    ,fa.Name as FarmName
+    ,fa.Rainfall
+    ,fa.'Cost-N'
+    ,fa.'Cost-P'
+    ,fa.'Cost-K'
+    ,fa.'Cost-S'
+    ,fa.'Cost-Mg'
+    ,fi.'Field-Unique-Id'
+    ,fi.FarmKey
+    ,fi.Name as FieldName
+    ,fi.Coordinates
+    ,fi.Soil
+    ,fi.Crop
+    ,fi.'Previous-Crop'
+    ,fi.'Soil-Test-P'
+    ,fi.'Soil-Test-K'
+    ,fi.'Soil-Test-Mg'
+    ,fi.'Regular-Manure'
+    ,fi.'Recent-Grass'
+    ,fi.Size
+    ,se.'SpreadEvent-Unique-Id'
+    ,se.FieldKey
+    ,se.'Manure-Type'
+    ,se.Date
+    ,se.Quality
+    ,se.Application
+    ,se.Amount
+    ,se.'Nutrients-N'
+    ,se.'Nutrients-P'
+    ,se.'Nutrients-K'
+    ,se.'Nutrients-S'
+    ,se.'Nutrients-Mg'
+    ,se.'Require-N'
+    ,se.'Require-P'
+    ,se.'Require-K'
+    ,se.'Require-S'
+    ,se.'Require-Mg'
+    ,se.'Total-Nutrients-N'
+    ,se.'Total-Nutrients-P'
+    ,se.'Total-Nutrients-K'
+    ,se.'Total-Nutrients-S'
+    ,se.'Total-Nutrients-Mg'
+    ,se.SNS
 
-         from Farm fa
-        left join Field fi on fa.'Farm-Unique-Id' = fi.FarmKey
-        left join SpreadEvent se on se.FieldKey = fi.'Field-Unique-Id'
-        `)
+     from Farm fa
+    left join Field fi on fa.'Farm-Unique-Id' = fi.FarmKey
+    left join SpreadEvent se on se.FieldKey = fi.'Field-Unique-Id'
+    WHERE  fa.'Farm-Unique-Id' = "${farmKey}"
+    `)
             )
             .then(([res]) => {
                 const count = res.rows.length;
@@ -1294,22 +1300,25 @@ class DatabaseImpl implements Database {
                         // // is the farm in the list?
 
                         const farmIndex = farms.findIndex(
-                            c => c.key === row["Farm-Unique-Id"]
+                            c => c.unique_id === row["Farm-Unique-Id"]
                         );
                         if (farmIndex === -1) {
                             //// no
                             //// create the farm then go to the next step
-                            const newFarm: ExportFarm = new ExportFarm();
-                            newFarm.key = row["Farm-Unique-Id"];
-                            newFarm.farmLocation.latitude = row.Latitude;
-                            newFarm.farmLocation.longitude = row.Longitude;
-                            newFarm.name = row.FarmName;
-                            newFarm.rainfall = row.Rainfall;
-                            newFarm.costN = row["Cost-N"];
-                            newFarm.costP = row["Cost-P"];
-                            newFarm.costK = row["Cost-K"];
-                            newFarm.costS = row["Cost-S"];
-                            newFarm.costMg = row["Cost-Mg"];
+                            const newFarm: ExportFarm = {
+                                "app-version": "iOS 1.0 Beta 38",
+                                "file-version": 1,
+                                unique_id: row["Farm-Unique-Id"],
+                                name: row.FarmName,
+                                rainfall: row.Rainfall,
+                                cost_k: row["Cost-K"],
+                                cost_m: row["Cost-Mg"],
+                                cost_n: row["Cost-N"],
+                                cost_p: row["Cost-P"],
+                                cost_s: row["Cost-S"],
+                                deleted: 0,
+                                fields: []
+                            };
 
                             this.fillFields(newFarm, row);
                             farms.push(newFarm);
@@ -1323,9 +1332,13 @@ class DatabaseImpl implements Database {
                     // no
                     // we can do nothing here lets continue
                 }
-                return farms;
+
+                const outThink: CrapAppExport = { farm: farms[0] };
+
+                return outThink;
             });
     }
+
     private GetFieldCoords(exportCoords: ExportCoord[] | undefined): Coords {
         const returnCoords: Coords = new Coords();
         returnCoords.id = "importedIds";
@@ -1377,25 +1390,33 @@ class DatabaseImpl implements Database {
             // // is the field in the list?
 
             const fieldIndex = farm.fields.findIndex(
-                c => c.key === row["Field-Unique-Id"]
+                c => c.unique_id === row["Field-Unique-Id"]
             );
             if (fieldIndex === -1) {
                 //// no
                 //// create the farm then go to the next step
-                const newField: ExportField = new ExportField();
-                newField.key = row["Field-Unique-Id"];
-                newField.farmKey = row.FarmKey;
-                newField.name = row.Name;
-                newField.fieldCoordinates = JSON.parse(row.Coordinates);
-                newField.soilType = row.Soil;
-                newField.cropType = JSON.parse(row.Crop);
-                newField.prevCropType = row["Previous-Crop"];
-                newField.soilTestP = row["Soil-Test-P"];
-                newField.soilTestK = row["Soil-Test-K"];
-                newField.soilTestMg = row["Soil-Test-Mg"];
-                newField.organicManure = row["Regular-Manure"];
-                newField.recentGrass = row["Recent-Grass"];
-                newField.area = row.Size;
+                const newField: ExportField = {
+                    parent: farm.unique_id,
+                    unique_id: row["Field-Unique-Id"],
+                    crop: row.Crop,
+                    name: row.name,
+                    soil: row.Soil,
+                    previous_crop: row["Previous-Crop"],
+                    soil_test_k: row["Soil-Test-K"],
+                    soil_test_m: row["Soil-Test-Mg"],
+                    soil_test_p: row["Soil-Test-P"],
+                    regularly_manure: row["Regular-Manure"],
+                    recently_grown_grass: row["Recent-Grass"],
+                    size: row.Size,
+                    coords: this.exportFieldCoords(
+                        row.Coordinates,
+                        row["Field-Unique-Id"]
+                    ),
+                    deleted: 0,
+                    events: []
+                };
+
+                //   newField.fieldCoordinates = JSON.parse(row.Coordinates);
 
                 this.fillSpread(newField, row);
                 farm.fields.push(newField);
@@ -1406,6 +1427,24 @@ class DatabaseImpl implements Database {
                 this.fillSpread(farm.fields[fieldIndex], row);
             }
         }
+    }
+    private exportFieldCoords(
+        coordinates: any,
+        fieldKey: string
+    ): ExportCoord[] | undefined {
+        const coordsObject: Coords = JSON.parse(coordinates);
+        const outCoords: ExportCoord[] = [];
+        for (const [index, val] of coordsObject.coordinates.entries()) {
+            const expCoord: ExportCoord = {
+                name: "",
+                parent: fieldKey,
+                order: index,
+                lat: val.latitude,
+                lng: val.longitude
+            };
+            outCoords.push(expCoord);
+        }
+        return outCoords;
     }
     private safeNumber(possibleNumber: number | undefined): number {
         if (possibleNumber === undefined || Number.isNaN(possibleNumber)) {
@@ -1419,36 +1458,55 @@ class DatabaseImpl implements Database {
             // yes
             // // is the spread in the list?
 
-            const spreadIndex = field.spreadingEvents.findIndex(
-                c => c.key === row["SpreadEvent-Unique-Id"]
+            const spreadIndex = field.events.findIndex(
+                c => c.unique_id === row["SpreadEvent-Unique-Id"]
             );
             if (spreadIndex === -1) {
                 //// no
                 //// create the spread event then go to the next step
-                const newSpreadEvent: ExportSpread = new ExportSpread();
-                newSpreadEvent.key = row["SpreadEvent-Unique-Id"];
-                newSpreadEvent.fieldkey = row.FieldKey;
-                newSpreadEvent.date = moment(row.Date);
-                newSpreadEvent.manureType = row["Manure-Type"];
-                newSpreadEvent.nutrientsN = this.safeNumber(row["Nutrients-N"]);
-                newSpreadEvent.nutrientsP = this.safeNumber(row["Nutrients-P"]);
-                newSpreadEvent.nutrientsK = this.safeNumber(row["Nutrients-K"]);
-                newSpreadEvent.nutrientsS = this.safeNumber(row["Nutrients-S"]);
-                newSpreadEvent.nutrientsMg = this.safeNumber(
-                    row["Nutrients-Mg"]
-                );
-                newSpreadEvent.requireN = this.safeNumber(row["Require-N"]);
-                newSpreadEvent.requireP = this.safeNumber(row["Require-P"]);
-                newSpreadEvent.requireK = this.safeNumber(row["Require-K"]);
-                newSpreadEvent.requireS = this.safeNumber(row["Require-S"]);
-                newSpreadEvent.requireMg = this.safeNumber(row["Require-Mg"]);
-                newSpreadEvent.sns = row.SNS;
-                newSpreadEvent.amount = row.Amount;
-                newSpreadEvent.quality = row.Quality;
-                newSpreadEvent.applicationType = row.Application;
-                newSpreadEvent.season = row.Season;
+                const newSpreadEvent: ExportSpread = {
+                    parent: row.FieldKey,
+                    unique_id: row["SpreadEvent-Unique-Id"],
+                    date: moment(row.Date).format("D/M/YYYY"),
+                    type: row["Manure-Type"],
+                    nutrients_n: this.safeNumber(row["Nutrients-N"]),
+                    nutrients_p: this.safeNumber(row["Nutrients-P"]),
+                    nutrients_k: this.safeNumber(row["Nutrients-K"]),
+                    nutrients_s: this.safeNumber(row["Nutrients-S"]),
+                    nutrients_m: this.safeNumber(row["Nutrients-Mg"]),
+                    require_n: this.safeNumber(row["Require-N"]),
+                    require_p: this.safeNumber(row["Require-P"]),
+                    require_k: this.safeNumber(row["Require-K"]),
+                    require_s: this.safeNumber(row["Require-S"]),
+                    require_m: this.safeNumber(row["Require-Mg"]),
+                    total_nutrients_n: this.safeNumber(
+                        row["Total-Nutrients-N"]
+                    ),
+                    total_nutrients_p: this.safeNumber(
+                        row["Total-Nutrients-P"]
+                    ),
+                    total_nutrients_k: this.safeNumber(
+                        row["Total-Nutrients-K"]
+                    ),
+                    total_nutrients_s: this.safeNumber(
+                        row["Total-Nutrients-S"]
+                    ),
+                    total_nutrients_m: this.safeNumber(
+                        row["Total-Nutrients-Mg"]
+                    ),
+                    sns: row.SNS,
+                    amount: row.Amount,
+                    quality: row.Quality,
+                    application: row.Application,
+                    season: row.Season,
+                    deleted: 0,
+                    crop: field.crop,
+                    name: "not used",
+                    size: field.size,
+                    soil: field.soil
+                };
 
-                field.spreadingEvents.push(newSpreadEvent);
+                field.events.push(newSpreadEvent);
             } else {
                 // no spread nothing to do.
             }

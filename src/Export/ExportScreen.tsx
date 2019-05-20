@@ -87,12 +87,7 @@ export default class ExportScreen extends Component<Props, State> {
               onPress={this.handleEmail}
               title={"Send csv data to " + SettingsStore.appSettings.email}
             />
-            <Button
-              buttonStyle={styles.roundButton}
-              titleStyle={styles.buttonText}
-              onPress={() => this.exportJson()}
-              title={" Export Farm data to " + SettingsStore.appSettings.email}
-            />
+
             <Input
               selectTextOnFocus={true}
               label="Enter A Password"
@@ -110,6 +105,7 @@ export default class ExportScreen extends Component<Props, State> {
               onPress={() => this.importJson()}
               title={"Import data!"}
             />
+
             <Text style={styles.text}>{this.state.resultString}</Text>
           </View>
         </ScrollView>
@@ -153,40 +149,7 @@ export default class ExportScreen extends Component<Props, State> {
   }
 
   private bindResultsList(list: Array<string>) {
-    // do the thing
-  }
-
-  private exportJson() {
-    // get data from database and put it into the json format
-    // encrypt the json
-    // email the json
-    const { CalculatorStore, SettingsStore, FarmStore } = this.props;
-
-    database.getAllData().then(farms => {
-      this.setState({ resultString: JSON.stringify(farms) });
-      //    const filePath = `${RNFS.LibraryDirectoryPath}/FarmsData.json.enc`;
-      //    RNFS.writeFile(filePath, JSON.stringify(farms)).then(
-      //      // get handle on file path.
-      //      Mailer.mail(
-      //        {
-      //          subject: "Farm Export",
-      //          recipients: [SettingsStore.appSettings.email],
-      //
-      //          body: "Here is your farm export.",
-      //          isHTML: false,
-      //          attachment: {
-      //            path: filePath, // The absolute path of the file from which to read data.
-      //            type: "text", // Mime Type: jpg, png, doc, ppt, html, pdf, csv
-      //            name: "FarmsData.json.enc"
-      //          }
-      //        },
-      //        (error, event) => {
-      //          this.setState({ resultString: event });
-      //          // handle error
-      //        }
-      //      )
-      //    );
-    });
+    // display import results
   }
 
   private handleEmail = () => {
