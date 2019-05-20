@@ -56,7 +56,6 @@ class FieldStore {
             this.field = field;
             this.getSpreadEvents(field.key);
             this.getFields(field.farmKey);
-            //  this.getFarm(field.farmKey);
         });
     }
 
@@ -246,10 +245,6 @@ class FieldStore {
         }
         return "low";
     }
-    private getFarm(farmKey: string) {
-        database.getFarm(farmKey).then((farm: Farm) => (this.farm = farm));
-    }
-
     private getSpreadEvents(fieldKey: string) {
         database
             .getSpreadEvents(fieldKey)

@@ -7,8 +7,10 @@ import SQLite from "react-native-sqlite-storage";
 import { DatabaseInitialization } from "./DatabaseInit";
 
 import AppSettings from "../model/appSettings";
+import Coords from "../model/Coords";
 import Farm from "../model/Farm";
 import Field from "../model/field";
+import LatLng from "../model/LatLng";
 import Manure from "../model/manure";
 import SpreadEvent from "../model/spreadEvent";
 
@@ -53,7 +55,7 @@ export interface Database {
 
     getAllData(): Promise<Array<ExportFarm>>;
 
-    ImportFarm(importedFarm: CrapAppExport): Promise<Array<string>>;
+    importFarm(importedFarm: CrapAppExport): Promise<Array<string>>;
 
     delete(): Promise<void>;
 }
@@ -275,7 +277,7 @@ class DatabaseImpl implements Database {
                             "Cost-K",
                             "Cost-S",
                             "Cost-Mg",
-                            "Deleted"
+                            Deleted
                            ) values(?1,?2,?3,?4,?5,?6,?7,?8,?9,?10,?11);
                         `,
 
@@ -759,7 +761,7 @@ class DatabaseImpl implements Database {
                         "Require-Mg"= ?22,
                         "SNS"= ?23,
                         "Soil"= ?24,
-                        "Size"= ?25
+                        "Size"= ?25,
                         "Season"= ?26,
                         "Crop"= ?27,
                         "ImageUri" = ?28
@@ -836,10 +838,11 @@ class DatabaseImpl implements Database {
                         "Size",
                          "Season",
                         "Crop",
-                        "ImageUri")
+                        "ImageUri",
+                        "Deleted")
                          VALUES
                          (?1,?2,?3,?4,?5,?6,?7,?8,?9,?10,?11,?12,?13,?14,?15,?16,?17,?18,?19,?20,?21,?22,?23
-                            ,?24,?25,?26,?27,?28);`,
+                            ,?24,?25,?26,?27,?28,?29);`,
                         [
                             spreadEvent.key,
                             spreadEvent.fieldkey,
@@ -868,7 +871,8 @@ class DatabaseImpl implements Database {
                             spreadEvent.size,
                             spreadEvent.season,
                             JSON.stringify(spreadEvent.crop),
-                            spreadEvent.imagePath
+                            spreadEvent.imagePath,
+                            0
                         ]
                     )
                 )
@@ -1039,7 +1043,7 @@ class DatabaseImpl implements Database {
         return this.getDatabase()
             .then(db =>
                 db.executeSql(
-                    'Update manure set Deleted = 1 where "Manure-Unique-Id" = ?;',
+                    'Update manure set "Deleted" = 1 where "Manure-Unique-Id" = ?;',
                     [manure.key]
                 )
             )
@@ -1137,14 +1141,95 @@ class DatabaseImpl implements Database {
             });
     }
 
-    public async ImportFarm(
-        importedFarm: CrapAppExport
-    ): Promise<Array<string>> {
+    public async importFarm(farm: CrapAppExport): Promise<Array<string>> {
         const results: Array<string> = [];
         // does this farm exist?
-
         //    return this.getDatabase().then (db => db.)
+
+        const importFarm: ExportFarm = farm.farm;
+
+        const farmImport: Farm = new Farm();
+
+        farmImport.key = importFarm.unique_id;
+        farmImport.name = importFarm.name;
+        farmImport.rainfall = importFarm.rainfall;
+        farmImport.costN = importFarm.cost_n;
+        farmImport.costP = importFarm.cost_p;
+        farmImport.costK = importFarm.cost_k;
+        farmImport.costS = importFarm.cost_s;
+        farmImport.costMg = importFarm.cost_m;
+        farmImport.farmLocation = this.getAvgFieldLocation(importFarm.fields);
+
+        this.saveFarm(farmImport);
+        results.push(`Farm ${farm.farm.name} added`);
+
+        if (farm.farm.fields) {
+            for (const field of farm.farm.fields) {
+                const fieldImport: Field = new Field();
+
+                fieldImport.farmKey = importFarm.unique_id;
+                fieldImport.key = field.unique_id;
+                fieldImport.name = field.name;
+                fieldImport.cropType = field.crop;
+                fieldImport.organicManure = field.regularly_manure;
+                fieldImport.prevCropType = field.previous_crop;
+                fieldImport.recentGrass = field.recently_grown_grass;
+                fieldImport.soilTestK = field.soil_test_k;
+                fieldImport.soilTestMg = field.soil_test_m;
+                fieldImport.soilTestP = field.soil_test_p;
+                fieldImport.soilType = field.soil;
+                fieldImport.fieldCoordinates = this.GetFieldCoords(
+                    field.coords
+                );
+                fieldImport.area = field.size;
+
+                this.saveField(fieldImport);
+                results.push(`Field ${field.name} added`);
+
+                this.saveSpreadEvents(field.events, field.unique_id);
+                results.push(`${field.events.length} spread events added`);
+            }
+        }
         return results;
+    }
+    public saveSpreadEvents(
+        events: ExportSpread[] | undefined,
+        fieldKey: string
+    ) {
+        if (events) {
+            for (const event of events) {
+                const spreadImport: SpreadEvent = new SpreadEvent();
+                spreadImport.fieldkey = fieldKey;
+                spreadImport.key = event.unique_id;
+                spreadImport.manureType = event.type;
+                spreadImport.amount = event.amount;
+                spreadImport.quality = event.quality;
+                spreadImport.season = event.season;
+                spreadImport.size = event.size;
+                spreadImport.sns = event.sns;
+                spreadImport.soil = event.soil;
+                spreadImport.nutrientsK = event.nutrients_k;
+                spreadImport.nutrientsMg = event.nutrients_m;
+                spreadImport.nutrientsN = event.nutrients_n;
+                spreadImport.nutrientsP = event.nutrients_p;
+                spreadImport.nutrientsS = event.nutrients_s;
+                spreadImport.requireK = event.require_k;
+                spreadImport.requireMg = event.require_m;
+                spreadImport.requireN = event.require_n;
+                spreadImport.requireP = event.require_p;
+                spreadImport.requireS = event.require_s;
+                spreadImport.totalNutrientsK = event.total_nutrients_k;
+                spreadImport.totalNutrientsMg = event.total_nutrients_m;
+                spreadImport.totalNutrientsN = event.total_nutrients_n;
+                spreadImport.totalNutrientsP = event.total_nutrients_p;
+                spreadImport.totalNutrientsS = event.total_nutrients_s;
+                spreadImport.applicationType = event.application;
+                spreadImport.crop = event.crop;
+                spreadImport.date = moment(event.date, "D/M/YYYY");
+
+                this.saveSpreadEvent(spreadImport);
+            }
+        }
     }
 
     public async getAllData(): Promise<Array<ExportFarm>> {
@@ -1240,6 +1325,50 @@ class DatabaseImpl implements Database {
                 }
                 return farms;
             });
+    }
+    private GetFieldCoords(exportCoords: ExportCoord[] | undefined): Coords {
+        const returnCoords: Coords = new Coords();
+        returnCoords.id = "importedIds";
+
+        if (exportCoords) {
+            for (const expCoord of exportCoords) {
+                const latLng = new LatLng();
+                latLng.latitude = expCoord.lat;
+                latLng.longitude = expCoord.lng;
+                returnCoords.coordinates.push(latLng);
+            }
+        }
+
+        return returnCoords;
+    }
+    private getAvgFieldLocation(fields: ExportField[] | undefined): LatLng {
+        // const locations: Array<LatLng> = [];
+        // if (fields) {
+        //     for (const field of fields) {
+        //         if (field.coords) {
+        //             for (const loc of field.coords) {
+        //                 const coord: LatLng = new LatLng();
+        //                 coord.latitude = loc.lat;
+        //                 coord.longitude = loc.lng;
+        //                 locations.push(coord);
+        //             }
+        //         }
+        //     }
+        // }
+
+        // const output: LatLng = new LatLng();
+        // output.latitude = this.getAvg(locations.map(f => f.latitude));
+        // output.longitude = this.getAvg(locations.map(f => f.longitude));
+
+        const output: LatLng = new LatLng();
+        output.latitude = fields[0].coords[0].lat;
+        output.longitude = fields[0].coords[0].lng;
+
+        return output;
+    }
+    private getAvg(numbers: Array<number>) {
+        const total = numbers.reduce((acc, c) => acc + c, 0);
+        return (total / numbers.length) | 1;
     }
     private fillFields(farm: ExportFarm, row: any): ExportFarm {
         // has a field

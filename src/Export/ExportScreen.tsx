@@ -2,6 +2,7 @@ import { inject, observer } from "mobx-react/native";
 import React, { Component } from "react";
 import { translate } from "react-i18next";
 import {
+  Alert,
   Dimensions,
   FlatList,
   NativeModules,
@@ -20,7 +21,14 @@ import { NavigationScreenProp, SafeAreaView } from "react-navigation";
 import { database } from "../database/Database";
 import styles from "../styles/style";
 
-import { Coord, CrapAppExport, Event, Farm, Field } from "./exportModel";
+import Farm from "../model/Farm";
+import {
+  Coord,
+  CrapAppExport,
+  Event,
+  Farm as ExportFarm,
+  Field
+} from "./exportModel";
 import data from "./farm.json";
 
 interface Props {
@@ -109,7 +117,7 @@ export default class ExportScreen extends Component<Props, State> {
     );
   }
 
-  private importJson() {
+  private async importJson() {
     // get the encrypted file somehow
     // take the password from the page and decrypt the file
     // merge each thing with our existing database items.
@@ -117,7 +125,31 @@ export default class ExportScreen extends Component<Props, State> {
 
     const importedFarm: CrapAppExport = data;
 
-    database.ImportFarm(importedFarm).then(list => this.bindResultsList(list));
+    let farmExists: Array<Farm>;
+
+    farmExists = await database.getFarms();
+
+    let message = `Data for farm ${data.farm.name} will be imported.
+    It contains ${data.farm.fields.length} fields.`;
+
+    if (farmExists.some(f => f.key === data.farm.unique_id)) {
+      message = `Data for farm ${data.farm.name} will be overwritten.
+      It contains ${data.farm.fields.length} fields.`;
+    }
+
+    Alert.alert("Import this farm?", message, [
+      {
+        text: "Cancel",
+        style: "cancel"
+      },
+      {
+        text: "OK",
+        onPress: () =>
+          database
+            .importFarm(importedFarm)
+            .then(list => this.bindResultsList(list))
+      }
+    ]);
   }
 
   private bindResultsList(list: Array<string>) {

@@ -49,20 +49,7 @@ export class DatabaseInitialization {
                 // otherwise,
                 return;
             })
-            .then(() => {
-                if (dbVersion < 4) {
-                    return database.transaction(this.preVersion4Inserts);
-                }
-                // otherwise,
-                return;
-            })
-            .then(() => {
-                if (dbVersion < 5) {
-                    return database.transaction(this.preVersion5Inserts);
-                }
-                // otherwise,
-                return;
-            })
+
             .catch(error => console.log("error " + error));
     }
 
@@ -91,7 +78,8 @@ export class DatabaseInitialization {
                 "Cost-P"	NUMERIC NOT NULL,
                 "Cost-K"	NUMERIC NOT NULL,
                 "Cost-S"	NUMERIC NOT NULL,
-                "Cost-Mg"	NUMERIC NOT NULL
+                "Cost-Mg"	NUMERIC NOT NULL,
+                "Deleted" NUMERIC NOT NULL
             );`
         );
 
@@ -110,7 +98,8 @@ export class DatabaseInitialization {
             "Soil-Test-Mg"	TEXT,
             "Regular-Manure"	TEXT,
             "Recent-Grass"	TEXT,
-            "Size"	NUMERIC
+            "Size"	NUMERIC,
+            "Deleted" NUMERIC NOT NULL
              );`
         );
         // SpreadEvent Table
@@ -129,11 +118,17 @@ export class DatabaseInitialization {
             "Require-N"	NUMERIC NOT NULL,
             "Require-P"	NUMERIC NOT NULL,
             "Require-K"	NUMERIC NOT NULL,
+            "Total-Nutrients-N"  NUMERIC NOT NULL,
+            "Total-Nutrients-P"  NUMERIC NOT NULL,
+            "Total-Nutrients-K"  NUMERIC NOT NULL,
+            "Total-Nutrients-S"  NUMERIC NOT NULL,
+            "Total-Nutrients-Mg" NUMERIC NOT NULL,
             "SNS"	NUMERIC NOT NULL,
             "Soil"	TEXT NOT NULL,
             "Size"	NUMERIC NOT NULL,
             "Season"	TEXT NOT NULL,
-             "Crop"	TEXT NOT NULL
+             "Crop"	TEXT NOT NULL,
+             "Deleted" NUMERIC NOT NULL
              );`
         );
         // Manure Table
@@ -145,7 +140,8 @@ export class DatabaseInitialization {
             "P"	NUMERIC NOT NULL,
             "K"	NUMERIC NOT NULL,
             "S"	NUMERIC NOT NULL,
-            "Mg" NUMERIC NOT NULL
+            "Mg" NUMERIC NOT NULL,
+            "Deleted" NUMERIC NOT NULL
              );`
         );
 
@@ -250,44 +246,5 @@ export class DatabaseInitialization {
 
         // Lastly, update the database version
         transaction.executeSql("INSERT INTO Version (version) VALUES (3);");
-    }
-    private preVersion4Inserts(transaction: SQLite.Transaction) {
-        console.log("Running pre-version 4 DB inserts");
-
-        // Make schema changes
-
-        transaction
-            .executeSql(
-                `
-            ALTER TABLE SpreadEvent ADD COLUMN "Total-Nutrients-N" NUMERIC NOT NULL Default 0;
-            ALTER TABLE SpreadEvent ADD COLUMN "Total-Nutrients-P" NUMERIC NOT NULL Default 0;
-            ALTER TABLE SpreadEvent ADD COLUMN "Total-Nutrients-K" NUMERIC NOT NULL Default 0;
-            ALTER TABLE SpreadEvent ADD COLUMN "Total-Nutrients-S" NUMERIC NOT NULL Default 0;
-            ALTER TABLE SpreadEvent ADD COLUMN "Total-Nutrients-Mg" NUMERIC NOT NULL Default 0;
-            `
-            )
-            .catch(error => console.log("error " + error));
-
-        // Lastly, update the database version
-        transaction.executeSql("INSERT INTO Version (version) VALUES (4);");
-    }
-    private preVersion5Inserts(transaction: SQLite.Transaction) {
-        console.log("Running pre-version 5 DB inserts");
-
-        // Make schema changes
-
-        transaction
-            .executeSql(
-                `
-                ALTER TABLE Manure ADD COLUMN "Deleted" NUMERIC NOT NULL Default 0;
-                ALTER TABLE SpreadEvent ADD COLUMN "Deleted" NUMERIC NOT NULL Default 0;
-                ALTER TABLE Field ADD COLUMN "Deleted" NUMERIC NOT NULL Default 0;
-                ALTER TABLE Farm ADD COLUMN "Deleted" NUMERIC NOT NULL Default 0;
-            `
-            )
-            .catch(error => console.log("error " + error));
-
-        // Lastly, update the database version
-        transaction.executeSql("INSERT INTO Version (version) VALUES (5);");
     }
 }
