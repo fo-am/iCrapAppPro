@@ -103,6 +103,16 @@ class FieldStore {
             CalculatorStore.nutrientResults.sulphurAvailable;
         this.newSpreadEvent.nutrientsMg =
             CalculatorStore.nutrientResults.magnesiumAvailable;
+        this.newSpreadEvent.totalNutrientsN =
+            CalculatorStore.nutrientResults.nitrogenTotal;
+        this.newSpreadEvent.totalNutrientsP =
+            CalculatorStore.nutrientResults.phosphorousTotal;
+        this.newSpreadEvent.totalNutrientsK =
+            CalculatorStore.nutrientResults.potassiumTotal;
+        this.newSpreadEvent.totalNutrientsS =
+            CalculatorStore.nutrientResults.sulphurTotal;
+        this.newSpreadEvent.totalNutrientsMg =
+            CalculatorStore.nutrientResults.magnesiumTotal;
         this.newSpreadEvent.requireN = this.cropRequirementsResult.nitrogenRequirement;
         this.newSpreadEvent.requireP = this.cropRequirementsResult.phosphorousRequirement;
         this.newSpreadEvent.requireK = this.cropRequirementsResult.potassiumRequirement;

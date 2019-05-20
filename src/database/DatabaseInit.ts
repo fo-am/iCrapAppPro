@@ -49,6 +49,20 @@ export class DatabaseInitialization {
                 // otherwise,
                 return;
             })
+            .then(() => {
+                if (dbVersion < 4) {
+                    return database.transaction(this.preVersion4Inserts);
+                }
+                // otherwise,
+                return;
+            })
+            .then(() => {
+                if (dbVersion < 5) {
+                    return database.transaction(this.preVersion5Inserts);
+                }
+                // otherwise,
+                return;
+            })
             .catch(error => console.log("error " + error));
     }
 
@@ -236,5 +250,44 @@ export class DatabaseInitialization {
 
         // Lastly, update the database version
         transaction.executeSql("INSERT INTO Version (version) VALUES (3);");
+    }
+    private preVersion4Inserts(transaction: SQLite.Transaction) {
+        console.log("Running pre-version 4 DB inserts");
+
+        // Make schema changes
+
+        transaction
+            .executeSql(
+                `
+            ALTER TABLE SpreadEvent ADD COLUMN "Total-Nutrients-N" NUMERIC NOT NULL Default 0;
+            ALTER TABLE SpreadEvent ADD COLUMN "Total-Nutrients-P" NUMERIC NOT NULL Default 0;
+            ALTER TABLE SpreadEvent ADD COLUMN "Total-Nutrients-K" NUMERIC NOT NULL Default 0;
+            ALTER TABLE SpreadEvent ADD COLUMN "Total-Nutrients-S" NUMERIC NOT NULL Default 0;
+            ALTER TABLE SpreadEvent ADD COLUMN "Total-Nutrients-Mg" NUMERIC NOT NULL Default 0;
+            `
+            )
+            .catch(error => console.log("error " + error));
+
+        // Lastly, update the database version
+        transaction.executeSql("INSERT INTO Version (version) VALUES (4);");
+    }
+    private preVersion5Inserts(transaction: SQLite.Transaction) {
+        console.log("Running pre-version 5 DB inserts");
+
+        // Make schema changes
+
+        transaction
+            .executeSql(
+                `
+                ALTER TABLE Manure ADD COLUMN "Deleted" NUMERIC NOT NULL Default 0;
+                ALTER TABLE SpreadEvent ADD COLUMN "Deleted" NUMERIC NOT NULL Default 0;
+                ALTER TABLE Field ADD COLUMN "Deleted" NUMERIC NOT NULL Default 0;
+                ALTER TABLE Farm ADD COLUMN "Deleted" NUMERIC NOT NULL Default 0;
+            `
+            )
+            .catch(error => console.log("error " + error));
+
+        // Lastly, update the database version
+        transaction.executeSql("INSERT INTO Version (version) VALUES (5);");
     }
 }

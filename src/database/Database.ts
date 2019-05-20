@@ -12,7 +12,13 @@ import Field from "../model/field";
 import Manure from "../model/manure";
 import SpreadEvent from "../model/spreadEvent";
 
-import { ExportFarm, ExportField, ExportSpread } from "../Export/exportModel";
+import {
+    Coord as ExportCoord,
+    CrapAppExport,
+    Event as ExportSpread,
+    Farm as ExportFarm,
+    Field as ExportField
+} from "../Export/exportModel";
 
 import moment from "moment";
 
@@ -45,7 +51,9 @@ export interface Database {
 
     getCSVData(): Promise<Array<Array<string>>>;
 
-    getAllData(): Promise<Array<Farm>>;
+    getAllData(): Promise<Array<ExportFarm>>;
+
+    ImportFarm(importedFarm: CrapAppExport): Promise<Array<string>>;
 
     delete(): Promise<void>;
 }
@@ -112,7 +120,7 @@ class DatabaseImpl implements Database {
                 .executeSql(
                     `SELECT  "Farm-Unique-Id", "Latitude", "Longitude",  "Name",   "Rainfall",
                     "Cost-N", "Cost-P", "Cost-K", "Cost-S", "Cost-Mg"
-                     FROM Farm`
+                     FROM Farm WHERE "Deleted" != 1`
                 )
                 .then(([results]) => {
                     if (results === undefined) {
@@ -222,7 +230,8 @@ class DatabaseImpl implements Database {
                         "Cost-P"= ?7,
                         "Cost-K"= ?8,
                         "Cost-S"= ?9,
-                        "Cost-Mg"= ?10
+                        "Cost-Mg"= ?10,
+                        "Deleted" = ?11
                         where "Farm-Unique-Id" = ?1;
                         `,
 
@@ -236,7 +245,8 @@ class DatabaseImpl implements Database {
                             farm.costP,
                             farm.costK,
                             farm.costS,
-                            farm.costMg
+                            farm.costMg,
+                            0
                         ]
                     )
                 )
@@ -264,8 +274,9 @@ class DatabaseImpl implements Database {
                             "Cost-P",
                             "Cost-K",
                             "Cost-S",
-                            "Cost-Mg"
-                           ) values(?1,?2,?3,?4,?5,?6,?7,?8,?9,?10);
+                            "Cost-Mg",
+                            "Deleted"
+                           ) values(?1,?2,?3,?4,?5,?6,?7,?8,?9,?10,?11);
                         `,
 
                         [
@@ -278,7 +289,8 @@ class DatabaseImpl implements Database {
                             farm.costP,
                             farm.costK,
                             farm.costS,
-                            farm.costMg
+                            farm.costMg,
+                            0
                         ]
                     )
                 )
@@ -301,7 +313,7 @@ class DatabaseImpl implements Database {
                 .executeSql(
                     `SELECT "Field-Unique-Id", "FarmKey", Name, Coordinates, Soil, Crop, "Previous-Crop"
             , "Soil-Test-P", "Soil-Test-K","Soil-Test-Mg", "Regular-Manure", "Recent-Grass", Size
-             FROM Field where FarmKey = ?`,
+             FROM Field where FarmKey = ? AND "Deleted" != 1`,
                     [farmKey]
                 )
                 .then(([results]) => {
@@ -421,7 +433,8 @@ class DatabaseImpl implements Database {
                         "Soil-Test-Mg"= ?10,
                         "Regular-Manure"= ?11,
                         "Recent-Grass"= ?12,
-                        Size= ?13
+                        Size = ?13,
+                        "Deleted" = ?14
                         where "Field-Unique-Id" = ?1;
                         `,
 
@@ -438,7 +451,8 @@ class DatabaseImpl implements Database {
                             field.soilTestMg,
                             field.organicManure,
                             field.recentGrass,
-                            field.area
+                            field.area,
+                            0
                         ]
                     )
                 )
@@ -469,7 +483,10 @@ class DatabaseImpl implements Database {
                         "Soil-Test-Mg",
                         "Regular-Manure",
                         "Recent-Grass",
-                        Size) values(?1,?2,?3,?4,?5,?6,?7,?8,?9,?10,?11,?12,?13);
+                        Size,
+                        "Deleted"
+                        )
+                        values(?1,?2,?3,?4,?5,?6,?7,?8,?9,?10,?11,?12,?13,?14);
                         `,
 
                         [
@@ -485,7 +502,8 @@ class DatabaseImpl implements Database {
                             field.soilTestMg,
                             field.organicManure,
                             field.recentGrass,
-                            field.area
+                            field.area,
+                            0
                         ]
                     )
                 )
@@ -502,7 +520,9 @@ class DatabaseImpl implements Database {
     }
     //    public deleteField(field: Field): Promise<void> {}
 
-    public getSpreadEvents(fieldKey: string): Promise<Array<SpreadEvent>> {
+    public async getSpreadEvents(
+        fieldKey: string
+    ): Promise<Array<SpreadEvent>> {
         if (fieldKey === undefined) {
             return Promise.resolve([]);
         }
@@ -512,10 +532,13 @@ class DatabaseImpl implements Database {
                     `SELECT
                       "SpreadEvent-Unique-Id", FieldKey,
                       "Date", "Manure-Type", "Nutrients-N", "Nutrients-P",
-                     "Nutrients-K","Nutrients-S","Nutrients-Mg" "Require-N", "Require-P",
+                     "Nutrients-K","Nutrients-S","Nutrients-Mg",
+                      "Total-Nutrients-N", "Total-Nutrients-P", "Total-Nutrients-K",
+                       "Total-Nutrients-S", "Total-Nutrients-Mg",
+                      "Require-N", "Require-P",
                      "Require-K", "Require-S", "Require-Mg", "SNS", "Soil", "Size", "Amount",
                       "Quality", "Application", "Season", "Crop", "ImageUri"
-                     FROM SpreadEvent where FieldKey = ?  ORDER BY "Date" DESC`,
+                     FROM SpreadEvent where FieldKey = ? AND "Deleted" != 1 ORDER BY "Date" DESC`,
                     [fieldKey]
                 )
                 .then(([results]) => {
@@ -547,6 +570,21 @@ class DatabaseImpl implements Database {
                         );
                         newSpreadEvent.nutrientsMg = this.safeNumber(
                             row["Nutrients-Mg"]
+                        );
+                        newSpreadEvent.totalNutrientsN = this.safeNumber(
+                            row["Total-Nutrients-N"]
+                        );
+                        newSpreadEvent.totalNutrientsP = this.safeNumber(
+                            row["Total-Nutrients-P"]
+                        );
+                        newSpreadEvent.totalNutrientsK = this.safeNumber(
+                            row["Total-Nutrients-K"]
+                        );
+                        newSpreadEvent.totalNutrientsS = this.safeNumber(
+                            row["Total-Nutrients-S"]
+                        );
+                        newSpreadEvent.totalNutrientsMg = this.safeNumber(
+                            row["Total-Nutrients-Mg"]
                         );
                         newSpreadEvent.requireN = this.safeNumber(
                             row["Require-N"]
@@ -589,7 +627,10 @@ class DatabaseImpl implements Database {
                     `SELECT
                   "SpreadEvent-Unique-Id", FieldKey,
                   "Date", "Manure-Type", "Nutrients-N", "Nutrients-P",
-                 "Nutrients-K", "Nutrients-S", "Nutrients-Mg", "Require-N", "Require-P",
+                 "Nutrients-K", "Nutrients-S", "Nutrients-Mg",
+                 "Total-Nutrients-N", "Total-Nutrients-P", "Total-Nutrients-K",
+                 "Total-Nutrients-S", "Total-Nutrients-Mg",
+                 "Require-N", "Require-P",
                  "Require-K", "Require-S", "Require-Mg", "SNS", "Soil", "Size", "Amount",
                   "Quality", "Application", "Season", "Crop", "ImageUri"
                  FROM SpreadEvent where "SpreadEvent-Unique-Id" = ?`,
@@ -622,6 +663,21 @@ class DatabaseImpl implements Database {
                         );
                         newSpreadEvent.nutrientsMg = this.safeNumber(
                             row["Nutrients-Mg"]
+                        );
+                        newSpreadEvent.totalNutrientsN = this.safeNumber(
+                            row["Total-Nutrients-N"]
+                        );
+                        newSpreadEvent.totalNutrientsP = this.safeNumber(
+                            row["Total-Nutrients-P"]
+                        );
+                        newSpreadEvent.totalNutrientsK = this.safeNumber(
+                            row["Total-Nutrients-K"]
+                        );
+                        newSpreadEvent.totalNutrientsS = this.safeNumber(
+                            row["Total-Nutrients-S"]
+                        );
+                        newSpreadEvent.totalNutrientsMg = this.safeNumber(
+                            row["Total-Nutrients-Mg"]
                         );
                         newSpreadEvent.requireN = this.safeNumber(
                             row["Require-N"]
@@ -691,17 +747,22 @@ class DatabaseImpl implements Database {
                         "Nutrients-K"= ?10,
                         "Nutrients-S"= ?11,
                         "Nutrients-Mg"= ?12,
-                        "Require-N"= ?13,
-                        "Require-P"= ?14,
-                        "Require-K"= ?15,
-                        "Require-S"= ?16,
-                        "Require-Mg"= ?17,
-                        "SNS"= ?18,
-                        "Soil"= ?19,
-                        "Size"= ?20,
-                        "Season"= ?21,
-                        "Crop"= ?22,
-                        "ImageUri" = ?23
+                        "Total-Nutrients-N" = ?13,
+                        "Total-Nutrients-P" = ?14,
+                        "Total-Nutrients-K" = ?15,
+                        "Total-Nutrients-S" = ?16,
+                        "Total-Nutrients-Mg" = ?17,
+                        "Require-N"= ?18,
+                        "Require-P"= ?19,
+                        "Require-K"= ?20,
+                        "Require-S"= ?21,
+                        "Require-Mg"= ?22,
+                        "SNS"= ?23,
+                        "Soil"= ?24,
+                        "Size"= ?25
+                        "Season"= ?26,
+                        "Crop"= ?27,
+                        "ImageUri" = ?28
                          WHERE  "SpreadEvent-Unique-Id" = ?1;`,
                         [
                             spreadEvent.key,
@@ -716,6 +777,11 @@ class DatabaseImpl implements Database {
                             this.safeNumber(spreadEvent.nutrientsK),
                             this.safeNumber(spreadEvent.nutrientsS),
                             this.safeNumber(spreadEvent.nutrientsMg),
+                            this.safeNumber(spreadEvent.totalNutrientsN),
+                            this.safeNumber(spreadEvent.totalNutrientsP),
+                            this.safeNumber(spreadEvent.totalNutrientsK),
+                            this.safeNumber(spreadEvent.totalNutrientsS),
+                            this.safeNumber(spreadEvent.totalNutrientsMg),
                             this.safeNumber(spreadEvent.requireN),
                             this.safeNumber(spreadEvent.requireP),
                             this.safeNumber(spreadEvent.requireK),
@@ -755,6 +821,11 @@ class DatabaseImpl implements Database {
                         "Nutrients-K",
                         "Nutrients-S",
                         "Nutrients-Mg",
+                        "Total-Nutrients-N",
+                        "Total-Nutrients-P",
+                        "Total-Nutrients-K",
+                        "Total-Nutrients-S",
+                        "Total-Nutrients-Mg",
                         "Require-N",
                         "Require-P",
                         "Require-K",
@@ -767,7 +838,8 @@ class DatabaseImpl implements Database {
                         "Crop",
                         "ImageUri")
                          VALUES
-                         (?1,?2,?3,?4,?5,?6,?7,?8,?9,?10,?11,?12,?13,?14,?15,?16,?17,?18,?19,?20,?21,?22,?23);`,
+                         (?1,?2,?3,?4,?5,?6,?7,?8,?9,?10,?11,?12,?13,?14,?15,?16,?17,?18,?19,?20,?21,?22,?23
+                            ,?24,?25,?26,?27,?28);`,
                         [
                             spreadEvent.key,
                             spreadEvent.fieldkey,
@@ -781,6 +853,11 @@ class DatabaseImpl implements Database {
                             this.safeNumber(spreadEvent.nutrientsK),
                             this.safeNumber(spreadEvent.nutrientsS),
                             this.safeNumber(spreadEvent.nutrientsMg),
+                            this.safeNumber(spreadEvent.totalNutrientsN),
+                            this.safeNumber(spreadEvent.totalNutrientsP),
+                            this.safeNumber(spreadEvent.totalNutrientsK),
+                            this.safeNumber(spreadEvent.totalNutrientsS),
+                            this.safeNumber(spreadEvent.totalNutrientsMg),
                             this.safeNumber(spreadEvent.requireN),
                             this.safeNumber(spreadEvent.requireP),
                             this.safeNumber(spreadEvent.requireK),
@@ -810,7 +887,7 @@ class DatabaseImpl implements Database {
         return this.getDatabase().then(db =>
             db
                 .executeSql(
-                    'SELECT "Manure-Unique-Id" , Name, N, P, K FROM Manure'
+                    'SELECT "Manure-Unique-Id" , Name, N, P, K, S, Mg FROM Manure WHERE "Deleted" != 1'
                 )
                 .then(([results]) => {
                     if (results === undefined) {
@@ -827,6 +904,8 @@ class DatabaseImpl implements Database {
                         newManure.N = row.N;
                         newManure.P = row.P;
                         newManure.K = row.K;
+                        newManure.S = row.S;
+                        newManure.Mg = row.Mg;
 
                         manures.push(newManure);
                     }
@@ -956,11 +1035,11 @@ class DatabaseImpl implements Database {
                 );
         }
     }
-    public deleteManure(manure: Manure): Promise<void> {
+    public async deleteManure(manure: Manure): Promise<void> {
         return this.getDatabase()
             .then(db =>
                 db.executeSql(
-                    'Delete from manure where "Manure-Unique-Id" = ?;',
+                    'Update manure set Deleted = 1 where "Manure-Unique-Id" = ?;',
                     [manure.key]
                 )
             )
@@ -1057,6 +1136,17 @@ class DatabaseImpl implements Database {
                 return results;
             });
     }
+
+    public async ImportFarm(
+        importedFarm: CrapAppExport
+    ): Promise<Array<string>> {
+        const results: Array<string> = [];
+        // does this farm exist?
+
+        //    return this.getDatabase().then (db => db.)
+        return results;
+    }
+
     public async getAllData(): Promise<Array<ExportFarm>> {
         return this.getDatabase()
             .then(db =>

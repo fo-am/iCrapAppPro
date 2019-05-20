@@ -1,63 +1,72 @@
-import moment, { Moment } from "moment";
-import { Maths } from "../assets/Math";
-import Coords from "../model/Coords";
-import LatLng from "../model/LatLng";
-
-class ExportFarm {
-    public key: string;
-    public farmLocation: LatLng = new LatLng();
-    public name: string = "Your Farm";
-    public fields: Array<ExportField> = Array<ExportField>();
-    public rainfall: string = "rain-low";
-    public costN: number = 0.79;
-    public costP: number = 0.62;
-    public costK: number = 0.49;
-    public costS: number = 0;
-    public costMg: number = 0;
-    constructor() {
-        this.key = Maths.generateUUID();
-    }
+export interface CrapAppExport {
+    farm: Farm;
 }
-
-class ExportField {
-    public farmKey: string = "Farm";
-    public key: string;
-    public fieldCoordinates: Coords = new Coords();
-    public area: number = 0;
-    public name = "Your Field";
-    public spreadingEvents: Array<ExportSpread> = Array<ExportSpread>();
-    public soilType: string = "sandyshallow";
-    public organicManure: string = "no";
-    public soilTestP: string = "soil-p-0";
-    public soilTestK: string = "soil-k-0";
-    public soilTestMg: string = "soil-m-0";
-    public prevCropType: string = "cereals";
-    public recentGrass: string = "no";
-    public cropType: Array<Array<string>> = [["crop", "maize"]];
+export interface Farm {
+    "file-version": number;
+    "app-version": string;
+    unique_id: string;
+    deleted: number;
+    name: string;
+    cost_n: number;
+    cost_p: number;
+    cost_k: number;
+    rainfall: string;
+    cost_s: number;
+    cost_m: number;
+    fields?: (Field)[] | undefined;
 }
-class ExportSpread {
-    public key: string = Maths.generateUUID();
-    public fieldkey: string = "";
-    public manureType: string = "";
-    public date: Moment;
-    public quality: string = "";
-    public applicationType: string = "";
-    public amount: number = 0;
-    public nutrientsN: number = 0;
-    public nutrientsP: number = 0;
-    public nutrientsK: number = 0;
-    public nutrientsS: number = 0;
-    public nutrientsMg: number = 0;
-    public requireN: number = 0;
-    public requireP: number = 0;
-    public requireK: number = 0;
-    public requireS: number = 0;
-    public requireMg: number = 0;
-    public sns: number = 0;
-    public soil: string = "";
-    public size: number = 0;
-    public season: string = "";
-    public crop: string = "";
+export interface Field {
+    unique_id: string;
+    deleted: number;
+    name: string;
+    parent: string;
+    soil: string;
+    crop?: ((string)[] | undefined)[] | undefined;
+    previous_crop: string;
+    soil_test_p: string;
+    soil_test_k: string;
+    soil_test_m: string;
+    regularly_manure: string;
+    recently_grown_grass: string;
+    size: number;
+    coords?: (Coord)[] | undefined;
+    events?: (Event)[] | undefined;
 }
-
-export { ExportFarm, ExportField, ExportSpread };
+export interface Coord {
+    name: string;
+    parent: string;
+    order: number;
+    lat: number;
+    lng: number;
+}
+export interface Event {
+    unique_id: string;
+    deleted: number;
+    name: string;
+    parent: string;
+    type: string;
+    date: string;
+    nutrients_n: number;
+    nutrients_p: number;
+    nutrients_k: number;
+    total_nutrients_n: number;
+    total_nutrients_p: number;
+    total_nutrients_k: number;
+    require_n: number;
+    require_p: number;
+    require_k: number;
+    sns: number;
+    soil: string;
+    size: number;
+    amount: number;
+    quality: string;
+    application: string;
+    season: string;
+    crop?: ((string)[] | undefined)[] | undefined;
+    nutrients_s?: number | undefined;
+    nutrients_m?: number | undefined;
+    total_nutrients_s?: number | undefined;
+    total_nutrients_m?: number | undefined;
+    require_s?: number | undefined;
+    require_m?: number | undefined;
+}

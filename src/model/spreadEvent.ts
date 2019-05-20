@@ -15,6 +15,11 @@ export default class SpreadEvent {
     @observable public nutrientsK: number = 0;
     @observable public nutrientsS: number = 0;
     @observable public nutrientsMg: number = 0;
+    @observable public totalNutrientsN: number = 0;
+    @observable public totalNutrientsP: number = 0;
+    @observable public totalNutrientsK: number = 0;
+    @observable public totalNutrientsS: number = 0;
+    @observable public totalNutrientsMg: number = 0;
     @observable public requireN: number = 0;
     @observable public requireP: number = 0;
     @observable public requireK: number = 0;
