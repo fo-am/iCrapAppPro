@@ -141,17 +141,8 @@ export default class ExportScreen extends Component<Props, State> {
     const confidentialityKey = longkey.substring(0, 32);
     const integretykey = longkey.substring(32, 96);
 
-    this.setState({
-      resultString: `Salt:${salt}\r\niv:${iv}\r\nintegkey:${integretykey}\r\nconfegkey:${confidentialityKey}\r\nmac:${
-        stuff[2]
-      }\r\npayload:${payload}`
-    });
-
     try {
       return await Aes.decrypt(payload, confidentialityKey, iv).then(d => {
-        this.setState({
-          resultString2: d
-        });
         return d;
       });
     } catch (exc) {
@@ -189,6 +180,9 @@ export default class ExportScreen extends Component<Props, State> {
     let dataString: string = await RNFS.readFile(
       RNFS.DocumentDirectoryPath + "/Inbox/FarmsData.json.enc"
     );
+    let done = await RNFS.unlink(
+      RNFS.DocumentDirectoryPath + "/Inbox/FarmsData.json.enc"
+    );
     let datajspn: string = await this.decrypt(dataString, "");
     let data: CrapAppExport = JSON.parse(datajspn);
     // Files are here!
@@ -223,13 +217,14 @@ export default class ExportScreen extends Component<Props, State> {
         }
       }
     ]);
-    this.clearFolder();
   }
   clearFolder() {
     let path = RNFS.DocumentDirectoryPath + "/Inbox";
-
+    this.setState({ resultString: path });
     RNFS.readDir(path).then(files =>
-      files.forEach(file => RNFS.unlink(file.path))
+      files.forEach(file => {
+        RNFS.unlink(file.path);
+      })
     );
   }
 
