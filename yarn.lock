@@ -5062,7 +5062,7 @@ react-lifecycles-compat@^3.0.2, react-lifecycles-compat@^3.0.4:
 
 "react-native-aes-crypto@https://github.com/aidanw/react-native-aes.git":
   version "1.3.4"
-  resolved "https://github.com/aidanw/react-native-aes.git#2748d1fdb25c234394075808c0257df0f2c4e800"
+  resolved "https://github.com/aidanw/react-native-aes.git#71ec57c46722fd862315957242c3cebd552c62de"
 
 react-native-camera@^2.8.0:
   version "2.8.0"

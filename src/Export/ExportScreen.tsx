@@ -143,6 +143,7 @@ export default class ExportScreen extends Component<Props, State> {
 
     try {
       return await Aes.decrypt(payload, confidentialityKey, iv).then(d => {
+        this.setState({ resultString: d });
         return d;
       });
     } catch (exc) {
@@ -185,6 +186,7 @@ export default class ExportScreen extends Component<Props, State> {
     );
     let datajspn: string = await this.decrypt(dataString, "");
     let data: CrapAppExport = JSON.parse(datajspn);
+
     // Files are here!
     // read file, import data, delete file...
     // detect if we have a file?? on each page?? if yes move to export/import screen?
@@ -218,6 +220,7 @@ export default class ExportScreen extends Component<Props, State> {
       }
     ]);
   }
+
   clearFolder() {
     let path = RNFS.DocumentDirectoryPath + "/Inbox";
     this.setState({ resultString: path });

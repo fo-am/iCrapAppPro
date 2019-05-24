@@ -21,7 +21,7 @@ export interface Field {
     name: string;
     parent: string;
     soil: string;
-    crop: Array<Array<string>>;
+    crop: string;
     previous_crop: string;
     soil_test_p: string;
     soil_test_k: string;
@@ -62,7 +62,7 @@ export interface Event {
     quality: string;
     application: string;
     season: string;
-    crop: Array<Array<string>>;
+    crop: string;
     nutrients_s?: number | undefined;
     nutrients_m?: number | undefined;
     total_nutrients_s?: number | undefined;

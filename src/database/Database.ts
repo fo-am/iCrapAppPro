@@ -1171,7 +1171,7 @@ class DatabaseImpl implements Database {
                 fieldImport.farmKey = importFarm.unique_id;
                 fieldImport.key = field.unique_id;
                 fieldImport.name = field.name;
-                fieldImport.cropType = field.crop;
+                fieldImport.cropType = JSON.parse(field.crop);
                 fieldImport.organicManure = field.regularly_manure;
                 fieldImport.prevCropType = field.previous_crop;
                 fieldImport.recentGrass = field.recently_grown_grass;
@@ -1225,7 +1225,7 @@ class DatabaseImpl implements Database {
                 spreadImport.totalNutrientsP = event.total_nutrients_p;
                 spreadImport.totalNutrientsS = event.total_nutrients_s;
                 spreadImport.applicationType = event.application;
-                spreadImport.crop = event.crop;
+                spreadImport.crop = JSON.parse(event.crop);
                 spreadImport.date = moment(event.date, "D/M/YYYY");
 
                 this.saveSpreadEvent(spreadImport);
@@ -1399,7 +1399,7 @@ class DatabaseImpl implements Database {
                     parent: farm.unique_id,
                     unique_id: row["Field-Unique-Id"],
                     crop: row.Crop,
-                    name: row.name,
+                    name: row.FieldName,
                     soil: row.Soil,
                     previous_crop: row["Previous-Crop"],
                     soil_test_k: row["Soil-Test-K"],
