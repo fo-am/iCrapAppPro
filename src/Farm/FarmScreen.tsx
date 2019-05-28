@@ -422,174 +422,34 @@ export default class FarmScreen extends Component<Props, State> {
     const { CalculatorStore, SettingsStore, FarmStore } = this.props;
 
     database.exportFarm(farmKey).then(async farm => {
-      const ivbytes = [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0
-      ];
-      let salt = String.fromCharCode.apply(null, ivbytes);
-      let salt64 = this.Base64.btoa(salt);
-      const iv = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-      let iv64 = this.Base64.btoa(String.fromCharCode.apply(null, iv));
-      //  const salt = "foo";
+      const saltbytes = await generateSecureRandom(128);
+      let salt64 = this.Base64.encode(
+        String.fromCharCode.apply(null, saltbytes)
+      );
 
-      //    salt64 =
-      //      "sQoaW1PC8w5NXfwhxLN4GTWvYEavgbW+Fc4q8m2sxdSdfv9GstLDd2ig5DuDNEW2MJXi45mgAJlMpkaEEFPt5oGUpsog8JqTIbWJX0kiqxubPUbtWV7Hco+J7OoxHUiRl6MNh+fFTh9M2+kr1a0NoLTQEU4vdGfgeHyhBsZ0Wkg=";
+      const ivbytes = await generateSecureRandom(16);
+      let iv64 = this.Base64.encode(String.fromCharCode.apply(null, ivbytes));
 
-      //  iv64 = "W0kL6nz7J7HOVhWoZ1g1QQ==";
-
-      const longkeyHex: string = await Aes.pbkdf2(
+      const longkeyBytes: string = await Aes.pbkdf2(
         "crapapp",
         salt64,
         10000,
         384
       );
+      // conf key is 16 bytes in Java... 32 here?
+      const confidentialityKey = longkeyBytes.substring(0, 32);
+      const integretykey = longkeyBytes.substring(32, 96);
 
-      const confidentialityKey = longkeyHex.substring(0, 32);
-      const integretykey = longkeyHex.substring(32, 96);
-
-      const encrypted = await Aes.encrypt(
+      const encrypted64 = await Aes.encrypt(
         JSON.stringify(farm),
         confidentialityKey,
         iv64
       );
 
-      const mac = await Aes.hmac256(iv64 + encrypted, integretykey);
-      const mac64 = this.Base64.btoa(mac);
+      const mac = await Aes.hmac256(iv64 + encrypted64, integretykey);
+      const mac64 = this.Base64.encode(mac);
 
-      let outputString = `${salt64}:${iv64}:${mac64}:${encrypted}`;
-
-      this.setState({
-        resultString: `Salt64:${salt64}\r\niv64:${iv64}\r\nintegkey64:${integretykey}\r\nconfkey64:${confidentialityKey}\r\mac:${mac}\r\npayload:${encrypted}
-
-        \r\mac64:${mac64}}\r\npayload64:${encrypted}
-         `
-      });
+      let outputString = `${salt64}:${iv64}:${mac64}:${encrypted64}`;
 
       const filePath = `${RNFS.LibraryDirectoryPath}/FarmsData.json.enc`;
       RNFS.writeFile(filePath, outputString).then(
@@ -599,7 +459,9 @@ export default class FarmScreen extends Component<Props, State> {
             subject: "Farm Export",
             recipients: [SettingsStore.appSettings.email],
 
-            body: "Here is your farm export.",
+            body: `Here is your farm export. On your phone click the attachment below and select "copy to Farm Crap App Pro"
+            This will open the Crapp App Pro application, in the app navigate to the "Export" screen and enter the password and click import
+            `,
             isHTML: false,
             attachment: {
               path: filePath, // The absolute path of the file from which to read data.
@@ -705,7 +567,7 @@ export default class FarmScreen extends Component<Props, State> {
   }
   chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
   Base64 = {
-    btoa: (input: string = "") => {
+    encode: (input: string = "") => {
       let str = input;
       let output = "";
 
