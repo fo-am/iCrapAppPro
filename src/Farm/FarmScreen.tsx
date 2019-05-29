@@ -484,11 +484,23 @@ export default class FarmScreen extends Component<Props, State> {
       showSave: true
     });
   }
+
   private savePinPlacement() {
+    const { FarmStore } = this.props;
+    if (FarmStore.farm.farmLocation.latitude === 0) {
+      this.mapRef.getMapBoundaries().then(loc => {
+        const center = new LatLng();
+        center.latitude = (loc.northEast.latitude + loc.southWest.latitude) / 2;
+        center.longitude =
+          (loc.northEast.longitude + loc.southWest.longitude) / 2;
+        FarmStore.farm.farmLocation = center;
+      });
+    }
     this.setState({
       showSave: false
     });
   }
+
   private cancelPinPlacement() {
     const { FarmStore } = this.props;
 
