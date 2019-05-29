@@ -79,6 +79,7 @@ export default class ExportScreen extends Component<Props, State> {
     } else {
       this.setState({ farmKey: undefined });
     }
+    this.ImportEnable();
   }
 
   public render() {
@@ -88,7 +89,7 @@ export default class ExportScreen extends Component<Props, State> {
       SettingsStore,
       FarmStore
     } = this.props;
-    this.ImportEnable();
+
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
         <ScrollView>
@@ -259,6 +260,7 @@ export default class ExportScreen extends Component<Props, State> {
     let done = await RNFS.unlink(
       RNFS.DocumentDirectoryPath + "/Inbox/FarmsData.json.enc"
     );
+    this.setState({ enableImport: false });
     let datajspn: string = await this.decrypt(dataString, "");
     let data: CrapAppExport = JSON.parse(datajspn);
 

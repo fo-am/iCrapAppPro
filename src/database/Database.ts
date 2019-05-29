@@ -1282,6 +1282,7 @@ class DatabaseImpl implements Database {
     ,se.'Total-Nutrients-S'
     ,se.'Total-Nutrients-Mg'
     ,se.SNS
+    ,se.Season
 
      from Farm fa
     left join Field fi on fa.'Farm-Unique-Id' = fi.FarmKey
