@@ -1355,28 +1355,13 @@ class DatabaseImpl implements Database {
         return returnCoords;
     }
     private getAvgFieldLocation(fields: ExportField[] | undefined): LatLng {
-        // const locations: Array<LatLng> = [];
-        // if (fields) {
-        //     for (const field of fields) {
-        //         if (field.coords) {
-        //             for (const loc of field.coords) {
-        //                 const coord: LatLng = new LatLng();
-        //                 coord.latitude = loc.lat;
-        //                 coord.longitude = loc.lng;
-        //                 locations.push(coord);
-        //             }
-        //         }
-        //     }
-        // }
 
-        // const output: LatLng = new LatLng();
-        // output.latitude = this.getAvg(locations.map(f => f.latitude));
-        // output.longitude = this.getAvg(locations.map(f => f.longitude));
 
         const output: LatLng = new LatLng();
+        try{
         output.latitude = fields[0].coords[0].lat;
         output.longitude = fields[0].coords[0].lng;
-
+        }catch{}
         return output;
     }
     private getAvg(numbers: Array<number>) {

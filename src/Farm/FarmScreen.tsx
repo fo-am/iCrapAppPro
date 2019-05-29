@@ -32,9 +32,6 @@ import RNFS from "react-native-fs";
 import Mailer from "react-native-mail";
 import { database } from "../database/Database";
 
-import { generateSecureRandom } from "react-native-securerandom";
-const Aes = NativeModules.Aes;
-
 interface Props {
   navigation: NavigationScreenProp<any, any>;
   FieldStore: FieldStore;
@@ -388,9 +385,12 @@ export default class FarmScreen extends Component<Props, State> {
               buttonStyle={styles.roundButton}
               titleStyle={styles.buttonText}
               onPress={() => {
-                this.exportField(FarmStore.farm.key);
+                this.props.navigation.navigate("Export", {
+                  farmKey: FarmStore.farm.key
+                });
+                //    this.exportField(FarmStore.farm.key);
               }}
-              title="Export Field."
+              title="Export Farm"
             />
             <Text>{this.state.resultString2}</Text>
             <Text>{this.state.resultString}</Text>
@@ -414,68 +414,6 @@ export default class FarmScreen extends Component<Props, State> {
         </ScrollView>
       </SafeAreaView>
     );
-  }
-  private async exportField(farmKey: string) {
-    // get data from database and put it into the json format
-    // encrypt the json
-    // email the json
-    const { CalculatorStore, SettingsStore, FarmStore } = this.props;
-
-    database.exportFarm(farmKey).then(async farm => {
-      const saltbytes = await generateSecureRandom(128);
-      let salt64 = this.Base64.encode(
-        String.fromCharCode.apply(null, saltbytes)
-      );
-
-      const ivbytes = await generateSecureRandom(16);
-      let iv64 = this.Base64.encode(String.fromCharCode.apply(null, ivbytes));
-
-      const longkeyBytes: string = await Aes.pbkdf2(
-        "crapapp",
-        salt64,
-        10000,
-        384
-      );
-      // conf key is 16 bytes in Java... 32 here?
-      const confidentialityKey = longkeyBytes.substring(0, 32);
-      const integretykey = longkeyBytes.substring(32, 96);
-
-      const encrypted64 = await Aes.encrypt(
-        JSON.stringify(farm),
-        confidentialityKey,
-        iv64
-      );
-
-      const mac = await Aes.hmac256(iv64 + encrypted64, integretykey);
-      const mac64 = this.Base64.encode(mac);
-
-      let outputString = `${salt64}:${iv64}:${mac64}:${encrypted64}`;
-
-      const filePath = `${RNFS.LibraryDirectoryPath}/FarmsData.json.enc`;
-      RNFS.writeFile(filePath, outputString).then(
-        // get handle on file path.
-        Mailer.mail(
-          {
-            subject: "Farm Export",
-            recipients: [SettingsStore.appSettings.email],
-
-            body: `Here is your farm export. On your phone click the attachment below and select "copy to Farm Crap App Pro"
-            This will open the Crapp App Pro application, in the app navigate to the "Export" screen and enter the password and click import
-            `,
-            isHTML: false,
-            attachment: {
-              path: filePath, // The absolute path of the file from which to read data.
-              type: "text", // Mime Type: jpg, png, doc, ppt, html, pdf, csv
-              name: "FarmsData.json.enc"
-            }
-          },
-          (error, event) => {
-            // this.setState({ resultString: event });
-            // handle error
-          }
-        )
-      );
-    });
   }
 
   private DrawFieldBoundry(field: Field) {
@@ -565,53 +503,6 @@ export default class FarmScreen extends Component<Props, State> {
       this.setState({});
     }
   }
-  chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
-  Base64 = {
-    encode: (input: string = "") => {
-      let str = input;
-      let output = "";
-
-      for (
-        let block = 0, charCode, i = 0, map = this.chars;
-        str.charAt(i | 0) || ((map = "="), i % 1);
-        output += map.charAt(63 & (block >> (8 - (i % 1) * 8)))
-      ) {
-        charCode = str.charCodeAt((i += 3 / 4));
-
-        if (charCode > 0xff) {
-          throw new Error(
-            "'btoa' failed: The string to be encoded contains characters outside of the Latin1 range."
-          );
-        }
-
-        block = (block << 8) | charCode;
-      }
-
-      return output;
-    },
-
-    atob: (input: string = "") => {
-      let str = input.replace(/=+$/, "");
-      let output = "";
-
-      if (str.length % 4 == 1) {
-        throw new Error(
-          "'atob' failed: The string to be decoded is not correctly encoded."
-        );
-      }
-      for (
-        let bc = 0, bs = 0, buffer, i = 0;
-        (buffer = str.charAt(i++));
-        ~buffer && ((bs = bc % 4 ? bs * 64 + buffer : buffer), bc++ % 4)
-          ? (output += String.fromCharCode(255 & (bs >> ((-2 * bc) & 6))))
-          : 0
-      ) {
-        buffer = this.chars.indexOf(buffer);
-      }
-
-      return output;
-    }
-  };
 }
 // https://github.com/mobxjs/mobx-react/issues/256#issuecomment-341419935
 // https://medium.com/teachable/getting-started-with-react-typescript-mobx-and-webpack-4-8c680517c030
