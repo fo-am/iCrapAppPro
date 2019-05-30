@@ -40,7 +40,7 @@ export default class SplashScreen extends Component<
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
         <Container>
-          <StatusBar barStyle="dark-content" />
+          <StatusBar barStyle="light-content" />
           <Header>
             <Left />
             <Body />
