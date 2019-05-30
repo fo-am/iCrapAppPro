@@ -432,15 +432,15 @@ export default class SpreadScreen extends Component<Props, State> {
               </Row>
             </Grid>
             <Button
-              buttonStyle={styles.footerButton}
+              buttonStyle={styles.roundButton}
               titleStyle={styles.buttonText}
               onPress={() => this.props.navigation.navigate("Camera")}
               title="Take an image of your spread"
             />
-            <Image
-              source={{ uri: FieldStore.newSpreadEvent.imagePath }}
+              <Image
+                source={{ uri: FieldStore.newSpreadEvent.imagePath }}
               style={{ width: 200, height: 200 }}
-            />
+              />
           </View>
           <Footer>
             <FooterTab>
