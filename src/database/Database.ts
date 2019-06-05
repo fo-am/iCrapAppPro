@@ -54,6 +54,8 @@ export interface Database {
 
     getCSVData(): Promise<Array<Array<string>>>;
 
+    graphData(fieldKey: string): Promise<any>;
+
     exportFarm(farmKey: string): Promise<CrapAppExport>;
 
     importFarm(importedFarm: CrapAppExport): Promise<Array<string>>;
@@ -1232,6 +1234,91 @@ class DatabaseImpl implements Database {
             }
         }
     }
+    public async graphData(fieldKey: string): Promise<any> {
+        return this.getDatabase().then(db =>
+            db
+                .executeSql(
+                    `select date,"Nutrients-N","Nutrients-P","Nutrients-K","Nutrients-S", "Nutrients-Mg"
+                    from   SpreadEvent where "FieldKey" = "${fieldKey}" and "Deleted" is not '1'`
+                )
+                .then(([res]) => {
+                    const count = res.rows.length;
+                    const results: Array<Array<string>> = new Array<
+                        Array<string>
+                    >();
+
+                    const structure = [
+                        {
+                            name: "N",
+                            data: new Array<any>()
+                        },
+                        {
+                            name: "P",
+                            data: new Array<any>()
+                        },
+                        {
+                            name: "K",
+                            data: new Array<any>()
+                        },
+                        {
+                            name: "S",
+                            data: new Array<any>()
+                        },
+                        {
+                            name: "Mg",
+                            data: new Array<any>()
+                        }
+                    ];
+
+                    for (let i = 0; i < count; i++) {
+                        const row = res.rows.item(i);
+
+                        let dataArray = new Array<any>();
+
+                        dataArray.push(
+                            Date.parse(moment(row.Date).toISOString())
+                        );
+                        dataArray.push(row["Nutrients-N"]);
+
+                        structure[0].data.push(dataArray);
+                        dataArray = [];
+
+                        dataArray.push(
+                            Date.parse(moment(row.Date).toISOString())
+                        );
+                        dataArray.push(row["Nutrients-P"]);
+
+                        structure[1].data.push(dataArray);
+                        dataArray = [];
+
+                        dataArray.push(
+                            Date.parse(moment(row.Date).toISOString())
+                        );
+                        dataArray.push(row["Nutrients-K"]);
+
+                        structure[2].data.push(dataArray);
+                        dataArray = [];
+
+                        dataArray.push(
+                            Date.parse(moment(row.Date).toISOString())
+                        );
+                        dataArray.push(row["Nutrients-S"]);
+
+                        structure[3].data.push(dataArray);
+                        dataArray = [];
+
+                        dataArray.push(
+                            Date.parse(moment(row.Date).toISOString())
+                        );
+                        dataArray.push(row["Nutrients-Mg"]);
+
+                        structure[4].data.push(dataArray);
+                    }
+                    var a = JSON.stringify(structure);
+                    return structure;
+                })
+        );
+    }
     public async exportFarm(farmKey: string): Promise<CrapAppExport> {
         return this.getDatabase()
             .then(db =>
@@ -1356,13 +1443,11 @@ class DatabaseImpl implements Database {
         return returnCoords;
     }
     private getAvgFieldLocation(fields: ExportField[] | undefined): LatLng {
-
-
         const output: LatLng = new LatLng();
-        try{
-        output.latitude = fields[0].coords[0].lat;
-        output.longitude = fields[0].coords[0].lng;
-        }catch{}
+        try {
+            output.latitude = fields[0].coords[0].lat;
+            output.longitude = fields[0].coords[0].lng;
+        } catch {}
         return output;
     }
     private getAvg(numbers: Array<number>) {

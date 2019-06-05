@@ -31,6 +31,7 @@ import styles from "../styles/style";
 
 import ChartView from "react-native-highcharts";
 import Strings from "../assets/Strings";
+import { database } from "../database/Database";
 import Field from "../model/field";
 
 let id = 0;
@@ -50,6 +51,8 @@ interface State {
   showSave: boolean;
   showDraw: boolean;
   showHaveProps: boolean;
+
+  graphData: any;
 }
 
 @inject("FieldStore", "CalculatorStore", "SettingsStore", "FarmStore")
@@ -63,6 +66,7 @@ export default class FieldScreen extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.strings = new Strings();
+
     const { CalculatorStore, SettingsStore, FarmStore } = this.props;
     this.areaUnits =
       SettingsStore.appSettings.unit == "metric" ? "hectares" : "acres";
@@ -73,7 +77,8 @@ export default class FieldScreen extends Component<Props, State> {
 
       showSave: false,
       showDraw: true,
-      showHaveProps: false
+      showHaveProps: false,
+      graphData: []
     };
     CalculatorStore.rainfall = FarmStore.farm.rainfall;
   }
@@ -85,31 +90,34 @@ export default class FieldScreen extends Component<Props, State> {
 
     if (fieldKey) {
       FieldStore.SetField(fieldKey);
+      this.getData(fieldKey);
     } else {
       FieldStore.reset(farmKey);
+      this.getData(FieldStore.field.key);
     }
   }
 
   public render() {
     const { FieldStore } = this.props;
 
-    const Highcharts = "Highcharts";
+    let Highcharts = "Highcharts";
     const conf = {
       chart: {
         type: "column",
-        animation: Highcharts.svg, // don't animate in old IE
-        marginRight: 10
+        animation: false,
+        marginRight: 10,
+        dateFormat: "dd/mm/YYYY"
       },
       title: {
-        text: "Live random data"
+        text: "Spread Events"
       },
       xAxis: {
         type: "datetime",
-        tickPixelInterval: 150
+        tickPixelInterval: 50
       },
       yAxis: {
         title: {
-          text: "Value"
+          text: "Spread"
         },
         plotLines: [
           {
@@ -120,33 +128,21 @@ export default class FieldScreen extends Component<Props, State> {
         ]
       },
       legend: {
-        enabled: false
+        enabled: true
       },
       exporting: {
         enabled: false
       },
-      series: [
-        {
-          name: "Crop available nutrients added to field",
-          data: (function() {
-            // generate an array of random data
-            const data = [[5, 2], [6, 3], [8, 2]];
-
-            return data;
-          })()
+      plotOptions: {
+        column: {
+          pointPadding: 0.2,
+          borderWidth: 0
         }
-      ]
+      },
+      series: this.state.graphData
     };
 
-    const options = {
-      global: {
-        useUTC: false
-      },
-      lang: {
-        decimalPoint: ".",
-        thousandsSep: ","
-      }
-    };
+    const options = {};
 
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
@@ -626,6 +622,12 @@ export default class FieldScreen extends Component<Props, State> {
       });
     }
   }
+  private getData(fieldKey: string) {
+    database
+      .graphData(fieldKey)
+      .then(data => this.setState({ graphData: data }));
+  }
+
   private DrawFieldBoundry(field: Field) {
     if (field.fieldCoordinates.coordinates.slice().length > 0) {
       return (

@@ -1,6 +1,5 @@
 import { action, autorun, computed, observable, toJS } from "mobx";
 import Farm from "../model/Farm";
-import FieldStore from "./FieldsStore";
 
 import Marker, { MarkerProps } from "react-native-maps";
 
