@@ -19,6 +19,9 @@ interface Region {
 }
 
 class FieldStore {
+    @computed public get DataSource(): Array<LatLng> {
+        return this.field.fieldCoordinates.coordinates.slice();
+    }
     @observable public field: Field;
     @observable public fields: Array<Field> = new Array<Field>();
     @observable public initalRegion: Region;
@@ -30,6 +33,7 @@ class FieldStore {
     @observable public spreadEvents: Array<SpreadEvent> = new Array<
         SpreadEvent
     >();
+    @observable public graphData: Array<any> = new Array<any>();
     @observable
     public cropRequirementsResult: CropRequirementsResult = new CropRequirementsResult();
 
@@ -45,6 +49,7 @@ class FieldStore {
             delay: 50
         });
     }
+
     public reset(farmKey: string) {
         this.field = new Field(farmKey);
         this.getSpreadEvents(this.field.key);
@@ -68,10 +73,6 @@ class FieldStore {
         this.field.fieldCoordinates.coordinates.clear();
 
         this.field.fieldCoordinates.coordinates.replace(coords.coordinates);
-    }
-
-    @computed public get DataSource(): Array<LatLng> {
-        return this.field.fieldCoordinates.coordinates.slice();
     }
 
     public async Save(): Promise<void> {
@@ -123,9 +124,10 @@ class FieldStore {
         // season pre set
         this.newSpreadEvent.crop = this.field.cropType;
 
-        database
-            .saveSpreadEvent(this.newSpreadEvent)
-            .then(() => this.getSpreadEvents(this.field.key));
+        database.saveSpreadEvent(this.newSpreadEvent).then(() => {
+            this.getSpreadEvents(this.field.key);
+            this.getGraphData(this.field.key);
+        });
     }
 
     public async SetSpread(spreadKey: string): Promise<void> {
@@ -244,6 +246,9 @@ class FieldStore {
             return "high";
         }
         return "low";
+    }
+    public getGraphData(fieldKey: string) {
+        database.graphData(fieldKey).then(data => (this.graphData = data));
     }
     private getSpreadEvents(fieldKey: string) {
         database

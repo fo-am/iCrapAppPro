@@ -51,8 +51,6 @@ interface State {
   showSave: boolean;
   showDraw: boolean;
   showHaveProps: boolean;
-
-  graphData: any;
 }
 
 @inject("FieldStore", "CalculatorStore", "SettingsStore", "FarmStore")
@@ -77,8 +75,7 @@ export default class FieldScreen extends Component<Props, State> {
 
       showSave: false,
       showDraw: true,
-      showHaveProps: false,
-      graphData: []
+      showHaveProps: false
     };
     CalculatorStore.rainfall = FarmStore.farm.rainfall;
   }
@@ -90,10 +87,10 @@ export default class FieldScreen extends Component<Props, State> {
 
     if (fieldKey) {
       FieldStore.SetField(fieldKey);
-      this.getData(fieldKey);
+      FieldStore.getGraphData(fieldKey);
     } else {
       FieldStore.reset(farmKey);
-      this.getData(FieldStore.field.key);
+      FieldStore.getGraphData(FieldStore.field.key);
     }
   }
 
@@ -139,7 +136,7 @@ export default class FieldScreen extends Component<Props, State> {
           borderWidth: 0
         }
       },
-      series: this.state.graphData
+      series: FieldStore.graphData.slice()
     };
 
     const options = {};
@@ -621,11 +618,6 @@ export default class FieldScreen extends Component<Props, State> {
         animated: false
       });
     }
-  }
-  private getData(fieldKey: string) {
-    database
-      .graphData(fieldKey)
-      .then(data => this.setState({ graphData: data }));
   }
 
   private DrawFieldBoundry(field: Field) {
