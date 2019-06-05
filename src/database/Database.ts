@@ -1239,7 +1239,7 @@ class DatabaseImpl implements Database {
             db
                 .executeSql(
                     `select date,"Nutrients-N","Nutrients-P","Nutrients-K","Nutrients-S", "Nutrients-Mg"
-                    from   SpreadEvent where "FieldKey" = "${fieldKey}" and "Deleted" is not '1'`
+                    from   SpreadEvent where "FieldKey" = "${fieldKey}" and "Deleted" is not '1' order by date asc`
                 )
                 .then(([res]) => {
                     const count = res.rows.length;
