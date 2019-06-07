@@ -5,7 +5,7 @@ import { I18nextProvider, translate } from "react-i18next";
 import getTheme from "../native-base-theme/components";
 import material from "../native-base-theme/variables/material";
 import platform from "../native-base-theme/variables/platform";
-import RootStack from "./navigation/RootStack";
+import RootStack from "./Navigation/RootStack";
 import CalculatorStore from "./store/calculatorStore";
 import FarmStore from "./store/FarmStore";
 import FieldStore from "./store/FieldsStore";

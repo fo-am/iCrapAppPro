@@ -1,7 +1,7 @@
 import { createAppContainer, createStackNavigator } from "react-navigation";
-import Calculator from "../calc/Calculator";
+import Calculator from "../Calc/Calculator";
 import CropSelector from "../components/CropSelector";
-import CustomManure from "../customManure/CustomManure";
+import CustomManure from "../CustomManure/CustomManure";
 import ExportScreen from "../Export/ExportScreen";
 import FarmScreen from "../Farm/FarmScreen";
 import FieldScreen from "../Fields/FieldScreen";
