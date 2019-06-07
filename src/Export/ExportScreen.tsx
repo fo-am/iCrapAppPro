@@ -242,24 +242,9 @@ export default class ExportScreen extends Component<Props, State> {
             subject: "Farm Export",
             recipients: [SettingsStore.appSettings.email],
 
-            body:
-              `You have been sent a Crap App farm export. To import into the app click the attachment below and select "copy to Farm Crap App Pro"
+            body: `You have been sent a Crap App farm export. To import into the app click the attachment below and select "copy to Farm Crap App Pro"
             This will open the Crapp App Pro application, in the app navigate to the "Export" screen and enter the password and click import
-            ` +
-              "integ " +
-              integretykey +
-              "\r\nconf " +
-              confidentialityKey +
-              "\r\nboth " +
-              longkeyBytes +
-              "\r\nmac " +
-              mac +
-              "\r\nmac64 " +
-              mac64 +
-              "\r\noutputwith : and base 64 " +
-              outputString +
-              "\r\niv hex  ",
-
+            `,
             isHTML: false,
             attachment: {
               path: filePath, // The absolute path of the file from which to read data.
