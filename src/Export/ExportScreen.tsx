@@ -112,7 +112,7 @@ export default class ExportScreen extends Component<Props, State> {
               buttonStyle={styles.roundButton}
               titleStyle={styles.buttonText}
               onPress={() => this.importJson()}
-              title={"Import data!"}
+              title={"Import Data"}
             />
 
             <Button
@@ -222,17 +222,17 @@ export default class ExportScreen extends Component<Props, State> {
 
       let outputString = `${salt64}:${iv64}:${mac64}:${encrypted64}`;
 
-      this.setState({
-        resultString:
-          "mac64 " +
-          mac64 +
-          "\r\nmac " +
-          mac +
-          "\r\nhextobytesmac " +
-          this.hexToBytes(mac) +
-          "\r\noutputString " +
-          outputString
-      });
+      // this.setState({
+      //   resultString:
+      //     "mac64 " +
+      //     mac64 +
+      //     "\r\nmac " +
+      //     mac +
+      //     "\r\nhextobytesmac " +
+      //     this.hexToBytes(mac) +
+      //     "\r\noutputString " +
+      //     outputString
+      // });
 
       const filePath = `${RNFS.LibraryDirectoryPath}/FarmsData.json.enc`;
       RNFS.writeFile(filePath, outputString).then(

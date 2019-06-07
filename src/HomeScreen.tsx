@@ -133,7 +133,7 @@ export default class HomeScreen extends Component<
               buttonStyle={styles.roundButton}
               titleStyle={styles.buttonText}
               onPress={() => this.props.navigation.navigate("Export")}
-              title="Export Data"
+              title="Data Import/Export"
             />
             <Button
               buttonStyle={styles.roundButton}
