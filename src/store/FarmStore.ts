@@ -17,6 +17,7 @@ class FarmStore {
 
     @observable public farm: Farm = new Farm();
     @observable public farms: Array<Farm> = new Array<Farm>();
+    @observable public refresh: number = 0;
 
     constructor() {
         this.initalRegion = {

@@ -73,10 +73,10 @@ export default class FarmScreen extends Component<Props, State> {
   }
   public componentWillMount() {
     const { navigation, FarmStore, FieldStore } = this.props;
-    const item = navigation.getParam("farmKey", undefined);
-    if (item) {
-      FarmStore.SetFarm(item);
-      FieldStore.getFields(item);
+    const farmKey = navigation.getParam("farmKey", undefined);
+    if (farmKey) {
+      FarmStore.SetFarm(farmKey);
+      FieldStore.getFields(farmKey);
     } else {
       FarmStore.reset();
     }

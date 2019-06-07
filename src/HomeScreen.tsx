@@ -31,6 +31,16 @@ export default class HomeScreen extends Component<
 > {
   constructor(props) {
     super(props);
+
+    const listenToNavChange = this.props.navigation.addListener(
+      "didFocus",
+      () => {
+        if (this.props.FarmStore.refresh === 1) {
+          this.props.FarmStore.getFarms();
+          this.props.FarmStore.refresh = 0;
+        }
+      }
+    );
   }
 
   public render() {

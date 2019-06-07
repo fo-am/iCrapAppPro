@@ -151,7 +151,7 @@ class DatabaseImpl implements Database {
 
                         farms.push(farm);
                     }
-                    return farms;
+                    return farms.reverse();
                 })
         );
     }
