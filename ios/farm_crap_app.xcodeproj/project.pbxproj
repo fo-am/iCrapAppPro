@@ -755,7 +755,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = M44MLMDZCY;
+						DevelopmentTeam = FNUE8G7Y4Q;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -1339,9 +1339,9 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 38;
+				CURRENT_PROJECT_VERSION = 39;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = M44MLMDZCY;
+				DEVELOPMENT_TEAM = FNUE8G7Y4Q;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-securerandom/ios",
@@ -1369,8 +1369,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 38;
-				DEVELOPMENT_TEAM = M44MLMDZCY;
+				CURRENT_PROJECT_VERSION = 39;
+				DEVELOPMENT_TEAM = FNUE8G7Y4Q;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-securerandom/ios",
