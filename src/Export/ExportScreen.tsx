@@ -12,7 +12,8 @@ import {
   StatusBar,
   Text,
   TouchableOpacity,
-  View
+  View,
+  AppState
 } from "react-native";
 import { Button, Input } from "react-native-elements";
 import RNFS from "react-native-fs";
@@ -76,7 +77,19 @@ export default class ExportScreen extends Component<Props, State> {
     }
     this.ImportEnable();
   }
+  componentDidMount() {
+    AppState.addEventListener("change", this._handleAppStateChange);
+  }
 
+  componentWillUnmount() {
+    AppState.removeEventListener("change", this._handleAppStateChange);
+  }
+
+  _handleAppStateChange = nextAppState => {
+    if (nextAppState === "active") {
+      this.ImportEnable();
+    }
+  };
   public render() {
     const {
       FieldStore,
@@ -330,7 +343,10 @@ export default class ExportScreen extends Component<Props, State> {
     Alert.alert("Import this farm?", message, [
       {
         text: "Cancel",
-        style: "cancel"
+        style: "cancel",
+        onPress: async () => {
+          this.ImportEnable();
+        }
       },
       {
         text: "OK",
