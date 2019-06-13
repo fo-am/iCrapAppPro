@@ -7,6 +7,7 @@ import styles from "../styles/style";
 
 import { NavigationScreenProp, SafeAreaView } from "react-navigation";
 import { RNCamera } from "react-native-camera";
+import ImportFileCheck from "../Export/ImportFileCheck";
 
 interface Props {
   navigation: NavigationScreenProp<any, any>;
@@ -33,6 +34,7 @@ export default class Camera extends Component<Props, State> {
     const { FieldStore } = this.props;
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
+        <ImportFileCheck navigation={this.props.navigation} />
         <StatusBar barStyle="dark-content" />
         <ScrollView contentContainerStyle={styles.box}>
           <Text style={styles.H2}>Take a picture of your spread</Text>

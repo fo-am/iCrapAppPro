@@ -27,6 +27,7 @@ import { CrapAppExport } from "./exportModel";
 
 import { generateSecureRandom } from "react-native-securerandom";
 const Aes = NativeModules.Aes;
+import ImportFileCheck from "../Export/ImportFileCheck";
 
 interface Props {
   navigation: NavigationScreenProp<any, any>;
@@ -81,11 +82,13 @@ export default class ExportScreen extends Component<Props, State> {
       FieldStore,
       CalculatorStore,
       SettingsStore,
-      FarmStore
+      FarmStore,
+      navigation
     } = this.props;
 
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
+        <ImportFileCheck navigation={navigation} />
         <ScrollView>
           <View>
             <Button

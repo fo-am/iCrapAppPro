@@ -7,6 +7,7 @@ import Strings from "../assets/Strings";
 import DropDown from "./../components/DropDown";
 import Manure from "./../model/manure";
 import styles from "./../styles/style";
+import ImportFileCheck from "../Export/ImportFileCheck";
 
 interface MyComponentProps {
   navigation: NavigationScreenProp<any, any>;
@@ -42,6 +43,7 @@ export default class CustomManure extends Component<
     const { ManureStore } = this.props;
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
+        <ImportFileCheck navigation={this.props.navigation} />
         <StatusBar barStyle="dark-content" />
 
         <View style={styles.container}>

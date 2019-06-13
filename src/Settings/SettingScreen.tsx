@@ -9,6 +9,7 @@ import styles from "../styles/style";
 import DropDown from "../components/DropDown";
 
 import { Button, Input } from "react-native-elements";
+import ImportFileCheck from "../Export/ImportFileCheck";
 
 interface Props {
   SettingsStore: SettingsStore;
@@ -33,6 +34,7 @@ export default class SettingScreen extends Component<Props, State> {
     const { SettingsStore } = this.props;
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
+        <ImportFileCheck navigation={this.props.navigation} />
         <View>
           <StatusBar barStyle="dark-content" />
           <View style={[styles.box, styles.bottomSpacing]}>

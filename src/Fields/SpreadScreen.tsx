@@ -25,6 +25,7 @@ import styles from "../styles/style";
 import SpreadEvent from "../model/spreadEvent";
 
 import Strings from "../assets/Strings";
+import ImportFileCheck from "../Export/ImportFileCheck";
 
 interface Props {
   navigation: NavigationScreenProp<any, any>;
@@ -94,6 +95,7 @@ export default class SpreadScreen extends Component<Props, State> {
     } = this.props;
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
+        <ImportFileCheck navigation={this.props.navigation} />
         <ScrollView>
           <StatusBar barStyle="dark-content" />
           <View style={styles.narrow}>

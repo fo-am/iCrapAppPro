@@ -17,6 +17,7 @@ import SliderValues from "../model/sliderValues";
 import Strings from "../assets/Strings";
 
 import { NavigationScreenProp, SafeAreaView } from "react-navigation";
+import ImportFileCheck from "../Export/ImportFileCheck";
 
 interface Props {
   navigation: NavigationScreenProp<any, any>;
@@ -184,6 +185,7 @@ export default class Calculator extends Component<Props, State> {
     const { SettingsStore, CalculatorStore } = this.props;
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
+        <ImportFileCheck navigation={this.props.navigation} />
         <StatusBar barStyle="dark-content" />
         <ScrollView contentContainerStyle={styles.box}>
           <Text style={styles.H2}>Calculator for crap calculations.</Text>

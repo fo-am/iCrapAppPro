@@ -17,6 +17,7 @@ import React, { Component } from "react";
 import { translate } from "react-i18next";
 import { Image, View, StatusBar, Dimensions } from "react-native";
 import { NavigationScreenProp, SafeAreaView } from "react-navigation";
+import ImportFileCheck from "../Export/ImportFileCheck";
 
 interface MyComponentProps {
   navigation: NavigationScreenProp<any, any>;
@@ -39,6 +40,7 @@ export default class SplashScreen extends Component<
     const { t, i18n, navigation } = this.props;
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
+        <ImportFileCheck navigation={this.props.navigation} />
         <Container>
           <StatusBar barStyle="light-content" />
           <Header>

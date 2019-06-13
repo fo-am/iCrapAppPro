@@ -14,6 +14,7 @@ import { database } from "./database/Database";
 import Farm from "./model/Farm";
 import Manure from "./model/manure";
 import styles from "./styles/style";
+import ImportFileCheck from "./Export/ImportFileCheck";
 
 interface MyComponentProps {
   navigation: NavigationScreenProp<any, any>;
@@ -46,6 +47,8 @@ export default class HomeScreen extends Component<
   public render() {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
+        <ImportFileCheck navigation={this.props.navigation} />
+
         <View style={styles.container}>
           <ScrollView>
             <StatusBar barStyle="dark-content" />

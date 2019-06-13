@@ -33,6 +33,7 @@ import ChartView from "react-native-highcharts";
 import Strings from "../assets/Strings";
 import { database } from "../database/Database";
 import Field from "../model/field";
+import ImportFileCheck from "../Export/ImportFileCheck";
 
 let id = 0;
 
@@ -143,6 +144,7 @@ export default class FieldScreen extends Component<Props, State> {
 
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
+        <ImportFileCheck navigation={this.props.navigation} />
         <ScrollView scrollEnabled={!this.state.showSave}>
           <StatusBar barStyle="dark-content" />
           {/*

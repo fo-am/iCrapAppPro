@@ -31,6 +31,7 @@ import styles from "../styles/style";
 import RNFS from "react-native-fs";
 import Mailer from "react-native-mail";
 import { database } from "../database/Database";
+import ImportFileCheck from "../Export/ImportFileCheck";
 
 interface Props {
   navigation: NavigationScreenProp<any, any>;
@@ -85,6 +86,7 @@ export default class FarmScreen extends Component<Props, State> {
     const { FarmStore, FieldStore } = this.props;
     return (
       <SafeAreaView style={{ flex: 1 }}>
+        <ImportFileCheck navigation={this.props.navigation} />
         <ScrollView scrollEnabled={!this.state.showSave}>
           <StatusBar barStyle="dark-content" />
           {/*
