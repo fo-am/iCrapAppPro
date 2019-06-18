@@ -539,7 +539,6 @@ class DatabaseImpl implements Database {
                 );
         }
     }
-    //    public deleteField(field: Field): Promise<void> {}
 
     public async getSpreadEvents(
         fieldKey: string
@@ -1119,14 +1118,35 @@ class DatabaseImpl implements Database {
         return this.getDatabase()
             .then(db =>
                 db.executeSql(`
-            select fa.name as farmName, fi.name as fieldName, s."Manure-Type" ,s.date,
-             s."Nutrients-N", s."Nutrients-P", s."Nutrients-K\", s."Nutrients-S\",s."Nutrients-Mg\",
-            s.\`Require-N\`,s.\`Require-P\`,s.\`Require-K\`, s.\`Require-S\`, s.\`Require-Mg\`,
-            s.SNS,s.Soil,s.Size, s.Amount ,s.Quality,s.Application,
-            s.Season,s.Crop
-            from SpreadEvent  s
-            join Field fi on fi.\`Field-Unique-Id\` = s.FieldKey
-            join Farm fa on fa.\`Farm-Unique-Id\` = fi.FarmKey
+                SELECT fa.name AS farmName,
+                fi.name AS fieldName,
+                s."Manure-Type",
+                s.date,
+                s."Nutrients-N",
+                s."Nutrients-P",
+                s."Nutrients-K",
+                s."Nutrients-S",
+                s."Nutrients-Mg",
+                s."Require-N",
+                s."Require-P",
+                s."Require-K",
+                s."Require-S",
+                s."Require-Mg",
+                s.SNS,
+                s.Soil,
+                s.Size,
+                s.Amount,
+                s.Quality,
+                s.Application,
+                s.Season,
+                s.Crop
+         FROM Farm fa
+         LEFT   OUTER     JOIN Field fi ON fa."Farm-Unique-Id" = fi.FarmKey
+         LEFT     OUTER  JOIN SpreadEvent s ON s.FieldKey = fi."Field-Unique-Id"
+         WHERE (ifnull(fa.Deleted, 0) + ifnull(fi.Deleted, 0) + ifnull(s.Deleted, 0)) = 0
+         ORDER BY fa."Farm-Unique-Id",
+                  fi."Field-Unique-Id",
+                  s."SpreadEvent-Unique-Id"
             `)
             )
             .then(([res]) => {
