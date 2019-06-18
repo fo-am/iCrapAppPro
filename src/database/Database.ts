@@ -37,7 +37,7 @@ export interface Database {
     getFields(farmKey: string): Promise<Array<Field>>;
     getField(id: string): Promise<Field>;
     saveField(field: Field): Promise<void>;
-    //   deleteField(field: Field): Promise<void>;
+    deleteField(fieldKey: string): Promise<void>;
 
     getSpreadEvents(fieldKey: string): Promise<Array<SpreadEvent>>;
     getSpreadEvent(spreadKey: string): Promise<SpreadEvent>;
@@ -392,7 +392,14 @@ class DatabaseImpl implements Database {
                 })
         );
     }
-
+    public async deleteField(fieldKey: string): Promise<void> {
+        this.getDatabase().then(db => {
+            db.executeSql(
+                `update Field set Deleted = 1 where "Field-Unique-Id" = ?`,
+                [fieldKey]
+            );
+        });
+    }
     public async saveField(field: Field): Promise<void> {
         // look in database to see if we have this ID
         // if so then update with the values here
@@ -1323,7 +1330,7 @@ class DatabaseImpl implements Database {
 
                         structure[4].data.push(dataArray);
                     }
-                    var a = JSON.stringify(structure);
+                    let a = JSON.stringify(structure);
                     return structure;
                 })
         );

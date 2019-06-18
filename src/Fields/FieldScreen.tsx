@@ -2,6 +2,7 @@ import { inject, observer } from "mobx-react/native";
 import { Col, Footer, FooterTab, Grid, Row } from "native-base";
 import React, { Component } from "react";
 import {
+  Alert,
   Dimensions,
   FlatList,
   ScrollView,
@@ -32,8 +33,8 @@ import styles from "../styles/style";
 import ChartView from "react-native-highcharts";
 import Strings from "../assets/Strings";
 import { database } from "../database/Database";
-import Field from "../model/field";
 import ImportFileCheck from "../Export/ImportFileCheck";
+import Field from "../model/field";
 
 let id = 0;
 
@@ -596,8 +597,14 @@ export default class FieldScreen extends Component<Props, State> {
               <Button
                 buttonStyle={[styles.footerButton]}
                 titleStyle={styles.buttonText}
-                onPress={this.saveField}
+                onPress={() => this.saveField()}
                 title="Save Field"
+              />
+              <Button
+                buttonStyle={[styles.footerButton]}
+                titleStyle={styles.buttonText}
+                onPress={() => this.deleteField()}
+                title="Delete Field"
               />
               <Button
                 buttonStyle={[styles.footerButton]}
@@ -688,6 +695,27 @@ export default class FieldScreen extends Component<Props, State> {
     } else {
       return this.prevRegion;
     }
+  }
+
+  private deleteField(): void {
+    const { FieldStore } = this.props;
+    Alert.alert(
+      "Delete This Field?",
+      `Are you sure you want to delete this field?`,
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+          onPress: () => {}
+        },
+        {
+          text: "OK",
+          onPress: () => {
+            FieldStore.DeleteField().then(() => this.props.navigation.pop());
+          }
+        }
+      ]
+    );
   }
 
   private saveField = () => {

@@ -80,6 +80,12 @@ class FieldStore {
             .saveField(this.field)
             .then(() => this.getFields(this.field.farmKey));
     }
+    public async DeleteField(): Promise<void> {
+        return database
+            .deleteField(this.field.key)
+            .then(() => this.getFields(this.farm.key));
+    }
+
     public DeleteSpreadEvent() {
         database.deleteSpreadEvent(this.newSpreadEvent.key).then(() => {
             this.getSpreadEvents(this.field.key);
