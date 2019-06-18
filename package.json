@@ -8,9 +8,7 @@
     "tsc": "tsc"
   },
   "rnpm": {
-    "assets": [
-      "./src/assets/fonts"
-    ]
+    "assets": ["./src/assets/fonts"]
   },
   "dependencies": {
     "@expo/vector-icons": "9.0.0",
@@ -48,6 +46,7 @@
     "@types/react-native-sqlite-storage": "3.3.1",
     "@types/react-navigation": "3.0.1",
     "@types/react-test-renderer": "16.0.3",
+    "babel-plugin-transform-remove-console": "^6.9.4",
     "babel-jest": "23.6.0",
     "jest": "23.6.0",
     "metro-react-native-babel-preset": "0.50.0",
