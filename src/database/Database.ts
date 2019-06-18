@@ -1368,58 +1368,61 @@ class DatabaseImpl implements Database {
         return this.getDatabase()
             .then(db =>
                 db.executeSql(`select
-    fa.'Farm-Unique-Id'
-    ,fa.Latitude
-    ,fa.Longitude
-    ,fa.Name as FarmName
-    ,fa.Rainfall
-    ,fa.'Cost-N'
-    ,fa.'Cost-P'
-    ,fa.'Cost-K'
-    ,fa.'Cost-S'
-    ,fa.'Cost-Mg'
-    ,fi.'Field-Unique-Id'
-    ,fi.FarmKey
-    ,fi.Name as FieldName
-    ,fi.Coordinates
-    ,fi.Soil
-    ,fi.Crop
-    ,fi.'Previous-Crop'
-    ,fi.'Soil-Test-P'
-    ,fi.'Soil-Test-K'
-    ,fi.'Soil-Test-Mg'
-    ,fi.'Regular-Manure'
-    ,fi.'Recent-Grass'
-    ,fi.Size
-    ,se.'SpreadEvent-Unique-Id'
-    ,se.FieldKey
-    ,se.'Manure-Type'
-    ,se.Date
-    ,se.Quality
-    ,se.Application
-    ,se.Amount
-    ,se.'Nutrients-N'
-    ,se.'Nutrients-P'
-    ,se.'Nutrients-K'
-    ,se.'Nutrients-S'
-    ,se.'Nutrients-Mg'
-    ,se.'Require-N'
-    ,se.'Require-P'
-    ,se.'Require-K'
-    ,se.'Require-S'
-    ,se.'Require-Mg'
-    ,se.'Total-Nutrients-N'
-    ,se.'Total-Nutrients-P'
-    ,se.'Total-Nutrients-K'
-    ,se.'Total-Nutrients-S'
-    ,se.'Total-Nutrients-Mg'
-    ,se.SNS
-    ,se.Season
+                fa.'Farm-Unique-Id'
+                ,fa.Latitude
+                ,fa.Longitude
+                ,fa.Name as FarmName
+                ,fa.Rainfall
+                ,fa.'Cost-N'
+                ,fa.'Cost-P'
+                ,fa.'Cost-K'
+                ,fa.'Cost-S'
+                ,fa.'Cost-Mg'
+                ,fa.Deleted as farmDeleted
+                ,fi.'Field-Unique-Id'
+                ,fi.FarmKey
+                ,fi.Name as FieldName
+                ,fi.Coordinates
+                ,fi.Soil
+                ,fi.Crop
+                ,fi.'Previous-Crop'
+                ,fi.'Soil-Test-P'
+                ,fi.'Soil-Test-K'
+                ,fi.'Soil-Test-Mg'
+                ,fi.'Regular-Manure'
+                ,fi.'Recent-Grass'
+                ,fi.Size
+                ,fi.Deleted as fieldDeleted
+                ,se.'SpreadEvent-Unique-Id'
+                ,se.FieldKey
+                ,se.'Manure-Type'
+                ,se.Date
+                ,se.Quality
+                ,se.Application
+                ,se.Amount
+                ,se.'Nutrients-N'
+                ,se.'Nutrients-P'
+                ,se.'Nutrients-K'
+                ,se.'Nutrients-S'
+                ,se.'Nutrients-Mg'
+                ,se.'Require-N'
+                ,se.'Require-P'
+                ,se.'Require-K'
+                ,se.'Require-S'
+                ,se.'Require-Mg'
+                ,se.'Total-Nutrients-N'
+                ,se.'Total-Nutrients-P'
+                ,se.'Total-Nutrients-K'
+                ,se.'Total-Nutrients-S'
+                ,se.'Total-Nutrients-Mg'
+                ,se.SNS
+                ,se.Season
+                ,se.Deleted as spreadDeleted
 
-     from Farm fa
-    left join Field fi on fa.'Farm-Unique-Id' = fi.FarmKey
-    left join SpreadEvent se on se.FieldKey = fi.'Field-Unique-Id'
-    WHERE  fa.'Farm-Unique-Id' = "${farmKey}"
+                 from Farm fa
+                left join Field fi on fa.'Farm-Unique-Id' = fi.FarmKey
+                left join SpreadEvent se on se.FieldKey = fi.'Field-Unique-Id'
+                where fa.'Farm-Unique-Id' = "${farmKey}"
     `)
             )
             .then(([res]) => {
@@ -1449,7 +1452,7 @@ class DatabaseImpl implements Database {
                                 cost_n: row["Cost-N"],
                                 cost_p: row["Cost-P"],
                                 cost_s: row["Cost-S"],
-                                deleted: 0,
+                                deleted: row.farmDeleted,
                                 fields: []
                             };
 
@@ -1528,7 +1531,7 @@ class DatabaseImpl implements Database {
                         row.Coordinates,
                         row["Field-Unique-Id"]
                     ),
-                    deleted: 0,
+                    deleted: row.fieldDeleted,
                     events: []
                 };
 
@@ -1615,7 +1618,7 @@ class DatabaseImpl implements Database {
                     quality: row.Quality,
                     application: row.Application,
                     season: row.Season,
-                    deleted: 0,
+                    deleted: row.spreadDeleted,
                     crop: field.crop,
                     name: "not used",
                     size: field.size,
