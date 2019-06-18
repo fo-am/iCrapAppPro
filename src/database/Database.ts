@@ -32,7 +32,7 @@ export interface Database {
     getFarms(): Promise<Array<Farm>>;
     getFarm(key: string): Promise<Farm>;
     saveFarm(farm: Farm): Promise<void>;
-    //  deleteFarm(farm: Farm): Promise<void>;
+    deleteFarm(key: string): Promise<void>;
 
     getFields(farmKey: string): Promise<Array<Field>>;
     getField(id: string): Promise<Field>;
@@ -193,6 +193,15 @@ class DatabaseImpl implements Database {
                     return farm;
                 })
         );
+    }
+
+    public async deleteFarm(farmKey: string): Promise<void> {
+        this.getDatabase().then(db => {
+            db.executeSql(
+                `update Farm set Deleted = 1 where "Farm-Unique-Id" = ?`,
+                [farmKey]
+            );
+        });
     }
 
     public async saveFarm(farm: Farm): Promise<void> {
@@ -1330,7 +1339,7 @@ class DatabaseImpl implements Database {
 
                         structure[4].data.push(dataArray);
                     }
-                    let a = JSON.stringify(structure);
+                    const a = JSON.stringify(structure);
                     return structure;
                 })
         );

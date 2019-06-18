@@ -50,6 +50,9 @@ class FarmStore {
     public async saveFarm(): Promise<void> {
         return database.saveFarm(this.farm).then(() => this.getFarms());
     }
+    public async deleteFarm(): Promise<void> {
+        return database.deleteFarm(this.farm.key).then(() => this.getFarms());
+    }
     public reset() {
         this.farm = new Farm();
     }

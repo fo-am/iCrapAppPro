@@ -2,13 +2,14 @@ import { inject, observer } from "mobx-react/native";
 import { Col, Footer, FooterTab, Form, Grid, Item, Row } from "native-base";
 import React, { Component } from "react";
 import {
+  Alert,
   Dimensions,
   FlatList,
+  NativeModules,
   ScrollView,
   StatusBar,
   Text,
-  View,
-  NativeModules
+  View
 } from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import MapView, {
@@ -408,6 +409,12 @@ export default class FarmScreen extends Component<Props, State> {
               <Button
                 buttonStyle={styles.footerButton}
                 titleStyle={styles.buttonText}
+                onPress={() => this.deleteFarm()}
+                title="Delete Farm"
+              />
+              <Button
+                buttonStyle={styles.footerButton}
+                titleStyle={styles.buttonText}
                 onPress={() => this.cancelScreen()}
                 title="Cancel"
               />
@@ -455,6 +462,28 @@ export default class FarmScreen extends Component<Props, State> {
       return this.prevRegion;
     }
   }
+
+  private deleteFarm(): void {
+    const { FarmStore } = this.props;
+    Alert.alert(
+      "Delete This Farm?",
+      `Are you sure you want to delete this farm?`,
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+          onPress: () => {}
+        },
+        {
+          text: "OK",
+          onPress: () => {
+            FarmStore.deleteFarm().then(() => this.props.navigation.pop());
+          }
+        }
+      ]
+    );
+  }
+
   private saveFarm() {
     const { FarmStore } = this.props;
 
