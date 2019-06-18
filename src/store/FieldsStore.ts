@@ -80,7 +80,12 @@ class FieldStore {
             .saveField(this.field)
             .then(() => this.getFields(this.field.farmKey));
     }
-
+    public DeleteSpreadEvent() {
+        database.deleteSpreadEvent(this.newSpreadEvent.key).then(() => {
+            this.getSpreadEvents(this.field.key);
+            this.getGraphData(this.field.key);
+        });
+    }
     public SaveSpreadEvent() {
         // spread key pre set
         this.newSpreadEvent.fieldkey = this.field.key;

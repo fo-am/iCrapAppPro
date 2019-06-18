@@ -2,7 +2,7 @@ import Slider from "@react-native-community/slider";
 import { inject, observer } from "mobx-react/native";
 import { Col, Footer, FooterTab, Grid, H1, Row } from "native-base";
 import React, { Component } from "react";
-import { Image, ScrollView, StatusBar, Text, View } from "react-native";
+import { Image, ScrollView, StatusBar, Text, View, Alert } from "react-native";
 import { Button } from "react-native-elements";
 import { NavigationScreenProp, SafeAreaView } from "react-navigation";
 
@@ -439,10 +439,10 @@ export default class SpreadScreen extends Component<Props, State> {
               onPress={() => this.props.navigation.navigate("Camera")}
               title="Take an image of your spread"
             />
-              <Image
-                source={{ uri: FieldStore.newSpreadEvent.imagePath }}
+            <Image
+              source={{ uri: FieldStore.newSpreadEvent.imagePath }}
               style={{ width: 200, height: 200 }}
-              />
+            />
           </View>
           <Footer>
             <FooterTab>
@@ -451,6 +451,12 @@ export default class SpreadScreen extends Component<Props, State> {
                 titleStyle={styles.buttonText}
                 onPress={() => this.save()}
                 title="Save Spread"
+              />
+              <Button
+                buttonStyle={styles.footerButton}
+                titleStyle={styles.buttonText}
+                onPress={() => this.delete()}
+                title="Delete Spread"
               />
 
               <Button
@@ -463,6 +469,27 @@ export default class SpreadScreen extends Component<Props, State> {
           </Footer>
         </ScrollView>
       </SafeAreaView>
+    );
+  }
+  private delete(): void {
+    const { FieldStore } = this.props;
+    Alert.alert(
+      "Delete this spread event?",
+      `Are you sure you want to delete this spread event?`,
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+          onPress: () => {}
+        },
+        {
+          text: "OK",
+          onPress: () => {
+            FieldStore.DeleteSpreadEvent();
+            this.props.navigation.pop();
+          }
+        }
+      ]
     );
   }
   private setDropDowns(itemValue) {

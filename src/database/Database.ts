@@ -42,7 +42,7 @@ export interface Database {
     getSpreadEvents(fieldKey: string): Promise<Array<SpreadEvent>>;
     getSpreadEvent(spreadKey: string): Promise<SpreadEvent>;
     saveSpreadEvent(spreadEvent: SpreadEvent): Promise<void>;
-    //   deleteSpreadEvent(spreadEvent: SpreadEvent): Promise<void>;
+    deleteSpreadEvent(spreadKey: string): Promise<void>;
 
     getManures(): Promise<Array<Manure>>;
     getManure(key: string): Promise<Manure>;
@@ -712,6 +712,15 @@ class DatabaseImpl implements Database {
                     return newSpreadEvent;
                 })
         );
+    }
+
+    public async deleteSpreadEvent(spreadEventKey: string): Promise<void> {
+        this.getDatabase().then(db => {
+            db.executeSql(
+                `update SpreadEvent set Deleted = 1 where "SpreadEvent-Unique-Id" = ?`,
+                [spreadEventKey]
+            );
+        });
     }
     public async saveSpreadEvent(spreadEvent: SpreadEvent): Promise<void> {
         if (spreadEvent === undefined) {
