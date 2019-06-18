@@ -17,6 +17,7 @@ export default class Farm {
     @observable public costK: number = 0.49;
     @observable public costS: number = 0;
     @observable public costMg: number = 0;
+    public deleted: number = 0;
 
     constructor() {
         this.key = Maths.generateUUID();

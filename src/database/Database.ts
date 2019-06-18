@@ -260,7 +260,7 @@ class DatabaseImpl implements Database {
                             farm.costK,
                             farm.costS,
                             farm.costMg,
-                            0
+                            farm.deleted
                         ]
                     )
                 )
@@ -304,7 +304,7 @@ class DatabaseImpl implements Database {
                             farm.costK,
                             farm.costS,
                             farm.costMg,
-                            0
+                            farm.deleted
                         ]
                     )
                 )
@@ -473,7 +473,7 @@ class DatabaseImpl implements Database {
                             field.organicManure,
                             field.recentGrass,
                             field.area,
-                            0
+                            field.deleted
                         ]
                     )
                 )
@@ -524,7 +524,7 @@ class DatabaseImpl implements Database {
                             field.organicManure,
                             field.recentGrass,
                             field.area,
-                            0
+                            field.deleted
                         ]
                     )
                 )
@@ -791,7 +791,8 @@ class DatabaseImpl implements Database {
                         "Size"= ?25,
                         "Season"= ?26,
                         "Crop"= ?27,
-                        "ImageUri" = ?28
+                        "ImageUri" = ?28,
+                        "Deleted" = ?29
                          WHERE  "SpreadEvent-Unique-Id" = ?1;`,
                         [
                             spreadEvent.key,
@@ -821,7 +822,8 @@ class DatabaseImpl implements Database {
                             spreadEvent.size,
                             spreadEvent.season,
                             JSON.stringify(spreadEvent.crop),
-                            spreadEvent.imagePath
+                            spreadEvent.imagePath,
+                            spreadEvent.deleted
                         ]
                     )
                 )
@@ -899,7 +901,7 @@ class DatabaseImpl implements Database {
                             spreadEvent.season,
                             JSON.stringify(spreadEvent.crop),
                             spreadEvent.imagePath,
-                            0
+                            spreadEvent.deleted
                         ]
                     )
                 )
@@ -1207,6 +1209,7 @@ class DatabaseImpl implements Database {
         farmImport.costS = importFarm.cost_s;
         farmImport.costMg = importFarm.cost_m;
         farmImport.farmLocation = this.getAvgFieldLocation(importFarm.fields);
+        farmImport.deleted  = importFarm.deleted;
 
         this.saveFarm(farmImport);
         results.push(`Farm ${farm.farm.name} added`);
@@ -1230,6 +1233,7 @@ class DatabaseImpl implements Database {
                     field.coords
                 );
                 fieldImport.area = field.size;
+                fieldImport.deleted = field.deleted;
 
                 this.saveField(fieldImport);
                 results.push(`Field ${field.name} added`);
@@ -1274,6 +1278,7 @@ class DatabaseImpl implements Database {
                 spreadImport.applicationType = event.application;
                 spreadImport.crop = JSON.parse(event.crop);
                 spreadImport.date = moment(event.date, "D/M/YYYY");
+                spreadImport.deleted = event.deleted;
 
                 this.saveSpreadEvent(spreadImport);
             }

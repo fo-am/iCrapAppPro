@@ -19,6 +19,7 @@ export default class Field {
     @observable public prevCropType: string = "cereals";
     @observable public recentGrass: string = "no";
     @observable public cropType: Array<Array<string>> = [["crop", "maize"]];
+    public deleted: number = 0;
 
     constructor(farmKey?: string) {
         this.key = Maths.generateUUID();
