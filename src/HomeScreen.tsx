@@ -1,6 +1,7 @@
 import { inject, observer } from "mobx-react/native";
 import React, { Component } from "react";
 import {
+  Alert,
   Dimensions,
   FlatList,
   ScrollView,
@@ -11,10 +12,10 @@ import {
 import { Button } from "react-native-elements";
 import { NavigationScreenProp, SafeAreaView } from "react-navigation";
 import { database } from "./database/Database";
+import ImportFileCheck from "./Export/ImportFileCheck";
 import Farm from "./model/Farm";
 import Manure from "./model/manure";
 import styles from "./styles/style";
-import ImportFileCheck from "./Export/ImportFileCheck";
 
 interface MyComponentProps {
   navigation: NavigationScreenProp<any, any>;
@@ -142,7 +143,7 @@ export default class HomeScreen extends Component<
               buttonStyle={styles.roundButton}
               titleStyle={styles.buttonText}
               onPress={() => this.clearStore()}
-              title="Clear Store"
+              title="Delete Data"
             />
           </ScrollView>
         </View>
@@ -150,8 +151,29 @@ export default class HomeScreen extends Component<
     );
   }
   private clearStore = () => {
-    database.delete().then(() => database.getAppSettings());
-    this.props.FarmStore.farms = new Array<Farm>();
-    this.props.ManureStore.manures = new Array<Manure>();
+    Alert.alert(
+      "Delete all data?",
+      `This will remove all data from the application, are you sure?\r\n
+      If you want to save a farm export it and re-import after clearing the data.`,
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+          onPress: async () => {}
+        },
+        {
+          text: "OK",
+          onPress: async () => {
+            database
+              .delete()
+              .then(async () => database.getAppSettings())
+              .then(() => {
+                this.props.FarmStore.farms = new Array<Farm>();
+                this.props.ManureStore.manures = new Array<Manure>();
+              });
+          }
+        }
+      ]
+    );
   };
 }
