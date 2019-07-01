@@ -272,142 +272,143 @@ export default class Calculator extends Component<Props, State> {
 
           <Text style={styles.H1}>Results</Text>
 
-          <Grid style={{ alignItems: "center" }}>
-            <Row style={styles.bottomBorder}>
-              <Col>
-                <Text style={styles.text}>Nutrient</Text>
+          <ScrollView horizontal={true}>
+            <Grid style={{ paddingBottom: 20, backgroundColor: "white" }}>
+              <Col style={{ paddingHorizontal: 20 }}>
+                <Row style={{ height: 30 }}>
+                  <Text style={styles.text}>Nutrient</Text>
+                </Row>
+                <Row style={{ height: 30 }}>
+                  <Text style={styles.text}>
+                    N <DisplayAreaUnit />
+                  </Text>
+                </Row>
+                <Row style={{ height: 30 }}>
+                  <Text style={styles.text}>
+                    P<Text style={styles.sub}>2</Text>O
+                    <Text style={styles.sub}>5</Text> <DisplayAreaUnit />
+                  </Text>
+                </Row>
+                <Row style={{ height: 30 }}>
+                  <Text style={styles.text}>
+                    K<Text style={styles.sub}>2</Text>
+                    O <DisplayAreaUnit />
+                  </Text>
+                </Row>
+                <Row style={{ height: 30 }}>
+                  <Text style={styles.text}>S</Text>
+                </Row>
+                <Row style={{ height: 30 }}>
+                  <Text style={styles.text}>Mg</Text>
+                </Row>
               </Col>
-              <Col>
-                <Text style={styles.text}>Crop Avalable</Text>
+              <Col style={{ paddingHorizontal: 20 }}>
+                <Row style={{ height: 30 }}>
+                  <Text style={styles.text}>Crop Avalable</Text>
+                </Row>
+                <Row style={{ height: 30 }}>
+                  <FormatValue
+                    units={"UnitsAcre"}
+                    value={CalculatorStore.nutrientResults.nitrogenTotal}
+                  />
+                </Row>
+                <Row style={{ height: 30 }}>
+                  <FormatValue
+                    units={"UnitsAcre"}
+                    value={CalculatorStore.nutrientResults.phosphorousTotal}
+                  />
+                </Row>
+                <Row style={{ height: 30 }}>
+                  <FormatValue
+                    units={"UnitsAcre"}
+                    value={CalculatorStore.nutrientResults.potassiumTotal}
+                  />
+                </Row>
+                <Row style={{ height: 30 }}>
+                  <FormatValue
+                    units={"UnitsAcre"}
+                    value={CalculatorStore.nutrientResults.sulphurTotal}
+                  />
+                </Row>
+                <Row style={{ height: 30 }}>
+                  <FormatValue
+                    units={"UnitsAcre"}
+                    value={CalculatorStore.nutrientResults.magnesiumTotal}
+                  />
+                </Row>
               </Col>
-              <Col>
-                <Text style={styles.text}>Total In Manure</Text>
+              <Col style={{ paddingHorizontal: 20 }}>
+                <Row style={{ height: 30 }}>
+                  <Text style={styles.text}>Total In Manure</Text>
+                </Row>
+                <Row style={{ height: 30 }}>
+                  <FormatValue
+                    units={"UnitsAcre"}
+                    value={CalculatorStore.nutrientResults.nitrogenAvailable}
+                  />
+                </Row>
+                <Row style={{ height: 30 }}>
+                  <FormatValue
+                    units={"UnitsAcre"}
+                    value={CalculatorStore.nutrientResults.phosphorousAvailable}
+                  />
+                </Row>
+                <Row style={{ height: 30 }}>
+                  <FormatValue
+                    units={"UnitsAcre"}
+                    value={CalculatorStore.nutrientResults.potassiumAvailable}
+                  />
+                </Row>
+                <Row style={{ height: 30 }}>
+                  <FormatValue
+                    units={"UnitsAcre"}
+                    value={CalculatorStore.nutrientResults.sulphurAvailable}
+                  />
+                </Row>
+                <Row style={{ height: 30 }}>
+                  <FormatValue
+                    units={"UnitsAcre"}
+                    value={CalculatorStore.nutrientResults.magnesiumAvailable}
+                  />
+                </Row>
               </Col>
-              <Col>
-                <Text style={styles.text}>Savings</Text>
+              <Col style={{ paddingHorizontal: 20 }}>
+                <Row style={{ height: 30 }}>
+                  <Text style={styles.text}>Savings</Text>
+                </Row>
+                <Row style={{ height: 30 }}>
+                  <CashDisplay
+                    value={CalculatorStore.nutrientResults.nitrogenTotal * 0.79}
+                  />
+                </Row>
+                <Row style={{ height: 30 }}>
+                  <CashDisplay
+                    value={
+                      CalculatorStore.nutrientResults.phosphorousTotal * 0.62
+                    }
+                  />
+                </Row>
+                <Row style={{ height: 30 }}>
+                  <CashDisplay
+                    value={
+                      CalculatorStore.nutrientResults.potassiumTotal * 0.49
+                    }
+                  />
+                </Row>
+                <Row style={{ height: 30 }}>
+                  <CashDisplay
+                    value={CalculatorStore.nutrientResults.potassiumTotal * 0}
+                  />
+                </Row>
+                <Row style={{ height: 30 }}>
+                  <CashDisplay
+                    value={CalculatorStore.nutrientResults.magnesiumTotal * 0}
+                  />
+                </Row>
               </Col>
-            </Row>
-            <Row style={styles.bottomBorder}>
-              <Col>
-                <Text style={styles.text}>
-                  N <DisplayAreaUnit />
-                </Text>
-              </Col>
-              <Col>
-                <FormatValue
-                  units={"UnitsAcre"}
-                  value={CalculatorStore.nutrientResults.nitrogenTotal}
-                />
-              </Col>
-              <Col>
-                <FormatValue
-                  units={"UnitsAcre"}
-                  value={CalculatorStore.nutrientResults.nitrogenAvailable}
-                />
-              </Col>
-              <Col>
-                <CashDisplay
-                  value={CalculatorStore.nutrientResults.nitrogenTotal * 0.79}
-                />
-              </Col>
-            </Row>
-            <Row style={styles.bottomBorder}>
-              <Col>
-                <Text style={styles.text}>
-                  P<Text style={styles.sub}>2</Text>O
-                  <Text style={styles.sub}>5</Text> <DisplayAreaUnit />
-                </Text>
-              </Col>
-              <Col>
-                <FormatValue
-                  units={"UnitsAcre"}
-                  value={CalculatorStore.nutrientResults.phosphorousTotal}
-                />
-              </Col>
-              <Col>
-                <FormatValue
-                  units={"UnitsAcre"}
-                  value={CalculatorStore.nutrientResults.phosphorousAvailable}
-                />
-              </Col>
-              <Col>
-                <CashDisplay
-                  value={
-                    CalculatorStore.nutrientResults.phosphorousTotal * 0.62
-                  }
-                />
-              </Col>
-            </Row>
-            <Row style={styles.bottomBorder}>
-              <Col>
-                <Text style={styles.text}>
-                  K<Text style={styles.sub}>2</Text>
-                  O <DisplayAreaUnit />
-                </Text>
-              </Col>
-              <Col>
-                <FormatValue
-                  units={"UnitsAcre"}
-                  value={CalculatorStore.nutrientResults.potassiumTotal}
-                />
-              </Col>
-              <Col>
-                <FormatValue
-                  units={"UnitsAcre"}
-                  value={CalculatorStore.nutrientResults.potassiumAvailable}
-                />
-              </Col>
-              <Col>
-                <CashDisplay
-                  value={CalculatorStore.nutrientResults.potassiumTotal * 0.49}
-                />
-              </Col>
-            </Row>
-            <Row style={styles.bottomBorder}>
-              <Col>
-                <Text style={styles.text}>S</Text>
-              </Col>
-              <Col>
-                <FormatValue
-                  units={"UnitsAcre"}
-                  value={CalculatorStore.nutrientResults.sulphurTotal}
-                />
-              </Col>
-              <Col>
-                <FormatValue
-                  units={"UnitsAcre"}
-                  value={CalculatorStore.nutrientResults.sulphurAvailable}
-                />
-              </Col>
-              <Col>
-                <CashDisplay
-                  value={CalculatorStore.nutrientResults.potassiumTotal * 0}
-                />
-              </Col>
-            </Row>
-            <Row style={styles.bottomBorder}>
-              <Col>
-                <Text style={styles.text}>Mg</Text>
-              </Col>
-              <Col>
-                <FormatValue
-                  units={"UnitsAcre"}
-                  value={CalculatorStore.nutrientResults.magnesiumTotal}
-                />
-              </Col>
-              <Col>
-                <FormatValue
-                  units={"UnitsAcre"}
-                  value={CalculatorStore.nutrientResults.magnesiumAvailable}
-                />
-              </Col>
-              <Col>
-                <CashDisplay
-                  value={CalculatorStore.nutrientResults.magnesiumTotal * 0}
-                />
-              </Col>
-            </Row>
-          </Grid>
+            </Grid>
+          </ScrollView>
+
           <Button
             buttonStyle={[styles.roundButton]}
             titleStyle={styles.buttonText}
