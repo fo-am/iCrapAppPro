@@ -572,6 +572,14 @@ export default class SpreadScreen extends Component<Props, State> {
     if (selectedManure === "fym") {
       selectedManure = CalculatorStore.calculatorValues.qualitySelected;
     }
+
+    if (
+      selectedManure === "paper-crumble" ||
+      selectedManure === "spent-mushroom"
+    ) {
+      selectedManure = "compost";
+    }
+
     if (!Images[selectedManure]) {
       selectedManure = "fym-cattle";
     }
