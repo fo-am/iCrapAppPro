@@ -150,8 +150,8 @@
     "digestate-food": {
         "slider": {
             "maxValue": 100,
-            "metricUnit": "tons/ha",
-            "imperialUnit": "tons/acre"
+            "metricUnit": "m3/ha",
+            "imperialUnit": "gallons/acre"
         },
         "dropDowns": {
             "application": {},
@@ -165,8 +165,8 @@
     "digestate-farm": {
         "slider": {
             "maxValue": 100,
-            "metricUnit": "tons/ha",
-            "imperialUnit": "tons/acre"
+            "metricUnit": "m3/ha",
+            "imperialUnit": "gallons/acre"
         },
         "dropDowns": {
             "application": {},
