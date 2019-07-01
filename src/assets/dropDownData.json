@@ -22,8 +22,8 @@
     "fym": {
         "slider": {
             "maxValue": 100,
-            "metricUnit": "m3/ha",
-            "imperialUnit": "gallons/acre"
+            "metricUnit": "tons/ha",
+            "imperialUnit": "tons/acre"
         },
         "dropDowns": {
             "application": {
