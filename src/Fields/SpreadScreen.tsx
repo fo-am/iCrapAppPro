@@ -2,7 +2,7 @@ import Slider from "@react-native-community/slider";
 import { inject, observer } from "mobx-react/native";
 import { Col, Footer, FooterTab, Grid, H1, Row } from "native-base";
 import React, { Component } from "react";
-import { Image, ScrollView, StatusBar, Text, View, Alert } from "react-native";
+import { Alert, Image, ScrollView, StatusBar, Text, View } from "react-native";
 import { Button } from "react-native-elements";
 import { NavigationScreenProp, SafeAreaView } from "react-navigation";
 
@@ -202,13 +202,13 @@ export default class SpreadScreen extends Component<Props, State> {
                   <Text style={styles.text}>Total In Manure</Text>
                 </Col>
                 <Col>
-                  <Text style={styles.text}>Savings</Text>
-                </Col>
-                <Col>
                   <Text style={styles.text}>Crop Requirements</Text>
                 </Col>
                 <Col>
                   <Text style={styles.text}>Still needed</Text>
+                </Col>
+                <Col>
+                  <Text style={styles.text}>Savings</Text>
                 </Col>
               </Row>
               <Row style={styles.bottomBorder}>
@@ -230,15 +230,6 @@ export default class SpreadScreen extends Component<Props, State> {
                   />
                 </Col>
                 <Col>
-                  <CashDisplay
-                    value={
-                      CalculatorStore.nutrientResults.nitrogenAvailable *
-                      FarmStore.farm.costN *
-                      FieldStore.field.area
-                    }
-                  />
-                </Col>
-                <Col>
                   <FormatValue
                     units={"UnitsAcre"}
                     value={
@@ -252,6 +243,15 @@ export default class SpreadScreen extends Component<Props, State> {
                     value={
                       FieldStore.cropRequirementsResult.nitrogenRequirement -
                       CalculatorStore.nutrientResults.nitrogenTotal
+                    }
+                  />
+                </Col>
+                <Col>
+                  <CashDisplay
+                    value={
+                      CalculatorStore.nutrientResults.nitrogenAvailable *
+                      FarmStore.farm.costN *
+                      FieldStore.field.area
                     }
                   />
                 </Col>
@@ -276,15 +276,6 @@ export default class SpreadScreen extends Component<Props, State> {
                   />
                 </Col>
                 <Col>
-                  <CashDisplay
-                    value={
-                      CalculatorStore.nutrientResults.phosphorousAvailable *
-                      FarmStore.farm.costP *
-                      FieldStore.field.area
-                    }
-                  />
-                </Col>
-                <Col>
                   <FormatValue
                     units={"UnitsAcre"}
                     value={
@@ -298,6 +289,15 @@ export default class SpreadScreen extends Component<Props, State> {
                     value={
                       FieldStore.cropRequirementsResult.phosphorousRequirement -
                       CalculatorStore.nutrientResults.phosphorousTotal
+                    }
+                  />
+                </Col>
+                <Col>
+                  <CashDisplay
+                    value={
+                      CalculatorStore.nutrientResults.phosphorousAvailable *
+                      FarmStore.farm.costP *
+                      FieldStore.field.area
                     }
                   />
                 </Col>
@@ -322,15 +322,6 @@ export default class SpreadScreen extends Component<Props, State> {
                   />
                 </Col>
                 <Col>
-                  <CashDisplay
-                    value={
-                      CalculatorStore.nutrientResults.potassiumAvailable *
-                      FarmStore.farm.costK *
-                      FieldStore.field.area
-                    }
-                  />
-                </Col>
-                <Col>
                   <FormatValue
                     units={"UnitsAcre"}
                     value={
@@ -344,6 +335,15 @@ export default class SpreadScreen extends Component<Props, State> {
                     value={
                       FieldStore.cropRequirementsResult.potassiumRequirement -
                       CalculatorStore.nutrientResults.potassiumTotal
+                    }
+                  />
+                </Col>
+                <Col>
+                  <CashDisplay
+                    value={
+                      CalculatorStore.nutrientResults.potassiumAvailable *
+                      FarmStore.farm.costK *
+                      FieldStore.field.area
                     }
                   />
                 </Col>
@@ -365,15 +365,6 @@ export default class SpreadScreen extends Component<Props, State> {
                   />
                 </Col>
                 <Col>
-                  <CashDisplay
-                    value={
-                      CalculatorStore.nutrientResults.sulphurAvailable *
-                      FarmStore.farm.costS *
-                      FieldStore.field.area
-                    }
-                  />
-                </Col>
-                <Col>
                   <FormatValue
                     units={"UnitsAcre"}
                     value={FieldStore.cropRequirementsResult.sulphurRequirement}
@@ -385,6 +376,15 @@ export default class SpreadScreen extends Component<Props, State> {
                     value={
                       FieldStore.cropRequirementsResult.sulphurRequirement -
                       CalculatorStore.nutrientResults.sulphurTotal
+                    }
+                  />
+                </Col>
+                <Col>
+                  <CashDisplay
+                    value={
+                      CalculatorStore.nutrientResults.sulphurAvailable *
+                      FarmStore.farm.costS *
+                      FieldStore.field.area
                     }
                   />
                 </Col>
@@ -406,15 +406,6 @@ export default class SpreadScreen extends Component<Props, State> {
                   />
                 </Col>
                 <Col>
-                  <CashDisplay
-                    value={
-                      CalculatorStore.nutrientResults.magnesiumAvailable *
-                      FarmStore.farm.costMg *
-                      FieldStore.field.area
-                    }
-                  />
-                </Col>
-                <Col>
                   <FormatValue
                     units={"UnitsAcre"}
                     value={
@@ -428,6 +419,15 @@ export default class SpreadScreen extends Component<Props, State> {
                     value={
                       FieldStore.cropRequirementsResult.magnesiumRequirement -
                       CalculatorStore.nutrientResults.magnesiumTotal
+                    }
+                  />
+                </Col>
+                <Col>
+                  <CashDisplay
+                    value={
+                      CalculatorStore.nutrientResults.magnesiumAvailable *
+                      FarmStore.farm.costMg *
+                      FieldStore.field.area
                     }
                   />
                 </Col>
