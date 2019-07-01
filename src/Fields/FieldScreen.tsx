@@ -388,7 +388,7 @@ export default class FieldScreen extends Component<Props, State> {
               <Row>
                 <Col>
                   <Text style={[styles.H3, { textAlign: "center" }]}>
-                    Nitrogen Supply
+                  Soil Nitrogen Supply
                   </Text>
                 </Col>
               </Row>
