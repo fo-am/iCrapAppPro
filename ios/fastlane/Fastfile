@@ -36,7 +36,6 @@ platform :ios do
    appicon(appicon_image_file: './fastlane/metadata/app_icon.png',
     appicon_devices: [:ipad, :iphone, :ios_marketing],
      appicon_path: 'farm_crap_app/Images.xcassets' )
-    add_badge(dark: true)
   end
   lane :deploy do
    produce(
