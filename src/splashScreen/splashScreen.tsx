@@ -87,7 +87,8 @@ export default class SplashScreen extends Component<
               >
                 {t("introduction")}
               </Text>
-
+              <Text>Version 1.0</Text>
+              <Text>Build 44</Text>
               <Image
                 source={require("../../resources/splash.png")}
                 style={{
