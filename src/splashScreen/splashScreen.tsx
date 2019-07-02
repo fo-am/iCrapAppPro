@@ -90,10 +90,10 @@ export default class SplashScreen extends Component<
               <Text>Version 1.0</Text>
               <Text>Build 44</Text>
               <Image
-                source={require("../../resources/splash.png")}
+                source={require("../../resources/icon.png")}
                 style={{
-                  width: Dimensions.get("window").height * 0.6,
-                  height: Dimensions.get("window").height * 0.6
+                  width: Dimensions.get("window").height * 0.2,
+                  height: Dimensions.get("window").height * 0.2
                 }}
               />
             </View>
