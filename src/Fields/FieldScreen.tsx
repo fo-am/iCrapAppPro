@@ -132,9 +132,10 @@ export default class FieldScreen extends Component<Props, State> {
       exporting: {
         enabled: false
       },
+      tooltip: { enabled: false },
       plotOptions: {
         column: {
-          pointPadding: 0.2,
+          pointPadding: 0,
           borderWidth: 0
         }
       },
@@ -388,7 +389,7 @@ export default class FieldScreen extends Component<Props, State> {
               <Row>
                 <Col>
                   <Text style={[styles.H3, { textAlign: "center" }]}>
-                  Soil Nitrogen Supply
+                    Soil Nitrogen Supply
                   </Text>
                 </Col>
               </Row>
