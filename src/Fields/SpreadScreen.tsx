@@ -457,13 +457,13 @@ export default class SpreadScreen extends Component<Props, State> {
                 buttonStyle={styles.footerButton}
                 titleStyle={styles.buttonText}
                 onPress={() => this.save()}
-                title="Save Spread"
+                title="Save"
               />
               <Button
                 buttonStyle={styles.footerButton}
                 titleStyle={styles.buttonText}
                 onPress={() => this.delete()}
-                title="Delete Spread"
+                title="Delete"
               />
 
               <Button

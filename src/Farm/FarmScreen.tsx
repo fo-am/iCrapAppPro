@@ -404,13 +404,13 @@ export default class FarmScreen extends Component<Props, State> {
                 buttonStyle={styles.footerButton}
                 titleStyle={styles.buttonText}
                 onPress={() => this.saveFarm()}
-                title="Save Farm"
+                title="Save"
               />
               <Button
                 buttonStyle={styles.footerButton}
                 titleStyle={styles.buttonText}
                 onPress={() => this.deleteFarm()}
-                title="Delete Farm"
+                title="Delete"
               />
               <Button
                 buttonStyle={styles.footerButton}

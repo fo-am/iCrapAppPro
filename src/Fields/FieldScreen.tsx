@@ -598,13 +598,13 @@ export default class FieldScreen extends Component<Props, State> {
                 buttonStyle={[styles.footerButton]}
                 titleStyle={styles.buttonText}
                 onPress={() => this.saveField()}
-                title="Save Field"
+                title="Save"
               />
               <Button
                 buttonStyle={[styles.footerButton]}
                 titleStyle={styles.buttonText}
                 onPress={() => this.deleteField()}
-                title="Delete Field"
+                title="Delete"
               />
               <Button
                 buttonStyle={[styles.footerButton]}
