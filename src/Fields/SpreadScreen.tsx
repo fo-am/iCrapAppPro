@@ -191,81 +191,81 @@ export default class SpreadScreen extends Component<Props, State> {
               </Text>
             </View>
             <ScrollView horizontal={true}>
-              <Grid>
-                <Col>
-                  <Row>
+              <Grid style={{ paddingBottom: 20, backgroundColor: "white" }}>
+                <Col style={{ paddingHorizontal: 20 }}>
+                  <Row style={{ height: 30 }}>
                     <Text style={styles.text}>Nutrient</Text>
                   </Row>
-                  <Row>
+                  <Row style={{ height: 30 }}>
                     <Text style={styles.text}>
                       N <DisplayAreaUnit />
                     </Text>
                   </Row>
-                  <Row>
+                  <Row style={{ height: 30 }}>
                     <Text style={styles.text}>
                       P<Text style={styles.sub}>2</Text>O
                       <Text style={styles.sub}>5</Text> <DisplayAreaUnit />
                     </Text>
                   </Row>
-                  <Row>
+                  <Row style={{ height: 30 }}>
                     <Text style={styles.text}>
                       K<Text style={styles.sub}>2</Text>
                       O <DisplayAreaUnit />
                     </Text>
                   </Row>
-                  <Row>
+                  <Row style={{ height: 30 }}>
                     <Text style={styles.text}>S</Text>
                   </Row>
-                  <Row>
+                  <Row style={{ height: 30 }}>
                     <Text style={styles.text}>Mg</Text>
                   </Row>
                 </Col>
-                <Col>
-                  <Row>
+                <Col style={{ paddingHorizontal: 20 }}>
+                  <Row style={{ height: 30 }}>
                     <Text style={styles.text}>Crop Avalable</Text>
                   </Row>
-                  <Row>
+                  <Row style={{ height: 30 }}>
                     <FormatValue
                       units={"UnitsAcre"}
                       value={CalculatorStore.nutrientResults.nitrogenTotal}
                     />
                   </Row>
-                  <Row>
+                  <Row style={{ height: 30 }}>
                     <FormatValue
                       units={"UnitsAcre"}
                       value={CalculatorStore.nutrientResults.phosphorousTotal}
                     />
                   </Row>
-                  <Row>
+                  <Row style={{ height: 30 }}>
                     <FormatValue
                       units={"UnitsAcre"}
                       value={CalculatorStore.nutrientResults.potassiumTotal}
                     />
                   </Row>
-                  <Row>
+                  <Row style={{ height: 30 }}>
                     <FormatValue
                       units={"UnitsAcre"}
                       value={CalculatorStore.nutrientResults.sulphurTotal}
                     />
                   </Row>
-                  <Row>
+                  <Row style={{ height: 30 }}>
                     <FormatValue
                       units={"UnitsAcre"}
                       value={CalculatorStore.nutrientResults.magnesiumTotal}
                     />
                   </Row>
                 </Col>
-                <Col>
-                  <Row>
+                <Col style={{ paddingHorizontal: 20 }}>
+                  <Row style={{ height: 30 }}>
                     <Text style={styles.text}>Total In Manure</Text>
                   </Row>
-                  <Row>
+                  <Row style={{ height: 30 }}>
                     <FormatValue
                       units={"UnitsAcre"}
                       value={CalculatorStore.nutrientResults.nitrogenAvailable}
                     />
                   </Row>
-                  <Row>
+                  <Row style={{ height: 30 }}>
                     <FormatValue
                       units={"UnitsAcre"}
                       value={
@@ -273,30 +273,30 @@ export default class SpreadScreen extends Component<Props, State> {
                       }
                     />
                   </Row>
-                  <Row>
+                  <Row style={{ height: 30 }}>
                     <FormatValue
                       units={"UnitsAcre"}
                       value={CalculatorStore.nutrientResults.potassiumAvailable}
                     />
                   </Row>
-                  <Row>
+                  <Row style={{ height: 30 }}>
                     <FormatValue
                       units={"UnitsAcre"}
                       value={CalculatorStore.nutrientResults.sulphurAvailable}
                     />
                   </Row>
-                  <Row>
+                  <Row style={{ height: 30 }}>
                     <FormatValue
                       units={"UnitsAcre"}
                       value={CalculatorStore.nutrientResults.magnesiumAvailable}
                     />
                   </Row>
                 </Col>
-                <Col>
-                  <Row>
+                <Col style={{ paddingHorizontal: 20 }}>
+                  <Row style={{ height: 30 }}>
                     <Text style={styles.text}>Crop Requirements</Text>
                   </Row>
-                  <Row>
+                  <Row style={{ height: 30 }}>
                     <FormatValue
                       units={"UnitsAcre"}
                       value={
@@ -304,7 +304,7 @@ export default class SpreadScreen extends Component<Props, State> {
                       }
                     />
                   </Row>
-                  <Row>
+                  <Row style={{ height: 30 }}>
                     <FormatValue
                       units={"UnitsAcre"}
                       value={
@@ -312,7 +312,7 @@ export default class SpreadScreen extends Component<Props, State> {
                       }
                     />
                   </Row>
-                  <Row>
+                  <Row style={{ height: 30 }}>
                     <FormatValue
                       units={"UnitsAcre"}
                       value={
@@ -320,7 +320,7 @@ export default class SpreadScreen extends Component<Props, State> {
                       }
                     />
                   </Row>
-                  <Row>
+                  <Row style={{ height: 30 }}>
                     <FormatValue
                       units={"UnitsAcre"}
                       value={
@@ -328,7 +328,7 @@ export default class SpreadScreen extends Component<Props, State> {
                       }
                     />
                   </Row>
-                  <Row>
+                  <Row style={{ height: 30 }}>
                     <FormatValue
                       units={"UnitsAcre"}
                       value={
@@ -337,11 +337,11 @@ export default class SpreadScreen extends Component<Props, State> {
                     />
                   </Row>
                 </Col>
-                <Col>
-                  <Row>
+                <Col style={{ paddingHorizontal: 20 }}>
+                  <Row style={{ height: 30 }}>
                     <Text style={styles.text}>Still needed</Text>
                   </Row>
-                  <Row>
+                  <Row style={{ height: 30 }}>
                     <FormatValue
                       units={"UnitsAcre"}
                       value={
@@ -350,7 +350,7 @@ export default class SpreadScreen extends Component<Props, State> {
                       }
                     />
                   </Row>
-                  <Row>
+                  <Row style={{ height: 30 }}>
                     <FormatValue
                       units={"UnitsAcre"}
                       value={
@@ -360,7 +360,7 @@ export default class SpreadScreen extends Component<Props, State> {
                       }
                     />
                   </Row>
-                  <Row>
+                  <Row style={{ height: 30 }}>
                     <FormatValue
                       units={"UnitsAcre"}
                       value={
@@ -369,7 +369,7 @@ export default class SpreadScreen extends Component<Props, State> {
                       }
                     />
                   </Row>
-                  <Row>
+                  <Row style={{ height: 30 }}>
                     <FormatValue
                       units={"UnitsAcre"}
                       value={
@@ -378,7 +378,7 @@ export default class SpreadScreen extends Component<Props, State> {
                       }
                     />
                   </Row>
-                  <Row>
+                  <Row style={{ height: 30 }}>
                     <FormatValue
                       units={"UnitsAcre"}
                       value={
@@ -388,11 +388,11 @@ export default class SpreadScreen extends Component<Props, State> {
                     />
                   </Row>
                 </Col>
-                <Col>
-                  <Row>
+                <Col style={{ paddingHorizontal: 20 }}>
+                  <Row style={{ height: 30 }}>
                     <Text style={styles.text}>Savings</Text>
                   </Row>
-                  <Row>
+                  <Row style={{ height: 30 }}>
                     <CashDisplay
                       value={
                         CalculatorStore.nutrientResults.nitrogenAvailable *
@@ -401,7 +401,7 @@ export default class SpreadScreen extends Component<Props, State> {
                       }
                     />
                   </Row>
-                  <Row>
+                  <Row style={{ height: 30 }}>
                     <CashDisplay
                       value={
                         CalculatorStore.nutrientResults.phosphorousAvailable *
@@ -410,7 +410,7 @@ export default class SpreadScreen extends Component<Props, State> {
                       }
                     />
                   </Row>
-                  <Row>
+                  <Row style={{ height: 30 }}>
                     <CashDisplay
                       value={
                         CalculatorStore.nutrientResults.potassiumAvailable *
@@ -419,7 +419,7 @@ export default class SpreadScreen extends Component<Props, State> {
                       }
                     />
                   </Row>
-                  <Row>
+                  <Row style={{ height: 30 }}>
                     <CashDisplay
                       value={
                         CalculatorStore.nutrientResults.sulphurAvailable *
@@ -428,7 +428,7 @@ export default class SpreadScreen extends Component<Props, State> {
                       }
                     />
                   </Row>
-                  <Row>
+                  <Row style={{ height: 30 }}>
                     <CashDisplay
                       value={
                         CalculatorStore.nutrientResults.magnesiumAvailable *
