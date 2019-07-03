@@ -99,7 +99,7 @@ export default class FieldScreen extends Component<Props, State> {
   public render() {
     const { FieldStore } = this.props;
 
-    let Highcharts = "Highcharts";
+    const Highcharts = "Highcharts";
     const conf = {
       chart: {
         type: "column",
@@ -134,6 +134,19 @@ export default class FieldScreen extends Component<Props, State> {
       },
       tooltip: { enabled: false },
       plotOptions: {
+        series: {
+          enableMouseTracking: false,
+          states: {
+            inactive: {
+              opacity: 1
+            }
+          },
+          events: {
+            legendItemClick() {
+              return false;
+            }
+          }
+        },
         column: {
           pointPadding: 0,
           borderWidth: 0
