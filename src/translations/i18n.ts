@@ -9,13 +9,12 @@ i18n.init({
     resources: {
         en: {
             common: {
-                introduction: "Manage your muck with the Farm Crap App",
                 "the-farm-crap-app-pro": "Farm Crap App Pro",
 
                 title: "The Farm Crap App: Pro Edition",
                 "splash-about": "Manage your muck with the Farm Crap App",
                 "splash-blurb":
-                    "Developed by <a href='http://fo.am/kernow'>FoAM Kernow</a> on behalf of the <a href='www.swarmhub.co.uk'>SWARM Knowledge Hub</a>, a Rural Development Programme for England (RDPE) initiative managed by <a href='http://www.duchy.ac.uk/'>Duchy College Rural Business School</a>, in partnership with Rothamsted Research North Wyke.",
+                    "Developed by FoAM Kernow on behalf of the SWARM Knowledge Hub, a Rural Development Programme for England (RDPE) initiative managed by Duchy College Rural Business School, in partnership with Rothamsted Research North Wyke.",
                 "splash-discl":
                     "The Farm Crap App offers information for guidance purposes only and is not intended to amount to professional advice or opinion. FoAM Kernow, Duchy College, and Rothamsted Research North Wyke cannot be held responsible for any losses or damage resulting from the use of information provided by this app.",
                 "splash-start": "Get Started!",

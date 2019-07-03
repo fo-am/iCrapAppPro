@@ -15,7 +15,14 @@ import {
 } from "native-base";
 import React, { Component } from "react";
 import { translate } from "react-i18next";
-import { Dimensions, Image, StatusBar, View } from "react-native";
+import {
+  Dimensions,
+  Image,
+  Modal,
+  ScrollView,
+  StatusBar,
+  View
+} from "react-native";
 import { NavigationScreenProp, SafeAreaView } from "react-navigation";
 import ImportFileCheck from "../Export/ImportFileCheck";
 
@@ -23,7 +30,9 @@ interface MyComponentProps {
   navigation: NavigationScreenProp<any, any>;
 }
 
-interface MyComponentState {}
+interface MyComponentState {
+  showInfo: boolean;
+}
 
 @translate(["common"], { wait: true })
 @inject("FieldStore")
@@ -34,6 +43,7 @@ export default class SplashScreen extends Component<
 > {
   constructor(props) {
     super(props);
+    this.state = { showInfo: false };
   }
 
   public render() {
@@ -86,7 +96,7 @@ export default class SplashScreen extends Component<
                   paddingBottom: 50
                 }}
               >
-                {t("introduction")}
+                {t("splash-about")}
               </Text>
               <Image
                 source={require("../../resources/icon.png")}
@@ -114,9 +124,80 @@ export default class SplashScreen extends Component<
               </Text>
             </View>
           </Content>
-          <Footer />
+          <Footer>
+            <Left>
+              <Button transparent onPress={() => this.ToggleInfoPane()}>
+                <Text
+                  style={{ color: "black", fontFamily: "ArimaMadurai-Regular" }}
+                >
+                  Info
+                </Text>
+              </Button>
+            </Left>
+          </Footer>
         </Container>
+        <Modal
+          style={{
+            marginTop: 22,
+            backgroundColor: "#D5D5D5"
+          }}
+          animationType="slide"
+          transparent={false}
+          visible={this.state.showInfo}
+          onRequestClose={() => {}}
+        >
+          <View>
+            <ScrollView scrollEnabled={true} style={{ padding: 30 }}>
+              <Text
+                style={{
+                  fontSize: 25,
+                  fontFamily: "ArimaMadurai-Regular",
+                  textAlign: "center"
+                }}
+              >
+                {t("splash-blurb")}
+              </Text>
+              <Text
+                style={{
+                  fontSize: 15,
+                  fontFamily: "ArimaMadurai-Regular",
+                  textAlign: "center"
+                }}
+              >
+                {t("splash-discl")}
+              </Text>
+            </ScrollView>
+          </View>
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "flex-end",
+              marginBottom: 20
+            }}
+          >
+            <Button
+              style={{
+                width: "100%"
+              }}
+              onPress={() => this.ToggleInfoPane()}
+            >
+              <Text
+                style={{
+                  textAlign: "center",
+                  width: "100%",
+                  fontSize: 15,
+                  fontFamily: "ArimaMadurai-Regular"
+                }}
+              >
+                Done
+              </Text>
+            </Button>
+          </View>
+        </Modal>
       </SafeAreaView>
     );
+  }
+  public ToggleInfoPane(): void {
+    this.setState({ showInfo: !this.state.showInfo });
   }
 }
