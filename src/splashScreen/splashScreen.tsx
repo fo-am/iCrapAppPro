@@ -15,7 +15,7 @@ import {
 } from "native-base";
 import React, { Component } from "react";
 import { translate } from "react-i18next";
-import { Image, View, StatusBar, Dimensions } from "react-native";
+import { Dimensions, Image, StatusBar, View } from "react-native";
 import { NavigationScreenProp, SafeAreaView } from "react-navigation";
 import ImportFileCheck from "../Export/ImportFileCheck";
 
@@ -61,7 +61,7 @@ export default class SplashScreen extends Component<
                     fontWeight: "bold"
                   }}
                 >
-                  Begin >
+                  Begin
                 </Text>
               </Button>
             </Right>
@@ -82,13 +82,12 @@ export default class SplashScreen extends Component<
               <Text
                 style={{
                   textAlign: "center",
-                  fontFamily: "ArimaMadurai-Regular"
+                  fontFamily: "ArimaMadurai-Regular",
+                  paddingBottom: 50
                 }}
               >
                 {t("introduction")}
               </Text>
-              <Text>Version 1.0</Text>
-              <Text>Build 44</Text>
               <Image
                 source={require("../../resources/icon.png")}
                 style={{
@@ -96,6 +95,23 @@ export default class SplashScreen extends Component<
                   height: Dimensions.get("window").height * 0.2
                 }}
               />
+              <Text
+                style={{
+                  paddingTop: 50,
+                  fontSize: 20,
+                  fontFamily: "ArimaMadurai-Regular"
+                }}
+              >
+                Version 1.0
+              </Text>
+              <Text
+                style={{
+                  fontSize: 15,
+                  fontFamily: "ArimaMadurai-Regular"
+                }}
+              >
+                Build 47
+              </Text>
             </View>
           </Content>
           <Footer />
