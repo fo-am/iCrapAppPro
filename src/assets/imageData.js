@@ -4,7 +4,6 @@ const images = {
         25: require("./calcImages/cattle_25m3.jpg"),
         30: require("./calcImages/cattle_slurry_30m3.jpg"),
         50: require("./calcImages/cattle_50m3.jpg"),
-        75: require("./calcImages/cattle_slurry_75m3.jpg"),
         100: require("./calcImages/cattle_100m3.jpg")
     },
     pig: {
