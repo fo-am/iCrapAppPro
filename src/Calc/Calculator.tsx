@@ -152,7 +152,8 @@ export default class Calculator extends Component<Props, State> {
 
     if (
       selectedManure === "paper-crumble" ||
-      selectedManure === "spent-mushroom"
+      selectedManure === "spent-mushroom" ||
+      selectedManure === "food-industry-waste"
     ) {
       selectedManure = "compost";
     }
