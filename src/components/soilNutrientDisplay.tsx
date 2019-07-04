@@ -24,7 +24,10 @@ export default class SoilNutrientDisplay extends Component<Props, State> {
     6: "6",
     "grassland-high-sns": "Grassland high SNS",
     "grassland-med-sns": "Grassland medium SNS",
-    "grassland-low-sns": "Grassland low SNS"
+    "grassland-low-sns": "Grassland low SNS",
+    100: "Grassland high SNS",
+    101: "Grassland medium SNS",
+    102: "Grassland low SNS"
   };
   public soilNutrientCodeToTextImperial = {
     0: "0",
@@ -36,7 +39,10 @@ export default class SoilNutrientDisplay extends Component<Props, State> {
     6: "6",
     "grassland-high-sns": "Grassland high SNS",
     "grassland-med-sns": "Grassland medium SNS",
-    "grassland-low-sns": "Grassland low SNS"
+    "grassland-low-sns": "Grassland low SNS",
+    100: "Grassland high SNS",
+    101: "Grassland medium SNS",
+    102: "Grassland low SNS"
   };
   public render() {
     const { SettingsStore } = this.props;
