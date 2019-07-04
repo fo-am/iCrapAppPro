@@ -76,7 +76,7 @@ export default class SplashScreen extends Component<
               </Button>
             </Right>
           </Header>
-          <Content scrollEnabled={false}>
+          <Content scrollEnabled={true}>
             <View
               style={{
                 flex: 1,
@@ -85,7 +85,11 @@ export default class SplashScreen extends Component<
               }}
             >
               <H1
-                style={{ paddingTop: "5%", fontFamily: "ArimaMadurai-Regular" }}
+                style={{
+                  paddingTop: "5%",
+                  fontFamily: "ArimaMadurai-Regular",
+                  textAlign: "center"
+                }}
               >
                 {t("the-farm-crap-app-pro")}
               </H1>
@@ -105,9 +109,11 @@ export default class SplashScreen extends Component<
                   height: Dimensions.get("window").height * 0.2
                 }}
               />
+
               <Text
                 style={{
-                  paddingTop: 50,
+                  textAlign: "center",
+                  paddingTop: 10,
                   fontSize: 20,
                   fontFamily: "ArimaMadurai-Regular"
                 }}
@@ -116,11 +122,12 @@ export default class SplashScreen extends Component<
               </Text>
               <Text
                 style={{
+                  textAlign: "center",
                   fontSize: 15,
                   fontFamily: "ArimaMadurai-Regular"
                 }}
               >
-                Build 47
+                Build 50
               </Text>
             </View>
           </Content>
@@ -146,28 +153,30 @@ export default class SplashScreen extends Component<
           visible={this.state.showInfo}
           onRequestClose={() => {}}
         >
-          <View>
-            <ScrollView scrollEnabled={true} style={{ padding: 30 }}>
-              <Text
-                style={{
-                  fontSize: 25,
-                  fontFamily: "ArimaMadurai-Regular",
-                  textAlign: "center"
-                }}
-              >
-                {t("splash-blurb")}
-              </Text>
-              <Text
-                style={{
-                  fontSize: 15,
-                  fontFamily: "ArimaMadurai-Regular",
-                  textAlign: "center"
-                }}
-              >
-                {t("splash-discl")}
-              </Text>
-            </ScrollView>
-          </View>
+          <ScrollView
+            scrollEnabled={true}
+            style={{ padding: 30, marginBottom: 50 }}
+          >
+            <Text
+              style={{
+                fontSize: 25,
+                fontFamily: "ArimaMadurai-Regular",
+                textAlign: "center"
+              }}
+            >
+              {t("splash-blurb")}
+            </Text>
+            <Text
+              style={{
+                fontSize: 15,
+                fontFamily: "ArimaMadurai-Regular",
+                textAlign: "center"
+              }}
+            >
+              {t("splash-discl")}
+            </Text>
+          </ScrollView>
+
           <View
             style={{
               flex: 1,
@@ -185,7 +194,7 @@ export default class SplashScreen extends Component<
                 style={{
                   textAlign: "center",
                   width: "100%",
-                  fontSize: 15,
+                  color: "black",
                   fontFamily: "ArimaMadurai-Regular"
                 }}
               >
