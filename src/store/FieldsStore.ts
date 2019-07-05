@@ -259,7 +259,13 @@ class FieldStore {
         return "low";
     }
     public getGraphData(fieldKey: string) {
-        database.graphData(fieldKey).then(data => (this.graphData = data));
+        database.graphData(fieldKey).then(data => {
+            if (data[0].data.length >= 4) {
+                this.graphData = data;
+            } else {
+                this.graphData = [];
+            }
+        });
     }
     private getSpreadEvents(fieldKey: string) {
         database
