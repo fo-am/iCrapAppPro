@@ -262,6 +262,8 @@ class FieldStore {
         database.graphData(fieldKey).then(data => {
             if (data[0].data.length >= 4) {
                 this.graphData = data;
+            } else {
+                this.graphData = [];
             }
         });
     }

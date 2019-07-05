@@ -596,14 +596,20 @@ export default class FieldScreen extends Component<Props, State> {
 
             <View>
               <Text style={[styles.H2, { textAlign: "center" }]}>Graph</Text>
-              {
-                // https://github.com/TradingPal/react-native-highcharts
-              }
-              <ChartView
-                style={{ height: 300 }}
-                config={conf}
-                options={options}
-              />
+
+              {FieldStore.graphData.slice().length < 4 ? (
+                <View>
+                  <Text style={[styles.text, { textAlign: "center" }]}>
+                    Not enough data to graph.
+                  </Text>
+                </View>
+              ) : (
+                <ChartView
+                  style={{ height: 300 }}
+                  config={conf}
+                  options={options}
+                />
+              )}
             </View>
           </View>
           <Footer>
