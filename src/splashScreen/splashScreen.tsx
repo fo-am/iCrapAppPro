@@ -127,7 +127,7 @@ export default class SplashScreen extends Component<
                   fontFamily: "ArimaMadurai-Regular"
                 }}
               >
-                Build 50
+                Build 53
               </Text>
             </View>
           </Content>
