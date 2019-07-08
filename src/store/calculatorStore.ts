@@ -546,7 +546,7 @@ class CalculatorStore {
         // do sns lookup on tree with params
         let sns = this.decision(tree, params);
         // If regularlyManure is true and the sns value is less than 6 (max) then add one
-        if (regularlyManure && sns < 6) {
+        if (regularlyManure == "yes" && sns < 6) {
             sns++;
         }
         return sns;
