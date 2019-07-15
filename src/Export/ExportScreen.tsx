@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { translate } from "react-i18next";
 import {
   Alert,
+  AppState,
   Dimensions,
   FlatList,
   NativeModules,
@@ -12,8 +13,7 @@ import {
   StatusBar,
   Text,
   TouchableOpacity,
-  View,
-  AppState
+  View
 } from "react-native";
 import { Button, Input } from "react-native-elements";
 import RNFS from "react-native-fs";
@@ -55,6 +55,53 @@ interface State {
 @inject("FieldStore", "CalculatorStore", "SettingsStore", "FarmStore")
 @observer
 export default class ExportScreen extends Component<Props, State> {
+  chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+  Base64 = {
+    encode: (input: string = "") => {
+      let str = input;
+      let output = "";
+
+      for (
+        let block = 0, charCode, i = 0, map = this.chars;
+        str.charAt(i | 0) || ((map = "="), i % 1);
+        output += map.charAt(63 & (block >> (8 - (i % 1) * 8)))
+      ) {
+        charCode = str.charCodeAt((i += 3 / 4));
+
+        if (charCode > 0xff) {
+          throw new Error(
+            "'btoa' failed: The string to be encoded contains characters outside of the Latin1 range."
+          );
+        }
+
+        block = (block << 8) | charCode;
+      }
+
+      return output;
+    },
+
+    decode: (input: string = "") => {
+      let str = input.replace(/=+$/, "");
+      let output = "";
+
+      if (str.length % 4 == 1) {
+        throw new Error(
+          "'atob' failed: The string to be decoded is not correctly encoded."
+        );
+      }
+      for (
+        let bc = 0, bs = 0, buffer, i = 0;
+        (buffer = str.charAt(i++));
+        ~buffer && ((bs = bc % 4 ? bs * 64 + buffer : buffer), bc++ % 4)
+          ? (output += String.fromCharCode(255 & (bs >> ((-2 * bc) & 6))))
+          : 0
+      ) {
+        buffer = this.chars.indexOf(buffer);
+      }
+
+      return output;
+    }
+  };
   constructor(props: Props) {
     super(props);
     const { CalculatorStore, SettingsStore, FarmStore } = this.props;
@@ -144,6 +191,15 @@ export default class ExportScreen extends Component<Props, State> {
           <Text>{this.state.resultString}</Text>
         </ScrollView>
       </SafeAreaView>
+    );
+  }
+
+  clearFolder() {
+    let path = RNFS.DocumentDirectoryPath + "/Inbox";
+    RNFS.readDir(path).then(files =>
+      files.forEach(file => {
+        RNFS.unlink(file.path);
+      })
     );
   }
   private async ImportEnable() {
@@ -259,7 +315,7 @@ export default class ExportScreen extends Component<Props, State> {
             recipients: [SettingsStore.appSettings.email],
 
             body: `You have been sent a Crap App farm export. To import into the app click the attachment below and select "copy to Farm Crap App Pro"
-            This will open the Crapp App Pro application, in the app navigate to the "Export" screen and enter the password and click import
+            This will open the Crap App Pro application, in the app navigate to the "Export" screen and enter the password and click import
             `,
             isHTML: false,
             attachment: {
@@ -362,15 +418,6 @@ export default class ExportScreen extends Component<Props, State> {
         }
       }
     ]);
-  }
-
-  clearFolder() {
-    let path = RNFS.DocumentDirectoryPath + "/Inbox";
-    RNFS.readDir(path).then(files =>
-      files.forEach(file => {
-        RNFS.unlink(file.path);
-      })
-    );
   }
 
   private bindResultsList(list: Array<string>) {
@@ -493,51 +540,4 @@ export default class ExportScreen extends Component<Props, State> {
       }
     }
   }
-  chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
-  Base64 = {
-    encode: (input: string = "") => {
-      let str = input;
-      let output = "";
-
-      for (
-        let block = 0, charCode, i = 0, map = this.chars;
-        str.charAt(i | 0) || ((map = "="), i % 1);
-        output += map.charAt(63 & (block >> (8 - (i % 1) * 8)))
-      ) {
-        charCode = str.charCodeAt((i += 3 / 4));
-
-        if (charCode > 0xff) {
-          throw new Error(
-            "'btoa' failed: The string to be encoded contains characters outside of the Latin1 range."
-          );
-        }
-
-        block = (block << 8) | charCode;
-      }
-
-      return output;
-    },
-
-    decode: (input: string = "") => {
-      let str = input.replace(/=+$/, "");
-      let output = "";
-
-      if (str.length % 4 == 1) {
-        throw new Error(
-          "'atob' failed: The string to be decoded is not correctly encoded."
-        );
-      }
-      for (
-        let bc = 0, bs = 0, buffer, i = 0;
-        (buffer = str.charAt(i++));
-        ~buffer && ((bs = bc % 4 ? bs * 64 + buffer : buffer), bc++ % 4)
-          ? (output += String.fromCharCode(255 & (bs >> ((-2 * bc) & 6))))
-          : 0
-      ) {
-        buffer = this.chars.indexOf(buffer);
-      }
-
-      return output;
-    }
-  };
 }
