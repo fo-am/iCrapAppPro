@@ -448,7 +448,7 @@ export default class FarmScreen extends Component<Props, State> {
     }
   }
   private doBackup() {
-    const { FarmStore, SettingsStore } = this.props;
+    const { FarmStore } = this.props;
     Alert.alert(
       "Backup this farm now?",
       `This farm is due to be backed up according to your back up schedule setting.\r\nIt was last backed up on ${FarmStore.farm.lastBackup.format(
@@ -465,8 +465,10 @@ export default class FarmScreen extends Component<Props, State> {
         {
           text: "OK",
           onPress: async () => {
-            this.props.navigation.navigate("Export", {
-              farmKey: FarmStore.farm.key
+            FarmStore.SetBackupTime().then(() => {
+              this.props.navigation.navigate("Export", {
+                farmKey: FarmStore.farm.key
+              });
             });
           }
         }

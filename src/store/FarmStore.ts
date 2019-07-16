@@ -29,8 +29,8 @@ class FarmStore {
         this.getFarms();
     }
 
-    public SetBackupTime() {
-        database.SetBackupTimeForFarm(this.farm.key, moment());
+    public async SetBackupTime(): Promise<void> {
+        return database.SetBackupTimeForFarm(this.farm.key, moment());
     }
 
     public UpdateLocation(): Region {
