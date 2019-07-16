@@ -12,11 +12,15 @@ class SettingsStore {
     public SelectUnit(item) {
         this.appSettings.unit = item;
     }
+    public ChangeBackupSchedule(item) {
+        this.appSettings.backupSchedule = item;
+    }
 
     public getSettings() {
         database.getAppSettings().then(res => {
             this.appSettings.unit = res.unit;
             this.appSettings.email = res.email;
+            this.appSettings.backupSchedule = res.backupSchedule;
         });
     }
 
@@ -26,6 +30,9 @@ class SettingsStore {
         }
         if (this.appSettings.unit === undefined) {
             this.appSettings.unit = "metric";
+        }
+        if (this.appSettings.backupSchedule === undefined) {
+            this.appSettings.backupSchedule = "never";
         }
         return database.saveAppSettings(this.appSettings);
     }

@@ -1,9 +1,7 @@
 import { action, autorun, computed, observable, toJS } from "mobx";
-import Farm from "../model/Farm";
-
-import Marker, { MarkerProps } from "react-native-maps";
-
+import moment, { Moment } from "moment";
 import { database } from "../database/Database";
+import Farm from "../model/Farm";
 
 interface Region {
     latitude: number;
@@ -30,6 +28,11 @@ class FarmStore {
         this.farm = new Farm();
         this.getFarms();
     }
+
+    public SetBackupTime() {
+        database.SetBackupTimeForFarm(this.farm.key, moment());
+    }
+
     public UpdateLocation(): Region {
         if (this.farm.farmLocation) {
             if (this.farm.farmLocation.latitude) {

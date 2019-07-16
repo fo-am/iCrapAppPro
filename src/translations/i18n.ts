@@ -227,12 +227,13 @@ i18n.init({
 
                 export: "Export data as spreadsheet",
                 "export-blurb":
-                    "Email export all field data as a CSV spreadsheet file",
+                    "This option allows you to export all field data as a spreadsheet file sent via email attachment. Use this to keep a record of your data in external software such as Excel or Open Office. This data is not encrypted.",
                 "email-button": "Email events as a CSV spreadsheet",
 
-                "send-farm-title": "Send farm to another app",
+                "send-farm-title":
+                    "Send farm to another person using the crap app",
                 "send-farm-blurb":
-                    "Email the current farm to someone else, or save it as backup - your data is encrypted, so you need to use a password and tell the other person what it is.",
+                    "Email the current farm to someone else, or save it as backup. The file format can only be opened in the crap app. Your data is encrypted, so you need to set a password and tell the other person what it is.",
 
                 "email-farm-button": "Email current farm",
                 none: "None",

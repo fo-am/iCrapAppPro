@@ -22,7 +22,7 @@ import {
     Field as ExportField
 } from "../Export/exportModel";
 
-import moment from "moment";
+import moment, { Moment } from "moment";
 // import settingsStore from "../store/settingsStore";
 
 export interface Database {
@@ -59,6 +59,8 @@ export interface Database {
     exportFarm(farmKey: string): Promise<CrapAppExport>;
 
     importFarm(importedFarm: CrapAppExport): Promise<Array<string>>;
+
+    SetBackupTimeForFarm(farmKey: string, backupTime: Moment): Promise<void>;
 
     delete(): Promise<void>;
 }
@@ -163,7 +165,7 @@ class DatabaseImpl implements Database {
             db
                 .executeSql(
                     `SELECT  "Farm-Unique-Id", "Latitude", "Longitude",  "Name",   "Rainfall",
-                    "Cost-N", "Cost-P", "Cost-K", "Cost-S", "Cost-Mg"
+                    "Cost-N", "Cost-P", "Cost-K", "Cost-S", "Cost-Mg", LastBackup
                      FROM Farm
              WHERE "Farm-Unique-Id" = ?`,
                     [key]
@@ -189,6 +191,7 @@ class DatabaseImpl implements Database {
                         farm.costK = row["Cost-K"];
                         farm.costS = row["Cost-S"];
                         farm.costMg = row["Cost-Mg"];
+                        farm.lastBackup = moment.parseZone(row.LastBackup);
                     }
                     return farm;
                 })
@@ -1088,7 +1091,9 @@ class DatabaseImpl implements Database {
     public async getAppSettings(): Promise<AppSettings> {
         return this.getDatabase().then(db =>
             db
-                .executeSql("select Email,Units from AppSettings")
+                .executeSql(
+                    "select Email, Units, BackupSchedule from AppSettings"
+                )
                 .then(([res]) => {
                     if (res === undefined) {
                         return new AppSettings();
@@ -1101,6 +1106,7 @@ class DatabaseImpl implements Database {
 
                         appSettings.email = row.Email;
                         appSettings.unit = row.Units;
+                        appSettings.backupSchedule = row.BackupSchedule;
                     }
                     return appSettings;
                 })
@@ -1109,11 +1115,17 @@ class DatabaseImpl implements Database {
 
     public saveAppSettings(appSettings: AppSettings): Promise<void> {
         return this.getDatabase().then(db => {
-            db.executeSql("delete from AppSettings;");
-            db.executeSql(
-                'insert into AppSettings (Email, Units, "User-Id", Language) values (?, ?, "AndroidUser", "en-gb")',
-                [appSettings.email, appSettings.unit]
-            );
+            db.executeSql("delete from AppSettings;").then(d => {
+                db.executeSql(
+                    `insert into AppSettings (Email, Units, BackupSchedule, "User-Id", Language)
+                    values (?, ?, ?, "AndroidUser", "en-gb")`,
+                    [
+                        appSettings.email,
+                        appSettings.unit,
+                        appSettings.backupSchedule
+                    ]
+                );
+            });
         });
     }
     public async getCSVData(): Promise<Array<Array<string>>> {
@@ -1209,7 +1221,7 @@ class DatabaseImpl implements Database {
         farmImport.costS = importFarm.cost_s;
         farmImport.costMg = importFarm.cost_m;
         farmImport.farmLocation = this.getAvgFieldLocation(importFarm.fields);
-        farmImport.deleted  = importFarm.deleted;
+        farmImport.deleted = importFarm.deleted;
 
         this.saveFarm(farmImport);
         results.push(`Farm ${farm.farm.name} added`);
@@ -1480,6 +1492,18 @@ class DatabaseImpl implements Database {
             });
     }
 
+    public async SetBackupTimeForFarm(
+        farmKey: string,
+        backupTime: Moment
+    ): Promise<void> {
+        this.getDatabase().then(db => {
+            db.executeSql(
+                `UPDATE Farm SET "LastBackup" = ?1 WHERE "Farm-Unique-Id" = ?2`,
+                [backupTime.toISOString(), farmKey]
+            );
+        });
+    }
+
     private GetFieldCoords(exportCoords: ExportCoord[] | undefined): Coords {
         const returnCoords: Coords = new Coords();
         returnCoords.id = "importedIds";
@@ -1636,7 +1660,6 @@ class DatabaseImpl implements Database {
             }
         }
     }
-
     private async getDatabase(): Promise<SQLite.SQLiteDatabase> {
         if (this.database !== undefined) {
             return Promise.resolve(this.database);

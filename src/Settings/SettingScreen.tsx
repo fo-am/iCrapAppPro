@@ -32,13 +32,20 @@ export default class SettingScreen extends Component<Props, State> {
   }
   public render() {
     const { SettingsStore } = this.props;
+
+    const schedules = {
+      never: "Never",
+      daily: "Daily",
+      weekly: "Weekly",
+      monthly: "Monthly"
+    };
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
         <ImportFileCheck navigation={this.props.navigation} />
         <View>
           <StatusBar barStyle="dark-content" />
           <View style={[styles.box, styles.bottomSpacing]}>
-            <Text style={styles.text}>Choose Unit type</Text>
+            <Text style={styles.H3}>Choose Unit type</Text>
             <DropDown
               style={styles.outline}
               selectedValue={SettingsStore.appSettings.unit}
@@ -46,8 +53,8 @@ export default class SettingScreen extends Component<Props, State> {
               values={this.Units}
             />
           </View>
-          <View style={styles.box}>
-            <Text style={styles.text}>Email address</Text>
+          <View style={[styles.box, styles.bottomSpacing]}>
+            <Text style={styles.H3}>Email address</Text>
 
             <Input
               selectTextOnFocus={true}
@@ -59,6 +66,18 @@ export default class SettingScreen extends Component<Props, State> {
             >
               {SettingsStore.appSettings.email}
             </Input>
+          </View>
+          <View style={[styles.box]}>
+            <Text style={styles.H3}>Backup Schedule</Text>
+            <Text style={styles.text}>
+              Set the crap app to remind you to backup your farm data.
+            </Text>
+            <DropDown
+              style={styles.outline}
+              selectedValue={SettingsStore.appSettings.backupSchedule}
+              onChange={item => SettingsStore.ChangeBackupSchedule(item)}
+              values={schedules}
+            />
           </View>
           <Button
             buttonStyle={styles.roundButton}

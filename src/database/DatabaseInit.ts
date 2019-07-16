@@ -30,24 +30,48 @@ export class DatabaseInitialization {
 
                 // This is included as an example of how you make database schema changes once the app has been shipped
                 if (dbVersion < 1) {
-                    return database.transaction(this.preVersion1Inserts);
+                    return database.transaction(trans =>
+                        this.preVersion1Inserts(trans)
+                    );
                 }
                 // otherwise,
-                return;
+                return undefined;
             })
             .then(() => {
                 if (dbVersion < 2) {
-                    return database.transaction(this.preVersion2Inserts);
+                    return database.transaction(trans =>
+                        this.preVersion2Inserts(trans)
+                    );
                 }
                 // otherwise,
-                return;
+                return undefined;
             })
             .then(() => {
                 if (dbVersion < 3) {
-                    return database.transaction(this.preVersion3Inserts);
+                    return database.transaction(trans =>
+                        this.preVersion3Inserts(trans)
+                    );
                 }
                 // otherwise,
-                return;
+                return undefined;
+            })
+            .then(() => {
+                if (dbVersion < 4) {
+                    return database.transaction(trans =>
+                        this.preVersion4Inserts(trans)
+                    );
+                }
+                // otherwise,
+                return undefined;
+            })
+            .then(() => {
+                if (dbVersion < 5) {
+                    return database.transaction(trans =>
+                        this.preVersion5Inserts(trans)
+                    );
+                }
+                // otherwise,
+                return undefined;
             })
 
             .catch(error => console.log("error " + error));
@@ -246,5 +270,31 @@ export class DatabaseInitialization {
 
         // Lastly, update the database version
         transaction.executeSql("INSERT INTO Version (version) VALUES (3);");
+    }
+    private preVersion4Inserts(transaction: SQLite.Transaction) {
+        console.log("Running pre-version 4 DB inserts");
+
+        // Make schema changes
+
+        transaction
+            .executeSql(
+                `ALTER TABLE AppSettings ADD COLUMN "BackupSchedule" TEXT;`
+            )
+            .catch(error => console.log("error " + error));
+
+        // Lastly, update the database version
+        transaction.executeSql("INSERT INTO Version (version) VALUES (4);");
+    }
+    private preVersion5Inserts(transaction: SQLite.Transaction) {
+        console.log("Running pre-version 5 DB inserts");
+
+        // Make schema changes
+
+        transaction
+            .executeSql(`ALTER TABLE Farm ADD COLUMN "LastBackup" TEXT;`)
+            .catch(error => console.log("error " + error));
+
+        // Lastly, update the database version
+        transaction.executeSql("INSERT INTO Version (version) VALUES (5);");
     }
 }

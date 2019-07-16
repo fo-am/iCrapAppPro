@@ -1,16 +1,17 @@
 import { inject, observer } from "mobx-react/native";
-import { Col, Footer, FooterTab, Form, Grid, Item, Row } from "native-base";
+import moment, { Moment } from "moment";
+import { Col, Footer, FooterTab, Grid, Row } from "native-base";
 import React, { Component } from "react";
 import {
   Alert,
   Dimensions,
   FlatList,
-  NativeModules,
   ScrollView,
   StatusBar,
   Text,
   View
 } from "react-native";
+import { Button, Input } from "react-native-elements";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import MapView, {
   Marker,
@@ -21,18 +22,10 @@ import MapView, {
 import { NavigationScreenProp, SafeAreaView } from "react-navigation";
 import DisplayPoundsPerArea from "../components/displayPoundsPerArea";
 import DropDown from "../components/DropDown";
-
+import ImportFileCheck from "../Export/ImportFileCheck";
 import Field from "../model/field";
 import LatLng from "../model/LatLng";
-
-import { Button, Input } from "react-native-elements";
-
 import styles from "../styles/style";
-
-import RNFS from "react-native-fs";
-import Mailer from "react-native-mail";
-import { database } from "../database/Database";
-import ImportFileCheck from "../Export/ImportFileCheck";
 
 interface Props {
   navigation: NavigationScreenProp<any, any>;
@@ -72,6 +65,8 @@ export default class FarmScreen extends Component<Props, State> {
       showHaveProps: false
     };
     CalculatorStore.rainfall = FarmStore.farm.rainfall;
+
+    this.CheckBackup();
   }
   public componentWillMount() {
     const { navigation, FarmStore, FieldStore } = this.props;
@@ -424,6 +419,60 @@ export default class FarmScreen extends Component<Props, State> {
       </SafeAreaView>
     );
   }
+  private CheckBackup() {
+    const { FarmStore, SettingsStore } = this.props;
+    const schedule = SettingsStore.appSettings.backupSchedule;
+    if (schedule === "never") {
+      return;
+    }
+    // get last backup time
+
+    const targetTime: Moment = FarmStore.farm.lastBackup.clone();
+
+    if (schedule === "daily") {
+      targetTime.add(1, "day");
+    }
+    if (schedule === "weekly") {
+      targetTime.add(1, "weeks");
+    }
+    if (schedule === "monthly") {
+      targetTime.add(1, "months");
+    }
+    if (FarmStore.farm.lastBackup === undefined) {
+      // No current backup, but a schedule so do a backup
+      this.doBackup();
+    }
+    if (moment().isAfter(targetTime)) {
+      // current time is bigger than target time so do a backup
+      this.doBackup();
+    }
+  }
+  private doBackup() {
+    const { FarmStore, SettingsStore } = this.props;
+    Alert.alert(
+      "Backup this farm now?",
+      `This farm is due to be backed up according to your back up schedule setting.\r\nIt was last backed up on ${FarmStore.farm.lastBackup.format(
+        "dddd, MMMM Do YYYY"
+      )}`,
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+          onPress: async () => {
+            FarmStore.SetBackupTime();
+          }
+        },
+        {
+          text: "OK",
+          onPress: async () => {
+            this.props.navigation.navigate("Export", {
+              farmKey: FarmStore.farm.key
+            });
+          }
+        }
+      ]
+    );
+  }
 
   private DrawFieldBoundry(field: Field) {
     if (field.fieldCoordinates.coordinates.slice().length > 0) {
@@ -547,7 +596,3 @@ export default class FarmScreen extends Component<Props, State> {
     }
   }
 }
-// https://github.com/mobxjs/mobx-react/issues/256#issuecomment-341419935
-// https://medium.com/teachable/getting-started-with-react-typescript-mobx-and-webpack-4-8c680517c030
-// https://mobx.js.org/best/pitfalls.html
-//

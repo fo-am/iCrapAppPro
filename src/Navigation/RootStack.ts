@@ -1,5 +1,6 @@
 import { createAppContainer, createStackNavigator } from "react-navigation";
 import Calculator from "../Calc/Calculator";
+import Camera from "../Camera/camera";
 import CropSelector from "../components/CropSelector";
 import CustomManure from "../CustomManure/CustomManure";
 import ExportScreen from "../Export/ExportScreen";
@@ -9,7 +10,7 @@ import SpreadScreen from "../Fields/SpreadScreen";
 import HomeScreen from "../HomeScreen";
 import SettingScreen from "../Settings/SettingScreen";
 import SplashScreen from "../splashScreen/splashScreen";
-import Camera from "../Camera/camera";
+import styles from "../styles/style";
 
 const appNav = createStackNavigator(
     {
@@ -55,7 +56,14 @@ const appNav = createStackNavigator(
         },
         Export: {
             screen: ExportScreen,
-            navigationOptions: { title: "Export Data" }
+            navigationOptions: {
+                title: "Export Data",
+                headerTitleStyle: {
+                    fontFamily: "ArimaMadurai-Regular",
+                    color: "#000",
+                    fontSize: 28
+                }
+            }
         }
     },
     {
