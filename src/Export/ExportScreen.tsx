@@ -154,12 +154,14 @@ export default class ExportScreen extends Component<Props, State> {
           <View>
             <Text style={styles.H3}>{this.props.t("send-farm-title")}</Text>
             <Text style={styles.text}>{this.props.t("send-farm-blurb")}</Text>
-            <View style={{ flexDirection: "row" }}>
-              <Text style={styles.H3}>Password</Text>
+            <View>
+              <Text style={[styles.text, { fontSize: 26, fontWeight: "bold" }]}>
+                Password
+              </Text>
               <Input
                 selectTextOnFocus={true}
                 inputStyle={styles.TextInputBold}
-                inputContainerStyle={styles.outline}
+                inputContainerStyle={[styles.outline, { flex: 0.6 }]}
                 onChangeText={text => this.setState({ password: text })}
                 placeholder="crapapp"
                 secureTextEntry={true}
