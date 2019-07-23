@@ -1,26 +1,17 @@
 package com.farm_crap_app;
 
 import android.app.Application;
+import android.util.Log;
 
+import com.facebook.react.PackageList;
+import com.facebook.hermes.reactexecutor.HermesExecutorFactory;
+import com.facebook.react.bridge.JavaScriptExecutorFactory;
 import com.facebook.react.ReactApplication;
-import org.reactnative.camera.RNCameraPackage;
-import net.rhogan.rnsecurerandom.RNSecureRandomPackage;
-import com.tectiv3.aes.RCTAesPackage;
-import com.reactnativecommunity.slider.ReactSliderPackage;
-import com.rnfs.RNFSPackage;
-import com.chirag.RNMail.RNMail;
-import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
-import com.oblador.vectoricons.VectorIconsPackage;
-import com.airbnb.android.react.maps.MapsPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
-import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 
-import java.util.Arrays;
 import java.util.List;
-
-import org.pgsqlite.SQLitePluginPackage;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -32,19 +23,11 @@ public class MainApplication extends Application implements ReactApplication {
 
     @Override
     protected List<ReactPackage> getPackages() {
-      return Arrays.<ReactPackage>asList(
-          new MainReactPackage(),
-            new RNCameraPackage(),
-            new RNSecureRandomPackage(),
-            new RCTAesPackage(),
-            new ReactSliderPackage(),
-            new RNFSPackage(),
-            new RNMail(),
-            new RNGestureHandlerPackage(),
-            new VectorIconsPackage(),
-            new MapsPackage(),
-            new SQLitePluginPackage()
-      );
+      @SuppressWarnings("UnnecessaryLocalVariable")
+      List<ReactPackage> packages = new PackageList(this).getPackages();
+      // Packages that cannot be autolinked yet can be added manually here, for example:
+      // packages.add(new MyReactNativePackage());
+      return packages;
     }
 
     @Override

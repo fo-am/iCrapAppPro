@@ -1,4 +1,4 @@
-import { inject, observer } from "mobx-react/native";
+import { inject, observer } from "mobx-react";
 import { Col, Grid, Row } from "native-base";
 import React, { Component } from "react";
 import { Image, ScrollView, Slider, StatusBar, Text, View } from "react-native";

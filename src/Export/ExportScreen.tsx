@@ -1,4 +1,4 @@
-import { inject, observer } from "mobx-react/native";
+import { inject, observer } from "mobx-react";
 import React, { Component } from "react";
 import { translate } from "react-i18next";
 import {

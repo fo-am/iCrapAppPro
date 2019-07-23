@@ -1,5 +1,5 @@
 import Slider from "@react-native-community/slider";
-import { inject, observer } from "mobx-react/native";
+import { inject, observer } from "mobx-react";
 import { Col, Footer, FooterTab, Grid, H1, Row } from "native-base";
 import React, { Component } from "react";
 import { Alert, Image, ScrollView, StatusBar, Text, View } from "react-native";

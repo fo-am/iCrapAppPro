@@ -1,4 +1,4 @@
-import { Provider } from "mobx-react/native";
+import { Provider } from "mobx-react";
 import { StyleProvider } from "native-base";
 import React from "react";
 import { I18nextProvider, translate } from "react-i18next";

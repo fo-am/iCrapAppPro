@@ -1,4 +1,4 @@
-import { inject, observer } from "mobx-react/native";
+import { inject, observer } from "mobx-react";
 import React, { Component } from "react";
 import { Text, View } from "react-native";
 import { Maths } from "../assets/Math";
