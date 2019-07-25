@@ -19,12 +19,14 @@ import {
   Dimensions,
   Image,
   Modal,
+  Platform,
   ScrollView,
   StatusBar,
   View
 } from "react-native";
 import { NavigationScreenProp, SafeAreaView } from "react-navigation";
 import ImportFileCheck from "../Export/ImportFileCheck";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 interface MyComponentProps {
   navigation: NavigationScreenProp<any, any>;
@@ -53,29 +55,27 @@ export default class SplashScreen extends Component<
         <ImportFileCheck navigation={this.props.navigation} />
         <Container>
           <StatusBar barStyle="light-content" />
-          <Header>
-            <Left />
-            <Body />
-            <Right>
-              <Button
-                transparent
-                onPress={() => this.props.navigation.navigate("Home")}
+          <View style={{ backgroundColor: "#72A072", height: 56 }}>
+            <TouchableOpacity
+              onPress={() => this.props.navigation.navigate("Home")}
+              style={{
+                alignSelf: "flex-end",
+                paddingRight: 20,
+                paddingTop: 5
+              }}
+            >
+              <Text
+                style={{
+                  fontFamily: "ArimaMadurai-Regular",
+                  fontSize: 30,
+                  fontWeight: "bold",
+                  color: "black"
+                }}
               >
-                <Text
-                  style={{
-                    fontFamily: "ArimaMadurai-Regular",
-                    fontSize: 30,
-                    paddingBottom: 20,
-                    paddingRight: 20,
-                    margin: -10,
-                    fontWeight: "bold"
-                  }}
-                >
-                  Begin
-                </Text>
-              </Button>
-            </Right>
-          </Header>
+                Begin
+              </Text>
+            </TouchableOpacity>
+          </View>
           <Content scrollEnabled={true}>
             <View
               style={{

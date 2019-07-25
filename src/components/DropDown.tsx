@@ -1,15 +1,6 @@
-import {
-  Body,
-  Button,
-  Header,
-  Icon,
-  Left,
-  Picker,
-  Right,
-  Title
-} from "native-base";
+import { Picker, Right } from "native-base";
 import React, { Component } from "react";
-import { View } from "react-native";
+import { View, Text } from "react-native";
 
 import styles from "../styles/style";
 
@@ -34,13 +25,13 @@ export default class DropDown extends Component<Props, State> {
       <View style={this.props.style}>
         <Picker
           renderHeader={backAction => (
-            <Header>
-              <Left />
-              <Body style={{ flex: 3 }}>
-                <Title style={styles.text}>Make a selection</Title>
-              </Body>
+            <View>
+              <Text style={[styles.H3, { textAlign: "center" }]}>
+                Make a selection
+              </Text>
+
               <Right />
-            </Header>
+            </View>
           )}
           enabled={enabled}
           selectedValue={this.props.selectedValue}
