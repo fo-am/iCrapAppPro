@@ -224,7 +224,7 @@ export default class SpreadScreen extends Component<Props, State> {
                 </Col>
                 <Col style={{ paddingHorizontal: 20 }}>
                   <Row style={{ height: 30 }}>
-                    <Text style={styles.text}>Crop Avalable</Text>
+                    <Text style={styles.text}>Crop Available</Text>
                   </Row>
                   <Row style={{ height: 30 }}>
                     <FormatValue
