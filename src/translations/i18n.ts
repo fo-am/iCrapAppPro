@@ -175,9 +175,9 @@ i18n.init({
                 "k-cost-imperial": "K<sub><small>2</small></sub>O (£ per unit)",
 
                 // soil tests
-                "soil-test-p": "P",
-                "soil-test-k": "K",
-                "soil-test-mg": "MgO",
+                "soil-test-p": "P index",
+                "soil-test-k": "K index",
+                "soil-test-mg": "Mg index",
 
                 "soil-p-0": "0",
                 "soil-p-1": "1",
