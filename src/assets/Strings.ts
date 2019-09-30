@@ -33,7 +33,8 @@ export default class Strings {
         "soil-p-0": "0",
         "soil-p-1": "1",
         "soil-p-2": "2",
-        "soil-p-3": "3"
+        "soil-p-3": "3",
+        "soil-p-4": "4"
     };
 
     public soiltestK = {
@@ -41,7 +42,8 @@ export default class Strings {
         "soil-k-1": "1",
         "soil-k-2-": "2-",
         "soil-k-2+": "2+",
-        "soil-k-3": "3"
+        "soil-k-3": "3",
+        "soil-k-4": "4"
     };
 
     public soiltestMg = {
