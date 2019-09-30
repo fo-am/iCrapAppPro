@@ -177,7 +177,7 @@ i18n.init({
                 // soil tests
                 "soil-test-p": "P",
                 "soil-test-k": "K",
-                "soil-test-mg": "Mg",
+                "soil-test-mg": "MgO",
 
                 "soil-p-0": "0",
                 "soil-p-1": "1",

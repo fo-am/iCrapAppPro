@@ -386,7 +386,7 @@ export default class FieldScreen extends Component<Props, State> {
 
             <View style={{ flexDirection: "row" }}>
               <View style={{ flex: 0.3 }}>
-                <Text style={styles.H3}>Mg</Text>
+                <Text style={styles.H3}>MgO</Text>
               </View>
               <View style={{ flex: 1 }}>
                 <DropDown
@@ -518,7 +518,7 @@ export default class FieldScreen extends Component<Props, State> {
                   }}
                 >
                   <Text style={styles.text}>
-                    S <DisplayAreaUnit />
+                    SO3 <DisplayAreaUnit />
                   </Text>
                 </Col>
                 <Col
@@ -528,7 +528,7 @@ export default class FieldScreen extends Component<Props, State> {
                   }}
                 >
                   <Text style={styles.text}>
-                    Mg <DisplayAreaUnit />
+                    MgO <DisplayAreaUnit />
                   </Text>
                 </Col>
               </Row>

@@ -214,10 +214,10 @@ export default class SpreadScreen extends Component<Props, State> {
                     </Text>
                   </Row>
                   <Row style={{ height: 30 }}>
-                    <Text style={styles.text}>S</Text>
+                    <Text style={styles.text}>SO3</Text>
                   </Row>
                   <Row style={{ height: 30 }}>
-                    <Text style={styles.text}>Mg</Text>
+                    <Text style={styles.text}>MgO</Text>
                   </Row>
                 </Col>
                 <Col style={{ paddingHorizontal: 20 }}>

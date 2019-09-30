@@ -92,7 +92,7 @@ export default class CustomManure extends Component<
             >
               <Text style={styles.text}>{ManureStore.manure.K}</Text>
             </Input>
-            <Text style={styles.text}>S kg/t content (elemental)</Text>
+            <Text style={styles.text}>SO3 kg/t content (elemental)</Text>
             <Input
               selectTextOnFocus={true}
               inputStyle={styles.TextInputBold}
@@ -103,7 +103,7 @@ export default class CustomManure extends Component<
             >
               <Text style={styles.text}>{ManureStore.manure.S}</Text>
             </Input>
-            <Text style={styles.text}>Mg kg/t content (elemental)</Text>
+            <Text style={styles.text}>MgO kg/t content (elemental)</Text>
             <Input
               selectTextOnFocus={true}
               inputStyle={styles.TextInputBold}
