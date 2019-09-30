@@ -346,7 +346,8 @@ export default class FarmScreen extends Component<Props, State> {
                 <Row>
                   <Col>
                     <Text style={styles.text}>
-                      SO3 (<DisplayPoundsPerArea />)
+                      SO<Text style={styles.sub}>3</Text> (
+                      <DisplayPoundsPerArea />)
                     </Text>
                   </Col>
                   <Col>

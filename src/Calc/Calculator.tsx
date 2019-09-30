@@ -1,7 +1,8 @@
+import Slider from "@react-native-community/slider";
 import { inject, observer } from "mobx-react";
 import { Col, Grid, Row } from "native-base";
 import React, { Component } from "react";
-import { Image, ScrollView, Slider, StatusBar, Text, View } from "react-native";
+import { Image, ScrollView, StatusBar, Text, View } from "react-native";
 import { Button, Input } from "react-native-elements";
 import images from "../assets/imageData";
 import styles from "../styles/style";
@@ -305,7 +306,9 @@ export default class Calculator extends Component<Props, State> {
                   </Text>
                 </Row>
                 <Row style={{ height: 30 }}>
-                  <Text style={styles.text}>SO3</Text>
+                  <Text style={styles.text}>
+                    SO<Text style={styles.sub}>3</Text>
+                  </Text>
                 </Row>
                 <Row style={{ height: 30 }}>
                   <Text style={styles.text}>MgO</Text>

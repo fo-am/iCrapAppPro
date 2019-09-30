@@ -4,10 +4,10 @@ import { ScrollView, StatusBar, Text, View } from "react-native";
 import { Button, Input } from "react-native-elements";
 import { NavigationScreenProp, SafeAreaView } from "react-navigation";
 import Strings from "../assets/Strings";
+import ImportFileCheck from "../Export/ImportFileCheck";
 import DropDown from "./../components/DropDown";
 import Manure from "./../model/manure";
 import styles from "./../styles/style";
-import ImportFileCheck from "../Export/ImportFileCheck";
 
 interface MyComponentProps {
   navigation: NavigationScreenProp<any, any>;
@@ -92,7 +92,9 @@ export default class CustomManure extends Component<
             >
               <Text style={styles.text}>{ManureStore.manure.K}</Text>
             </Input>
-            <Text style={styles.text}>SO3 kg/t content (elemental)</Text>
+            <Text style={styles.text}>
+              SO<Text style={styles.sub}>3</Text> kg/t content (elemental)
+            </Text>
             <Input
               selectTextOnFocus={true}
               inputStyle={styles.TextInputBold}

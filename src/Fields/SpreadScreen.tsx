@@ -214,7 +214,9 @@ export default class SpreadScreen extends Component<Props, State> {
                     </Text>
                   </Row>
                   <Row style={{ height: 30 }}>
-                    <Text style={styles.text}>SO3</Text>
+                    <Text style={styles.text}>
+                      SO<Text style={styles.sub}>3</Text>
+                    </Text>
                   </Row>
                   <Row style={{ height: 30 }}>
                     <Text style={styles.text}>MgO</Text>

@@ -1,12 +1,12 @@
 import { inject, observer } from "mobx-react";
 import React, { Component } from "react";
-import { Image, ScrollView, Slider, StatusBar, Text, View } from "react-native";
+import { Image, ScrollView, StatusBar, Text, View } from "react-native";
 import { Button, Input } from "react-native-elements";
-import images from "../assets/imageData";
+
 import styles from "../styles/style";
 
-import { NavigationScreenProp, SafeAreaView } from "react-navigation";
 import { RNCamera } from "react-native-camera";
+import { NavigationScreenProp, SafeAreaView } from "react-navigation";
 import ImportFileCheck from "../Export/ImportFileCheck";
 
 interface Props {

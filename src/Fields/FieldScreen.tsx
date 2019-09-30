@@ -518,7 +518,7 @@ export default class FieldScreen extends Component<Props, State> {
                   }}
                 >
                   <Text style={styles.text}>
-                    SO3 <DisplayAreaUnit />
+                    SO<Text style={styles.sub}>3</Text> <DisplayAreaUnit />
                   </Text>
                 </Col>
                 <Col
