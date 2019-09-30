@@ -70,7 +70,7 @@ export default class Strings {
         poultry: "Poultry Litter",
         compost: "Compost",
         "paper-crumble": "Paper crumble",
-        "spent-mushroom": "Spent mushroom",
+        "spent-mushroom": "Spent mushroom compost",
         "water-treatment-cake": "Water treatment cake",
         "food-industry-waste": "Food industry waste",
         "digestate-food": "Digestate food",

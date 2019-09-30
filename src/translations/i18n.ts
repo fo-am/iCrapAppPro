@@ -274,7 +274,7 @@ i18n.init({
                 "paper-crumble": "Paper crumble",
                 "chemical-physical": "Chemical/Physical",
                 biological: "Biological",
-                "spent-mushroom": "Spent mushroom",
+                "spent-mushroom": "Spent mushroom compost",
                 "water-treatment-cake": "Water treatment cake",
                 "food-industry-waste": "Food industry waste",
                 dairy: "Dairy",
