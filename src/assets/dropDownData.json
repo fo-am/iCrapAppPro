@@ -13,9 +13,15 @@
                 "shallow-injected": "Shallow injected"
             },
             "quality": {
-                "dm2": "2% dm (Thin soup)",
-                "dm6": "6% dm (Thick soup)",
-                "dm10": "10% dm (Porridge)"
+                "dm2": "2% DM (Thin soup)",
+                "dm6": "6% DM (Thick soup)",
+                "dm10": "10% DM (Porridge)",
+                "dirtywater": "Dirty water",
+                "solid": "Separated solid",
+                "liquidstrainer": "Separated liquid, strainer box",
+                "liquidweeping": "Separated liquid, weeping wall",
+                "liquidmechanical": "Separated liquid, mechanical separator",
+                "liquid": "Separated liquid"
             }
         }
     },
@@ -56,9 +62,11 @@
                 "shallow-injected": "Shallow injected"
             },
             "quality": {
-                "dm2": "2% dm (Thin soup)",
-                "dm4": "4% dm (Thick soup)",
-                "dm6": "6% dm (Thick soup)"
+                "dm2": "2% DM (Thin soup)",
+                "dm4": "4% DM (Thick soup)",
+                "dm6": "6% DM (Thick soup)",
+                "solid": "Separated solid",
+                "liquid": "Separated liquid"
             }
         }
     },
@@ -74,10 +82,10 @@
                 "ploughed": "Ploughed"
             },
             "quality": {
-                "dm20": "20% dm",
-                "dm40": "40% dm",
-                "dm60": "60% dm",
-                "dm80": "80% dm"
+                "dm20": "20% DM",
+                "dm40": "40% DM",
+                "dm60": "60% DM",
+                "dm80": "80% DM"
             }
         }
     },
