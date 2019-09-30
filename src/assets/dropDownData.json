@@ -22,7 +22,7 @@
     "fym": {
         "slider": {
             "maxValue": 100,
-            "metricUnit": "tons/ha",
+            "metricUnit": "tonnes/ha",
             "imperialUnit": "tons/acre"
         },
         "dropDowns": {
@@ -65,7 +65,7 @@
     "poultry": {
         "slider": {
             "maxValue": 15,
-            "metricUnit": "tons/ha",
+            "metricUnit": "tonnes/ha",
             "imperialUnit": "tons/acre"
         },
         "dropDowns": {
@@ -84,7 +84,7 @@
     "compost": {
         "slider": {
             "maxValue": 100,
-            "metricUnit": "tons/ha",
+            "metricUnit": "tonnes/ha",
             "imperialUnit": "tons/acre"
         },
         "dropDowns": {
@@ -98,7 +98,7 @@
     "paper-crumble": {
         "slider": {
             "maxValue": 100,
-            "metricUnit": "tons/ha",
+            "metricUnit": "tonnes/ha",
             "imperialUnit": "tons/acre"
         },
         "dropDowns": {
@@ -112,7 +112,7 @@
     "spent-mushroom": {
         "slider": {
             "maxValue": 100,
-            "metricUnit": "tons/ha",
+            "metricUnit": "tonnes/ha",
             "imperialUnit": "tons/acre"
         },
         "dropDowns": {
@@ -123,7 +123,7 @@
     "water-treatment-cake": {
         "slider": {
             "maxValue": 100,
-            "metricUnit": "tons/ha",
+            "metricUnit": "tonnes/ha",
             "imperialUnit": "tons/acre"
         },
         "dropDowns": {
@@ -134,7 +134,7 @@
     "food-industry-waste": {
         "slider": {
             "maxValue": 100,
-            "metricUnit": "tons/ha",
+            "metricUnit": "tonnes/ha",
             "imperialUnit": "tons/acre"
         },
         "dropDowns": {
@@ -180,7 +180,7 @@
     "biosolid": {
         "slider": {
             "maxValue": 100,
-            "metricUnit": "tons/ha",
+            "metricUnit": "tonnes/ha",
             "imperialUnit": "tons/acre"
         },
         "dropDowns": {

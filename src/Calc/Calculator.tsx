@@ -109,7 +109,7 @@ export default class Calculator extends Component<Props, State> {
       CalculatorStore.calculatorValues.sliderValue = 50;
       slider.sliderMaxValue = 100;
       slider.sliderUnit =
-        SettingsStore.appSettings.unit === "metric" ? "tons/ha" : "tons/acre";
+        SettingsStore.appSettings.unit === "metric" ? "tonnes/ha" : "tons/acre";
 
       CalculatorStore.applicationTypes = [];
       CalculatorStore.qualityTypes = CalculatorStore.customQualityTypes;
