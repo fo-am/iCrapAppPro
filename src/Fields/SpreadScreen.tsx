@@ -453,30 +453,30 @@ export default class SpreadScreen extends Component<Props, State> {
               style={{ width: 200, height: 200 }}
             />
           </View>
-          <Footer>
-            <FooterTab>
-              <Button
-                buttonStyle={styles.footerButton}
-                titleStyle={styles.buttonText}
-                onPress={() => this.save()}
-                title="Save"
-              />
-              <Button
-                buttonStyle={styles.footerButton}
-                titleStyle={styles.buttonText}
-                onPress={() => this.delete()}
-                title="Delete"
-              />
-
-              <Button
-                buttonStyle={styles.footerButton}
-                titleStyle={styles.buttonText}
-                onPress={() => this.props.navigation.pop()}
-                title="Cancel"
-              />
-            </FooterTab>
-          </Footer>
         </ScrollView>
+        <Footer>
+          <FooterTab>
+            <Button
+              buttonStyle={styles.footerButton}
+              titleStyle={styles.buttonText}
+              onPress={() => this.save()}
+              title="Save"
+            />
+            <Button
+              buttonStyle={styles.footerButton}
+              titleStyle={styles.buttonText}
+              onPress={() => this.delete()}
+              title="Delete"
+            />
+
+            <Button
+              buttonStyle={styles.footerButton}
+              titleStyle={styles.buttonText}
+              onPress={() => this.props.navigation.pop()}
+              title="Cancel"
+            />
+          </FooterTab>
+        </Footer>
       </SafeAreaView>
     );
   }
