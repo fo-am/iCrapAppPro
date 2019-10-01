@@ -271,6 +271,11 @@ export default class Calculator extends Component<Props, State> {
             maximumTrackTintColor="#206F98"
           />
 
+          {CalculatorStore.nutrientResults.nitrogenAvailable > 250 && (
+            <Text style={[styles.text, { color: "#FF0000" }]}>
+              Total nitrogen exceeds recommended level.
+            </Text>
+          )}
           <Text style={styles.text}>
             Amount:{" "}
             <FormatValue
