@@ -453,6 +453,8 @@ class CalculatorStore {
         for (const nutrientIndex in nutrients) {
             if (!isNaN(nutrients[nutrientIndex])) {
                 nutrientsArray.push(amount * nutrients[nutrientIndex]);
+            } else {
+                nutrientsArray.push(nutrients[nutrientIndex]);
             }
         }
         return nutrientsArray;
