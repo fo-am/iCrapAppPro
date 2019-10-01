@@ -601,78 +601,6 @@
                                         "decision": "quality",
                                         "choices": [
                                             {
-                                                "choice": "dm2",
-                                                "value": {
-                                                    "decision": "season",
-                                                    "choices": [
-                                                        {
-                                                            "choice": "autumn",
-                                                            "value": {
-                                                                "decision": "soil",
-                                                                "choices": [
-                                                                    {
-                                                                        "choice": "sandyshallow",
-                                                                        "value": {
-                                                                            "decision": "crop",
-                                                                            "choices": [
-                                                                                {
-                                                                                    "choice": "normal",
-                                                                                    "value": 5
-                                                                                },
-                                                                                {
-                                                                                    "choice": "grass-oilseed",
-                                                                                    "value": 10
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    },
-                                                                    {
-                                                                        "choice": "mediumheavy",
-                                                                        "value": {
-                                                                            "decision": "crop",
-                                                                            "choices": [
-                                                                                {
-                                                                                    "choice": "normal",
-                                                                                    "value": 35
-                                                                                },
-                                                                                {
-                                                                                    "choice": "grass-oilseed",
-                                                                                    "value": 40
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    }
-                                                                ]
-                                                            }
-                                                        },
-                                                        {
-                                                            "choice": "winter",
-                                                            "value": {
-                                                                "decision": "soil",
-                                                                "choices": [
-                                                                    {
-                                                                        "choice": "sandyshallow",
-                                                                        "value": 25
-                                                                    },
-                                                                    {
-                                                                        "choice": "mediumheavy",
-                                                                        "value": 35
-                                                                    }
-                                                                ]
-                                                            }
-                                                        },
-                                                        {
-                                                            "choice": "spring",
-                                                            "value": 50
-                                                        },
-                                                        {
-                                                            "choice": "summer",
-                                                            "value": "na"
-                                                        }
-                                                    ]
-                                                }
-                                            },
-                                            {
                                                 "choice": "dm6",
                                                 "value": {
                                                     "decision": "season",
@@ -887,15 +815,7 @@
                                                         }
                                                     ]
                                                 }
-                                            }
-                                        ]
-                                    }
-                                },
-                                {
-                                    "choice": "shoe-bar-spreader",
-                                    "value": {
-                                        "decision": "quality",
-                                        "choices": [
+                                            },
                                             {
                                                 "choice": "dm2",
                                                 "value": {
@@ -929,11 +849,11 @@
                                                                             "choices": [
                                                                                 {
                                                                                     "choice": "normal",
-                                                                                    "value": 30
+                                                                                    "value": 35
                                                                                 },
                                                                                 {
                                                                                     "choice": "grass-oilseed",
-                                                                                    "value": 35
+                                                                                    "value": 40
                                                                                 }
                                                                             ]
                                                                         }
@@ -948,11 +868,11 @@
                                                                 "choices": [
                                                                     {
                                                                         "choice": "sandyshallow",
-                                                                        "value": 30
+                                                                        "value": 25
                                                                     },
                                                                     {
                                                                         "choice": "mediumheavy",
-                                                                        "value": 30
+                                                                        "value": 35
                                                                     }
                                                                 ]
                                                             }
@@ -963,11 +883,19 @@
                                                         },
                                                         {
                                                             "choice": "summer",
-                                                            "value": 40
+                                                            "value": "na"
                                                         }
                                                     ]
                                                 }
-                                            },
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "choice": "shoe-bar-spreader",
+                                    "value": {
+                                        "decision": "quality",
+                                        "choices": [
                                             {
                                                 "choice": "dm6",
                                                 "value": {
@@ -1111,15 +1039,7 @@
                                                         }
                                                     ]
                                                 }
-                                            }
-                                        ]
-                                    }
-                                },
-                                {
-                                    "choice": "shallow-injected",
-                                    "value": {
-                                        "decision": "quality",
-                                        "choices": [
+                                            },
                                             {
                                                 "choice": "dm2",
                                                 "value": {
@@ -1172,26 +1092,34 @@
                                                                 "choices": [
                                                                     {
                                                                         "choice": "sandyshallow",
-                                                                        "value": 35
+                                                                        "value": 30
                                                                     },
                                                                     {
                                                                         "choice": "mediumheavy",
-                                                                        "value": 35
+                                                                        "value": 30
                                                                     }
                                                                 ]
                                                             }
                                                         },
                                                         {
                                                             "choice": "spring",
-                                                            "value": 55
+                                                            "value": 50
                                                         },
                                                         {
                                                             "choice": "summer",
-                                                            "value": 45
+                                                            "value": 40
                                                         }
                                                     ]
                                                 }
-                                            },
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "choice": "shallow-injected",
+                                    "value": {
+                                        "decision": "quality",
+                                        "choices": [
                                             {
                                                 "choice": "dm6",
                                                 "value": {
@@ -1332,6 +1260,78 @@
                                                         {
                                                             "choice": "summer",
                                                             "value": 30
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            {
+                                                "choice": "dm2",
+                                                "value": {
+                                                    "decision": "season",
+                                                    "choices": [
+                                                        {
+                                                            "choice": "autumn",
+                                                            "value": {
+                                                                "decision": "soil",
+                                                                "choices": [
+                                                                    {
+                                                                        "choice": "sandyshallow",
+                                                                        "value": {
+                                                                            "decision": "crop",
+                                                                            "choices": [
+                                                                                {
+                                                                                    "choice": "normal",
+                                                                                    "value": 5
+                                                                                },
+                                                                                {
+                                                                                    "choice": "grass-oilseed",
+                                                                                    "value": 10
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    },
+                                                                    {
+                                                                        "choice": "mediumheavy",
+                                                                        "value": {
+                                                                            "decision": "crop",
+                                                                            "choices": [
+                                                                                {
+                                                                                    "choice": "normal",
+                                                                                    "value": 30
+                                                                                },
+                                                                                {
+                                                                                    "choice": "grass-oilseed",
+                                                                                    "value": 35
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    }
+                                                                ]
+                                                            }
+                                                        },
+                                                        {
+                                                            "choice": "winter",
+                                                            "value": {
+                                                                "decision": "soil",
+                                                                "choices": [
+                                                                    {
+                                                                        "choice": "sandyshallow",
+                                                                        "value": 35
+                                                                    },
+                                                                    {
+                                                                        "choice": "mediumheavy",
+                                                                        "value": 35
+                                                                    }
+                                                                ]
+                                                            }
+                                                        },
+                                                        {
+                                                            "choice": "spring",
+                                                            "value": 55
+                                                        },
+                                                        {
+                                                            "choice": "summer",
+                                                            "value": 45
                                                         }
                                                     ]
                                                 }
