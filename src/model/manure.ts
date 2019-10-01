@@ -10,6 +10,7 @@ export default class Manure {
     @observable public S: number | undefined;
     @observable public Mg: number | undefined;
     @observable public Type: string = "custom-slurry-dm2";
+    public deleted: number = 0;
 
     constructor() {
         this.key = Maths.generateUUID();

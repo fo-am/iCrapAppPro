@@ -1016,7 +1016,8 @@ class DatabaseImpl implements Database {
                         K = ?5,
                         S = ?6,
                         Mg = ?7,
-                        Type = ?8
+                        Type = ?8,
+                        Deleted =?9
                         WHERE "Manure-Unique-Id" = ?1;
                         `,
 
@@ -1028,7 +1029,8 @@ class DatabaseImpl implements Database {
                             manure.K,
                             manure.S,
                             manure.Mg,
-                            manure.Type
+                            manure.Type,
+                            manure.deleted
                         ]
                     )
                 )
@@ -1043,9 +1045,9 @@ class DatabaseImpl implements Database {
                 .then(db =>
                     db.executeSql(
                         `
-                        Insert into Manure ("Manure-Unique-Id", Name, N, P, K, S, Mg, Type)
+                        Insert into Manure ("Manure-Unique-Id", Name, N, P, K, S, Mg, Type, Deleted)
                         VALUES
-                        (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8);
+                        (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9);
                         `,
 
                         [
@@ -1056,7 +1058,8 @@ class DatabaseImpl implements Database {
                             manure.K,
                             manure.S,
                             manure.Mg,
-                            manure.Type
+                            manure.Type,
+                            manure.deleted
                         ]
                     )
                 )
