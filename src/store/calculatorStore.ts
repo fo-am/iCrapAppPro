@@ -30,6 +30,8 @@ class CalculatorStore {
 
     @observable public rainfall: string = "";
 
+    @observable public qualityText: string = "Quality";
+
     private grasslandHighSNS: number = 100;
     private grasslandMedSNS: number = 101;
     private grasslandLowSNS: number = 102;

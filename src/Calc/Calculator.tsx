@@ -103,6 +103,11 @@ export default class Calculator extends Component<Props, State> {
   public SelectManure(itemValue) {
     const { CalculatorStore, SettingsStore } = this.props;
     CalculatorStore.calculatorValues.manureSelected = itemValue;
+    if (itemValue === "fym") {
+      CalculatorStore.qualityText = "Livestock type";
+    } else {
+      CalculatorStore.qualityText = "Quality";
+    }
 
     if (itemValue === "custom") {
       slider.sliderStartValue = 50;
@@ -242,7 +247,7 @@ export default class Calculator extends Component<Props, State> {
             }
             values={this.strings.season}
           />
-          <Text style={styles.text}>Quality</Text>
+          <Text style={styles.text}>{CalculatorStore.qualityText}</Text>
           <DropDown
             style={styles.outline}
             selectedValue={CalculatorStore.calculatorValues.qualitySelected}

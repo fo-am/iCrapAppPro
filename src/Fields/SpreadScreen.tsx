@@ -67,7 +67,7 @@ export default class SpreadScreen extends Component<Props, State> {
       FieldStore.newSpreadEvent = new SpreadEvent();
       FieldStore.SetField(fieldKey);
       FieldStore.newSpreadEvent.fieldkey = fieldKey;
-      this.InitialiseDropdowns("fym");
+      this.SelectManure("fym");
       this.dateToSeason(FieldStore.newSpreadEvent.date);
     }
 
@@ -105,7 +105,7 @@ export default class SpreadScreen extends Component<Props, State> {
             <DropDown
               style={styles.outline}
               selectedValue={CalculatorStore.calculatorValues.manureSelected}
-              onChange={item => this.InitialiseDropdowns(item)}
+              onChange={item => this.SelectManure(item)}
               values={this.strings.manureTypes}
             />
             <Text style={styles.text}>Date</Text>
@@ -133,7 +133,7 @@ export default class SpreadScreen extends Component<Props, State> {
                 this.dateToSeason(moment(date));
               }}
             />
-            <Text style={styles.text}>Quality</Text>
+            <Text style={styles.text}>{CalculatorStore.qualityText}</Text>
             <DropDown
               style={styles.outline}
               selectedValue={CalculatorStore.calculatorValues.qualitySelected}
@@ -536,10 +536,16 @@ export default class SpreadScreen extends Component<Props, State> {
     }
   }
 
-  private InitialiseDropdowns(itemValue) {
+  private SelectManure(itemValue) {
     // initialise other dropdowns when we select new manure type
     const { CalculatorStore, SettingsStore } = this.props;
     CalculatorStore.calculatorValues.manureSelected = itemValue;
+
+    if (itemValue === "fym") {
+      CalculatorStore.qualityText = "Livestock type";
+    } else {
+      CalculatorStore.qualityText = "Quality";
+    }
 
     if (itemValue === "custom") {
       slider.sliderStartValue = 50;
