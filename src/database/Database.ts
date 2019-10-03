@@ -1270,7 +1270,7 @@ class DatabaseImpl implements Database {
                 spreadImport.key = event.unique_id;
                 spreadImport.manureType = event.type;
                 spreadImport.amount = event.amount;
-                spreadImport.quality = event.quality;
+                spreadImport.quality = event.quality.toLowerCase();
                 spreadImport.season = event.season;
                 spreadImport.size = event.size;
                 spreadImport.sns = event.sns;

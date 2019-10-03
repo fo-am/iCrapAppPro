@@ -301,13 +301,13 @@ class CalculatorStore {
         // set the type
         if (type === "custom-slurry-dm2") {
             type = "cattle";
-            quality = "DM2";
+            quality = "dm2";
         } else if (type === "custom-slurry-dm6") {
             type = "cattle";
-            quality = "DM6";
+            quality = "dm6";
         } else if (type === "custom-slurry-dm10") {
             type = "cattle";
-            quality = "DM10";
+            quality = "dm10";
         } else if (type === "custom-fym-incorporated") {
             type = "fym";
             application = "straight-ploughed";

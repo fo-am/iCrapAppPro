@@ -209,7 +209,7 @@ export default class ExportScreen extends Component<Props, State> {
     );
   }
   private async ImportEnable() {
-    RNFS.exists(RNFS.DocumentDirectoryPath + "/Inbox/FarmsData.json.enc").then(
+    RNFS.exists(RNFS.DocumentDirectoryPath + "/Inbox/farm.crap.json.enc").then(
       exists => this.setState({ enableImport: !exists })
     );
   }
@@ -317,7 +317,7 @@ export default class ExportScreen extends Component<Props, State> {
       //     outputString
       // });
 
-      const filePath = `${RNFS.LibraryDirectoryPath}/FarmsData.json.enc`;
+      const filePath = `${RNFS.LibraryDirectoryPath}/farm.crap.json.enc`;
       RNFS.writeFile(filePath, outputString).then(
         // get handle on file path.
         Mailer.mail(
@@ -332,7 +332,7 @@ export default class ExportScreen extends Component<Props, State> {
             attachment: {
               path: filePath, // The absolute path of the file from which to read data.
               type: "text", // Mime Type: jpg, png, doc, ppt, html, pdf, csv
-              name: "FarmsData.json.enc"
+              name: "farm.crap.json.enc"
             }
           },
           (error, event) => {
@@ -383,14 +383,14 @@ export default class ExportScreen extends Component<Props, State> {
     // caches...
 
     const dataString: string = await RNFS.readFile(
-      RNFS.DocumentDirectoryPath + "/Inbox/FarmsData.json.enc"
+      RNFS.DocumentDirectoryPath + "/Inbox/farm.crap.json.enc"
     );
     const done = await RNFS.unlink(
-      RNFS.DocumentDirectoryPath + "/Inbox/FarmsData.json.enc"
+      RNFS.DocumentDirectoryPath + "/Inbox/farm.crap.json.enc"
     );
     this.setState({ enableImport: false });
-    const datajspn: string = await this.decrypt(dataString, "");
-    const data: CrapAppExport = JSON.parse(datajspn);
+    const datajson: string = await this.decrypt(dataString, "");
+    const data: CrapAppExport = JSON.parse(datajson);
 
     // Files are here!
     // read file, import data, delete file...
