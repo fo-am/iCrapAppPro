@@ -378,6 +378,7 @@ class CalculatorStore {
                 crop === "grass-oilseed" || crop === "grass"
                     ? "grass-oilseed"
                     : "normal",
+            "p-index": soilTestP,
             // also we have to convert soil to the two types in manure (pp 66, note b)
             soil:
                 soil === "sandyshallow" || "mediumshallow"
@@ -435,19 +436,7 @@ class CalculatorStore {
             this.decision(manureTree, { ...params, nutrient: "m-avail" })
         ]);
 
-        if (
-            [
-                "spent-mushroom",
-                "paper-crumble",
-                "water-treatment-cake",
-                "food-industry-waste"
-            ].includes(manureType)
-        ) {
-            // For types in above array we have no crop available information.
-            return [totalValues, totalValues];
-        } else {
-            return [totalValues, cropAvailValues];
-        }
+        return [totalValues, cropAvailValues];
     }
 
     private processNutrients(amount, nutrients) {
