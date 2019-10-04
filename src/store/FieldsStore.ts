@@ -56,6 +56,11 @@ class FieldStore {
         this.getFields(farmKey);
     }
 
+    public reset() {
+        this.fields = new Array<Field>();
+        this.spreadEvents = new Array<SpreadEvent>();
+    }
+
     public async SetField(fieldKey: string): Promise<void> {
         return database.getField(fieldKey).then(field => {
             this.field = field;

@@ -9,7 +9,7 @@ export default class Farm {
     @observable public farmLocation: LatLng = new LatLng();
 
     @observable public name: string = "Your Farm";
-    @observable public fields: Array<Field> = Array<Field>();
+    @observable public fields: Array<Field> = new Array<Field>();
 
     @observable public rainfall: string = "rain-low";
     @observable public costN: number = 0.79;

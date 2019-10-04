@@ -10,7 +10,7 @@ export default class Field {
     @observable public fieldCoordinates: Coords = new Coords();
     @observable public area: number = 0;
     @observable public name = "Your Field";
-    @observable public spreadingEvents = Array<Spread>();
+    @observable public spreadingEvents: Array<Spread> = new Array<Spread>();
     @observable public soilType: string = "sandyshallow";
     @observable public organicManure: string = "no";
     @observable public soilTestP: string = "soil-p-0";

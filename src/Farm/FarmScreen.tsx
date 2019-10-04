@@ -76,6 +76,7 @@ export default class FarmScreen extends Component<Props, State> {
       FieldStore.getFields(farmKey);
     } else {
       FarmStore.reset();
+      FieldStore.reset();
     }
   }
   public render() {
