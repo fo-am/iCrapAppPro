@@ -396,28 +396,30 @@ export default class FarmScreen extends Component<Props, State> {
             <Text>{this.state.resultString}</Text>
           </View>
         </ScrollView>
-        <Footer>
-          <FooterTab>
-            <Button
-              buttonStyle={styles.footerButton}
-              titleStyle={styles.buttonText}
-              onPress={() => this.saveFarm()}
-              title="Save"
-            />
-            <Button
-              buttonStyle={styles.footerButton}
-              titleStyle={styles.buttonText}
-              onPress={() => this.deleteFarm()}
-              title="Delete"
-            />
-            <Button
-              buttonStyle={styles.footerButton}
-              titleStyle={styles.buttonText}
-              onPress={() => this.cancelScreen()}
-              title="Cancel"
-            />
-          </FooterTab>
-        </Footer>
+        {!this.state.showSave && (
+          <Footer>
+            <FooterTab>
+              <Button
+                buttonStyle={styles.footerButton}
+                titleStyle={styles.buttonText}
+                onPress={() => this.saveFarm()}
+                title="Save"
+              />
+              <Button
+                buttonStyle={styles.footerButton}
+                titleStyle={styles.buttonText}
+                onPress={() => this.deleteFarm()}
+                title="Delete"
+              />
+              <Button
+                buttonStyle={styles.footerButton}
+                titleStyle={styles.buttonText}
+                onPress={() => this.cancelScreen()}
+                title="Cancel"
+              />
+            </FooterTab>
+          </Footer>
+        )}
       </SafeAreaView>
     );
   }

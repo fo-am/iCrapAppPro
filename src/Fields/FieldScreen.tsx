@@ -613,28 +613,30 @@ export default class FieldScreen extends Component<Props, State> {
             </View>
           </View>
         </ScrollView>
-        <Footer>
-          <FooterTab>
-            <Button
-              buttonStyle={[styles.footerButton]}
-              titleStyle={styles.buttonText}
-              onPress={() => this.saveField()}
-              title="Save"
-            />
-            <Button
-              buttonStyle={[styles.footerButton]}
-              titleStyle={styles.buttonText}
-              onPress={() => this.deleteField()}
-              title="Delete"
-            />
-            <Button
-              buttonStyle={[styles.footerButton]}
-              titleStyle={styles.buttonText}
-              onPress={() => this.props.navigation.goBack()}
-              title="Cancel"
-            />
-          </FooterTab>
-        </Footer>
+        {!this.state.showSave && (
+          <Footer>
+            <FooterTab>
+              <Button
+                buttonStyle={[styles.footerButton]}
+                titleStyle={styles.buttonText}
+                onPress={() => this.saveField()}
+                title="Save"
+              />
+              <Button
+                buttonStyle={[styles.footerButton]}
+                titleStyle={styles.buttonText}
+                onPress={() => this.deleteField()}
+                title="Delete"
+              />
+              <Button
+                buttonStyle={[styles.footerButton]}
+                titleStyle={styles.buttonText}
+                onPress={() => this.props.navigation.goBack()}
+                title="Cancel"
+              />
+            </FooterTab>
+          </Footer>
+        )}
       </SafeAreaView>
     );
   }
