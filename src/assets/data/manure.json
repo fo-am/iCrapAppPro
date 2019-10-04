@@ -817,6 +817,10 @@
                                                 }
                                             },
                                             {
+                                                "choice": "dirtywater",
+                                                "value": "na"
+                                            },
+                                            {
                                                 "choice": "dm2",
                                                 "value": {
                                                     "decision": "season",
@@ -1041,6 +1045,14 @@
                                                 }
                                             },
                                             {
+                                                "choice": "dirtywater",
+                                                "value": "na"
+                                            },
+                                            {
+                                                "choice": "solid",
+                                                "value": "na"
+                                            },
+                                            {
                                                 "choice": "dm2",
                                                 "value": {
                                                     "decision": "season",
@@ -1263,6 +1275,14 @@
                                                         }
                                                     ]
                                                 }
+                                            },
+                                            {
+                                                "choice": "dirtywater",
+                                                "value": "na"
+                                            },
+                                            {
+                                                "choice": "solid",
+                                                "value": "na"
                                             },
                                             {
                                                 "choice": "dm2",
