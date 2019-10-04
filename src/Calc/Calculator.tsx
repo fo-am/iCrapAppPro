@@ -419,12 +419,12 @@ export default class Calculator extends Component<Props, State> {
                 </Row>
                 <Row style={{ height: 30 }}>
                   <CashDisplay
-                    value={CalculatorStore.nutrientResults.potassiumTotal * 0}
+                    value={CalculatorStore.nutrientResults.potassiumTotal * 0.49}
                   />
                 </Row>
                 <Row style={{ height: 30 }}>
                   <CashDisplay
-                    value={CalculatorStore.nutrientResults.magnesiumTotal * 0}
+                    value={CalculatorStore.nutrientResults.magnesiumTotal * 0.49}
                   />
                 </Row>
               </Col>

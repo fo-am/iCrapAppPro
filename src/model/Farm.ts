@@ -15,8 +15,8 @@ export default class Farm {
     @observable public costN: number = 0.79;
     @observable public costP: number = 0.62;
     @observable public costK: number = 0.49;
-    @observable public costS: number = 0;
-    @observable public costMg: number = 0;
+    @observable public costS: number = 0.49;
+    @observable public costMg: number = 0.49;
 
     @observable public lastBackup: Moment = moment();
     public deleted: number = 0;
