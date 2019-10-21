@@ -63,6 +63,14 @@ export default class Strings {
         no: "No",
         yes: "Yes"
     };
+
+    public grassHistory = {
+        no: "No",
+        "1yr": "1 yr ago",
+        "2yr": "2 yr ago",
+        "3yr": "3 yrs ago"
+    };
+
     public manureTypes = {
         cattle: "Cattle Slurry",
         fym: "Farmyard Manure",

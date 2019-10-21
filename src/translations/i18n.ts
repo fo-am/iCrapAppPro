@@ -105,6 +105,10 @@ i18n.init({
                 "grown-grass":
                     "Have you grown grass in the last 3 years (other than previous year)?",
 
+                "1yr": "1 yr ago",
+                "2yr": "2 yr ago",
+                "3yr": "3 yrs ago",
+
                 autumn: "Autumn",
                 winter: "Winter",
                 spring: "Spring",

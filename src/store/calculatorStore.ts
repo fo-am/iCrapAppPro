@@ -54,6 +54,7 @@ class CalculatorStore {
         // Soil 'medium' category does not exist in SNS tables, so substitute it for 'mediumshallow'
         const params = {
             rainfall,
+            "recently-grown-grass": recentlyGrownGrass,
             soil: soil === "medium" ? "mediumshallow" : soil,
             "previous-crop": previousCrop
         };
@@ -526,7 +527,7 @@ class CalculatorStore {
     }
 
     private grasslandModifier(soil, recentlyGrownGrass) {
-        if (recentlyGrownGrass) {
+        if (recentlyGrownGrass != "no") {
             return this.grasslandHighSNS;
         } else if (soil === "sandyshallow") {
             return this.grasslandLowSNS;

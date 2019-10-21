@@ -442,7 +442,9 @@ export default class FieldScreen extends Component<Props, State> {
               onChange={(item: string) => {
                 FieldStore.field.prevCropType = item;
                 if (item.includes("grass")) {
-                  FieldStore.field.recentGrass = "yes";
+                  if (FieldStore.field.recentGrass == "no") {
+                    FieldStore.field.recentGrass = "1yr";
+                  }
                 }
               }}
               values={this.strings.prevCrop}
@@ -454,7 +456,7 @@ export default class FieldScreen extends Component<Props, State> {
               style={styles.outline}
               selectedValue={FieldStore.field.recentGrass}
               onChange={item => (FieldStore.field.recentGrass = item)}
-              values={this.strings.yesno}
+              values={this.strings.grassHistory}
             />
             <Text style={styles.H3}>Crop type</Text>
             <CropDisplay cropArray={FieldStore.field.cropType.slice()} />
