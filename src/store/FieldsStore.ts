@@ -50,7 +50,7 @@ class FieldStore {
         });
     }
 
-    public reset(farmKey: string) {
+    public resetFarm(farmKey: string) {
         this.field = new Field(farmKey);
         this.getSpreadEvents(this.field.key);
         this.getFields(farmKey);

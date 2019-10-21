@@ -91,7 +91,7 @@ export default class FieldScreen extends Component<Props, State> {
       FieldStore.SetField(fieldKey);
       FieldStore.getGraphData(fieldKey);
     } else {
-      FieldStore.reset(farmKey);
+      FieldStore.resetFarm(farmKey);
       FieldStore.getGraphData(FieldStore.field.key);
     }
   }
