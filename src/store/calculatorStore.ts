@@ -32,9 +32,9 @@ class CalculatorStore {
 
     @observable public qualityText: string = "Quality";
 
-    private grasslandHighSNS: number = 100;
-    private grasslandMedSNS: number = 101;
-    private grasslandLowSNS: number = 102;
+    private grasslandHighSNS: string = "grassland-high-sns";
+    private grasslandMedSNS: string = "grassland-med-sns";
+    private grasslandLowSNS: string = "grassland-low-sns";
 
     constructor() {
         const disposer = autorun(() => this.getNutrientValues(), {
@@ -49,7 +49,7 @@ class CalculatorStore {
         previousCrop,
         regularlyManure,
         recentlyGrownGrass
-    ): number {
+    ): number | string {
         // Define decision tree criteria
         // Soil 'medium' category does not exist in SNS tables, so substitute it for 'mediumshallow'
         const params = {
@@ -58,13 +58,16 @@ class CalculatorStore {
             soil: soil === "medium" ? "mediumshallow" : soil,
             "previous-crop": previousCrop
         };
-        // Special options needed if previous crop is grass
-        if (
-            this.isPreviousCropGrass(previousCrop) &&
-            !this.isCropArable(crop)
-        ) {
-            // grass -> grass (pp188) - The field is staying as grass
-            return this.grasslandModifier(soil, recentlyGrownGrass);
+        // from grass -> grass (pp 188)
+        // changed from anything -> grass
+        // (new rb209 grassland recommendations pp 12 table 3.6)
+        if (!this.isCropArable(crop)) {
+            return this.grasslandModifier(
+                crop,
+                soil,
+                previousCrop,
+                recentlyGrownGrass
+            );
         } else if (
             this.isCropArable(crop) &&
             this.isPreviousCropGrass(previousCrop)
@@ -157,12 +160,9 @@ class CalculatorStore {
             choices
         );
         // add/subtract based on table on pp188
-        if (sns === this.grasslandHighSNS) {
-            nitrogenRequirement -= 30;
-        }
-        if (sns === this.grasslandLowSNS) {
-            nitrogenRequirement += 30;
-        }
+
+        nitrogenRequirement += this.modifyNitrogenRequirements(sns, crop);
+
         const phosphorousRequirement = this.decision(
             cropRequirementsPhosphorousPotassiumTree,
             { nutrient: "phosphorus", ...choices }
@@ -187,6 +187,36 @@ class CalculatorStore {
             magnesiumRequirement,
             nitrogenSupply: sns
         };
+    }
+    public modifyNitrogenRequirements(sns: string | number, crop: any) {
+        if (crop.crop === "grass" && crop.subtype === "silage") {
+            if (crop.cut === "one") {
+                if (sns === this.grasslandHighSNS) {
+                    return -10;
+                }
+                if (sns === this.grasslandLowSNS) {
+                    return 10;
+                }
+            }
+            if (crop.cut === "two") {
+                if (sns === this.grasslandHighSNS) {
+                    return -20;
+                }
+                if (sns === this.grasslandLowSNS) {
+                    return 20;
+                }
+            }
+        }
+
+        if (crop.crop === "grass" && crop.subtype === "grazed") {
+            if (sns === this.grasslandHighSNS) {
+                return -30;
+            }
+            if (sns === this.grasslandLowSNS) {
+                return 30;
+            }
+        }
+        return 0;
     }
 
     public getNutrientValues() {
@@ -526,14 +556,24 @@ class CalculatorStore {
         }
     }
 
-    private grasslandModifier(soil, recentlyGrownGrass) {
-        if (recentlyGrownGrass != "no") {
-            return this.grasslandHighSNS;
-        } else if (soil === "sandyshallow") {
-            return this.grasslandLowSNS;
+    private grasslandModifier(crop, soil, previousCrop, recentlyGrownGrass) {
+        if (this.isPreviousCropGrass(previousCrop)) {
+            if (recentlyGrownGrass != "no") {
+                return this.grasslandHighSNS;
+            } else if (soil === "sandyshallow") {
+                return this.grasslandLowSNS;
+            } else {
+                return this.grasslandMedSNS;
+            }
         } else {
-            return this.grasslandMedSNS;
+            if (
+                soil !== "sandyshallow" &&
+                ["potatoes", "peas", "oilseed", "beans"].includes(previousCrop)
+            ) {
+                return this.grasslandMedSNS;
+            }
         }
+        return this.grasslandLowSNS;
     }
 
     private snsSearch(tree, params, regularlyManure) {

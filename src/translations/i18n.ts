@@ -361,6 +361,7 @@ i18n.init({
                 "60-90": "60-90 days",
                 "90-120": "90-120 days",
                 ">120": ">120 days",
+                potatoes: "Potatoes",
                 potato: "Potatoes",
                 "determinancy-group": "Determinancy group",
 

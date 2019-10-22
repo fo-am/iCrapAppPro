@@ -6,5 +6,5 @@ export default class CropRequirementsResult {
     @observable public potassiumRequirement: number = 0;
     @observable public sulphurRequirement: number = 0;
     @observable public magnesiumRequirement: number = 0;
-    @observable public nitrogenSupply: number = 0;
+    @observable public nitrogenSupply: number | string = 0;
 }
