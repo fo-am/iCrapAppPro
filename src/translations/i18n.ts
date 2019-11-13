@@ -14,7 +14,7 @@ i18n.init({
                 title: "The Farm Crap App: Pro Edition",
                 "splash-about": "Manage your muck with the Farm Crap App",
                 "splash-blurb":
-                    "Developed by FoAM Kernow on behalf of the SWARM Knowledge Hub, a Rural Development Programme for England (RDPE) initiative managed by Duchy College Rural Business School, in partnership with Rothamsted Research North Wyke.",
+                    "Developed by FoAM Kernow for Duchy College Rural Business School and Rothamsted Research North Wyke, with match funding from the European Regional Development Fund. For more information: https://www.agritechcornwall.co.uk",
                 "splash-discl":
                     "The Farm Crap App offers information for guidance purposes only and is not intended to amount to professional advice or opinion. FoAM Kernow, Duchy College, and Rothamsted Research North Wyke cannot be held responsible for any losses or damage resulting from the use of information provided by this app. The SO3 and MgO recommendations provided by this application have +/- 20% accuracy." +
                     "The P and K recommendations are based on the target yields set out in RB209.",

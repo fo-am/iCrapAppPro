@@ -24,9 +24,9 @@ import {
   StatusBar,
   View
 } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import { NavigationScreenProp, SafeAreaView } from "react-navigation";
 import ImportFileCheck from "../Export/ImportFileCheck";
-import { TouchableOpacity } from "react-native-gesture-handler";
 
 interface MyComponentProps {
   navigation: NavigationScreenProp<any, any>;
@@ -175,6 +175,43 @@ export default class SplashScreen extends Component<
             >
               {t("splash-discl")}
             </Text>
+            <View
+              style={{
+                flex: 1,
+                flexDirection: "row",
+                justifyContent: "space-between"
+              }}
+            >
+              <Image
+                style={{ flex: 0.3, resizeMode: "contain", height: 200 }}
+                source={require("../assets/images/foam.png")}
+              />
+              <Image
+                style={{ flex: 0.3, resizeMode: "contain", height: 200 }}
+                source={require("../assets/images/duchy.png")}
+              />
+              <Image
+                style={{ flex: 0.3, resizeMode: "contain", height: 200 }}
+                source={require("../assets/images/rothamsted.png")}
+              />
+            </View>
+            <View
+              style={{
+                flex: 1,
+                flexDirection: "row",
+                justifyContent: "space-between",
+                paddingBottom: 30
+              }}
+            >
+              <Image
+                style={{ flex: 0.5, resizeMode: "contain", height: 200 }}
+                source={require("../assets/images/agritech.png")}
+              />
+              <Image
+                style={{ flex: 0.5, resizeMode: "contain", height: 200 }}
+                source={require("../assets/images/eu.png")}
+              />
+            </View>
           </ScrollView>
 
           <View
